@@ -15,19 +15,11 @@ const groups = computed(() => {
 
 const el = ref<UseDraggableReturn>();
 
-function onStart(e) {
-  console.log(e);
-}
-
 function clone(clonedData: Record<string, any>) {
   return {
     id: uuid(),
     ...clonedData,
   }
-}
-
-function setData (/** DataTransfer */dataTransfer, /** HTMLElement*/dragEl) {
- // dataTransfer.setData('Text', dragEl.textContent); // `dataTransfer` object of HTML5 DragEvent
 }
 </script>
 
@@ -39,9 +31,7 @@ function setData (/** DataTransfer */dataTransfer, /** HTMLElement*/dragEl) {
             ref="el"
             ghost-class="ghost"
             drag-class="drag"
-            :on-start="onStart"
             :clone="clone"
-            :set-data="setData"
             class="components-row"
             v-model="group.components"
             :group="{ name: 'components', pull: 'clone' }"

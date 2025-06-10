@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useRendererStore} from "../store.ts";
+import JsonTreeViewer from "./JsonTreeViewer.vue";
 
 const rendererStore = useRendererStore();
 </script>
@@ -7,9 +8,12 @@ const rendererStore = useRendererStore();
 <template>
   <n-tabs
       class="card-tabs"
-      default-value="json"
+      default-value="tree"
       animated
   >
+    <n-tab-pane style="height: 100%;" name="tree" tab="视图">
+      <JsonTreeViewer/>
+    </n-tab-pane>
     <n-tab-pane style="height: 100%;" name="json" tab="JSON">
       <textarea style="width: 100%; height: 80vh;" readonly>{{rendererStore.data}}</textarea>
     </n-tab-pane>
