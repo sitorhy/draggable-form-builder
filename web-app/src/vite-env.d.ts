@@ -1,8 +1,7 @@
 /// <reference types="vite/client" />
 
-type RendererLayout = {
-    id: string;
-    type: string;
-    description?: string;
-    children?: RendererLayout[];
+declare module '*.vue' {
+  import { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
 }

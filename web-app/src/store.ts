@@ -11,18 +11,22 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "textInput",
                             label: '文本输入',
+                            isLeaf: true,
                         },
                         {
                             type: "textNumberInput",
                             label: '数字输入',
+                            isLeaf: true,
                         },
                         {
                             type: "datePicker",
                             label: '日期选择器',
+                            isLeaf: true,
                         },
                         {
                             type: "select",
                             label: '选择器',
+                            isLeaf: true,
                         }
                     ]
                 },
@@ -33,6 +37,7 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "grid",
                             label: '栅格',
+                            isLeaf: false,
                         },
                     ]
                 },

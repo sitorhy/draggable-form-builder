@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {ref, watch, defineEmits, defineProps} from 'vue';
 import {VueDraggable} from 'vue-draggable-plus';
-import {PlusFilled} from '@vicons/material';
 
 const props = defineProps({
   index: {
@@ -21,11 +20,7 @@ watch(children, (value) => {
 </script>
 
 <template>
-  <VueDraggable class="placement" v-model="children" :group="{name: 'renderer', put: true}" :sort="false">
-    <n-icon class="plus-icon" size="24" color="#0e7a0d">
-      <PlusFilled/>
-    </n-icon>
-  </VueDraggable>
+  <VueDraggable class="placement" v-model="children" :group="{name: 'renderer', put: true}" :sort="false"></VueDraggable>
 </template>
 
 <style scoped lang="scss">

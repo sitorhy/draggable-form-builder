@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useRendererStore} from "../store.ts";
+import {useRendererStore} from "../store";
 import JsonTreeViewer from "./JsonTreeViewer.vue";
 
 const rendererStore = useRendererStore();

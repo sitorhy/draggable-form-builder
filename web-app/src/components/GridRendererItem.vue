@@ -36,7 +36,7 @@ watch(() => props.cols * props.rows, function (size) {
         nextChildren.push({
           type: 'placement',
           id: uuid(),
-          children: [],
+          isLeaf: true,
         });
       }
       if (nextChildren.length > size) {
