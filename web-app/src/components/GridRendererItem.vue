@@ -3,6 +3,7 @@ import {type PropType, watch} from "vue";
 import {v4 as uuid} from 'uuid';
 import PlacementRendererItem from "./PlacementRendererItem.vue";
 import JsonRenderer from "./JsonRenderer.vue";
+import type {RendererLayout} from "../types";
 
 const props = defineProps({
   cols: {

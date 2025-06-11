@@ -47,6 +47,8 @@ function clone(clonedData: Record<string, any>) {
 <style scoped lang="scss">
 .component-collapse {
   padding: 17px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .components-row {

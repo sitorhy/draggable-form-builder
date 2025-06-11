@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {type PropType, ref} from 'vue';
 import GridRendererItem from "./GridRendererItem.vue";
+import type {RendererLayout} from "../types";
 
 defineProps({
   type: {

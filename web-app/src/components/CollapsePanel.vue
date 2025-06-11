@@ -28,6 +28,7 @@ const contentStyle = computed(function () {
 const slotStyle = computed(function () {
   return {
     width: props.width,
+    height: '100%',
   };
 });
 

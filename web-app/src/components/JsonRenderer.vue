@@ -2,6 +2,7 @@
 import {type PropType} from 'vue';
 import {VueDraggable} from 'vue-draggable-plus';
 import JsonRendererItem from "./JsonRendererItem.vue";
+import type {RendererLayout} from "../types";
 
 defineOptions({
   name: 'JsonRenderer',

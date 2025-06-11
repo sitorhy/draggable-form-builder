@@ -8,6 +8,8 @@ import {
   FolderRound,
   AttachFileFilled,
 } from "@vicons/material";
+import type {RendererLayout} from "../types";
+import {getComponentNameByType} from "../common/renderer.ts";
 
 const store = useRendererStore();
 
@@ -15,7 +17,7 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
   return layouts.map((i) => {
     return {
       key: i.id,
-      label: i.id === "#" ? "根容器" : i.type,
+      label: getComponentNameByType(i.type),
       children: !i.isLeaf
         ? mapTreeOption(Array.isArray(i.children) ? i.children : [])
         : undefined,
