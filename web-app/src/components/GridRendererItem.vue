@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {type PropType, watch} from "vue";
 import {v4 as uuid} from 'uuid';
-import PlacementRendererItem from "./PlacementRendererItem.vue";
-import JsonRenderer from "./JsonRenderer.vue";
+import GridColumnRendererItem from "./GridColumnRendererItem.vue";
 import type {RendererLayout} from "../types";
 
 const props = defineProps({
@@ -28,16 +27,17 @@ function gridCellClasses(index: number) {
 }
 
 watch(() => props.cols * props.rows, function (size) {
-      console.log(size);
+      console.log(`grid size: ${size}`);
       let nextChildren = [];
       if (modelValue.value.children && modelValue.value.children.length) {
         nextChildren.push(...modelValue.value.children);
       }
       while (nextChildren.length < size) {
         nextChildren.push({
-          type: 'placement',
+          type: 'gridColumn',
           id: uuid(),
-          isLeaf: true,
+          isLeaf: false,
+          children: [],
         });
       }
       if (nextChildren.length > size) {
@@ -49,18 +49,14 @@ watch(() => props.cols * props.rows, function (size) {
       immediate: true,
     }
 );
-
-function onReplace(index: number, config: RendererLayout) {
-  modelValue.value.children.splice(index, 1, config);
-}
 </script>
 
 <template>
   <n-grid v-if="modelValue.children" class="grid" :x-gap="5" :y-gap="5" :cols="cols">
     <n-gi v-for="(i, index) in modelValue.children" :key="i" class="grid-item">
       <div :class="gridCellClasses(index)">
-        <PlacementRendererItem v-if="i.type === 'placement'" :index="index" @replace="onReplace"/>
-        <JsonRenderer v-else v-model="modelValue.children[index]"/>
+        <!--gridColumn-->
+        <GridColumnRendererItem v-model="modelValue.children[index]" :child-index="index" />
       </div>
     </n-gi>
   </n-grid>

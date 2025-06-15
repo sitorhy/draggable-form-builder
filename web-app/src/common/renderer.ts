@@ -6,7 +6,7 @@ export function getComponentNameByType(type: string): string {
         ["datePicker", "日期选择器"],
         ["select", "选择器"],
         ["grid", "栅格"],
-        ["placement", "空"]
+        ["gridColumn", "栅格-列"]
     ]);
 
     return map.get(type) || 'Unknown';
