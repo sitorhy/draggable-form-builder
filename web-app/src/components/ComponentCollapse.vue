@@ -2,9 +2,9 @@
 import {computed, ref} from "vue";
 import ComponentTag from "./ComponentTag.vue";
 import {useComponentsStore} from "../store.ts";
-import {type UseDraggableReturn, VueDraggable} from 'vue-draggable-plus';
 import {createRendererItemConfig} from "../common/renderer.ts";
 import type {ComponentDefinition} from "../types";
+import draggable from 'vuedraggable';
 
 const store = useComponentsStore();
 const groupIds = store.groups.map((i) => i.groupId);
@@ -13,8 +13,6 @@ const expandedNames = ref(groupIds);
 const groups = computed(() => {
   return store.groups;
 });
-
-const el = ref<UseDraggableReturn>();
 
 function clone(clonedData: ComponentDefinition) {
   return createRendererItemConfig(clonedData);
@@ -25,18 +23,19 @@ function clone(clonedData: ComponentDefinition) {
   <div class="component-collapse">
     <n-collapse :default-expanded-names="expandedNames">
       <n-collapse-item v-for="group in groups" :title="group.groupName" :name="group.groupId" :key="group.groupId">
-        <VueDraggable
-            ref="el"
-            ghost-class="ghost"
-            drag-class="drag"
-            :clone="clone"
+        <draggable
             class="components-row"
             v-model="group.components"
-            :group="{ name: 'components', pull: 'clone' }"
+            ghost-class="ghost"
+            drag-class="drag"
             :sort="false"
-        >
-          <ComponentTag class="tag" v-for="i in group.components" :key="i.type" :label="i.label"></ComponentTag>
-        </VueDraggable>
+            :clone="clone"
+            :group="{ name: 'components', pull: 'clone' }"
+            item-key="id">
+          <template #item="{element: i}">
+            <ComponentTag class="tag" :label="i.label"/>
+          </template>
+        </draggable>
       </n-collapse-item>
     </n-collapse>
   </div>

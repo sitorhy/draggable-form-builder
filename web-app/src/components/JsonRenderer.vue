@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {type PropType} from 'vue';
-import {VueDraggable} from 'vue-draggable-plus';
+import draggable from 'vuedraggable';
 import JsonRendererItem from "./JsonRendererItem.vue";
 import type {RendererLayout} from "../types";
 
@@ -18,10 +18,12 @@ const modelValue = defineModel('modelValue', {
   <!--占位元素 负责具体渲染渲染-->
   <JsonRendererItem :type="modelValue.type" :v-slot="modelValue.type" v-model="modelValue">
     <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
-    <VueDraggable class="renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-                  :group="{name: `renderer`, put: true}">
-      <JsonRenderer v-for="(_, index) in modelValue.children" v-model="modelValue.children[index]"/>
-    </VueDraggable>
+    <draggable class="renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
+               :group="{name: `renderer`, put: true}" item-key="id">
+      <template #item="{element: i}">
+        <JsonRenderer v-model="modelValue.children.find(k => k.id===i.id)"/>
+      </template>
+    </draggable>
   </JsonRendererItem>
 </template>
 

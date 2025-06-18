@@ -2,7 +2,7 @@
 import {type PropType} from "vue";
 import GridColumnRendererItem from "./GridColumnRendererItem.vue";
 import type {RendererLayout} from "../types";
-import {OfflineBoltFilled} from "@vicons/material";
+import {InboxOutlined} from "@vicons/material";
 
 defineProps({
   cols: {
@@ -25,14 +25,14 @@ function gridCellClasses(index: number) {
     <n-gi v-for="(i, index) in children" :key="i.id" class="grid-item">
       <div :class="gridCellClasses(index)">
         <!--gridColumn-->
-        <GridColumnRendererItem v-model="children[index]" />
+        <GridColumnRendererItem v-model="children[index]"/>
       </div>
     </n-gi>
   </n-grid>
   <n-empty v-else description="栅格组件">
     <template #icon>
       <n-icon>
-        <OfflineBoltFilled />
+        <InboxOutlined/>
       </n-icon>
     </template>
   </n-empty>
