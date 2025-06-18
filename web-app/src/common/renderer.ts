@@ -1,3 +1,6 @@
+import {useRendererStore} from "../store.ts";
+import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
+
 export function getComponentNameByType(type: string): string {
     const map = new Map([
         ["root", "根容器"],
@@ -10,4 +13,17 @@ export function getComponentNameByType(type: string): string {
     ]);
 
     return map.get(type) || 'Unknown';
+}
+
+export function useRendererActions() {
+    const store = useRendererStore();
+
+    return {
+        findNodeById: (id: string) => findNodeById(store.data, id),
+        findParentByNodeId: (id: string) => findParentByNodeId(store.data, id),
+        insertBefore,
+        insertBeforeId,
+        insertBeforeIndex,
+        moveTo: (id: string, targetParentId: string, targetBeforeId?: string) => moveTo(store.data, id, targetParentId, targetBeforeId),
+    };
 }
