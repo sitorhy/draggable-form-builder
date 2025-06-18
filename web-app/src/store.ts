@@ -36,8 +36,11 @@ export const useComponentsStore = defineStore('components', {
                     components: [
                         {
                             type: "grid",
-                            label: '栅格',
+                            label: '栅格-4列',
                             isLeaf: false,
+                            props: {
+                                cols: 4,
+                            },
                         },
                     ]
                 },

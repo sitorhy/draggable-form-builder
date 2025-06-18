@@ -3,7 +3,8 @@ import {computed, ref} from "vue";
 import ComponentTag from "./ComponentTag.vue";
 import {useComponentsStore} from "../store.ts";
 import {type UseDraggableReturn, VueDraggable} from 'vue-draggable-plus';
-import {v4 as uuid} from 'uuid';
+import {createRendererItemConfig} from "../common/renderer.ts";
+import type {ComponentDefinition} from "../types";
 
 const store = useComponentsStore();
 const groupIds = store.groups.map((i) => i.groupId);
@@ -15,11 +16,8 @@ const groups = computed(() => {
 
 const el = ref<UseDraggableReturn>();
 
-function clone(clonedData: Record<string, any>) {
-  return {
-    id: uuid(),
-    ...clonedData,
-  }
+function clone(clonedData: ComponentDefinition) {
+  return createRendererItemConfig(clonedData);
 }
 </script>
 

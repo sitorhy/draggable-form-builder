@@ -21,7 +21,7 @@ const modelValue = defineModel('modelValue', {
 
 <template>
   <VueDraggable class="grid-column renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-                :group="{name: 'renderer', put: true}">
+                :group="{name: `renderer`, put: true}">
     <JsonRenderer v-for="(_, index) in modelValue.children" v-model="modelValue.children[index]"/>
   </VueDraggable>
 </template>

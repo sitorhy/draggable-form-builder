@@ -19,7 +19,7 @@ const modelValue = defineModel('modelValue', {
   <JsonRendererItem :type="modelValue.type" :v-slot="modelValue.type" v-model="modelValue">
     <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
     <VueDraggable class="renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-                  :group="{name: 'renderer', put: true}">
+                  :group="{name: `renderer`, put: true}">
       <JsonRenderer v-for="(_, index) in modelValue.children" v-model="modelValue.children[index]"/>
     </VueDraggable>
   </JsonRendererItem>

@@ -39,7 +39,7 @@ const modelValue = defineModel('modelValue', {
       <n-select placeholder="选择器" v-bind="config" v-model="value"/>
     </slot>
     <slot v-else-if="type === 'grid'" name="grid">
-      <GridRendererItem v-model="modelValue"/>
+      <GridRendererItem v-bind="modelValue.props" :children="modelValue.children" />
     </slot>
     <slot v-else name="default">
       <div></div>
