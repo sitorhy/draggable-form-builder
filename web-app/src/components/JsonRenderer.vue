@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {type PropType} from 'vue';
-import draggable from 'vuedraggable';
+import {type PropType} from "vue"
+import draggable from "vuedraggable"
 import JsonRendererItem from "./JsonRendererItem.vue";
 import type {RendererLayout} from "../types";
 
@@ -10,21 +10,23 @@ defineOptions({
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
-  default: () => [],
+  default: () => ({type: '', id: '', children: undefined}),
 });
 </script>
 
 <template>
-  <!--占位元素 负责具体渲染渲染-->
-  <JsonRendererItem :type="modelValue.type" :v-slot="modelValue.type" v-model="modelValue">
-    <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
-    <draggable class="renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-               :group="{name: `renderer`, put: true}" item-key="id">
-      <template #item="{element: i}">
-        <JsonRenderer v-model="modelValue.children.find(k => k.id===i.id)"/>
-      </template>
-    </draggable>
-  </JsonRendererItem>
+  <div :class="[modelValue.type]">
+    <!--占位元素 负责具体渲染渲染-->
+    <JsonRendererItem :type="modelValue.type" v-model="modelValue">
+      <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
+      <draggable class="renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
+                 :group="{name: 'renderer', put: true}" item-key="id">
+        <template #item="scope">
+          <JsonRenderer v-model="modelValue.children[scope.index]"/>
+        </template>
+      </draggable>
+    </JsonRendererItem>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -32,5 +34,11 @@ const modelValue = defineModel('modelValue', {
 .renderer-drop {
   width: 100%;
   height: 100%;
+}
+
+.root {
+  width: 100%;
+  height: 100%;
+  background: #eee;
 }
 </style>

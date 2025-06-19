@@ -4,7 +4,7 @@ import ComponentTag from "./ComponentTag.vue";
 import {useComponentsStore} from "../store.ts";
 import {createRendererItemConfig} from "../common/renderer.ts";
 import type {ComponentDefinition} from "../types";
-import draggable from 'vuedraggable';
+import draggable from "vuedraggable"
 
 const store = useComponentsStore();
 const groupIds = store.groups.map((i) => i.groupId);
@@ -31,9 +31,9 @@ function clone(clonedData: ComponentDefinition) {
             :sort="false"
             :clone="clone"
             :group="{ name: 'components', pull: 'clone' }"
-            item-key="id">
-          <template #item="{element: i}">
-            <ComponentTag class="tag" :label="i.label"/>
+            item-key="type">
+          <template #item="scope">
+            <ComponentTag class="tag" :label="scope.element.label"/>
           </template>
         </draggable>
       </n-collapse-item>

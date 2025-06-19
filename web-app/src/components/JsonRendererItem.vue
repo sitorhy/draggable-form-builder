@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {type PropType, ref} from 'vue';
+import {type PropType, ref} from "vue"
 import GridRendererItem from "./GridRendererItem.vue";
 import type {RendererLayout} from "../types";
 
@@ -17,7 +17,7 @@ defineProps({
 const value = ref();
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
-  default: () => [],
+  default: () => ({}),
 });
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Components} from '@vicons/tabler';
+import {Components} from "@vicons/tabler"
 
 defineProps({
   label: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ChevronLeftFilled, ChevronRightFilled} from '@vicons/material';
+import {ChevronLeftFilled, ChevronRightFilled} from "@vicons/material"
 import {computed} from "vue";
 
 const props = defineProps({
@@ -37,7 +37,7 @@ const contentClasses = computed(function () {
 });
 
 const contentBorderClasses = computed(function () {
-  return props.rightToLeft ? 'bordered-left' : 'bordered-right';
+  return props.rightToLeft ? "bordered-left" : "bordered-right"
 });
 
 function onCollapseToggle() {

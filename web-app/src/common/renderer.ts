@@ -1,5 +1,5 @@
 import {useRendererStore} from "../store.ts";
-import {v4 as uuid} from 'uuid';
+import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
 import type {ComponentDefinition, RendererLayout} from "../types";
 
@@ -24,7 +24,7 @@ export function getComponentNameByType(type: string): string {
         ["gridColumn", "栅格-列"]
     ]);
 
-    return map.get(type) || 'Unknown';
+    return map.get(type) || "Unknown"
 }
 
 export function useRendererActions() {

@@ -40,7 +40,7 @@ function gridCellClasses(index: number) {
 
 <style scoped lang="scss">
 .grid {
-  --n-hegiht: 42px;
+  --n-hegiht: 34px;
 
   .light-green {
     min-height: var(--n-hegiht);

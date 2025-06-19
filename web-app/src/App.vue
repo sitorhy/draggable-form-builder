@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import logo from './assets/vue.svg';
-import CollapsePanel from './components/CollapsePanel.vue';
-import ComponentCollapse from './components/ComponentCollapse.vue';
-import JsonRenderer from './components/JsonRenderer.vue';
-import SettingsPanel from './components/SettingsPanel.vue';
+import logo from "./assets/vue.svg"
+import CollapsePanel from "./components/CollapsePanel.vue"
+import ComponentCollapse from "./components/ComponentCollapse.vue"
+import JsonRenderer from "./components/JsonRenderer.vue"
+import SettingsPanel from "./components/SettingsPanel.vue"
 import {useRendererStore} from "./store.ts";
 
 const rendererStore = useRendererStore();
