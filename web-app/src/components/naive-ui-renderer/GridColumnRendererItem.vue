@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {type PropType} from "vue";
-import type {RendererLayout} from "../types";
+import type {RendererLayout} from "../../types";
 import draggable from "vuedraggable"
 import JsonRenderer from "./JsonRenderer.vue";
 
@@ -21,7 +21,7 @@ const modelValue = defineModel('modelValue', {
 
 <template>
   <draggable class="grid-column renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-                :group="{name: `renderer`, put: true}" item-key="id">
+             :group="{name: `renderer`, put: true}" item-key="id">
     <template #item="scope">
       <JsonRenderer v-model="scope.element"/>
     </template>

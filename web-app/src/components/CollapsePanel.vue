@@ -102,7 +102,7 @@ function onCollapseToggle() {
   transition: all 0.3s;
 
   &:hover {
-    background-color: #eeeeee;
+    background: #eeeeee;
   }
 }
 

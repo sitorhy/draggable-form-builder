@@ -37,6 +37,29 @@ export function findParentByNodeId(root: RendererLayout, id: string): RendererLa
     return null;
 }
 
+function __findAncestorsByNodeId(root: RendererLayout, id: string, receive: RendererLayout[] = []) {
+    if (Array.isArray(root.children) && root.children.length > 0) {
+        for (const child of root.children) {
+            if (child.id === id) {
+                receive.unshift(root);
+                return true;
+            }
+            const found = __findAncestorsByNodeId(child, id, receive);
+            if (found) {
+                receive.unshift(root);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+export function findAncestorsByNodeId(root: RendererLayout, id: string): RendererLayout[] {
+    const ancestors: RendererLayout[] = [];
+    __findAncestorsByNodeId(root, id, ancestors);
+    return ancestors;
+}
+
 // 获取节点所在集合索引
 export function indexOfParent(root: RendererLayout, child: RendererLayout): number {
     if (!Array.isArray(root.children) || !root || !child) {

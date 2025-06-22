@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {type PropType} from "vue";
+import {computed, type PropType} from "vue";
 import GridColumnRendererItem from "./GridColumnRendererItem.vue";
-import type {RendererLayout} from "../types";
+import type {RendererLayout} from "../../types";
 import {InboxOutlined} from "@vicons/material";
 
 defineProps({
@@ -18,6 +18,19 @@ defineProps({
 function gridCellClasses(index: number) {
   return [(index % 2) === 0 ? 'light-green' : 'green'].filter((i) => !!i);
 }
+
+const modelValue = defineModel('modelValue', {
+  type: Object as PropType<RendererLayout>,
+  default: () => ({type: '', id: '', children: undefined}),
+});
+
+const id = computed(function () {
+  return modelValue.value.id;
+});
+
+defineExpose({
+  id: id.value,
+});
 </script>
 
 <template>

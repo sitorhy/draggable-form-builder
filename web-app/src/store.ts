@@ -1,4 +1,6 @@
 import {defineStore} from "pinia";
+import {findAncestorsByNodeId, findNodeById, findParentByNodeId} from "./common/node.ts";
+import type {ActiveRendererItemInfo, RendererLayout} from "./types";
 
 export const useComponentsStore = defineStore('components', {
     state() {
@@ -49,15 +51,39 @@ export const useComponentsStore = defineStore('components', {
     },
 });
 
-export const useRendererStore = defineStore('renderers', {
-   state() {
-       return {
-           data: {
-               id: "#",
-               type: 'root',
-               description: "根容器，有且只有一个子节点",
-               children: []
-           }
-       };
-   }
+export const useRendererStore = defineStore<"renderers", {
+    activeRendererItemInfo: ActiveRendererItemInfo;
+    data: RendererLayout;
+}, {}, {
+    setActiveComponent: (id: string) => void;
+}>('renderers', {
+    state() {
+        return {
+            activeRendererItemInfo: {
+                id: "",
+                parent: null,
+                ancestors: [],
+            },
+            data: {
+                id: "#",
+                type: 'root',
+                description: "根容器，有且只有一个子节点",
+                children: []
+            }
+        };
+    },
+    actions: {
+        setActiveComponent(id: string) {
+            const config = findNodeById(this.data, id);
+            if (config) {
+                this.activeRendererItemInfo.id = id || "";
+                this.activeRendererItemInfo.parent = findParentByNodeId(this.data, id);
+                this.activeRendererItemInfo.ancestors = findAncestorsByNodeId(this.data, id);
+                return config;
+            }
+            this.activeRendererItemInfo.id = "";
+            this.activeRendererItemInfo.parent = null;
+            this.activeRendererItemInfo.ancestors = [];
+        }
+    }
 });

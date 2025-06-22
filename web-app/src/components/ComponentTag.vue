@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import {Components} from "@vicons/tabler"
+import {computed} from "vue";
+import {getIconByType} from "../common/renderer.ts";
 
-defineProps({
+const props = defineProps({
   label: {
     type: String,
     default: 'Label',
   },
+  type: {
+    type: String,
+    default: '',
+  }
 });
+
+const Icon = computed(() => getIconByType(props.type));
 </script>
 
 <template>
   <div class="tag">
-    <n-icon class="icon">
-      <Components/>
-    </n-icon>
+    <n-icon class="icon" :component="Icon"/>
     <span>{{ label }}</span>
   </div>
 </template>
@@ -49,6 +54,7 @@ defineProps({
       display: none;
       color: #f0a020;
     }
+
     justify-content: center;
     background-color: rgba(240, 160, 32, 0.12);
     border: 1px solid rgba(240, 160, 32, 0.35);
@@ -65,6 +71,7 @@ defineProps({
     display: none;
     color: #f0a020;
   }
+
   justify-content: center;
   background-color: rgba(240, 160, 32, 0.12);
   border: 1px solid rgba(240, 160, 32, 0.35);

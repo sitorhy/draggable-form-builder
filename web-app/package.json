@@ -19,6 +19,7 @@
   "devDependencies": {
     "@vicons/material": "^0.13.0",
     "@vicons/tabler": "^0.13.0",
+    "@vicons/fluent": "^0.13.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "sass-embedded": "^1.89.0",

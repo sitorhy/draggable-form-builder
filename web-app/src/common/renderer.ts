@@ -2,6 +2,14 @@ import {useRendererStore} from "../store.ts";
 import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
 import type {ComponentDefinition, RendererLayout} from "../types";
+import {
+    NumberRow16Regular,
+    SelectAllOn24Regular,
+    SlideGrid24Regular,
+    TextField20Regular,
+    Timer24Regular
+} from "@vicons/fluent";
+import {Components} from "@vicons/tabler";
 
 function omit(obj: Record<string, any>) {
     const result: Record<string, any> = {};
@@ -24,7 +32,7 @@ export function getComponentNameByType(type: string): string {
         ["gridColumn", "栅格-列"]
     ]);
 
-    return map.get(type) || "Unknown"
+    return map.get(type) || "Unknown";
 }
 
 export function useRendererActions() {
@@ -85,4 +93,21 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
             }
         )
     )
+}
+
+export function getIconByType(type: string) {
+    switch (type) {
+        case 'textInput':
+            return TextField20Regular;
+        case 'textNumberInput':
+            return NumberRow16Regular;
+        case 'datePicker':
+            return Timer24Regular;
+        case 'select':
+            return SelectAllOn24Regular;
+        case 'grid':
+            return SlideGrid24Regular;
+        default:
+            return Components;
+    }
 }

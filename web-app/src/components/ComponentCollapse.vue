@@ -33,7 +33,7 @@ function clone(clonedData: ComponentDefinition) {
             :group="{ name: 'components', pull: 'clone' }"
             item-key="type">
           <template #item="scope">
-            <ComponentTag class="tag" :label="scope.element.label"/>
+            <ComponentTag class="tag" :type="scope.element.type" :label="scope.element.label"/>
           </template>
         </draggable>
       </n-collapse-item>

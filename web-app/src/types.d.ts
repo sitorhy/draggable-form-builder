@@ -14,3 +14,9 @@ export type ComponentDefinition = {
     description?: string;
     props?: Record<string, any>;
 };
+
+export type ActiveRendererItemInfo = {
+    id: string;
+    parent: RendererLayout | null;
+    ancestors: RendererLayout[];
+}
