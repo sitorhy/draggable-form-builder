@@ -20,7 +20,7 @@ const rendererItemRef = function (instance: ComponentInstance<any>) {
 };
 
 const containerHighlightClasses = computed(function () {
-  return [activeComponentId.value === childRefId.value ? "active" : "inactive"];
+  return ["renderer-item-container", activeComponentId.value === childRefId.value ? "active" : "inactive"];
 });
 
 function onClick() {
@@ -29,21 +29,32 @@ function onClick() {
 </script>
 
 <template>
-  <div @click.stop="onClick" class="renderer-item-container" :class="containerHighlightClasses">
+  <div @click.stop="onClick" :class="containerHighlightClasses">
     <slot :childRef="rendererItemRef"></slot>
   </div>
 </template>
 
 <style scoped lang="scss">
 .renderer-item-container {
-  border-style: dashed;
-  border-width: 2px;
+  position: relative;
 
-  &.inactive {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-style: dashed;
+    border-width: 2px;
+    z-index: 5;
+  }
+
+  &.inactive::after {
     border-color: transparent;
   }
 
-  &.active {
+  &.active::after {
     border-color: green;
   }
 }

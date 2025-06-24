@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {useRendererStore} from "../store.ts";
-import {computed, h, ref, watch} from "vue";
+import {computed, h, ref, watch, withModifiers} from "vue";
 import type {TreeOption} from "naive-ui";
-import {NIcon} from "naive-ui";
+import {NIcon, NButton, NButtonGroup} from "naive-ui";
 import {
   Collections20Regular,
-  Collections24Filled
+  Collections24Filled,
+  Settings24Filled
 } from "@vicons/fluent";
 import type {RendererLayout} from "../types";
 import {getComponentNameByType, getIconByType} from "../common/renderer.ts";
@@ -48,6 +49,32 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
           default: () => h(i.isLeaf ? getIconByType(i.type) : Collections20Regular),
         });
       },
+      suffix: () =>
+          h(
+              NButtonGroup,
+              {},
+              () => {
+                const children = [];
+                if (i.isLeaf) {
+                  children.push(
+                      h(
+                          NButton,
+                          {
+                            title: '设置',
+                            text: true,
+                            type: 'primary',
+                            onClick: withModifiers(function () {
+                              defaultSelectedKeys.value = [i.id];
+                              store.setActiveComponent(i.id);
+                            }, ['stop'])
+                          },
+                          {default: () => h(NIcon, {}, () => h(Settings24Filled))}
+                      )
+                  );
+                }
+                return children
+              }
+          )
     };
   });
 }

@@ -39,6 +39,7 @@ export function useRendererActions() {
     const store = useRendererStore();
 
     return {
+        getActiveRendererItemInfo: () => store.activeRendererItemInfo,
         findNodeById: (id: string) => findNodeById(store.data, id),
         findParentByNodeId: (id: string) => findParentByNodeId(store.data, id),
         insertBefore,
