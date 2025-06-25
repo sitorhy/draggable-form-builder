@@ -48,6 +48,7 @@ function onClick() {
     border-style: dashed;
     border-width: 2px;
     z-index: 5;
+    pointer-events: none;
   }
 
   &.inactive::after {

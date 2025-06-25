@@ -20,5 +20,5 @@ defineExpose({
 </script>
 
 <template>
-  <n-input placeholder="文本框" v-bind="modelValue.props" v-model="value" type="text"/>
+  <n-input v-bind="modelValue.props" v-model="value" />
 </template>

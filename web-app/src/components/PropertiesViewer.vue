@@ -12,14 +12,15 @@ const {findNodeById} = useRendererActions();
 const rendererLayout = computed(function () {
   return findNodeById(store.activeRendererItemInfo.id);
 });
+
+const props = ref({});
 </script>
 
 <template>
   <n-collapse :default-expanded-names="expandedNames">
-    <n-collapse-item title="属性" name="1" v-if="rendererLayout">
-      <TextInputProperties v-model="rendererLayout.props"/>
+    <n-collapse-item title="属性" name="1">
+      <TextInputProperties v-if="rendererLayout?.type === 'textInput'" v-model="rendererLayout.props"/>
     </n-collapse-item>
-    <n-collapse-item title="校验" name="2"></n-collapse-item>
   </n-collapse>
 </template>
 

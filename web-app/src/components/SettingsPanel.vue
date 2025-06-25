@@ -19,6 +19,10 @@ import PropertiesViewer from "./PropertiesViewer.vue";
 </template>
 
 <style>
+.settings-panel {
+  padding: 0 17px 0 17px;
+}
+
 .settings-panel .n-tabs {
   height: 100%;
   display: flex;

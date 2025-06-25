@@ -72,6 +72,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     id: uuid(),
                     isLeaf: false,
                     children: [],
+                    props: {},
                 });
             }
 
@@ -91,6 +92,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: componentDefinition.isLeaf ? undefined : [],
                 // 暂继承，渲染大纲树图标（目录/组件）
                 isLeaf: componentDefinition.isLeaf,
+                props: {},
             }
         )
     )
