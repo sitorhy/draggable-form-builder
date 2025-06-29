@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useRendererStore} from "../store.ts";
+import {useRendererStore, useSettings} from "../store.ts";
 import {computed, h, ref, watch, withModifiers} from "vue";
 import type {TreeOption} from "naive-ui";
 import {NIcon, NButton, NButtonGroup} from "naive-ui";
@@ -12,6 +12,7 @@ import type {RendererLayout} from "../types";
 import {getComponentNameByType, getIconByType} from "../common/renderer.ts";
 
 const store = useRendererStore();
+const settings = useSettings();
 
 const defaultSelectedKeys = ref<string[]>([]);
 const defaultExpandedKeys = ref<string[]>([]);
@@ -66,6 +67,7 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
                             onClick: withModifiers(function () {
                               defaultSelectedKeys.value = [i.id];
                               store.setActiveComponent(i.id);
+                              settings.switchToPropertiesTab();
                             }, ['stop'])
                           },
                           {default: () => h(NIcon, {}, () => h(Settings24Filled))}

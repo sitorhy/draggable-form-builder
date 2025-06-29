@@ -87,3 +87,19 @@ export const useRendererStore = defineStore<"renderers", {
         }
     }
 });
+
+export const useSettings = defineStore("settings", {
+    state() {
+        return {
+            tabName: "tree",
+        };
+    },
+    actions: {
+        switchToPropertiesTab() {
+            this.tabName = "properties";
+        },
+        switchToTab(name: string) {
+            this.tabName = name;
+        }
+    }
+});

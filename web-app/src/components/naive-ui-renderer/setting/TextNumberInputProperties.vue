@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, defineModel, type PropType} from "vue";
-import {NInput, NSwitch, NInputNumber, NSelect} from "naive-ui";
+import {NInput, NSwitch, NInputNumber} from "naive-ui";
 import PropertiesForm from "./PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
 
@@ -34,16 +34,16 @@ const schema = computed(function () {
     },
     {
       type: NInputNumber,
-      prop: 'maxlength',
-      label: '字数限制',
+      prop: 'max',
+      label: '最大值',
       config: {
         placeholder: ''
       },
     },
     {
-      type: NSwitch,
-      prop: 'showCount',
-      label: '字数统计',
+      type: NInputNumber,
+      prop: 'min',
+      label: '最小值',
       config: {
         placeholder: ''
       },
@@ -55,48 +55,11 @@ const schema = computed(function () {
       config: {
         placeholder: ''
       },
-    },
-    {
-      type: NSelect,
-      prop: 'type',
-      label: '类型',
-      config: {
-        placeholder: '',
-        options: [
-          {
-            label: '文本',
-            value: 'text',
-          },
-          {
-            label: '密码',
-            value: 'password',
-          },
-          {
-            label: '文本框',
-            value: 'textarea',
-          }
-        ],
-      },
-    },
-    {
-      type: NInputNumber,
-      prop: 'rows',
-      label: '文本框行数',
-      visible: () => modelValue.value.type === 'textarea',
-      config: {
-        placeholder: '',
-        min: 1,
-        max: 100,
-      }
     }
   ];
 });
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="6em" />
+  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
 </template>
-
-<style scoped lang="scss">
-
-</style>

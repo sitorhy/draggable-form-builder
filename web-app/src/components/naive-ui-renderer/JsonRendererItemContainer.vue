@@ -3,9 +3,11 @@
 -->
 <script setup lang="ts">
 import {type ComponentInstance, computed, ref} from "vue";
-import {useRendererStore} from "../../store.ts";
+import {useRendererStore, useSettings} from "../../store.ts";
+import {Settings16Filled} from "@vicons/fluent";
 
 const store = useRendererStore();
+const settings = useSettings();
 const activeComponentId = computed(function () {
   return store.activeRendererItemInfo.id;
 });
@@ -26,12 +28,29 @@ const containerHighlightClasses = computed(function () {
 function onClick() {
   store.setActiveComponent(instanceRef.value.id);
 }
+
+function onSettingClick() {
+  store.setActiveComponent(instanceRef.value.id);
+  settings.switchToPropertiesTab();
+}
 </script>
 
 <template>
-  <div @click.stop="onClick" :class="containerHighlightClasses">
-    <slot :childRef="rendererItemRef"></slot>
-  </div>
+  <n-popover trigger="hover" placement="top-end">
+    <template #trigger>
+      <div @click.stop="onClick" :class="containerHighlightClasses">
+        <slot :childRef="rendererItemRef"></slot>
+      </div>
+    </template>
+    <n-button-group>
+      <n-button text @click="onClick">
+        <template #icon>
+          <n-icon><Settings16Filled /></n-icon>
+        </template>
+        设置
+      </n-button>
+    </n-button-group>
+  </n-popover>
 </template>
 
 <style scoped lang="scss">

@@ -54,7 +54,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
     switch (componentDefinition.type) {
         case "grid": {
             const rendererLayout: RendererLayout & Required<Pick<RendererLayout, 'children'>> = {
-                type: 'grid',
+                type: "grid",
                 id: uuid(),
                 isLeaf: false,
                 children: [],
@@ -68,7 +68,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
 
             for (let i = 0; i < props.cols; i++) {
                 rendererLayout.children.push({
-                    type: 'gridColumn',
+                    type: "gridColumn",
                     id: uuid(),
                     isLeaf: false,
                     children: [],
@@ -78,6 +78,49 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
 
             return rendererLayout;
         }
+        case "textInput": {
+            return {
+                type: "textInput",
+                id: uuid(),
+                isLeaf: true,
+                props: {
+                    placeholder: "",
+                    type: "text",
+                    rows: 2,
+                }
+            };
+        }
+        case "textNumberInput": {
+            return {
+                type: "textNumberInput",
+                id: uuid(),
+                isLeaf: true,
+                props: {
+                    placeholder: "",
+                }
+            };
+        }
+        case "datePicker":
+            return {
+                type: "datePicker",
+                id: uuid(),
+                isLeaf: true,
+                props: {
+                    placeholder: "",
+                    type: "date",
+                },
+            };
+        case 'select':
+            return {
+                type: "select",
+                id: uuid(),
+                isLeaf: true,
+                props: {
+                    path: "value",
+                    placeholder: "",
+                    options: [],
+                },
+            };
     }
 
     return Object.assign(
@@ -95,7 +138,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 props: {},
             }
         )
-    )
+    );
 }
 
 export function getIconByType(type: string) {

@@ -21,47 +21,53 @@ function switchJsonViewer() {
 </script>
 
 <template>
-  <n-message-provider>
-    <div class="main">
-      <n-page-header class="header" subtitle="">
-        <template #title>
-          <div>Low-Code Demo</div>
-        </template>
-        <template #avatar>
-          <n-avatar
-              color="transparent"
-              :src="logo"
-          />
-        </template>
-        <template #extra>
-          <n-space>
-            <n-button @click="switchJsonViewer">JSON</n-button>
-          </n-space>
-        </template>
-      </n-page-header>
-      <div class="content">
-        <div class="content-left">
-          <CollapsePanel v-model="leftContentExpanded" width="20vw">
-            <ComponentCollapse/>
-          </CollapsePanel>
-        </div>
-        <div class="content-center">
-          <JsonRenderer v-model="rendererStore.data"/>
-        </div>
-        <div class="content-right">
-          <CollapsePanel :right-to-left="false" v-model="rightContentExpanded" width="20vw">
-            <SettingsPanel/>
-          </CollapsePanel>
-        </div>
-      </div>
-      <n-drawer v-model:show="showJsonViewer" width="50%">
-        <n-drawer-content title="JSON">
-          <JsonViewer :copyable="{copyText: '复制', copiedText:'已复制'}" :value="rendererStore.data" theme="light"
-                      :expand-depth="5"/>
-        </n-drawer-content>
-      </n-drawer>
-    </div>
-  </n-message-provider>
+  <n-config-provider>
+    <n-modal-provider>
+      <n-dialog-provider>
+        <n-message-provider>
+          <div class="main">
+            <n-page-header class="header" subtitle="">
+              <template #title>
+                <div>Low-Code Demo</div>
+              </template>
+              <template #avatar>
+                <n-avatar
+                    color="transparent"
+                    :src="logo"
+                />
+              </template>
+              <template #extra>
+                <n-space>
+                  <n-button @click="switchJsonViewer">JSON</n-button>
+                </n-space>
+              </template>
+            </n-page-header>
+            <div class="content">
+              <div class="content-left">
+                <CollapsePanel v-model="leftContentExpanded" width="20vw">
+                  <ComponentCollapse/>
+                </CollapsePanel>
+              </div>
+              <div class="content-center">
+                <JsonRenderer v-model="rendererStore.data"/>
+              </div>
+              <div class="content-right">
+                <CollapsePanel :right-to-left="false" v-model="rightContentExpanded" width="20vw">
+                  <SettingsPanel/>
+                </CollapsePanel>
+              </div>
+            </div>
+            <n-drawer v-model:show="showJsonViewer" width="50%">
+              <n-drawer-content title="JSON">
+                <JsonViewer :copyable="{copyText: '复制', copiedText:'已复制'}" :value="rendererStore.data" theme="light"
+                            :expand-depth="5"/>
+              </n-drawer-content>
+            </n-drawer>
+          </div>
+        </n-message-provider>
+      </n-dialog-provider>
+    </n-modal-provider>
+  </n-config-provider>
 </template>
 
 <style scoped lang="scss">
