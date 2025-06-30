@@ -43,7 +43,7 @@ function onSettingClick() {
       </div>
     </template>
     <n-button-group>
-      <n-button text @click="onClick">
+      <n-button text @click="onSettingClick">
         <template #icon>
           <n-icon><Settings16Filled /></n-icon>
         </template>
