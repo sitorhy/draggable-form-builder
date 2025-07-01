@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineModel, ref, computed, type PropType, type Component} from "vue";
+import {ref, computed, type PropType, type Component} from "vue";
 
 const props = defineProps({
   schema: {

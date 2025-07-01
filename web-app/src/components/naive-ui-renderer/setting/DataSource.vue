@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {h, type PropType} from "vue";
-import {defineProps, ref, computed} from 'vue';
+import {ref, computed} from 'vue';
 import {NButton, NInput, useMessage} from "naive-ui";
 
 defineProps({});
