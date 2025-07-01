@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, type PropType} from "vue";
-import GridColumnRendererItem from "./GridColumnRendererItem.vue";
+import GridCellRendererItem from "./GridCellRendererItem.vue";
 import type {RendererLayout} from "../../types";
 import {InboxOutlined} from "@vicons/material";
 
@@ -38,7 +38,7 @@ defineExpose({
     <n-gi v-for="(i, index) in children" :key="i.id" class="grid-item">
       <div :class="gridCellClasses(index)">
         <!--gridColumn-->
-        <GridColumnRendererItem v-model="children[index]"/>
+        <GridCellRendererItem v-model="children[index]"/>
       </div>
     </n-gi>
   </n-grid>

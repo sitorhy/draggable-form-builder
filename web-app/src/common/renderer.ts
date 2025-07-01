@@ -29,7 +29,7 @@ export function getComponentNameByType(type: string): string {
         ["datePicker", "日期选择器"],
         ["select", "选择器"],
         ["grid", "栅格"],
-        ["gridColumn", "栅格-列"]
+        ["gridCell", "栅格-列"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -62,13 +62,14 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
 
             const props = Object.assign({
                 cols: 4, // 默认4列
+                rows: 1,
             }, componentDefinition.props);
 
             rendererLayout.props = props;
 
-            for (let i = 0; i < props.cols; i++) {
+            for (let i = 0; i < props.cols * props.rows; i++) {
                 rendererLayout.children.push({
-                    type: "gridColumn",
+                    type: "gridCell",
                     id: uuid(),
                     isLeaf: false,
                     children: [],
