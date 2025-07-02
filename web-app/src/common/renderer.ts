@@ -56,8 +56,10 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
             const rendererLayout: RendererLayout & Required<Pick<RendererLayout, 'children'>> = {
                 type: "grid",
                 id: uuid(),
-                isLeaf: false,
                 children: [],
+                outline: {
+                    setting: true,
+                },
             };
 
             const props = Object.assign({
@@ -71,7 +73,6 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 rendererLayout.children.push({
                     type: "gridCell",
                     id: uuid(),
-                    isLeaf: false,
                     children: [],
                     props: {},
                 });
@@ -83,43 +84,63 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
             return {
                 type: "textInput",
                 id: uuid(),
-                isLeaf: true,
                 props: {
                     placeholder: "",
                     type: "text",
                     rows: 2,
-                }
+                },
+                outline: {
+                    setting: true,
+                },
+                tooltip: {
+                    setting: true,
+                },
             };
         }
         case "textNumberInput": {
             return {
                 type: "textNumberInput",
                 id: uuid(),
-                isLeaf: true,
                 props: {
                     placeholder: "",
-                }
+                },
+                outline: {
+                    setting: true,
+                },
+                tooltip: {
+                    setting: true,
+                },
             };
         }
         case "datePicker":
             return {
                 type: "datePicker",
                 id: uuid(),
-                isLeaf: true,
                 props: {
                     placeholder: "",
                     type: "date",
+                },
+                outline: {
+                    setting: true,
+                },
+                tooltip: {
+                    setting: true,
                 },
             };
         case 'select':
             return {
                 type: "select",
                 id: uuid(),
-                isLeaf: true,
                 props: {
                     path: "value",
                     placeholder: "",
                     options: [],
+                },
+                outline: {
+                    setting: true,
+                },
+                tooltip: {
+                    setting: true,
                 },
             };
     }
@@ -131,11 +152,6 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         }, omit(
             {
                 description: componentDefinition.description,
-
-                // children决定是否生成拖动区域， isLeaf控制children生成
-                children: componentDefinition.isLeaf ? undefined : [],
-                // 暂继承，渲染大纲树图标（目录/组件）
-                isLeaf: componentDefinition.isLeaf,
                 props: {},
             }
         )

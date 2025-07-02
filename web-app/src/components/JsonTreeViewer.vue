@@ -4,9 +4,9 @@ import {computed, h, ref, watch, withModifiers} from "vue";
 import type {TreeOption} from "naive-ui";
 import {NIcon, NButton, NButtonGroup} from "naive-ui";
 import {
-  Collections20Regular,
-  Collections24Filled,
-  Settings24Filled
+  Settings24Filled,
+  Folder24Regular,
+  FolderOpen24Regular
 } from "@vicons/fluent";
 import type {RendererLayout} from "../types";
 import {getComponentNameByType, getIconByType} from "../common/renderer.ts";
@@ -42,21 +42,22 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
     return {
       key: i.id,
       label: getComponentNameByType(i.type),
-      children: !i.isLeaf
-          ? mapTreeOption(Array.isArray(i.children) ? i.children : [])
+      children: Array.isArray(i.children)
+          ? mapTreeOption(i.children)
           : undefined,
       prefix: function () {
         return h(NIcon, null, {
-          default: () => h(i.isLeaf ? getIconByType(i.type) : Collections20Regular),
+          default: () => h(!Array.isArray(i.children) ? getIconByType(i.type) : Folder24Regular),
         });
       },
-      suffix: () =>
-          h(
+      suffix: () => {
+        if (i.outline && Object.keys(i.outline).length > 0) {
+          return h(
               NButtonGroup,
               {},
               () => {
                 const children = [];
-                if (i.isLeaf) {
+                if (i.outline?.setting) {
                   children.push(
                       h(
                           NButton,
@@ -74,9 +75,13 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
                       )
                   );
                 }
-                return children
+                return children;
               }
-          )
+          );
+        } else {
+          return null;
+        }
+      }
     };
   });
 }
@@ -95,13 +100,13 @@ function updatePrefixWithExpand(
     case "expand":
       meta.node.prefix = () =>
           h(NIcon, null, {
-            default: () => h(Collections24Filled),
+            default: () => h(FolderOpen24Regular),
           });
       break;
     case "collapse":
       meta.node.prefix = () =>
           h(NIcon, null, {
-            default: () => h(Collections20Regular),
+            default: () => h(Folder24Regular),
           });
       break;
   }

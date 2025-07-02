@@ -37,13 +37,28 @@ function updateCells() {
       modelValue.value.children.push({
         type: "gridCell",
         id: uuid(),
-        isLeaf: false,
         children: [],
         props: {},
       });
     }
     if (modelValue.value.children.length > size) {
+      const removeSection = modelValue.value.children.slice(size);
+      const cellChildren = removeSection.reduce((s: RendererLayout[], i) => {
+        if (Array.isArray(i.children) && i.children.length > 0) {
+          return [...s, ...i.children];
+        }
+        return s;
+      }, []);
       modelValue.value.children.splice(size, modelValue.value.children.length - size + 1);
+      if (modelValue.value.children.length > 0) {
+        const lastChild = modelValue.value.children[modelValue.value.children.length - 1];
+        if (lastChild) {
+          if (!lastChild.children) {
+            lastChild.children = [];
+          }
+          lastChild.children.push(...cellChildren);
+        }
+      }
     }
   }
 }

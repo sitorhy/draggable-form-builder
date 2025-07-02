@@ -13,22 +13,18 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "textInput",
                             label: '文本输入',
-                            isLeaf: true,
                         },
                         {
                             type: "textNumberInput",
                             label: '数字输入',
-                            isLeaf: true,
                         },
                         {
                             type: "datePicker",
                             label: '日期选择器',
-                            isLeaf: true,
                         },
                         {
                             type: "select",
                             label: '选择器',
-                            isLeaf: true,
                         }
                     ]
                 },
@@ -39,7 +35,6 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "grid",
                             label: '栅格',
-                            isLeaf: false,
                             props: {
                                 cols: 4,
                             },
@@ -63,6 +58,7 @@ export const useRendererStore = defineStore<"renderers", {
                 id: "",
                 parent: null,
                 ancestors: [],
+                config: null,
             },
             data: {
                 id: "#",
@@ -79,6 +75,7 @@ export const useRendererStore = defineStore<"renderers", {
                 this.activeRendererItemInfo.id = id || "";
                 this.activeRendererItemInfo.parent = findParentByNodeId(this.data, id);
                 this.activeRendererItemInfo.ancestors = findAncestorsByNodeId(this.data, id);
+                this.activeRendererItemInfo.config = config;
                 return config;
             }
             this.activeRendererItemInfo.id = "";
