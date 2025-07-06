@@ -7,6 +7,8 @@ import TextNumberInputProperties from "./naive-ui-renderer/setting/TextNumberInp
 import DatePickerProperties from "./naive-ui-renderer/setting/DatePickerProperties.vue";
 import SelectProperties from "./naive-ui-renderer/setting/SelectProperties.vue";
 import GridProperties from "./naive-ui-renderer/setting/GridProperties.vue";
+import FormProperties from "./naive-ui-renderer/setting/FormProperties.vue";
+import FormItemProperties from "./naive-ui-renderer/setting/FormItemProperties.vue";
 
 const expandedNames = ref(['1', '2']);
 
@@ -26,6 +28,8 @@ const rendererLayout = computed(function () {
       <DatePickerProperties v-else-if="rendererLayout?.type === 'datePicker'" v-model="rendererLayout"/>
       <SelectProperties v-else-if="rendererLayout?.type === 'select'" v-model="rendererLayout"/>
       <GridProperties v-else-if="rendererLayout?.type === 'grid'" v-model="rendererLayout"/>
+      <FormProperties v-else-if="rendererLayout?.type === 'form'" v-model="rendererLayout"/>
+      <FormItemProperties v-else-if="rendererLayout?.type === 'formItem'" v-model="rendererLayout"/>
     </n-collapse-item>
   </n-collapse>
 </template>

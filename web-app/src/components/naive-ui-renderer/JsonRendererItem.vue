@@ -2,12 +2,14 @@
 import {type PropType} from "vue"
 import GridRendererItem from "./GridRendererItem.vue";
 import type {RendererLayout} from "../../types";
+import {useRendererStore} from "../../store.ts";
 import JsonRendererItemContainer from "./JsonRendererItemContainer.vue";
 import TextInput from "./TextInput.vue";
 import TextNumberInput from "./TextNumberInput.vue";
 import DatePicker from "./DatePicker.vue";
 import Select from "./Select.vue";
-import {useRendererStore} from "../../store.ts";
+import Form from "./Form.vue";
+import FormItem from "./FormItem.vue";
 
 const store = useRendererStore();
 
@@ -71,8 +73,23 @@ function cancelActiveComponent() {
         </template>
       </JsonRendererItemContainer>
     </slot>
+    <slot v-else-if="type === 'form'" name="form">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <Form :ref="scope.childRef" v-model="modelValue"></Form>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+
+    <slot v-else-if="type === 'formItem'" name="formItem">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <FormItem :ref="scope.childRef" v-model="modelValue"></FormItem>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
     <slot v-else name="default">
-      <div></div>
+      <div>{{ type }}</div>
     </slot>
   </div>
 </template>

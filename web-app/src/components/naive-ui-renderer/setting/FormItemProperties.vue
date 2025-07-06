@@ -1,0 +1,58 @@
+<script setup lang="ts">
+import {computed, type PropType} from "vue";
+import {NInput, NSwitch, NSelect} from "naive-ui";
+import PropertiesForm from "./PropertiesForm.vue";
+import type {RendererLayout} from "../../../types";
+
+const modelValue = defineModel('modelValue', {
+  type: Object as PropType<RendererLayout>,
+  default: () => ({
+    props: {}
+  }),
+});
+
+const props = computed(() => {
+  if (modelValue.value.props) {
+    return modelValue.value.props;
+  }
+  return {};
+});
+
+const schema = computed(function () {
+  return [
+    {
+      type: NSwitch,
+      prop: 'disabled',
+      label: '是否禁用',
+      config: {}
+    },
+    {
+      type: NInput,
+      prop: 'label',
+      label: '标签文本',
+      config: {}
+    },
+    {
+      type: NSelect,
+      prop: 'component',
+      label: '组件',
+      config: {
+        options: [
+          {
+            label: '文本输入',
+            value: 'textInput',
+          },
+          {
+            label: '数字输入',
+            value: 'textInputNumber',
+          }
+        ]
+      }
+    }
+  ];
+});
+</script>
+
+<template>
+  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
+</template>

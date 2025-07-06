@@ -1,3 +1,4 @@
+import {defineComponent, h} from 'vue';
 import {useRendererStore} from "../store.ts";
 import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
@@ -7,9 +8,15 @@ import {
     SelectAllOn24Regular,
     SlideGrid24Regular,
     TextField20Regular,
-    Timer24Regular
+    Timer24Regular,
+    FormNew24Regular,
+    AppsList24Regular,
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
+import TextInput from "../components/naive-ui-renderer/TextInput.vue";
+import TextNumberInput from "../components/naive-ui-renderer/TextNumberInput.vue";
+import DatePicker from "../components/naive-ui-renderer/DatePicker.vue";
+import Select from "../components/naive-ui-renderer/Select.vue";
 
 function omit(obj: Record<string, any>) {
     const result: Record<string, any> = {};
@@ -29,10 +36,25 @@ export function getComponentNameByType(type: string): string {
         ["datePicker", "日期选择器"],
         ["select", "选择器"],
         ["grid", "栅格"],
-        ["gridCell", "栅格-列"]
+        ["gridCell", "栅格-列"],
+        ["form", "表单"],
+        ["formItem", "表单项"]
     ]);
 
     return map.get(type) || "Unknown";
+}
+
+export function getComponentByType(type: string): string {
+    const map = new Map([
+        ["textInput", TextInput],
+        ["textNumberInput", TextNumberInput],
+        ["datePicker", DatePicker],
+        ["select", Select],
+    ]);
+
+    return map.get(type) || defineComponent({
+        render: () => h('div', {} , 'Unknow Component'),
+    });
 }
 
 export function useRendererActions() {
@@ -143,6 +165,35 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     setting: true,
                 },
             };
+        case "form": {
+            return {
+                type: "form",
+                props: {
+                    showLabel: true,
+                    labelPlacement: 'left',
+                    labelAlign: 'left',
+                },
+                id: uuid(),
+                children: [],
+                outline: {
+                    setting: true,
+                },
+            };
+        }
+        case "formItem": {
+            return {
+                type: "formItem",
+                props: {
+                    label: "表单项",
+                    component: "",
+                    componentProps: {},
+                },
+                id: uuid(),
+                outline: {
+                    setting: true,
+                },
+            };
+        }
     }
 
     return Object.assign(
@@ -170,6 +221,10 @@ export function getIconByType(type: string) {
             return SelectAllOn24Regular;
         case 'grid':
             return SlideGrid24Regular;
+        case 'form':
+            return FormNew24Regular;
+        case 'formItem':
+            return AppsList24Regular;
         default:
             return Components;
     }

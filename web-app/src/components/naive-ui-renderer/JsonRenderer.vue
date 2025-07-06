@@ -33,12 +33,6 @@ const modelValue = defineModel('modelValue', {
 </template>
 
 <style scoped lang="scss">
-/* 拖入范围应该沾满占位元素的区域 */
-.renderer-drop {
-  width: 100%;
-  height: 100%;
-}
-
 .root {
   width: 100%;
   height: 100%;

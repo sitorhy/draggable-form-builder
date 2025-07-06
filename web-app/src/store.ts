@@ -7,9 +7,17 @@ export const useComponentsStore = defineStore('components', {
         return {
             groups: [
                 {
-                    groupName: '数据录入组件',
+                    groupName: '数据录入',
                     groupId: 'dataInput',
                     components: [
+                        {
+                            type: "form",
+                            label: "表单"
+                        },
+                        {
+                            type: "formItem",
+                            label: "表单项"
+                        },
                         {
                             type: "textInput",
                             label: '文本输入',

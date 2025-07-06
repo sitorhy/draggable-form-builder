@@ -19,7 +19,7 @@ const columns = computed(() => {
     {
       title: '标签',
       key: 'label',
-      render(row, index) {
+      render(row: any, index: number) {
         return h(NInput, {
           value: row.label,
           placeholder: '',
@@ -32,7 +32,7 @@ const columns = computed(() => {
     {
       title: '值',
       key: 'value',
-      render(row, index) {
+      render(row: any, index: number) {
         return h(NInput, {
           value: row.value,
           placeholder: '',
@@ -45,7 +45,7 @@ const columns = computed(() => {
     {
       title: '操作',
       key: 'action',
-      render: (row, index) => {
+      render: (_: any, index: number) => {
         return h(NButton,{
           type: 'error',
           onClick() {

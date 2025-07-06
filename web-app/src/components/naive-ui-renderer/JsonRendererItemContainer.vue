@@ -64,7 +64,7 @@ const componentName = computed(function () {
       </div>
     </template>
     <template #header>
-      <span>{{componentName}}</span>
+      <span>{{ componentName }}</span>
     </template>
     <n-button-group>
       <n-button text @click="onSettingClick">
@@ -77,7 +77,7 @@ const componentName = computed(function () {
       </n-button>
     </n-button-group>
   </n-popover>
-  <div v-else @click.stop="onClick" :class="containerHighlightClasses">
+  <div v-else @click.stop="onClick" :class="containerHighlightClasses" :title="componentName">
     <slot :childRef="rendererItemRef"></slot>
   </div>
 </template>
