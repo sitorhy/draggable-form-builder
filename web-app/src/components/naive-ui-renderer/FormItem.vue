@@ -2,7 +2,8 @@
 import {computed, type PropType} from "vue";
 import type {RendererLayout} from "../../types";
 import {ErrorCircle20Regular} from "@vicons/fluent";
-import {getComponentByType} from "../../common/renderer.ts";
+import Renderer, {getComponentByType} from "../../common/renderer.ts";
+import JsonRenderer from "./JsonRenderer.vue";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -10,6 +11,7 @@ const modelValue = defineModel('modelValue', {
     props: {}
   }),
 });
+
 
 const id = computed(function () {
   return modelValue.value.id;
@@ -25,8 +27,7 @@ defineExpose({
       :model="modelValue.props.value"
       v-if="modelValue.props"
       v-bind="modelValue.props">
-    <component v-if="modelValue.props.component" :is="getComponentByType(modelValue.props.component)"
-               v-bind="modelValue.props.componentProps"/>
+    <JsonRenderer v-if="modelValue.children" v-model="modelValue.children[0]"/>
   </n-form-item>
   <n-empty v-else description="FormItem">
     <template #icon>

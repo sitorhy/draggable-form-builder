@@ -11,6 +11,7 @@ import {
     Timer24Regular,
     FormNew24Regular,
     AppsList24Regular,
+    DocumentMargins24Regular,
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 import TextInput from "../components/naive-ui-renderer/TextInput.vue";
@@ -38,13 +39,14 @@ export function getComponentNameByType(type: string): string {
         ["grid", "栅格"],
         ["gridCell", "栅格-列"],
         ["form", "表单"],
-        ["formItem", "表单项"]
+        ["formItem", "表单项"],
+        ["edgeInsets", "边距"]
     ]);
 
     return map.get(type) || "Unknown";
 }
 
-export function getComponentByType(type: string): string {
+export function getComponentByType(type: string) {
     const map = new Map([
         ["textInput", TextInput],
         ["textNumberInput", TextNumberInput],
@@ -186,12 +188,26 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 props: {
                     label: "表单项",
                     component: "",
-                    componentProps: {},
                 },
                 id: uuid(),
                 outline: {
                     setting: true,
                 },
+                children: [],
+            };
+        }
+        case "edgeInsets": {
+            return {
+                type: "edgeInsets",
+                props: {
+                    label: "边距",
+                    component: "",
+                },
+                id: uuid(),
+                outline: {
+                    setting: true,
+                },
+                children: [],
             };
         }
     }
@@ -225,6 +241,8 @@ export function getIconByType(type: string) {
             return FormNew24Regular;
         case 'formItem':
             return AppsList24Regular;
+        case 'edgeInsets':
+            return DocumentMargins24Regular;
         default:
             return Components;
     }

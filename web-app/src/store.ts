@@ -47,6 +47,13 @@ export const useComponentsStore = defineStore('components', {
                                 cols: 4,
                             },
                         },
+                        {
+                            type: "edgeInsets",
+                            label: "边距",
+                            props: {
+
+                            }
+                        }
                     ]
                 },
             ]

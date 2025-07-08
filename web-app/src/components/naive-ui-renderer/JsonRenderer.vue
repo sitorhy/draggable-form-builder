@@ -38,4 +38,11 @@ const modelValue = defineModel('modelValue', {
   height: 100%;
   background: #eee;
 }
+
+.select,
+.datePicker,
+.textInput,
+.textNumberInput {
+  width: 100%;
+}
 </style>

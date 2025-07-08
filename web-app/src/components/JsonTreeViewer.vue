@@ -42,7 +42,7 @@ function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
     return {
       key: i.id,
       label: getComponentNameByType(i.type),
-      children: Array.isArray(i.children)
+      children: Array.isArray(i.children) && i.children.length
           ? mapTreeOption(i.children)
           : undefined,
       prefix: function () {

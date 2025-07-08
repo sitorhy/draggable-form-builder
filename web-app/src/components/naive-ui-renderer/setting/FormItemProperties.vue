@@ -3,6 +3,7 @@ import {computed, type PropType} from "vue";
 import {NInput, NSwitch, NSelect} from "naive-ui";
 import PropertiesForm from "./PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
+import {createRendererItemConfig} from "../../../common/renderer.ts";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -44,9 +45,26 @@ const schema = computed(function () {
           },
           {
             label: '数字输入',
-            value: 'textInputNumber',
+            value: 'textNumberInput',
+          },
+          {
+            label: '日期选择器',
+            value: 'datePicker',
+          },
+          {
+            label: '选择器',
+            value: 'select',
           }
-        ]
+        ],
+      },
+      on: {
+        'update:value': function (type: string) {
+          modelValue.value.children = [
+            createRendererItemConfig({
+              type,
+            })
+          ];
+        }
       }
     }
   ];
