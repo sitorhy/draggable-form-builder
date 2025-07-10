@@ -48,11 +48,14 @@ export const useComponentsStore = defineStore('components', {
                             },
                         },
                         {
-                            type: "edgeInsets",
-                            label: "边距",
+                            type: "container",
+                            label: "容器",
                             props: {
-
-                            }
+                                style: {
+                                    padding: '5px'
+                                }
+                            },
+                            children: [],
                         }
                     ]
                 },

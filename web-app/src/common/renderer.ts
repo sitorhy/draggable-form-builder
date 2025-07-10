@@ -40,7 +40,7 @@ export function getComponentNameByType(type: string): string {
         ["gridCell", "栅格-列"],
         ["form", "表单"],
         ["formItem", "表单项"],
-        ["edgeInsets", "边距"]
+        ["container", "容器"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -196,12 +196,15 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: [],
             };
         }
-        case "edgeInsets": {
+        case "container": {
             return {
-                type: "edgeInsets",
+                type: "container",
                 props: {
-                    label: "边距",
+                    label: "容器",
                     component: "",
+                    style: {
+                        ...componentDefinition.props?.style,
+                    }
                 },
                 id: uuid(),
                 outline: {
@@ -241,7 +244,7 @@ export function getIconByType(type: string) {
             return FormNew24Regular;
         case 'formItem':
             return AppsList24Regular;
-        case 'edgeInsets':
+        case 'container':
             return DocumentMargins24Regular;
         default:
             return Components;

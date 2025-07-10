@@ -4,7 +4,7 @@ import {ref, computed, type PropType, type Component} from "vue";
 const props = defineProps({
   schema: {
     type: Array as PropType<{
-      type: Component;
+      type: Component | string;
       label: string;
       prop: string;
       config?: Record<string, any>;
@@ -48,7 +48,8 @@ const defaultHandlers = computed(() => ({}));
       label-placement="left"
   >
     <n-form-item v-for="item in visibleItems" :label="item.label" :path="item.prop">
-      <component :is="item.type" v-bind="item.config" v-on="item.on || defaultHandlers" v-model:value="modelValue[item.prop]"/>
+      <component v-if="item.type !== 'slotScope'" :is="item.type" v-bind="item.config" v-on="item.on || defaultHandlers" v-model:value="modelValue[item.prop]"/>
+      <slot v-if="item.type === 'slotScope'" :name="item.prop"></slot>
     </n-form-item>
   </n-form>
 </template>

@@ -9,6 +9,7 @@ import SelectProperties from "./naive-ui-renderer/setting/SelectProperties.vue";
 import GridProperties from "./naive-ui-renderer/setting/GridProperties.vue";
 import FormProperties from "./naive-ui-renderer/setting/FormProperties.vue";
 import FormItemProperties from "./naive-ui-renderer/setting/FormItemProperties.vue";
+import ContainerProperties from "./naive-ui-renderer/setting/ContainerProperties.vue";
 
 const expandedNames = ref(['1', '2']);
 
@@ -30,6 +31,7 @@ const rendererLayout = computed(function () {
       <GridProperties v-else-if="rendererLayout?.type === 'grid'" v-model="rendererLayout"/>
       <FormProperties v-else-if="rendererLayout?.type === 'form'" v-model="rendererLayout"/>
       <FormItemProperties v-else-if="rendererLayout?.type === 'formItem'" v-model="rendererLayout"/>
+      <ContainerProperties v-else-if="rendererLayout?.type === 'container'" v-model="rendererLayout"/>
     </n-collapse-item>
   </n-collapse>
 </template>

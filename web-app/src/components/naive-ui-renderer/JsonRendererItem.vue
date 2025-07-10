@@ -10,7 +10,7 @@ import DatePicker from "./DatePicker.vue";
 import Select from "./Select.vue";
 import Form from "./Form.vue";
 import FormItem from "./FormItem.vue";
-import EdgeInsets from "../common-renderer/EdgeInsets.vue";
+import Container from "./Container.vue";
 
 const store = useRendererStore();
 
@@ -88,10 +88,10 @@ function cancelActiveComponent() {
         </template>
       </JsonRendererItemContainer>
     </slot>
-    <slot v-else-if="type === 'edgeInsets'" name="edgeInsets">
+    <slot v-else-if="type === 'container'" name="container">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <EdgeInsets :ref="scope.childRef" v-model="modelValue"></EdgeInsets>
+          <Container :ref="scope.childRef" v-model="modelValue"></Container>
         </template>
       </JsonRendererItemContainer>
     </slot>
