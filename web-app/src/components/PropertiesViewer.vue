@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed} from "vue";
 import TextInputProperties from "./naive-ui-renderer/setting/TextInputProperties.vue";
 import {useRendererStore} from "../store.ts";
 import {useRendererActions} from "../common/renderer.ts";
@@ -10,8 +10,9 @@ import GridProperties from "./naive-ui-renderer/setting/GridProperties.vue";
 import FormProperties from "./naive-ui-renderer/setting/FormProperties.vue";
 import FormItemProperties from "./naive-ui-renderer/setting/FormItemProperties.vue";
 import ContainerProperties from "./naive-ui-renderer/setting/ContainerProperties.vue";
-
-const expandedNames = ref(['1', '2']);
+import CommonProperties from "./naive-ui-renderer/setting/CommonProperties.vue";
+import CheckboxProperties from "./naive-ui-renderer/setting/CheckboxProperties.vue";
+import CheckboxGroupProperties from "./naive-ui-renderer/setting/CheckboxGroupProperties.vue";
 
 const store = useRendererStore();
 const {findNodeById} = useRendererActions();
@@ -22,18 +23,19 @@ const rendererLayout = computed(function () {
 </script>
 
 <template>
-  <n-collapse :default-expanded-names="expandedNames">
-    <n-collapse-item title="属性" name="1">
-      <TextInputProperties v-if="rendererLayout?.type === 'textInput'" v-model="rendererLayout"/>
-      <TextNumberInputProperties v-else-if="rendererLayout?.type === 'textNumberInput'" v-model="rendererLayout"/>
-      <DatePickerProperties v-else-if="rendererLayout?.type === 'datePicker'" v-model="rendererLayout"/>
-      <SelectProperties v-else-if="rendererLayout?.type === 'select'" v-model="rendererLayout"/>
-      <GridProperties v-else-if="rendererLayout?.type === 'grid'" v-model="rendererLayout"/>
-      <FormProperties v-else-if="rendererLayout?.type === 'form'" v-model="rendererLayout"/>
-      <FormItemProperties v-else-if="rendererLayout?.type === 'formItem'" v-model="rendererLayout"/>
-      <ContainerProperties v-else-if="rendererLayout?.type === 'container'" v-model="rendererLayout"/>
-    </n-collapse-item>
-  </n-collapse>
+  <div>
+    <TextInputProperties v-if="rendererLayout?.type === 'textInput'" v-model="rendererLayout"/>
+    <TextNumberInputProperties v-else-if="rendererLayout?.type === 'textNumberInput'" v-model="rendererLayout"/>
+    <DatePickerProperties v-else-if="rendererLayout?.type === 'datePicker'" v-model="rendererLayout"/>
+    <SelectProperties v-else-if="rendererLayout?.type === 'select'" v-model="rendererLayout"/>
+    <GridProperties v-else-if="rendererLayout?.type === 'grid'" v-model="rendererLayout"/>
+    <FormProperties v-else-if="rendererLayout?.type === 'form'" v-model="rendererLayout"/>
+    <FormItemProperties v-else-if="rendererLayout?.type === 'formItem'" v-model="rendererLayout"/>
+    <ContainerProperties v-else-if="rendererLayout?.type === 'container'" v-model="rendererLayout"/>
+    <CheckboxGroupProperties v-else-if="rendererLayout?.type === 'checkboxGroup'" v-model="rendererLayout"/>
+    <CheckboxProperties v-else-if="rendererLayout?.type === 'checkbox'" v-model="rendererLayout"/>
+    <CommonProperties v-else :value="rendererLayout"/>
+  </div>
 </template>
 
 <style scoped lang="scss">

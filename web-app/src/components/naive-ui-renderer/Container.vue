@@ -25,8 +25,9 @@ defineExpose({
 </script>
 
 <template>
-  <div class="container-wrapper" :style="containerStyle">
+  <div class="container-wrapper">
     <draggable class="container renderer-drop" v-if="modelValue.children"
+               :style="containerStyle"
                ghost-class="ghost"
                drag-class="drag"
                v-model="modelValue.children"
@@ -50,5 +51,6 @@ defineExpose({
   min-height: var(--n-hegiht);
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 </style>

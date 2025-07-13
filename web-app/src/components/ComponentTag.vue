@@ -67,6 +67,8 @@ const Icon = computed(() => getIconByType(props.type));
 }
 
 .renderer-drop .tag {
+  min-width: 124px;
+
   > .icon {
     display: none;
     color: #f0a020;

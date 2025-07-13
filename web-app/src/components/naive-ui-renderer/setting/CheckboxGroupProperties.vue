@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {computed, type PropType} from "vue";
-import {NInput, NSwitch} from "naive-ui";
+import {NInput, NSwitch, NInputNumber, NSelect} from "naive-ui";
 import PropertiesForm from "./PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
-import DataSourceDialog from "./DataSourceDialog.vue";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -28,23 +27,33 @@ const schema = computed(function () {
       config: {}
     },
     {
-      type: NInput,
-      prop: 'placeholder',
-      label: "占位符",
+      type: NInputNumber,
+      prop: 'max',
+      label: '最大数量',
       config: {
         placeholder: '',
+        min: 1,
+        max: 100,
       }
     },
     {
-      type: DataSourceDialog,
-      prop: 'options',
-      label: '选项',
-      config: {}
+      type: NInputNumber,
+      prop: 'min',
+      label: '最小数量',
+      config: {
+        placeholder: '',
+        min: 1,
+        max: 100,
+      }
     }
   ];
 });
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
+  <PropertiesForm :schema="schema" v-model="props" label-width="6em" />
 </template>
+
+<style scoped lang="scss">
+
+</style>

@@ -1,4 +1,6 @@
-import {defineComponent, h} from 'vue';
+import {defineComponent, h, ref} from 'vue';
+import {useMessage} from "naive-ui";
+import type { MessageReactive } from 'naive-ui';
 import {useRendererStore} from "../store.ts";
 import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
@@ -12,12 +14,38 @@ import {
     FormNew24Regular,
     AppsList24Regular,
     DocumentMargins24Regular,
+    CheckboxChecked24Regular,
+    RadioButton24Filled,
+    CheckboxUnchecked24Filled,
+    RadioButton24Regular
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 import TextInput from "../components/naive-ui-renderer/TextInput.vue";
 import TextNumberInput from "../components/naive-ui-renderer/TextNumberInput.vue";
 import DatePicker from "../components/naive-ui-renderer/DatePicker.vue";
 import Select from "../components/naive-ui-renderer/Select.vue";
+
+export function useRendererMessage() {
+    const rendererMessageContent = ref("");
+    const message = useMessage();
+    let rendererMessage: MessageReactive | null = null;
+
+    return {
+        showMessage: (text: string) => {
+            rendererMessageContent.value = text;
+            if (!rendererMessage) {
+                rendererMessage = message.create(rendererMessageContent.value, {
+                    type: 'warning',
+                    duration: 3000,
+                    onAfterLeave() {
+                        rendererMessage?.destroy();
+                        rendererMessage = null;
+                    }
+                });
+            }
+        },
+    }
+}
 
 function omit(obj: Record<string, any>) {
     const result: Record<string, any> = {};
@@ -40,7 +68,11 @@ export function getComponentNameByType(type: string): string {
         ["gridCell", "栅格-列"],
         ["form", "表单"],
         ["formItem", "表单项"],
-        ["container", "容器"]
+        ["container", "容器"],
+        ["checkboxGroup", "复选框组"],
+        ["radioGroup", "单选框组"],
+        ["checkbox", "复选框项"],
+        ["radio", "单选框项"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -55,7 +87,7 @@ export function getComponentByType(type: string) {
     ]);
 
     return map.get(type) || defineComponent({
-        render: () => h('div', {} , 'Unknow Component'),
+        render: () => h('div', {}, 'Unknow Component'),
     });
 }
 
@@ -204,6 +236,14 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     component: "",
                     style: {
                         ...componentDefinition.props?.style,
+                        paddingLeft: '4px',
+                        paddingRight: '4px',
+                        paddingTop: '4px',
+                        paddingBottom: '4px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'stretch',
+                        justifyContent: 'flex-start',
                     }
                 },
                 id: uuid(),
@@ -211,6 +251,30 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     setting: true,
                 },
                 children: [],
+            };
+        }
+        case "checkboxGroup": {
+            return {
+                type: "checkboxGroup",
+                id: uuid(),
+                props: {},
+                children: [],
+                outline: {
+                    setting: true,
+                },
+            };
+        }
+        case "checkbox": {
+            return {
+                type: "checkbox",
+                id: uuid(),
+                props: {
+                    label: "标签",
+                    value: "值",
+                },
+                outline: {
+                    setting: true,
+                },
             };
         }
     }
@@ -246,6 +310,14 @@ export function getIconByType(type: string) {
             return AppsList24Regular;
         case 'container':
             return DocumentMargins24Regular;
+        case 'checkboxGroup':
+            return CheckboxChecked24Regular;
+        case 'radioGroup':
+            return RadioButton24Filled;
+        case 'checkbox':
+            return CheckboxUnchecked24Filled;
+        case 'radio':
+            return RadioButton24Regular;
         default:
             return Components;
     }

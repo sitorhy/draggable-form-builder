@@ -33,7 +33,23 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "select",
                             label: '选择器',
-                        }
+                        },
+                        {
+                            type: 'checkboxGroup',
+                            label: '复选框组',
+                        },
+                        {
+                            type: 'checkbox',
+                            label: '复选框项',
+                        },
+                        {
+                            type: 'radioGroup',
+                            label: '单选框',
+                        },
+                        {
+                            type: 'radio',
+                            label: '单选框项',
+                        },
                     ]
                 },
                 {
@@ -43,18 +59,10 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "grid",
                             label: '栅格',
-                            props: {
-                                cols: 4,
-                            },
                         },
                         {
                             type: "container",
                             label: "容器",
-                            props: {
-                                style: {
-                                    padding: '5px'
-                                }
-                            },
                             children: [],
                         }
                     ]

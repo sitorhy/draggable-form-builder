@@ -123,11 +123,13 @@ const data = computed(() => mapTreeOption([store.data]));
 <template>
   <n-tree
       :data="data"
-      block-line
       expand-on-click
       key-field="key"
       label-field="label"
       children-field="children"
+      :block-line="true"
+      :block-node="true"
+      :scrollbar-props="{xScrollable: true}"
       :default-expanded-keys="defaultExpandedKeys"
       :default-selected-keys="defaultSelectedKeys"
       :selected-keys="defaultSelectedKeys"

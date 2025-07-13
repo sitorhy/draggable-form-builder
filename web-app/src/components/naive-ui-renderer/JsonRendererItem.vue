@@ -11,6 +11,8 @@ import Select from "./Select.vue";
 import Form from "./Form.vue";
 import FormItem from "./FormItem.vue";
 import Container from "./Container.vue";
+import CheckboxGroup from "./CheckboxGroup.vue";
+import Checkbox from "./Checkbox.vue";
 
 const store = useRendererStore();
 
@@ -92,6 +94,20 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <Container :ref="scope.childRef" v-model="modelValue"></Container>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'checkboxGroup'" name="checkboxGroup">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <CheckboxGroup :ref="scope.childRef" v-model="modelValue"/>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'checkbox'" name="checkbox">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <Checkbox :ref="scope.childRef" v-model="modelValue"/>
         </template>
       </JsonRendererItemContainer>
     </slot>

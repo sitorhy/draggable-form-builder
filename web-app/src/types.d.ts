@@ -33,3 +33,12 @@ export type ActiveRendererItemInfo = {
     ancestors: RendererLayout[];
     config: RendererLayout | null;
 }
+
+export type RuleParams = {
+    fromClassList: string[];
+    toClassList: string[];
+    to: HTMLElement;
+    from: HTMLElement;
+    fromIndex: number;
+    toIndex: number;
+};
