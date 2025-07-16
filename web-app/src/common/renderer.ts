@@ -18,7 +18,8 @@ import {
     RadioButton24Filled,
     CheckboxUnchecked24Filled,
     RadioButton24Regular,
-    ControlButton20Regular
+    ControlButton20Regular,
+    TextCaseTitle24Filled
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 import TextInput from "../components/naive-ui-renderer/TextInput.vue";
@@ -74,7 +75,8 @@ export function getComponentNameByType(type: string): string {
         ["radioGroup", "单选框组"],
         ["checkbox", "复选框项"],
         ["radio", "单选框项"],
-        ["button", "按钮"]
+        ["button", "按钮"],
+        ["text", "文本"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -313,6 +315,32 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 outline: {
                     setting: true,
                 },
+                children: [
+                    {
+                        type: "text",
+                        id: uuid(),
+                        props: {
+                            tag: 'span',
+                        },
+                        children: ['按钮'],
+                        outline: {
+                            setting: true,
+                        },
+                    },
+                ]
+            };
+        }
+        case "text": {
+            return {
+                type: "text",
+                id: uuid(),
+                props: {
+                    tag: 'span',
+                },
+                children: ['文本'],
+                outline: {
+                    setting: true,
+                },
             };
         }
     }
@@ -358,6 +386,8 @@ export function getIconByType(type: string) {
             return RadioButton24Regular;
         case 'button':
             return ControlButton20Regular;
+        case 'text':
+            return TextCaseTitle24Filled;
         default:
             return Components;
     }

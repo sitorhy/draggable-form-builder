@@ -16,6 +16,7 @@ import CheckboxGroupProperties from "./naive-ui-renderer/setting/CheckboxGroupPr
 import RadioGroupProperties from "./naive-ui-renderer/setting/RadioGroupProperties.vue";
 import RadioProperties from "./naive-ui-renderer/setting/RadioProperties.vue";
 import ButtonProperties from "./naive-ui-renderer/setting/ButtonProperties.vue";
+import TextProperties from "./naive-ui-renderer/setting/TextProperties.vue";
 
 const store = useRendererStore();
 const {findNodeById} = useRendererActions();
@@ -40,6 +41,7 @@ const rendererLayout = computed(function () {
     <RadioGroupProperties v-else-if="rendererLayout?.type === 'radioGroup'" v-model="rendererLayout"/>
     <RadioProperties v-else-if="rendererLayout?.type === 'radio'" v-model="rendererLayout"/>
     <ButtonProperties v-else-if="rendererLayout?.type === 'button'" v-model="rendererLayout"/>
+    <TextProperties v-else-if="rendererLayout?.type === 'text'" v-model="rendererLayout"/>
     <CommonProperties v-else :value="rendererLayout"/>
   </div>
 </template>

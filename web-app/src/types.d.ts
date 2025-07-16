@@ -11,7 +11,7 @@ export type RendererLayout = {
     id: string;
     type: string;
     description?: string; // 继承组件区定义，可读性属性
-    children?: RendererLayout[]; // 一般是拖动区域专用属性，具体渲染组件可以不实现拖动
+    children?: (RendererLayout | string)[]; // 一般是拖动区域专用属性，具体渲染组件可以不实现拖动
     props?: Record<string, any>; // 渲染组件属性
 
     // 大纲视图属性设置

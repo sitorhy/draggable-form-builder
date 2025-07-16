@@ -2,6 +2,7 @@
 import {useRendererStore, useSettings} from "../store.ts";
 import {computed, h, ref, watch, withModifiers} from "vue";
 import type {TreeOption} from "naive-ui";
+import {v4 as uuid} from "uuid";
 import {NIcon, NButton, NButtonGroup} from "naive-ui";
 import {
   Settings24Filled,
@@ -37,8 +38,14 @@ watch(function () {
   defaultSelectedKeys.value = [store.activeRendererItemInfo.id];
 });
 
-function mapTreeOption(layouts: RendererLayout[]): TreeOption[] {
+function mapTreeOption(layouts: (RendererLayout | string)[]): TreeOption[] {
   return layouts.map((i) => {
+    if (typeof i === "string") {
+      return {
+        key: uuid(),
+        label: `"${i}"`
+      }
+    }
     return {
       key: i.id,
       label: getComponentNameByType(i.type),

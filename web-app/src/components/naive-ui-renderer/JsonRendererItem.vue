@@ -16,6 +16,7 @@ import Checkbox from "./Checkbox.vue";
 import RadioGroup from "./RadioGroup.vue";
 import Radio from "../Radio.vue";
 import Button from "./Button.vue";
+import Text from "./Text.vue";
 
 const store = useRendererStore();
 
@@ -132,6 +133,13 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <Button :ref="scope.childRef" v-model="modelValue"/>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'text'" name="text">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <Text :ref="scope.childRef" v-model="modelValue"/>
         </template>
       </JsonRendererItemContainer>
     </slot>

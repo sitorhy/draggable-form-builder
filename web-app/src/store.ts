@@ -7,6 +7,20 @@ export const useComponentsStore = defineStore('components', {
         return {
             groups: [
                 {
+                    groupName: "通用组件",
+                    groupId: "common",
+                    components: [
+                        {
+                            type: 'button',
+                            label: '按钮',
+                        },
+                        {
+                            type: 'text',
+                            label: '文本'
+                        }
+                    ],
+                },
+                {
                     groupName: '数据录入',
                     groupId: 'dataInput',
                     components: [
@@ -49,10 +63,6 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: 'radio',
                             label: '单选框项',
-                        },
-                        {
-                            type: 'button',
-                            label: '按钮',
                         },
                     ]
                 },
