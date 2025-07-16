@@ -13,6 +13,9 @@ import FormItem from "./FormItem.vue";
 import Container from "./Container.vue";
 import CheckboxGroup from "./CheckboxGroup.vue";
 import Checkbox from "./Checkbox.vue";
+import RadioGroup from "./RadioGroup.vue";
+import Radio from "../Radio.vue";
+import Button from "./Button.vue";
 
 const store = useRendererStore();
 
@@ -108,6 +111,27 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <Checkbox :ref="scope.childRef" v-model="modelValue"/>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'radioGroup'" name="radioGroup">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <RadioGroup :ref="scope.childRef" v-model="modelValue"/>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'radio'" name="radio">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <Radio :ref="scope.childRef" v-model="modelValue"/>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'button'" name="button">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <Button :ref="scope.childRef" v-model="modelValue"/>
         </template>
       </JsonRendererItemContainer>
     </slot>

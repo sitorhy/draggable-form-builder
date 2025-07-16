@@ -42,7 +42,9 @@ const modelValue = defineModel('modelValue', {
 .select,
 .datePicker,
 .textInput,
-.textNumberInput {
+.textNumberInput,
+.checkboxGroup,
+.radioGroup {
   width: 100%;
 }
 </style>

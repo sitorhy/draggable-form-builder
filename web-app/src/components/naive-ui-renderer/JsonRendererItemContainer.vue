@@ -85,6 +85,7 @@ const componentName = computed(function () {
 <style scoped lang="scss">
 .renderer-item-container {
   position: relative;
+  box-sizing: border-box;
 
   &::after {
     content: "";
@@ -97,6 +98,7 @@ const componentName = computed(function () {
     border-width: 2px;
     z-index: 5;
     pointer-events: none;
+    box-sizing: border-box;
   }
 
   &.inactive::after {

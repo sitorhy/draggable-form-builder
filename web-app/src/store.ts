@@ -44,11 +44,15 @@ export const useComponentsStore = defineStore('components', {
                         },
                         {
                             type: 'radioGroup',
-                            label: '单选框',
+                            label: '单选框组',
                         },
                         {
                             type: 'radio',
                             label: '单选框项',
+                        },
+                        {
+                            type: 'button',
+                            label: '按钮',
                         },
                     ]
                 },

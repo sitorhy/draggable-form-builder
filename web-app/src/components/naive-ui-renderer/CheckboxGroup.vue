@@ -30,7 +30,7 @@ defineExpose({
       </template>
     </draggable>
   </n-checkbox-group>
-  <n-empty v-else description="Checkbox">
+  <n-empty v-else description="CheckboxGroup">
     <template #icon>
       <n-icon>
         <ErrorCircle20Regular />

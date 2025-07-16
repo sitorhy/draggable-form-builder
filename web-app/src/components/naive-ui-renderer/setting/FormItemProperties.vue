@@ -54,6 +54,14 @@ const schema = computed(function () {
           {
             label: '选择器',
             value: 'select',
+          },
+          {
+            label: '单选框',
+            value: 'radioGroup',
+          },
+          {
+            label: '复选框',
+            value: 'checkboxGroup',
           }
         ],
       },

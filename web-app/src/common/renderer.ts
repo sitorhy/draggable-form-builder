@@ -17,7 +17,8 @@ import {
     CheckboxChecked24Regular,
     RadioButton24Filled,
     CheckboxUnchecked24Filled,
-    RadioButton24Regular
+    RadioButton24Regular,
+    ControlButton20Regular
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 import TextInput from "../components/naive-ui-renderer/TextInput.vue";
@@ -72,7 +73,8 @@ export function getComponentNameByType(type: string): string {
         ["checkboxGroup", "复选框组"],
         ["radioGroup", "单选框组"],
         ["checkbox", "复选框项"],
-        ["radio", "单选框项"]
+        ["radio", "单选框项"],
+        ["button", "按钮"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -277,6 +279,42 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
             };
         }
+        case "radioGroup": {
+            return {
+                type: "radioGroup",
+                id: uuid(),
+                props: {},
+                children: [],
+                outline: {
+                    setting: true,
+                },
+            };
+        }
+        case "radio": {
+            return {
+                type: "radio",
+                id: uuid(),
+                props: {
+                    label: "标签",
+                    value: "值",
+                },
+                outline: {
+                    setting: true,
+                },
+            };
+        }
+        case "button": {
+            return {
+                type: "button",
+                id: uuid(),
+                props: {
+                    type: 'primary',
+                },
+                outline: {
+                    setting: true,
+                },
+            };
+        }
     }
 
     return Object.assign(
@@ -318,6 +356,8 @@ export function getIconByType(type: string) {
             return CheckboxUnchecked24Filled;
         case 'radio':
             return RadioButton24Regular;
+        case 'button':
+            return ControlButton20Regular;
         default:
             return Components;
     }
