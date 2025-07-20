@@ -1,6 +1,6 @@
 import {defineComponent, h, ref} from 'vue';
 import {useMessage} from "naive-ui";
-import type { MessageReactive } from 'naive-ui';
+import type {MessageReactive} from 'naive-ui';
 import {useRendererStore} from "../store.ts";
 import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
@@ -19,7 +19,8 @@ import {
     CheckboxUnchecked24Filled,
     RadioButton24Regular,
     ControlButton20Regular,
-    TextCaseTitle24Filled
+    TextCaseTitle24Filled,
+    Image24Regular
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 import TextInput from "../components/naive-ui-renderer/TextInput.vue";
@@ -76,7 +77,8 @@ export function getComponentNameByType(type: string): string {
         ["checkbox", "复选框项"],
         ["radio", "单选框项"],
         ["button", "按钮"],
-        ["text", "文本"]
+        ["text", "文本"],
+        ["image", "图片"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -321,8 +323,8 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                         id: uuid(),
                         props: {
                             tag: 'span',
+                            text: '按钮'
                         },
-                        children: ['按钮'],
                         outline: {
                             setting: true,
                         },
@@ -336,8 +338,22 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 id: uuid(),
                 props: {
                     tag: 'span',
+                    text: '文本'
                 },
-                children: ['文本'],
+                outline: {
+                    setting: true,
+                },
+            };
+        }
+        case "image": {
+            return {
+                type: "image",
+                id: uuid(),
+                props: {
+                    width: '100px',
+                    height: '100px',
+                    src: '/vite.svg'
+                },
                 outline: {
                     setting: true,
                 },
@@ -388,6 +404,8 @@ export function getIconByType(type: string) {
             return ControlButton20Regular;
         case 'text':
             return TextCaseTitle24Filled;
+        case 'image':
+            return Image24Regular;
         default:
             return Components;
     }

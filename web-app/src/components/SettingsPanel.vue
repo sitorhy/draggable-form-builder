@@ -1,45 +1,16 @@
 <script setup lang="ts">
-import JsonTreeViewer from "./JsonTreeViewer.vue";
 import PropertiesViewer from "./PropertiesViewer.vue";
-import {useSettings} from "../store.ts";
 
-const settings = useSettings();
-
-function onUpdateTabName(tabName: string) {
-  settings.switchToTab(tabName);
-}
 </script>
 
 <template>
-  <n-tabs
-      class="settings-panel"
-      default-value="tree"
-      :value="settings.tabName"
-      @update:value="onUpdateTabName"
-      :animated="false"
-  >
-    <n-tab-pane display-directive="show" style="height: 100%;" name="tree" tab="大纲">
-      <JsonTreeViewer/>
-    </n-tab-pane>
-    <n-tab-pane display-directive="show" style="height: 100%;" name="properties" tab="设置">
-      <PropertiesViewer/>
-    </n-tab-pane>
-  </n-tabs>
+  <div class="settings-panel">
+    <PropertiesViewer/>
+  </div>
 </template>
 
-<style>
+<style scoped>
 .settings-panel {
-  padding: 0 17px 0 17px;
-}
-
-.settings-panel .n-tabs {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.settings-panel .n-tabs-pane-wrapper {
-  flex-grow: 0;
-  overflow: auto;
+  padding: 17px;
 }
 </style>

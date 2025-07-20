@@ -62,7 +62,7 @@ const schema = computed(function () {
       }
     },
     {
-      type: 'slotScope',
+      type: NInput,
       prop: 'text',
       label: '文本',
     }
@@ -71,11 +71,7 @@ const schema = computed(function () {
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="6em">
-    <template #text>
-      <n-input v-model:value="(modelValue.children as string[])[0] as string" />
-    </template>
-  </PropertiesForm>
+  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
 </template>
 
 <style scoped lang="scss">

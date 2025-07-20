@@ -22,7 +22,7 @@ defineExpose({
 
 <template>
   <n-button v-bind="modelValue.props">
-    <draggable class="renderer-drop" v-if="modelValue.children"
+    <draggable class="renderer-drop button" v-if="modelValue.children"
                ghost-class="ghost"
                drag-class="drag"
                v-model="modelValue.children"
@@ -35,5 +35,11 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-
+.button {
+  --n-hegiht: 14px;
+  --n-width: 14px;
+  min-width: var(--n-width);
+  min-height: var(--n-hegiht);
+  height: 100%;
+}
 </style>

@@ -17,6 +17,7 @@ import RadioGroupProperties from "./naive-ui-renderer/setting/RadioGroupProperti
 import RadioProperties from "./naive-ui-renderer/setting/RadioProperties.vue";
 import ButtonProperties from "./naive-ui-renderer/setting/ButtonProperties.vue";
 import TextProperties from "./naive-ui-renderer/setting/TextProperties.vue";
+import ImageProperties from "./naive-ui-renderer/setting/ImageProperties.vue";
 
 const store = useRendererStore();
 const {findNodeById} = useRendererActions();
@@ -42,6 +43,7 @@ const rendererLayout = computed(function () {
     <RadioProperties v-else-if="rendererLayout?.type === 'radio'" v-model="rendererLayout"/>
     <ButtonProperties v-else-if="rendererLayout?.type === 'button'" v-model="rendererLayout"/>
     <TextProperties v-else-if="rendererLayout?.type === 'text'" v-model="rendererLayout"/>
+    <ImageProperties v-else-if="rendererLayout?.type === 'image'" v-model="rendererLayout"/>
     <CommonProperties v-else :value="rendererLayout"/>
   </div>
 </template>

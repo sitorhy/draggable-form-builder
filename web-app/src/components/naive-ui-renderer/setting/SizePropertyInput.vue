@@ -11,6 +11,10 @@ const props = defineProps({
       {
         label: "em",
         value: "em",
+      },
+      {
+        label: "%",
+        value: "%",
       }
     ],
   },

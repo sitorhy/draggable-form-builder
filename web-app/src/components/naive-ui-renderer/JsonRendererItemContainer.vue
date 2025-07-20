@@ -3,7 +3,7 @@
 -->
 <script setup lang="ts">
 import {type ComponentInstance, computed, ref} from "vue";
-import {useRendererStore, useSettings} from "../../store.ts";
+import {useRendererStore} from "../../store.ts";
 import {Settings16Filled} from "@vicons/fluent";
 import type {RendererLayout} from "../../types";
 import {getComponentNameByType, useRendererActions} from "../../common/renderer.ts";
@@ -11,7 +11,6 @@ import {getComponentNameByType, useRendererActions} from "../../common/renderer.
 const {findNodeById} = useRendererActions();
 
 const store = useRendererStore();
-const settings = useSettings();
 const activeComponentId = computed(function () {
   return store.activeRendererItemInfo.id;
 });
@@ -35,7 +34,6 @@ function onClick() {
 
 function onSettingClick() {
   store.setActiveComponent(instanceRef.value.id);
-  settings.switchToPropertiesTab();
 }
 
 const config = computed(() => {

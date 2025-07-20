@@ -1,27 +1,62 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, h, ref} from "vue";
+import {NIcon} from 'naive-ui';
+import hljs from 'highlight.js/lib/core'
+import json from 'highlight.js/lib/languages/json'
 import logo from "./assets/vue.svg"
 import CollapsePanel from "./components/CollapsePanel.vue"
 import ComponentCollapse from "./components/ComponentCollapse.vue"
 import JsonRenderer from "./components/naive-ui-renderer/JsonRenderer.vue"
 import SettingsPanel from "./components/SettingsPanel.vue"
 import {useRendererStore} from "./store.ts";
-import {JsonViewer} from "vue3-json-viewer";
+import {Settings24Regular, Braces24Filled, CubeTree24Regular} from '@vicons/fluent';
+import JsonViewerModal from "./components/JsonViewerModal.vue";
+import JsonTreeViewer from "./components/JsonTreeViewer.vue";
+
+hljs.registerLanguage('json', json);
 
 const rendererStore = useRendererStore();
 const leftContentExpanded = ref(true);
 const rightContentExpanded = ref(true);
 const showJsonViewer = ref(false);
+const showOuting = ref(false);
 
 function switchJsonViewer() {
   showJsonViewer.value = !showJsonViewer.value;
+}
+
+const menuOptions = computed(function () {
+  return [
+    {
+      label: 'JSON Viewer',
+      icon() {
+        return h(NIcon, null, {
+          default: () => h(Braces24Filled)
+        })
+      },
+      key: 'json'
+    },
+  ];
+});
+
+function handleMenuSelect(key: string): void {
+  switch (key) {
+    case "json": {
+      switchJsonViewer();
+    }
+      break;
+  }
+}
+
+function onOutlineClick() {
+  showOuting.value = !showOuting.value;
 }
 
 </script>
 
 <template>
   <n-notification-provider>
-    <n-config-provider>
+    <n-config-provider :hljs="hljs">
       <n-modal-provider>
         <n-dialog-provider>
           <n-message-provider>
@@ -38,7 +73,24 @@ function switchJsonViewer() {
                 </template>
                 <template #extra>
                   <n-space>
-                    <n-button @click="switchJsonViewer">JSON</n-button>
+                    <n-button type="primary" @click="onOutlineClick">
+                      <template #icon>
+                        <n-icon>
+                          <CubeTree24Regular/>
+                        </n-icon>
+                      </template>
+                      <span>大纲</span>
+                    </n-button>
+                    <n-dropdown :options="menuOptions" @select="handleMenuSelect">
+                      <n-button type="primary">
+                        <template #icon>
+                          <n-icon>
+                            <Settings24Regular/>
+                          </n-icon>
+                        </template>
+                        <span>设置</span>
+                      </n-button>
+                    </n-dropdown>
                   </n-space>
                 </template>
               </n-page-header>
@@ -57,19 +109,21 @@ function switchJsonViewer() {
                   </CollapsePanel>
                 </div>
               </div>
-              <n-drawer v-model:show="showJsonViewer" width="50%">
-                <n-drawer-content title="JSON">
-                  <JsonViewer :copyable="{copyText: '复制', copiedText:'已复制'}" :value="rendererStore.data"
-                              theme="light"
-                              :expand-depth="5"/>
-                </n-drawer-content>
-              </n-drawer>
             </div>
           </n-message-provider>
         </n-dialog-provider>
       </n-modal-provider>
     </n-config-provider>
   </n-notification-provider>
+
+  <JsonViewerModal v-model="showJsonViewer"/>
+  <n-drawer v-model:show="showOuting" placement="right" resizable>
+    <n-drawer-content title="大纲视图">
+      <div style="min-width: 400px; overflow: auto;">
+        <JsonTreeViewer/>
+      </div>
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <style scoped lang="scss">

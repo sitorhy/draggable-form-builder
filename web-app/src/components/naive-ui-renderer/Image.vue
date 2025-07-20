@@ -19,7 +19,7 @@ defineExpose({
 </script>
 
 <template>
-  <component :is="modelValue.props?.tag || 'span'">{{ modelValue.props?.text }}</component>
+  <n-image v-bind="modelValue.props"/>
 </template>
 
 <style scoped lang="scss">

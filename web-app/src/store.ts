@@ -17,6 +17,10 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: 'text',
                             label: '文本'
+                        },
+                        {
+                            type: 'image',
+                            label: '图片'
                         }
                     ],
                 },
@@ -121,22 +125,6 @@ export const useRendererStore = defineStore<"renderers", {
             this.activeRendererItemInfo.id = "";
             this.activeRendererItemInfo.parent = null;
             this.activeRendererItemInfo.ancestors = [];
-        }
-    }
-});
-
-export const useSettings = defineStore("settings", {
-    state() {
-        return {
-            tabName: "tree",
-        };
-    },
-    actions: {
-        switchToPropertiesTab() {
-            this.tabName = "properties";
-        },
-        switchToTab(name: string) {
-            this.tabName = name;
         }
     }
 });
