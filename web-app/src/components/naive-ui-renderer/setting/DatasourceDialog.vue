@@ -107,6 +107,8 @@ const schema = computed(() => {
       prop: 'path',
       config: {
         options: pathOptions.value,
+        placeholder: "根路径",
+        clearable: true,
       },
     },
     {
