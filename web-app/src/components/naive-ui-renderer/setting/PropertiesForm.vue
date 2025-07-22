@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref, computed, type PropType, type Component} from "vue";
+import {type FormItemRule} from 'naive-ui';
 
 const props = defineProps({
   schema: {
@@ -9,6 +10,8 @@ const props = defineProps({
       prop: string;
       config?: Record<string, any>;
       visible?: () => boolean;
+      rules?: FormItemRule[];
+      on?: Record<string, Function>
     }[]>,
     default: () => [],
   }
@@ -38,6 +41,12 @@ function shouldRenderItem(item: {
 
 const defaultHandlers = computed(() => ({}));
 
+defineExpose({
+  validate: (cb: (errors?: Error[]) => void) => {
+    formRef.value.validate(cb);
+  }
+})
+
 </script>
 
 <template>
@@ -47,7 +56,7 @@ const defaultHandlers = computed(() => ({}));
       :model="modelValue"
       label-placement="left"
   >
-    <n-form-item v-for="item in visibleItems" :label="item.label" :path="item.prop">
+    <n-form-item v-for="item in visibleItems" :label="item.label" :path="item.prop" :rule="item.rules || []">
       <component v-if="item.type !== 'slotScope'" :is="item.type" v-bind="item.config" v-on="item.on || defaultHandlers" v-model:value="modelValue[item.prop]"/>
       <slot v-if="item.type === 'slotScope'" :name="item.prop"></slot>
     </n-form-item>

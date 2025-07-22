@@ -3,7 +3,6 @@ import {computed, type PropType} from "vue";
 import {NInput, NSwitch} from "naive-ui";
 import PropertiesForm from "./PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
-import DataSourceDialog from "./DataSourceDialog.vue";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -35,12 +34,6 @@ const schema = computed(function () {
         placeholder: '',
       }
     },
-    {
-      type: DataSourceDialog,
-      prop: 'options',
-      label: '选项',
-      config: {}
-    }
   ];
 });
 </script>

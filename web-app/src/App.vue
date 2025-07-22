@@ -9,9 +9,10 @@ import ComponentCollapse from "./components/ComponentCollapse.vue"
 import JsonRenderer from "./components/naive-ui-renderer/JsonRenderer.vue"
 import SettingsPanel from "./components/SettingsPanel.vue"
 import {useRendererStore} from "./store.ts";
-import {Settings24Regular, Braces24Filled, CubeTree24Regular} from '@vicons/fluent';
+import {Settings24Regular, Braces24Filled, CubeTree24Regular, Database24Regular} from '@vicons/fluent';
 import JsonViewerModal from "./components/JsonViewerModal.vue";
 import JsonTreeViewer from "./components/JsonTreeViewer.vue";
+import DatasourceDialog from "./components/naive-ui-renderer/setting/DatasourceDialog.vue";
 
 hljs.registerLanguage('json', json);
 
@@ -20,6 +21,7 @@ const leftContentExpanded = ref(true);
 const rightContentExpanded = ref(true);
 const showJsonViewer = ref(false);
 const showOuting = ref(false);
+const showDatasourceDlg = ref(true);
 
 function switchJsonViewer() {
   showJsonViewer.value = !showJsonViewer.value;
@@ -27,6 +29,15 @@ function switchJsonViewer() {
 
 const menuOptions = computed(function () {
   return [
+    {
+      label: '数据集',
+      icon() {
+        return h(NIcon, null, {
+          default: () => h(Database24Regular)
+        })
+      },
+      key: 'datasource'
+    },
     {
       label: 'JSON Viewer',
       icon() {
@@ -43,6 +54,10 @@ function handleMenuSelect(key: string): void {
   switch (key) {
     case "json": {
       switchJsonViewer();
+    }
+      break;
+    case "datasource": {
+      showDatasourceDlg.value = !showDatasourceDlg.value;
     }
       break;
   }
@@ -73,7 +88,7 @@ function onOutlineClick() {
                 </template>
                 <template #extra>
                   <n-space>
-                    <n-button type="primary" @click="onOutlineClick">
+                    <n-button @click="onOutlineClick">
                       <template #icon>
                         <n-icon>
                           <CubeTree24Regular/>
@@ -82,7 +97,7 @@ function onOutlineClick() {
                       <span>大纲</span>
                     </n-button>
                     <n-dropdown :options="menuOptions" @select="handleMenuSelect">
-                      <n-button type="primary">
+                      <n-button>
                         <template #icon>
                           <n-icon>
                             <Settings24Regular/>
@@ -110,20 +125,22 @@ function onOutlineClick() {
                 </div>
               </div>
             </div>
+
+            <n-drawer v-model:show="showOuting" :show-line="true" default-width="30%" placement="right" resizable>
+              <n-drawer-content title="大纲视图" closable>
+                <div style="min-width: 400px; overflow: auto;">
+                  <JsonTreeViewer/>
+                </div>
+              </n-drawer-content>
+            </n-drawer>
+
+            <JsonViewerModal v-model="showJsonViewer"/>
+            <DatasourceDialog v-model="showDatasourceDlg"/>
           </n-message-provider>
         </n-dialog-provider>
       </n-modal-provider>
     </n-config-provider>
   </n-notification-provider>
-
-  <JsonViewerModal v-model="showJsonViewer"/>
-  <n-drawer v-model:show="showOuting" placement="right" resizable>
-    <n-drawer-content title="大纲视图">
-      <div style="min-width: 400px; overflow: auto;">
-        <JsonTreeViewer/>
-      </div>
-    </n-drawer-content>
-  </n-drawer>
 </template>
 
 <style scoped lang="scss">

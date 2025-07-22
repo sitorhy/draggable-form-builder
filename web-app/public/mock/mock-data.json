@@ -1,0 +1,19 @@
+{
+  "name": "John Doe",
+  "age": 30,
+  "address": {
+    "street": "123 Main St",
+    "city": "Anytown",
+    "zip": "12345"
+  },
+  "hobbies": ["reading", "hiking", { "type": "sport", "name": "running" }],
+  "contact": {
+    "email": "john.doe@example.com",
+    "phone": {
+      "home": "555-1234",
+      "work": "555-5678"
+    }
+  },
+  "settings": {},
+  "isActive": true
+}

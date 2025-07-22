@@ -1,0 +1,21 @@
+{
+  "question": "样本数据2，8，14，16，20的平均数为",
+  "options": [
+    {
+      "label": "8",
+      "value": "A"
+    },
+    {
+      "label": "9",
+      "value": "B"
+    },
+    {
+      "label": "12",
+      "value": "C"
+    },
+    {
+      "label": "18",
+      "value": "D"
+    }
+  ]
+}
