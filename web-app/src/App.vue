@@ -12,7 +12,7 @@ import {useRendererStore} from "./store.ts";
 import {Settings24Regular, Braces24Filled, CubeTree24Regular, Database24Regular} from '@vicons/fluent';
 import JsonViewerModal from "./components/JsonViewerModal.vue";
 import JsonTreeViewer from "./components/JsonTreeViewer.vue";
-import DatasourceDialog from "./components/naive-ui-renderer/setting/DatasourceDialog.vue";
+import DatasourceTable from "./components/DatasourceTable.vue";
 
 hljs.registerLanguage('json', json);
 
@@ -21,7 +21,7 @@ const leftContentExpanded = ref(true);
 const rightContentExpanded = ref(true);
 const showJsonViewer = ref(false);
 const showOuting = ref(false);
-const showDatasourceDlg = ref(true);
+const showDatasourceTable = ref(false);
 
 function switchJsonViewer() {
   showJsonViewer.value = !showJsonViewer.value;
@@ -57,7 +57,7 @@ function handleMenuSelect(key: string): void {
     }
       break;
     case "datasource": {
-      showDatasourceDlg.value = !showDatasourceDlg.value;
+      showDatasourceTable.value = !showDatasourceTable.value;
     }
       break;
   }
@@ -135,7 +135,7 @@ function onOutlineClick() {
             </n-drawer>
 
             <JsonViewerModal v-model="showJsonViewer"/>
-            <DatasourceDialog v-model="showDatasourceDlg"/>
+            <DatasourceTable v-model="showDatasourceTable" />
           </n-message-provider>
         </n-dialog-provider>
       </n-modal-provider>

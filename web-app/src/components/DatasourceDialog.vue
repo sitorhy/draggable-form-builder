@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import {ref, computed} from 'vue';
-import {NButton, NInput, NSelect, NSwitch} from "naive-ui";
+import {ref, computed, type PropType} from 'vue';
+import {NButton, NInput, NSelect, NSwitch, useMessage} from "naive-ui";
 import JsonEditorVue from 'json-editor-vue'
-import PropertiesForm from "./PropertiesForm.vue";
+import PropertiesForm from "./naive-ui-renderer/setting/PropertiesForm.vue";
+import {useDatasourceStore} from '../store.ts';
+import type {Datasource} from "../types";
 
 defineProps({});
+
+const emit = defineEmits(['success']);
+
+const datasourceStore = useDatasourceStore();
+const message = useMessage();
 
 const formRef = ref();
 
@@ -13,50 +20,11 @@ const showModal = defineModel('modelValue', {
   default: false,
 });
 
-const formData = ref({
-  mock: "[]",
-  url: "/",
-  method: "GET",
-  path: "",
-  isStatic: false,
-});
-
-function getAllPaths(obj: any, currentPath: string = ''): string[] {
-  const paths: string[] = [];
-  if (typeof obj !== 'object' || obj === null) {
-    if (currentPath !== '') {
-      paths.push(currentPath);
-    }
-    return paths;
-  }
-
-  if (Array.isArray(obj)) {
-    paths.push(currentPath);
-    return paths;
-  }
-
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const newPath = currentPath === '' ? key : `${currentPath}.${key}`;
-      const subPaths = getAllPaths(obj[key], newPath);
-      paths.push(...subPaths);
-
-      if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key]) && subPaths.length === 0) {
-        paths.push(newPath);
-      }
-    }
-  }
-
-  return paths;
-}
-
-const pathOptions = computed(() => {
-  if (!formData.value.mock) {
-    formData.value.path = "";
-    return [];
-  }
-  const paths: string[] = getAllPaths(JSON.parse(formData.value.mock), '');
-  return paths.map(i => ({label: i, value: i}));
+const formData = defineModel('formData', {
+  type: Object as PropType<Partial<Datasource>>,
+  default: () => ({
+    isStatic: false,
+  }),
 });
 
 const schema = computed(() => {
@@ -65,6 +33,20 @@ const schema = computed(() => {
       type: NSwitch,
       label: "静态数据",
       prop: "isStatic",
+    },
+    {
+      type: NInput,
+      label: '名称',
+      prop: "name",
+      config: {
+        placeholder: '',
+      },
+      rules: [
+        {
+          required: true,
+          message: '数据集名称',
+        }
+      ]
     },
     {
       visible: () => !formData.value.isStatic,
@@ -102,14 +84,18 @@ const schema = computed(() => {
       }
     },
     {
-      type: NSelect,
-      label: "集合路径",
-      prop: 'path',
+      prop: 'description',
+      label: '描述',
+      type: NInput,
       config: {
-        options: pathOptions.value,
-        placeholder: "根路径",
-        clearable: true,
+        placeholder: '',
       },
+      rules: [
+        {
+          required: true,
+          message: '数据集用途描述',
+        }
+      ]
     },
     {
       type: 'slotScope',
@@ -118,7 +104,7 @@ const schema = computed(() => {
       rules: [
         {
           required: true,
-          message: '请校验Mock数据',
+          message: formData.value.isStatic ? '请校验数据' : '请校验Mock数据',
         }
       ]
     }
@@ -127,9 +113,22 @@ const schema = computed(() => {
 
 function onPositiveClick() {
   if (formRef.value) {
-    formRef.value.validate((errs?: Error[]) => {
+    formRef.value.validate(async (errs?: Error[]) => {
       if (!errs) {
-
+        try {
+          if (formData.value.id) {
+            await datasourceStore.updateDatasource(formData.value);
+            message.success('数据集已更新');
+          } else {
+            await datasourceStore.createDatasource(formData.value);
+            message.success('数据集已创建');
+          }
+          emit('success');
+        } catch (e) {
+          message.error((e as Error).message);
+          return;
+        }
+        showModal.value = false;
       }
     });
   }
@@ -144,7 +143,6 @@ function onNegativeClick() {
   <n-modal
       v-model:show="showModal"
       preset="card"
-      :mask-closable="false"
       :style="{width: '800px'}"
       title="数据集"
       :bordered="false"
@@ -169,6 +167,6 @@ function onNegativeClick() {
 
 <style scoped lang="scss">
 .json-editor {
-    width: 100%;
+  width: 100%;
 }
 </style>

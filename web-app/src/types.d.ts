@@ -42,3 +42,14 @@ export type RuleParams = {
     fromIndex: number;
     toIndex: number;
 };
+
+
+export type Datasource = {
+    id: string;
+    isStatic: boolean;
+    url: string;
+    method: string;
+    name: string;
+    mock: string;
+    description: string;
+}
