@@ -3,6 +3,14 @@ import {ref, computed, type PropType, type Component} from "vue";
 import {type FormItemRule} from 'naive-ui';
 
 const props = defineProps({
+  cols: {
+    type: Number,
+    default: 1,
+  },
+  xGap: {
+    type: Number,
+    default: 12,
+  },
   schema: {
     type: Array as PropType<{
       type: Component | string;
@@ -11,7 +19,8 @@ const props = defineProps({
       config?: Record<string, any>;
       visible?: () => boolean;
       rules?: FormItemRule[];
-      on?: Record<string, Function>
+      on?: Record<string, Function>,
+      span?: number | string,
     }[]>,
     default: () => [],
   }
@@ -56,10 +65,14 @@ defineExpose({
       :model="modelValue"
       label-placement="left"
   >
-    <n-form-item v-for="item in visibleItems" :label="item.label" :path="item.prop" :rule="item.rules || []">
-      <component v-if="item.type !== 'slotScope'" :is="item.type" v-bind="item.config" v-on="item.on || defaultHandlers" v-model:value="modelValue[item.prop]"/>
-      <slot v-if="item.type === 'slotScope'" :name="item.prop"></slot>
-    </n-form-item>
+    <n-grid :x-gap="xGap" :cols="cols">
+      <n-gi v-for="item in visibleItems" :span="item.span || 1" :key="item.prop">
+        <n-form-item :label="item.label" :path="item.prop" :rule="item.rules || []">
+          <component v-if="item.type !== 'slotScope'" :is="item.type" v-bind="item.config" v-on="item.on || defaultHandlers" v-model:value="modelValue[item.prop]"/>
+          <slot v-if="item.type === 'slotScope'" :name="item.prop"></slot>
+        </n-form-item>
+      </n-gi>
+    </n-grid>
   </n-form>
 </template>
 

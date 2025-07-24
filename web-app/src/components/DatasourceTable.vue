@@ -5,6 +5,7 @@ import {NButton} from "naive-ui";
 import {useDatasourceStore} from '../store.ts';
 import type {Datasource} from "../types";
 import DatasourceDialog from './DatasourceDialog.vue';
+import {FeatureTypes} from "../common/renderer.ts";
 
 defineProps({});
 const datasourceStore = useDatasourceStore();
@@ -42,6 +43,15 @@ const columns = computed(() => {
       }
     },
     {
+      title: '功能类别',
+      key: 'feature',
+      width: 100,
+      resizable: true,
+      render: (row: Partial<Datasource>) => {
+        return h('span', {}, FeatureTypes.find(i => i.value === row.feature)?.label || '');
+      }
+    },
+    {
       title: '描述',
       key: 'description',
       resizable: true
@@ -68,7 +78,10 @@ function onUpdatePage(nextPage: number) {
 }
 
 function onCreate() {
-  detailModelValue.value = {};
+  detailModelValue.value = {
+    url: '/',
+    method: 'GET',
+  };
   showDetailDlg.value = true;
 }
 

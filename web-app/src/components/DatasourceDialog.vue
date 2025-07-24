@@ -2,9 +2,10 @@
 import {ref, computed, type PropType} from 'vue';
 import {NButton, NInput, NSelect, NSwitch, useMessage} from "naive-ui";
 import JsonEditorVue from 'json-editor-vue'
-import PropertiesForm from "./naive-ui-renderer/setting/PropertiesForm.vue";
+import PropertiesForm from "./PropertiesForm.vue";
 import {useDatasourceStore} from '../store.ts';
 import type {Datasource} from "../types";
+import {FeatureTypes} from "../common/renderer.ts";
 
 defineProps({});
 
@@ -33,6 +34,7 @@ const schema = computed(() => {
       type: NSwitch,
       label: "静态数据",
       prop: "isStatic",
+      span: 4,
     },
     {
       type: NInput,
@@ -49,6 +51,56 @@ const schema = computed(() => {
       ]
     },
     {
+      prop: 'description',
+      label: '描述',
+      type: NInput,
+      config: {
+        placeholder: '数据集用途描述',
+      },
+      rules: [
+        {
+          required: false,
+          message: '数据集用途描述',
+        }
+      ]
+    },
+    {
+      visible: () => !formData.value.isStatic,
+      type: NSelect,
+      label: "请求方法",
+      prop: 'method',
+      config: {
+        disabled: true,
+        placeholder: '',
+        options: [
+          {
+            value: 'GET',
+            label: 'GET',
+          },
+          {
+            value: 'POST',
+            label: 'POST',
+          }
+        ]
+      },
+      rules: [
+        {
+          required: true,
+          message: '选择请求方法',
+        }
+      ]
+    },
+    {
+      type: NSelect,
+      label: "功能类别",
+      prop: 'feature',
+      config: {
+        disabled: false,
+        placeholder: '',
+        options: FeatureTypes,
+      },
+    },
+    {
       visible: () => !formData.value.isStatic,
       type: NInput,
       prop: 'url',
@@ -62,40 +114,8 @@ const schema = computed(() => {
           required: true,
           message: '请输入地址',
         }
-      ]
-    },
-    {
-      visible: () => !formData.value.isStatic,
-      type: NSelect,
-      label: "请求方法",
-      prop: 'method',
-      config: {
-        disabled: true,
-        options: [
-          {
-            value: 'GET',
-            label: 'GET',
-          },
-          {
-            value: 'POST',
-            label: 'POST',
-          }
-        ]
-      }
-    },
-    {
-      prop: 'description',
-      label: '描述',
-      type: NInput,
-      config: {
-        placeholder: '',
-      },
-      rules: [
-        {
-          required: true,
-          message: '数据集用途描述',
-        }
-      ]
+      ],
+      span: 4,
     },
     {
       type: 'slotScope',
@@ -106,7 +126,8 @@ const schema = computed(() => {
           required: true,
           message: formData.value.isStatic ? '请校验数据' : '请校验Mock数据',
         }
-      ]
+      ],
+      span: 4,
     }
   ];
 });
@@ -143,11 +164,11 @@ function onNegativeClick() {
   <n-modal
       v-model:show="showModal"
       preset="card"
-      :style="{width: '800px'}"
+      :style="{width: '68%'}"
       title="数据集"
       :bordered="false"
   >
-    <PropertiesForm ref="formRef" :schema="schema" v-model="formData" label-width="6em">
+    <PropertiesForm ref="formRef" :cols="2" :schema="schema" v-model="formData" label-width="6em">
       <template #mock>
         <JsonEditorVue
             class="json-editor"

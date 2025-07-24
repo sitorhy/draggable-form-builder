@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, type PropType} from "vue";
 import {NInput, NSwitch, NInputNumber, NSelect} from "naive-ui";
-import PropertiesForm from "./PropertiesForm.vue";
+import PropertiesForm from "../../PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
 
 const modelValue = defineModel('modelValue', {

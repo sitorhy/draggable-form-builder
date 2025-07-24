@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, type PropType} from "vue";
 import {NInputNumber} from "naive-ui";
-import PropertiesForm from "./PropertiesForm.vue";
+import PropertiesForm from "../../PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
 import {v4 as uuid} from "uuid";
 

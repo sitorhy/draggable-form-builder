@@ -14,7 +14,7 @@ import Container from "./Container.vue";
 import CheckboxGroup from "./CheckboxGroup.vue";
 import Checkbox from "./Checkbox.vue";
 import RadioGroup from "./RadioGroup.vue";
-import Radio from "../Radio.vue";
+import Radio from "./Radio.vue";
 import Button from "./Button.vue";
 import Text from "./Text.vue";
 import Image from "./Image.vue";

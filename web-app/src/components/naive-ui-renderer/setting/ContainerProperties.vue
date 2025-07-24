@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, type PropType} from "vue";
-import PropertiesForm from "./PropertiesForm.vue";
+import PropertiesForm from "../../PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
 import EdgeProperties from "./EdgeProperties.vue";
 import {NSelect} from "naive-ui";

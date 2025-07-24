@@ -52,4 +52,5 @@ export type Datasource = {
     name: string;
     mock: string;
     description: string;
+    feature?: string;
 }

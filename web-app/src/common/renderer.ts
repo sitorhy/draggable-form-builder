@@ -410,3 +410,22 @@ export function getIconByType(type: string) {
             return Components;
     }
 }
+
+export const FeatureTypes = [
+    {
+        value: 'other',
+        label: '其他',
+    },
+    {
+        value: 'select',
+        label: '下拉框',
+    },
+    {
+        value: 'radio',
+        label: '单选',
+    },
+    {
+        value: 'table',
+        label: '表格'
+    }
+];
