@@ -2,13 +2,13 @@
 import {h, watch} from "vue";
 import {ref, computed} from 'vue';
 import {NButton} from "naive-ui";
-import {useDatasourceStore} from '../store.ts';
-import type {Datasource} from "../types";
-import DatasourceDialog from './DatasourceDialog.vue';
+import {useFunctionStore} from '../store.ts';
+import type {Datasource, FunctionCode} from "../types";
+import FunctionCodeDialog from './FunctionCodeDialog.vue';
 import {FeatureTypes} from "../common/renderer.ts";
 
 defineProps({});
-const datasourceStore = useDatasourceStore();
+const functionStore = useFunctionStore();
 const page = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
@@ -18,9 +18,9 @@ const showModal = defineModel('modelValue', {
   default: false,
 });
 const showDetailDlg = ref(false);
-const detailModelValue = ref<Partial<Datasource>>({});
+const detailModelValue = ref<Partial<FunctionCode>>({});
 
-const data = ref<Partial<Datasource>[]>([]);
+const data = ref<Partial<FunctionCode>[]>([]);
 
 const columns = computed(() => {
   return [
@@ -29,13 +29,13 @@ const columns = computed(() => {
       key: 'name',
       resizable: true,
       width: 150,
-      render: (row: Partial<Datasource>) => {
+      render: (row: Partial<FunctionCode>) => {
         return h(NButton, {
           text: true,
           tag: 'a',
           type: 'primary',
           onClick: async () => {
-            const data = await datasourceStore.findDatasourceById(row.id as string);
+            const data = await functionStore.findFunctionCodeById(row.id as string);
             detailModelValue.value = data || {};
             showDetailDlg.value = true;
           }
@@ -66,7 +66,7 @@ watch(showModal, (show) => {
 });
 
 async function getList() {
-  const res = await datasourceStore.getAllDatasource(page.value, pageSize.value);
+  const res = await functionStore.getAllFunctionCode(page.value, pageSize.value);
   data.value = res.data;
   page.value = res.page;
   total.value = res.total;
@@ -78,10 +78,7 @@ function onUpdatePage(nextPage: number) {
 }
 
 function onCreate() {
-  detailModelValue.value = {
-    url: '/',
-    method: 'GET',
-  };
+  detailModelValue.value = {};
   showDetailDlg.value = true;
 }
 
@@ -95,7 +92,7 @@ function onPositiveClick() {
       v-model:show="showModal"
       preset="card"
       :style="{width: '68%'}"
-      title="数据集"
+      title="函数集"
       :bordered="false"
   >
     <n-space vertical>
@@ -116,7 +113,7 @@ function onPositiveClick() {
       </n-button-group>
     </template>
   </n-modal>
-  <DatasourceDialog v-model="showDetailDlg" v-model:form-data="detailModelValue" @success="getList"/>
+  <FunctionCodeDialog v-model="showDetailDlg" v-model:form-data="detailModelValue" @success="getList"/>
 </template>
 
 <style scoped lang="scss">

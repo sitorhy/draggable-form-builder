@@ -9,10 +9,11 @@ import ComponentCollapse from "./components/ComponentCollapse.vue"
 import JsonRenderer from "./components/naive-ui-renderer/JsonRenderer.vue"
 import SettingsPanel from "./components/SettingsPanel.vue"
 import {useRendererStore} from "./store.ts";
-import {Settings24Regular, Braces24Filled, CubeTree24Regular, Database24Regular} from '@vicons/fluent';
+import {Settings24Regular, Braces24Filled, CubeTree24Regular, Database24Regular, MathFormula24Regular} from '@vicons/fluent';
 import JsonViewerModal from "./components/JsonViewerModal.vue";
 import JsonTreeViewer from "./components/JsonTreeViewer.vue";
 import DatasourceTable from "./components/DatasourceTable.vue";
+import FunctionDialog from "./components/FunctionDialog.vue";
 
 hljs.registerLanguage('json', json);
 
@@ -22,6 +23,7 @@ const rightContentExpanded = ref(true);
 const showJsonViewer = ref(false);
 const showOuting = ref(false);
 const showDatasourceTable = ref(false);
+const showFunctionTable = ref(false);
 
 function switchJsonViewer() {
   showJsonViewer.value = !showJsonViewer.value;
@@ -37,6 +39,15 @@ const menuOptions = computed(function () {
         })
       },
       key: 'datasource'
+    },
+    {
+      label: '函数集',
+      icon() {
+        return h(NIcon, null, {
+          default: () => h(MathFormula24Regular)
+        });
+      },
+      key: 'function'
     },
     {
       label: 'JSON Viewer',
@@ -60,6 +71,9 @@ function handleMenuSelect(key: string): void {
       showDatasourceTable.value = !showDatasourceTable.value;
     }
       break;
+    case "function": {
+      showFunctionTable.value = !showFunctionTable.value;
+    }
   }
 }
 
@@ -126,16 +140,17 @@ function onOutlineClick() {
               </div>
             </div>
 
-            <n-drawer v-model:show="showOuting" :show-line="true" default-width="30%" placement="right" resizable>
+            <n-drawer :show-mask="false" display-directive="show" v-model:show="showOuting" :show-line="true" default-width="30%" placement="right" resizable>
               <n-drawer-content title="大纲视图" closable>
                 <div style="min-width: 400px; overflow: auto;">
-                  <JsonTreeViewer/>
+                  <JsonTreeViewer @setting:click="onOutlineClick"/>
                 </div>
               </n-drawer-content>
             </n-drawer>
 
             <JsonViewerModal v-model="showJsonViewer"/>
             <DatasourceTable v-model="showDatasourceTable" />
+            <FunctionDialog v-model="showFunctionTable"/>
           </n-message-provider>
         </n-dialog-provider>
       </n-modal-provider>

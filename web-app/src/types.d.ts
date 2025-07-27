@@ -47,10 +47,18 @@ export type RuleParams = {
 export type Datasource = {
     id: string;
     isStatic: boolean;
-    url: string;
-    method: string;
+    url?: string;
+    method?: string;
     name: string;
     mock: string;
-    description: string;
+    description?: string;
+    feature?: string;
+}
+
+export type FunctionCode = {
+    id: string;
+    name: string;
+    code: string;
+    description?: string;
     feature?: string;
 }

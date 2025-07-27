@@ -2,13 +2,49 @@
 高亮标记容器，子组件需要暴露id
 -->
 <script setup lang="ts">
-import {type ComponentInstance, computed, ref} from "vue";
+import {type ComponentInstance, computed, markRaw, onMounted, onUnmounted, ref} from "vue";
 import {useRendererStore} from "../../store.ts";
 import {Settings16Filled} from "@vicons/fluent";
 import type {RendererLayout} from "../../types";
 import {getComponentNameByType, useRendererActions} from "../../common/renderer.ts";
 
 const {findNodeById} = useRendererActions();
+const containerRef = ref();
+const containerSize = ref<{
+  width: number;
+  height: number;
+} | null>(null);
+const resizeObserver = markRaw(new ResizeObserver((entries) => {
+  const entry = entries[0];
+  if (entry) {
+    containerSize.value = {
+      width: entry.borderBoxSize[0].inlineSize || entry.borderBoxSize[0].target.clientWidth,
+      height: entry.borderBoxSize[0].blockSize || entry.borderBoxSize[0].target.clientHeight,
+    };
+  } else {
+    containerSize.value = null;
+  }
+}));
+
+const containerSizeStyle = computed(() => {
+  if (!containerSize.value) {
+    return {};
+  }
+  return {
+    '--observe-width': `${containerSize.value.width}px`,
+    '--observe-height': `${containerSize.value.height}px`,
+  }
+})
+
+onMounted(() => {
+  if (containerRef.value.children[0]) {
+    resizeObserver.observe(containerRef.value.children[0]);
+  }
+});
+
+onUnmounted(() => {
+  resizeObserver.disconnect();
+});
 
 const store = useRendererStore();
 const activeComponentId = computed(function () {
@@ -25,7 +61,7 @@ const rendererItemRef = function (instance: ComponentInstance<any>) {
 };
 
 const containerHighlightClasses = computed(function () {
-  return ["renderer-item-container", activeComponentId.value === childRefId.value ? "active" : "inactive"];
+  return ["renderer-item-container", containerSize.value ? "observe" : "full", activeComponentId.value === childRefId.value ? "active" : "inactive"];
 });
 
 function onClick() {
@@ -44,20 +80,20 @@ const config = computed(() => {
 });
 
 const shouldRenderTooltip = computed(function () {
-  return config.value && (config.value as RendererLayout).tooltip && Object.keys((config.value as RendererLayout).tooltip).length;
+  return config.value && (config.value as RendererLayout).tooltip && Object.keys((config.value as RendererLayout).tooltip || {}).length;
 });
 const componentName = computed(function () {
   if (shouldRenderTooltip.value) {
-    return getComponentNameByType(config.value?.type);
+    return getComponentNameByType(config.value?.type ?? "");
   }
   return '';
-})
+});
 </script>
 
 <template>
   <n-popover trigger="hover" placement="top-end" v-if="shouldRenderTooltip">
     <template #trigger>
-      <div @click.stop="onClick" :class="containerHighlightClasses">
+      <div :style="containerSizeStyle" ref="containerRef" @click.stop="onClick" :class="containerHighlightClasses">
         <slot :childRef="rendererItemRef"></slot>
       </div>
     </template>
@@ -75,7 +111,8 @@ const componentName = computed(function () {
       </n-button>
     </n-button-group>
   </n-popover>
-  <div v-else @click.stop="onClick" :class="containerHighlightClasses" :title="componentName">
+  <div :style="containerSizeStyle" ref="containerRef" v-else @click.stop="onClick" :class="containerHighlightClasses"
+       :title="componentName">
     <slot :childRef="rendererItemRef"></slot>
   </div>
 </template>
@@ -85,13 +122,27 @@ const componentName = computed(function () {
   position: relative;
   box-sizing: border-box;
 
-  &::after {
+  &.full::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    border-style: dashed;
+    border-width: 2px;
+    z-index: 5;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+  &.observe::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--observe-width);
+    height: var(--observe-height);
     border-style: dashed;
     border-width: 2px;
     z-index: 5;

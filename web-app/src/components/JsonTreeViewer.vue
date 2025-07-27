@@ -12,6 +12,7 @@ import {
 import type {RendererLayout} from "../types";
 import {getComponentNameByType, getIconByType} from "../common/renderer.ts";
 
+const emit = defineEmits(['setting:click']);
 const store = useRendererStore();
 
 const defaultSelectedKeys = ref<string[]>([]);
@@ -74,6 +75,7 @@ function mapTreeOption(layouts: (RendererLayout | string)[]): TreeOption[] {
                             onClick: withModifiers(function () {
                               defaultSelectedKeys.value = [i.id];
                               store.setActiveComponent(i.id);
+                              emit('setting:click');
                             }, ['stop'])
                           },
                           {default: () => h(NIcon, {}, () => h(Settings24Filled))}

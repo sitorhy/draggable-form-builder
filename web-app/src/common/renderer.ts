@@ -196,6 +196,8 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 props: {
                     path: "value",
                     placeholder: "",
+                    datasource: "",
+                    functionCode: "",
                     options: [],
                 },
                 outline: {
