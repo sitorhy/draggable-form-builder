@@ -1,7 +1,7 @@
-import {defineComponent, h, ref} from 'vue';
+import {computed, onBeforeMount, onBeforeUnmount, ref} from 'vue';
 import {useMessage} from "naive-ui";
 import type {MessageReactive} from 'naive-ui';
-import {useRendererStore} from "../store.ts";
+import {useBindingStore, useRendererStore} from "../store.ts";
 import {v4 as uuid} from "uuid"
 import {findNodeById, findParentByNodeId, insertBefore, insertBeforeId, insertBeforeIndex, moveTo} from "./node.ts";
 import type {ComponentDefinition, RendererLayout} from "../types";
@@ -23,10 +23,33 @@ import {
     Image24Regular
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
-import TextInput from "../components/naive-ui-renderer/TextInput.vue";
-import TextNumberInput from "../components/naive-ui-renderer/TextNumberInput.vue";
-import DatePicker from "../components/naive-ui-renderer/DatePicker.vue";
-import Select from "../components/naive-ui-renderer/Select.vue";
+
+export function generateComponentId(name: string): string {
+    return `${name}_${uuid()}`;
+}
+
+export function useBindingValue(id: string, defaultValue: any) {
+    const bindingStore = useBindingStore();
+
+    onBeforeMount(() => {
+        bindingStore.cloneBinding(id, defaultValue);
+    });
+
+    onBeforeUnmount(() => {
+       bindingStore.deleteBinding(id);
+    });
+
+    const binding = computed({
+        get() {
+            return bindingStore.getBinding(id);
+        },
+        set(value) {
+            bindingStore.cloneBinding(id, value);
+        }
+    });
+
+    return { binding };
+}
 
 export function useRendererMessage() {
     const rendererMessageContent = ref("");
@@ -84,19 +107,6 @@ export function getComponentNameByType(type: string): string {
     return map.get(type) || "Unknown";
 }
 
-export function getComponentByType(type: string) {
-    const map = new Map([
-        ["textInput", TextInput],
-        ["textNumberInput", TextNumberInput],
-        ["datePicker", DatePicker],
-        ["select", Select],
-    ]);
-
-    return map.get(type) || defineComponent({
-        render: () => h('div', {}, 'Unknow Component'),
-    });
-}
-
 export function useRendererActions() {
     const store = useRendererStore();
 
@@ -114,10 +124,18 @@ export function useRendererActions() {
 export function createRendererItemConfig(componentDefinition: ComponentDefinition): RendererLayout {
     // 存在props，需要进行额外展开的组件
     switch (componentDefinition.type) {
+        case "gridCell": {
+            return {
+                type: "gridCell",
+                id: generateComponentId("gridCell"),
+                children: [],
+                props: {},
+            };
+        }
         case "grid": {
             const rendererLayout: RendererLayout & Required<Pick<RendererLayout, 'children'>> = {
                 type: "grid",
-                id: uuid(),
+                id: generateComponentId("grid"),
                 children: [],
                 outline: {
                     setting: true,
@@ -132,12 +150,9 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
             rendererLayout.props = props;
 
             for (let i = 0; i < props.cols * props.rows; i++) {
-                rendererLayout.children.push({
-                    type: "gridCell",
-                    id: uuid(),
-                    children: [],
-                    props: {},
-                });
+                rendererLayout.children.push(createRendererItemConfig({
+                    type: "gridCell"
+                }));
             }
 
             return rendererLayout;
@@ -145,7 +160,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "textInput": {
             return {
                 type: "textInput",
-                id: uuid(),
+                id: generateComponentId("textInput"),
                 props: {
                     placeholder: "",
                     type: "text",
@@ -162,7 +177,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "textNumberInput": {
             return {
                 type: "textNumberInput",
-                id: uuid(),
+                id: generateComponentId("textNumberInput"),
                 props: {
                     placeholder: "",
                 },
@@ -177,7 +192,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "datePicker":
             return {
                 type: "datePicker",
-                id: uuid(),
+                id: generateComponentId("datePicker"),
                 props: {
                     placeholder: "",
                     type: "date",
@@ -192,7 +207,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case 'select':
             return {
                 type: "select",
-                id: uuid(),
+                id: generateComponentId("select"),
                 props: {
                     path: "value",
                     placeholder: "",
@@ -215,7 +230,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     labelPlacement: 'left',
                     labelAlign: 'left',
                 },
-                id: uuid(),
+                id: generateComponentId("form"),
                 children: [],
                 outline: {
                     setting: true,
@@ -229,7 +244,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     label: "表单项",
                     component: "",
                 },
-                id: uuid(),
+                id: generateComponentId("formItem"),
                 outline: {
                     setting: true,
                 },
@@ -254,7 +269,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                         justifyContent: 'flex-start',
                     }
                 },
-                id: uuid(),
+                id: generateComponentId("container"),
                 outline: {
                     setting: true,
                 },
@@ -264,7 +279,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "checkboxGroup": {
             return {
                 type: "checkboxGroup",
-                id: uuid(),
+                id: generateComponentId("checkboxGroup"),
                 props: {},
                 children: [],
                 outline: {
@@ -275,7 +290,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "checkbox": {
             return {
                 type: "checkbox",
-                id: uuid(),
+                id: generateComponentId("checkbox"),
                 props: {
                     label: "标签",
                     value: "值",
@@ -288,7 +303,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "radioGroup": {
             return {
                 type: "radioGroup",
-                id: uuid(),
+                id: generateComponentId("radioGroup"),
                 props: {},
                 children: [],
                 outline: {
@@ -299,7 +314,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "radio": {
             return {
                 type: "radio",
-                id: uuid(),
+                id: generateComponentId("radio"),
                 props: {
                     label: "标签",
                     value: "值",
@@ -312,7 +327,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "button": {
             return {
                 type: "button",
-                id: uuid(),
+                id: generateComponentId("button"),
                 props: {
                     type: 'primary',
                 },
@@ -320,24 +335,16 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     setting: true,
                 },
                 children: [
-                    {
+                    createRendererItemConfig({
                         type: "text",
-                        id: uuid(),
-                        props: {
-                            tag: 'span',
-                            text: '按钮'
-                        },
-                        outline: {
-                            setting: true,
-                        },
-                    },
+                    })
                 ]
             };
         }
         case "text": {
             return {
                 type: "text",
-                id: uuid(),
+                id: generateComponentId("text"),
                 props: {
                     tag: 'span',
                     text: '文本'
@@ -350,7 +357,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
         case "image": {
             return {
                 type: "image",
-                id: uuid(),
+                id: generateComponentId("image"),
                 props: {
                     width: '100px',
                     height: '100px',

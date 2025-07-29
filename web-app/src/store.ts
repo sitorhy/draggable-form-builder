@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {findAncestorsByNodeId, findNodeById, findParentByNodeId} from "./common/node.ts";
 import type {ActiveRendererItemInfo, Datasource, FunctionCode, RendererLayout} from "./types";
 import {ESMLoader} from 'esm-loader/esm-loader.mjs'
+import * as dotProp from "dot-prop";
 import {v4 as uuid} from "uuid"
 
 export const useComponentsStore = defineStore('components', {
@@ -408,6 +409,7 @@ export const useFunctionStore = defineStore<"function", {
             });
         },
         async loadModule(code: FunctionCode): Promise<any> {
+            // 查询实例化缓存
             if (this.modules.has(code.id)) {
                 return this.modules.get(code.id);
             }
@@ -420,7 +422,44 @@ export const useFunctionStore = defineStore<"function", {
                 return this.modules.get(id);
             }
             const functionCode = await this.findFunctionCodeById(id);
-            return await this.loadModule(functionCode);
+            if (!functionCode) {
+                throw new Error("函数集不存在");
+            }
+            return await this.loadModule(functionCode as FunctionCode);
         }
     }
-})
+});
+
+// 创建动态值绑定（下拉，文本框输入存储），组件属性（静态）不适用该模块
+export const useBindingStore = defineStore<"binding", Record<string, any>, {}, {
+    cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string): void;
+    deleteBinding(path: string): void;
+    getDeepKeys(): string[];
+    getBinding(path: string): any;
+}>("binding", {
+    state() {
+        return {};
+    },
+    actions: {
+        getBinding(path: string) {
+            return dotProp.getProperty(this.state, path);
+        },
+        cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string) {
+            let sourceObj = defaultValue;
+            if (sourcePath) {
+                // 切换绑定属性，sourcePath - 删除源属性，复制给目标属性 targetPath
+                // 创建时指定默认值 defaultValue
+                sourceObj = dotProp.getProperty(this.state, sourcePath, defaultValue);
+                dotProp.deleteProperty(this.state, sourcePath);
+            }
+            dotProp.setProperty(this.state, targetPath, sourceObj);
+        },
+        deleteBinding(path: string) {
+            dotProp.deleteProperty(this.state, path);
+        },
+        // 枚举绑定路径
+        getDeepKeys() {
+            return dotProp.deepKeys(this.state);
+        }
+    }
+});

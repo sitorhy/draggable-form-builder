@@ -4,6 +4,7 @@ import {NInputNumber} from "naive-ui";
 import PropertiesForm from "../../PropertiesForm.vue";
 import type {RendererLayout} from "../../../types";
 import {v4 as uuid} from "uuid";
+import {createRendererItemConfig} from "../../../common/renderer.ts";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -34,12 +35,11 @@ function updateCells() {
       modelValue.value.children = [];
     }
     while (modelValue.value.children.length < size) {
-      modelValue.value.children.push({
-        type: "gridCell",
-        id: uuid(),
-        children: [],
-        props: {},
-      });
+      modelValue.value.children.push(
+          createRendererItemConfig({
+            type: "gridCell"
+          })
+      );
     }
     if (modelValue.value.children.length > size) {
       const removeSection = modelValue.value.children.slice(size);
