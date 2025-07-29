@@ -1,4 +1,4 @@
-import {computed, onBeforeMount, onBeforeUnmount, ref} from 'vue';
+import {computed, onBeforeMount, ref} from 'vue';
 import {useMessage} from "naive-ui";
 import type {MessageReactive} from 'naive-ui';
 import {useBindingStore, useRendererStore} from "../store.ts";
@@ -33,10 +33,6 @@ export function useBindingValue(id: string, defaultValue: any) {
 
     onBeforeMount(() => {
         bindingStore.cloneBinding(id, defaultValue);
-    });
-
-    onBeforeUnmount(() => {
-       bindingStore.deleteBinding(id);
     });
 
     const binding = computed({

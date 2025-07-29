@@ -110,7 +110,7 @@ function onOutlineClick() {
                       </template>
                       <span>大纲</span>
                     </n-button>
-                    <n-dropdown :options="menuOptions" @select="handleMenuSelect">
+                    <n-dropdown :options="menuOptions" @select="handleMenuSelect" trigger="click">
                       <n-button>
                         <template #icon>
                           <n-icon>
