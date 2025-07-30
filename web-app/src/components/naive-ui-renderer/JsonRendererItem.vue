@@ -18,6 +18,7 @@ import Radio from "./Radio.vue";
 import Button from "./Button.vue";
 import Text from "./Text.vue";
 import Image from "./Image.vue";
+import BindingScope from "./BindingScope.vue";
 
 const store = useRendererStore();
 
@@ -48,28 +49,36 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'textInput'" name="textInput">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <TextInput v-model="modelValue" :ref="scope.childRef"/>
+          <BindingScope>
+            <TextInput v-model="modelValue" :ref="scope.childRef"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
     <slot v-else-if="type === 'textNumberInput'" name="textNumberInput">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <TextNumberInput :ref="scope.childRef" v-model="modelValue"/>
+          <BindingScope>
+            <TextNumberInput :ref="scope.childRef" v-model="modelValue"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
     <slot v-else-if="type === 'datePicker'" name="datePicker">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <DatePicker :ref="scope.childRef" v-model="modelValue"/>
+          <BindingScope>
+            <DatePicker :ref="scope.childRef" v-model="modelValue"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
     <slot v-else-if="type === 'select'" name="select">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <Select :ref="scope.childRef" v-model="modelValue"/>
+          <BindingScope>
+            <Select :ref="scope.childRef" v-model="modelValue"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
@@ -84,7 +93,9 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'form'" name="form">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <Form :ref="scope.childRef" v-model="modelValue"></Form>
+          <BindingScope>
+            <Form :ref="scope.childRef" v-model="modelValue"></Form>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
@@ -105,7 +116,9 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'checkboxGroup'" name="checkboxGroup">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <CheckboxGroup :ref="scope.childRef" v-model="modelValue"/>
+          <BindingScope>
+            <CheckboxGroup :ref="scope.childRef" v-model="modelValue"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
@@ -119,7 +132,9 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'radioGroup'" name="radioGroup">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <RadioGroup :ref="scope.childRef" v-model="modelValue"/>
+          <BindingScope>
+            <RadioGroup :ref="scope.childRef" v-model="modelValue"/>
+          </BindingScope>
         </template>
       </JsonRendererItemContainer>
     </slot>
