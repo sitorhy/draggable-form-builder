@@ -17,10 +17,14 @@ const containerSize = ref<{
 const resizeObserver = markRaw(new ResizeObserver((entries) => {
   const entry = entries[0];
   if (entry) {
-    containerSize.value = {
-      width: entry.borderBoxSize[0].inlineSize || entry.borderBoxSize[0].target.clientWidth,
-      height: entry.borderBoxSize[0].blockSize || entry.borderBoxSize[0].target.clientHeight,
-    };
+    if (entry.borderBoxSize[0].inlineSize || entry.borderBoxSize[0].blockSize) {
+      containerSize.value = {
+        width: entry.borderBoxSize[0].inlineSize,
+        height: entry.borderBoxSize[0].blockSize,
+      };
+    } else {
+      containerSize.value = null;
+    }
   } else {
     containerSize.value = null;
   }
