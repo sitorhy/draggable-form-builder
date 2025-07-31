@@ -432,7 +432,7 @@ export const useFunctionStore = defineStore<"function", {
 
 // 创建动态值绑定（下拉，文本框输入存储），组件属性（静态）不适用该模块
 export const useBindingStore = defineStore<"binding", {
-    data: Record<string, any>;
+    state: Record<string, any>;
 }, {}, {
     cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string): void;
     deleteBinding(path: string): void;
@@ -441,29 +441,31 @@ export const useBindingStore = defineStore<"binding", {
 }>("binding", {
     state() {
         return {
-            data: {}
+            state: {}
         };
     },
     actions: {
         getBinding(path: string) {
-            return dotProp.getProperty(this.state.data, path);
+            return dotProp.getProperty(this.state, path);
         },
         cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string) {
+            console.log(targetPath);
             let sourceObj = defaultValue;
             if (sourcePath) {
                 // 切换绑定属性，sourcePath - 删除源属性，复制给目标属性 targetPath
                 // 创建时指定默认值 defaultValue
-                sourceObj = dotProp.getProperty(this.state.data, sourcePath, defaultValue);
-                dotProp.deleteProperty(this.state.data, sourcePath);
+                sourceObj = dotProp.getProperty(this.state, sourcePath, defaultValue);
+                dotProp.deleteProperty(this.state, sourcePath);
             }
-            dotProp.setProperty(this.state.data, targetPath, sourceObj);
+            dotProp.setProperty(this.state, targetPath, sourceObj);
         },
         deleteBinding(path: string) {
-            dotProp.deleteProperty(this.state.data, path);
+            console.log(path + " => delete");
+            dotProp.deleteProperty(this.state, path);
         },
         // 枚举绑定路径
         getDeepKeys() {
-            return dotProp.deepKeys(this.state.data);
+            return dotProp.deepKeys(this.state);
         }
     }
 });

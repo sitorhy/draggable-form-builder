@@ -14,7 +14,7 @@ const showJsonViewer = defineModel('modelValue', {
 const codeMode = ref<boolean>(false);
 
 const jsonText = computed(() => JSON.stringify(rendererStore.data, null, 2));
-const bindingJson = computed(() => JSON.stringify(bindingStore.data, null, 2));
+const bindingJson = computed(() => JSON.stringify(bindingStore.state, null, 2));
 </script>
 
 <template>
@@ -43,7 +43,7 @@ const bindingJson = computed(() => JSON.stringify(bindingStore.data, null, 2));
         </n-tab-pane>
 
         <n-tab-pane name="binding" tab="值域">
-          <JsonViewer v-if="!codeMode" :copyable="{copyText: '复制', copiedText:'已复制'}" :value="bindingStore.data"
+          <JsonViewer v-if="!codeMode" :copyable="{copyText: '复制', copiedText:'已复制'}" :value="bindingStore.state"
                       :expand-depth="5"/>
           <n-code v-else :hljs="hljs" :code="bindingJson" :show-line-numbers="true" language="json"/>
         </n-tab-pane>

@@ -58,7 +58,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'textNumberInput'" name="textNumberInput">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope>
+          <BindingScope :id="modelValue.id">
             <TextNumberInput :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
@@ -93,7 +93,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'form'" name="form">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope>
+          <BindingScope :default-value="{}" :id="modelValue.id">
             <Form :ref="scope.childRef" v-model="modelValue"></Form>
           </BindingScope>
         </template>
