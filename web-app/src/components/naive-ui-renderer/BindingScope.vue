@@ -33,16 +33,12 @@ function getBindingPath() {
   return parentBindings.reverse().join(".");
 }
 
-const count = ref(0);
-
 function cloneDefaultValue() {
   return JSON.parse(JSON.stringify(props.defaultValue));
 }
 
 onBeforeMount(function (): void {
-  count.value++;
   const path = getBindingPath();
-  console.log(path + " " + getCurrentInstance()?.uid);
   if (path) {
     bindingStore.cloneBinding(path, props.defaultValue === null || props.defaultValue === undefined ? props.defaultValue : cloneDefaultValue());
   }
@@ -50,8 +46,6 @@ onBeforeMount(function (): void {
 
 onUnmounted(function (): void {
   const path = getBindingPath();
-  console.log(count.value);
-  console.log(path + " del " + getCurrentInstance()?.uid);
   if (path) {
     bindingStore.deleteBinding(path);
   }

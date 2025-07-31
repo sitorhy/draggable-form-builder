@@ -433,6 +433,7 @@ export const useFunctionStore = defineStore<"function", {
 // 创建动态值绑定（下拉，文本框输入存储），组件属性（静态）不适用该模块
 export const useBindingStore = defineStore<"binding", {
     state: Record<string, any>;
+    gc: Map<string, number>;
 }, {}, {
     cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string): void;
     deleteBinding(path: string): void;
@@ -441,7 +442,8 @@ export const useBindingStore = defineStore<"binding", {
 }>("binding", {
     state() {
         return {
-            state: {}
+            state: {},
+            gc: new Map<string, number>(),
         };
     },
     actions: {
@@ -449,19 +451,34 @@ export const useBindingStore = defineStore<"binding", {
             return dotProp.getProperty(this.state, path);
         },
         cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string) {
-            console.log(targetPath);
-            let sourceObj = defaultValue;
-            if (sourcePath) {
-                // 切换绑定属性，sourcePath - 删除源属性，复制给目标属性 targetPath
-                // 创建时指定默认值 defaultValue
-                sourceObj = dotProp.getProperty(this.state, sourcePath, defaultValue);
-                dotProp.deleteProperty(this.state, sourcePath);
+            try {
+                let sourceObj = defaultValue;
+                if (sourcePath) {
+                    // 切换绑定属性，sourcePath - 删除源属性，复制给目标属性 targetPath
+                    // 创建时指定默认值 defaultValue
+                    sourceObj = dotProp.getProperty(this.state, sourcePath, defaultValue);
+                    dotProp.deleteProperty(this.state, sourcePath);
+                }
+                dotProp.setProperty(this.state, targetPath, sourceObj);
+                this.gc.set(targetPath, (this.gc.get(targetPath) || 0) + 1);
+            } catch (e) {
+                console.error(e);
+                throw e;
             }
-            dotProp.setProperty(this.state, targetPath, sourceObj);
         },
         deleteBinding(path: string) {
-            console.log(path + " => delete");
-            dotProp.deleteProperty(this.state, path);
+            try {
+                const count = Math.max((this.gc.get(path) || 0) - 1, 0);
+                if ((count as number) <= 0) {
+                    dotProp.deleteProperty(this.state, path);
+                    this.gc.delete(path);
+                } else {
+                    this.gc.set(path, count);
+                }
+            } catch (e) {
+                console.error(e);
+                throw e;
+            }
         },
         // 枚举绑定路径
         getDeepKeys() {
