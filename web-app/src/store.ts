@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {findAncestorsByNodeId, findNodeById, findParentByNodeId} from "./common/node.ts";
 import type {ActiveRendererItemInfo, Datasource, FunctionCode, RendererLayout} from "./types";
-import {ESMLoader} from 'esm-loader/esm-loader.mjs'
+import {ESMLoader} from './common/esm-loader.ts'
 import * as dotProp from "dot-prop";
 import {v4 as uuid} from "uuid"
 

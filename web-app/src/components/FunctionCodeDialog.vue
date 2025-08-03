@@ -5,7 +5,7 @@ import PropertiesForm from "./PropertiesForm.vue";
 import {useFunctionStore} from '../store.ts';
 import type {FunctionCode} from "../types";
 import {FeatureTypes} from "../common/renderer.ts";
-import MonacoEditor from 'monaco-editor-vue3'
+import MonacoEditor from '../common/monaco-editor.vue';
 
 defineProps({});
 

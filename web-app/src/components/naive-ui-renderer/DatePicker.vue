@@ -2,6 +2,7 @@
 import {computed, type PropType} from "vue";
 import type {RendererLayout} from "../../types";
 import {ErrorCircle20Regular} from "@vicons/fluent";
+import {useBindingModel} from "../../common/renderer.ts";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -14,13 +15,15 @@ const id = computed(function () {
   return modelValue.value.id;
 });
 
+const {bindingModel } = useBindingModel();
+
 defineExpose({
   id: id.value,
 });
 </script>
 
 <template>
-  <n-date-picker v-if="modelValue.props" v-bind="modelValue.props" v-model:value="modelValue.props.value" year-format="Y" />
+  <n-date-picker v-if="modelValue.props" v-bind="modelValue.props" v-model:value="bindingModel" year-format="Y" />
   <n-empty v-else description="DatePicker">
     <template #icon>
       <n-icon>

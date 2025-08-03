@@ -4,6 +4,7 @@ import draggable from "vuedraggable"
 import type {RendererLayout} from "../../types";
 import {ErrorCircle20Regular} from "@vicons/fluent";
 import JsonRenderer from "./JsonRenderer.vue";
+import {useBindingModel} from "../../common/renderer.ts";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -16,6 +17,8 @@ const id = computed(function () {
   return modelValue.value.id;
 });
 
+const {bindingModel} = useBindingModel();
+
 defineExpose({
   id: id.value,
 });
@@ -23,7 +26,7 @@ defineExpose({
 
 <template>
   <n-form
-      :model="modelValue.props.value"
+      :model="bindingModel"
       v-if="modelValue.props"
       v-bind="modelValue.props">
     <draggable class="form renderer-drop" v-if="modelValue.children" v-model="modelValue.children"

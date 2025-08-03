@@ -1,4 +1,4 @@
-import {computed, onBeforeMount, ref} from 'vue';
+import {inject, onBeforeMount, ref, watch} from 'vue';
 import {useMessage} from "naive-ui";
 import type {MessageReactive} from 'naive-ui';
 import {useBindingStore, useRendererStore} from "../store.ts";
@@ -28,23 +28,35 @@ export function generateComponentId(name: string): string {
     return `${name}_${uuid()}`;
 }
 
-export function useBindingValue(id: string, defaultValue: any) {
+export function useBindingModel(options?: {
+    getInitialValue(): any;
+    onChange?: (value: any) => void;
+}) {
     const bindingStore = useBindingStore();
-
-    onBeforeMount(() => {
-        bindingStore.cloneBinding(id, defaultValue);
+    const bindingPath = inject<string>("bindingPath");
+    const bindingModel = ref<any>();
+    watch(bindingModel, (value: any) => {
+        if (bindingPath) {
+            bindingStore.cloneBinding(bindingPath, value);
+        }
+        if (options && typeof options.onChange === "function") {
+            options.onChange(value);
+        }
+    }, {
+        deep: true,
     });
-
-    const binding = computed({
-        get() {
-            return bindingStore.getBinding(id);
-        },
-        set(value) {
-            bindingStore.cloneBinding(id, value);
+    onBeforeMount(() => {
+        if (bindingPath) {
+            if (options && typeof options.getInitialValue === "function") {
+                bindingModel.value = options.getInitialValue();
+            } else {
+                bindingModel.value = bindingStore.getBinding(bindingPath);
+            }
         }
     });
-
-    return { binding };
+    return {
+        bindingModel
+    };
 }
 
 export function useRendererMessage() {

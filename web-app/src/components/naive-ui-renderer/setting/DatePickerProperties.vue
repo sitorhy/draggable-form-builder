@@ -70,7 +70,7 @@ const schema = computed(function () {
     {
       type: NSwitch,
       prop: 'disabled',
-      label: '是否禁用',
+      label: '禁用',
       config: {}
     },
     {

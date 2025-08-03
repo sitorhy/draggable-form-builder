@@ -71,7 +71,7 @@ const schema = computed(function () {
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
+  <PropertiesForm :schema="schema" v-model="props" label-width="3em"/>
 </template>
 
 <style scoped lang="scss">

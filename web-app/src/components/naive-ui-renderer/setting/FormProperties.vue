@@ -23,7 +23,7 @@ const schema = computed(function () {
     {
       type: NSwitch,
       prop: 'disabled',
-      label: '是否禁用',
+      label: '禁用',
       config: {}
     },
     {
@@ -89,5 +89,5 @@ const schema = computed(function () {
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="6em"/>
+  <PropertiesForm :schema="schema" v-model="props" label-width="5em"/>
 </template>

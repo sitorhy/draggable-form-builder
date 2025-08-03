@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {getCurrentInstance, onBeforeMount, onUnmounted, ref} from "vue";
+import {computed, getCurrentInstance, onBeforeMount, onUnmounted, type PropType, provide} from "vue";
 import {useBindingStore} from "../../store.ts";
 
 defineOptions({
@@ -12,6 +12,7 @@ const props = defineProps({
     default: ""
   },
   defaultValue: {
+    type: [String, Number, Object, Array, Boolean],
     default: undefined,
   }
 });
@@ -26,36 +27,34 @@ function getBindingPath() {
   let instance = getCurrentInstance()?.parent;
   while (instance) {
     if (instance.type.__name === "BindingScope") {
-      parentBindings.push(instance.props.id);
+      if (instance.props && instance.props.id) {
+        parentBindings.push(instance.props.id as string);
+      }
     }
     instance = instance?.parent;
   }
   return parentBindings.reverse().join(".");
 }
 
-function cloneDefaultValue() {
-  return JSON.parse(JSON.stringify(props.defaultValue));
-}
+const bindingPath = computed(() => getBindingPath());
+
+provide("bindingPath", getBindingPath());
 
 onBeforeMount(function (): void {
-  const path = getBindingPath();
-  if (path) {
-    bindingStore.cloneBinding(path, props.defaultValue === null || props.defaultValue === undefined ? props.defaultValue : cloneDefaultValue());
+  if (bindingPath.value) {
+    bindingStore.cloneBinding(bindingPath.value, structuredClone(props.defaultValue));
   }
 });
 
 onUnmounted(function (): void {
-  const path = getBindingPath();
-  if (path) {
-    bindingStore.deleteBinding(path);
+  if (bindingPath.value) {
+    bindingStore.deleteBinding(bindingPath.value);
   }
 });
 </script>
 
 <template>
- <div>
-   <slot></slot>
- </div>
+  <slot></slot>
 </template>
 
 <style scoped lang="scss">
