@@ -439,6 +439,8 @@ export const useBindingStore = defineStore<"binding", {
     deleteBinding(path: string): void;
     getDeepKeys(): string[];
     getBinding(path: string): any;
+    cloneState(): Record<string, any>;
+    replaceState(state: Record<string, any>): void;
 }>("binding", {
     state() {
         return {
@@ -447,8 +449,22 @@ export const useBindingStore = defineStore<"binding", {
         };
     },
     actions: {
+        cloneState(): Record<string, any> {
+            const keys = dotProp.deepKeys(this.state);
+            const state: Record<string, any> = {};
+            keys.forEach((key) => {
+                dotProp.setProperty(state, key, this.getBinding(key));
+            });
+            return state;
+        },
+        replaceState(state: Record<string, any>) {
+            const keys = dotProp.deepKeys(state);
+            keys.forEach((key) => {
+                dotProp.setProperty(this.state, key, dotProp.getProperty(state, key, null));
+            });
+        },
         getBinding(path: string) {
-            return dotProp.getProperty(this.state, path);
+            return dotProp.getProperty(this.state, path, null);
         },
         cloneBinding(targetPath: string, defaultValue: any, sourcePath?: string) {
             try {

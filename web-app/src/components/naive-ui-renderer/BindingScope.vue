@@ -13,7 +13,7 @@ const props = defineProps({
   },
   defaultValue: {
     type: [String, Number, Object, Array, Boolean],
-    default: undefined,
+    default: null,
   }
 });
 

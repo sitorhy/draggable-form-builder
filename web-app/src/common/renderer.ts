@@ -45,6 +45,14 @@ export function useBindingModel(options?: {
     }, {
         deep: true,
     });
+    watch(bindingStore.state, () => {
+        if (bindingPath) {
+            const newValue = bindingStore.getBinding(bindingPath);
+            if (newValue !== bindingModel.value) {
+                bindingModel.value = newValue;
+            }
+        }
+    });
     onBeforeMount(() => {
         if (bindingPath) {
             if (options && typeof options.getInitialValue === "function") {

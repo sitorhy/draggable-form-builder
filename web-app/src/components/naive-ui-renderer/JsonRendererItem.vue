@@ -49,7 +49,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'textInput'" name="textInput">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <TextInput v-model="modelValue" :ref="scope.childRef"/>
           </BindingScope>
         </template>
@@ -58,7 +58,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'textNumberInput'" name="textNumberInput">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <TextNumberInput :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
@@ -67,7 +67,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'datePicker'" name="datePicker">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <DatePicker :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
@@ -76,7 +76,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'select'" name="select">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <Select :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
@@ -116,7 +116,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'checkboxGroup'" name="checkboxGroup">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <CheckboxGroup :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
@@ -132,7 +132,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'radioGroup'" name="radioGroup">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <BindingScope :id="modelValue.id" :default-value="undefined">
+          <BindingScope :id="modelValue.id">
             <RadioGroup :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>

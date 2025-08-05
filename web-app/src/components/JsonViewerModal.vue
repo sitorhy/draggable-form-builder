@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {ref, computed} from 'vue'
 import {JsonViewer} from "vue3-json-viewer";
-import {useRendererStore, useBindingStore} from "../store.ts";
+import {useRendererStore} from "../store.ts";
 import hljs from 'highlight.js/lib/core'
 
 const rendererStore = useRendererStore();
-const bindingStore = useBindingStore();
 
 const showJsonViewer = defineModel('modelValue', {
   type: Boolean,
@@ -14,7 +13,6 @@ const showJsonViewer = defineModel('modelValue', {
 const codeMode = ref<boolean>(false);
 
 const jsonText = computed(() => JSON.stringify(rendererStore.data, null, 2));
-const bindingJson = computed(() => JSON.stringify(bindingStore.state, null, 2));
 </script>
 
 <template>
@@ -33,21 +31,9 @@ const bindingJson = computed(() => JSON.stringify(bindingStore.state, null, 2));
         </n-space>
       </template>
 
-      <n-tabs
-          default-value="json"
-      >
-        <n-tab-pane name="json" tab="组件">
-          <JsonViewer v-if="!codeMode" :copyable="{copyText: '复制', copiedText:'已复制'}" :value="rendererStore.data"
-                      :expand-depth="5"/>
-          <n-code v-else :hljs="hljs" :code="jsonText" :show-line-numbers="true" language="json"/>
-        </n-tab-pane>
-
-        <n-tab-pane name="binding" tab="值域">
-          <JsonViewer v-if="!codeMode" :copyable="{copyText: '复制', copiedText:'已复制'}" :value="bindingStore.state"
-                      :expand-depth="5"/>
-          <n-code v-else :hljs="hljs" :code="bindingJson" :show-line-numbers="true" language="json"/>
-        </n-tab-pane>
-      </n-tabs>
+      <JsonViewer v-if="!codeMode" :copyable="{copyText: '复制', copiedText:'已复制'}" :value="rendererStore.data"
+                  :expand-depth="5"/>
+      <n-code v-else :hljs="hljs" :code="jsonText" :show-line-numbers="true" language="json"/>
     </n-card>
   </n-modal>
 </template>
