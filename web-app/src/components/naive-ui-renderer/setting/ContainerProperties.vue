@@ -30,6 +30,14 @@ const schema = computed(function () {
       }
     },
     {
+      type: 'slotScope',
+      label: '外边距',
+      prop: 'margin',
+      config: {
+        placeholder: '',
+      }
+    },
+    {
       type: NSelect,
       prop: 'display',
       label: '布局类型',
@@ -119,6 +127,10 @@ const schema = computed(function () {
     <template #padding>
       <EdgeProperties v-model:left="props.style.paddingLeft" v-model:right="props.style.paddingRight"
                       v-model:top="props.style.paddingTop" v-model:bottom="props.style.paddingBottom"/>
+    </template>
+    <template #margin>
+      <EdgeProperties v-model:left="props.style.marginLeft" v-model:right="props.style.marginRight"
+                      v-model:top="props.style.marginTop" v-model:bottom="props.style.marginBottom"/>
     </template>
   </PropertiesForm>
 </template>

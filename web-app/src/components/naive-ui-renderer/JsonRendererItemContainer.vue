@@ -11,16 +11,20 @@ import {getComponentNameByType, useRendererActions} from "../../common/renderer.
 const {findNodeById} = useRendererActions();
 const containerRef = ref();
 const containerSize = ref<{
+  left: number;
+  top: number;
   width: number;
   height: number;
 } | null>(null);
 const resizeObserver = markRaw(new ResizeObserver((entries) => {
   const entry = entries[0];
   if (entry) {
-    if (entry.borderBoxSize[0].inlineSize || entry.borderBoxSize[0].blockSize) {
+    if (entry.target) {
       containerSize.value = {
-        width: entry.borderBoxSize[0].inlineSize,
-        height: entry.borderBoxSize[0].blockSize,
+        left: entry.target.offsetLeft,
+        top: entry.target.offsetTop,
+        width: entry.target.offsetWidth,
+        height: entry.target.offsetHeight,
       };
     } else {
       containerSize.value = null;
@@ -35,6 +39,8 @@ const containerSizeStyle = computed(() => {
     return {};
   }
   return {
+    '--observe-top': `${containerSize.value.top}px`,
+    '--observe-left': `${containerSize.value.left}px`,
     '--observe-width': `${containerSize.value.width}px`,
     '--observe-height': `${containerSize.value.height}px`,
   }
@@ -143,8 +149,8 @@ const componentName = computed(function () {
   &.observe::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
+    top: var(--observe-top);
+    left: var(--observe-left);
     width: var(--observe-width);
     height: var(--observe-height);
     border-style: dashed;

@@ -25,9 +25,8 @@ defineExpose({
 </script>
 
 <template>
-  <div class="container-wrapper">
+  <div class="container-wrapper" :style="containerStyle">
     <draggable class="container renderer-drop" v-if="modelValue.children"
-               :style="containerStyle"
                ghost-class="ghost"
                drag-class="drag"
                v-model="modelValue.children"
@@ -43,18 +42,18 @@ defineExpose({
 .container-wrapper {
   --n-hegiht: 34px;
   min-height: var(--n-hegiht);
+
   border-style: dashed;
   border-width: 1px;
+  box-sizing: border-box;
+  &:hover {
+    background-color: rgba(0, 128, 0, 0.12);
+  }
 }
 
 .container {
   min-height: var(--n-hegiht);
   height: 100%;
   width: 100%;
-  box-sizing: border-box;
-
-  &:hover {
-    background-color: rgba(0, 128, 0, 0.12);
-  }
 }
 </style>
