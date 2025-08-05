@@ -2,9 +2,6 @@
 import {useBindingStore} from "../store.ts";
 import JsonEditorVue from 'json-editor-vue';
 import * as dotProp from "dot-prop";
-
-;
-
 import {ref, nextTick, watch} from "vue";
 
 const bindingStore = useBindingStore();
@@ -34,7 +31,7 @@ watch(showBindingViewer, (value: boolean) => {
       const {op, path, value} = i;
       switch (op) {
         case 'replace':
-          dotProp.setProperty(bindingStore.state, path.split('/').filter(i => !!i).join('.'), value);
+          dotProp.setProperty(bindingStore.state, (path as string || '').split('/').filter((i: string) => !!i).join('.'), value);
           break;
       }
     }
@@ -43,7 +40,15 @@ watch(showBindingViewer, (value: boolean) => {
 
 function onChange(value, oldValue, patch) {
   const patchResult = patch.patchResult;
-  redo.value = patchResult.redo;
+  patchResult.redo.forEach((patch) => {
+    const {op, path, value} = patch;
+    const redoItem = redo.value.find((i) => i.path === path);
+    if (redoItem) {
+      redoItem.value = value;
+    } else {
+      redo.value.unshift({op, path, value});
+    }
+  });
 }
 
 </script>
