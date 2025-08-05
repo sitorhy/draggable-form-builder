@@ -20,6 +20,7 @@ export const fetch = window.fetch;
 export const fetchImport = (url: string) => fetch(url).then(ESMLoader);
 export const dynamicImport = (url: string) => {
     console.log('deprecated: please use importScript() or ESMImport() and not dynamicImport')
+    /* @vite-ignore */
     typeof window === 'undefined' ? fetchImport(url) : import(url);
 }
 // You should not use it as it has sideeffects that are complex use ESMLoader for consistent behavior.

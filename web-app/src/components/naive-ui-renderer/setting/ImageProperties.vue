@@ -31,10 +31,14 @@ const schema = computed(function () {
       prop: 'width',
       label: '宽度',
       config: {
+        bordered: true,
+        size: "medium",
+        showButton: true,
+        width: "100%",
         modelValue: modelValue.value.props?.width,
       },
       on: {
-        'update:modelValue': function(newVal: string) {
+        'update:modelValue': function (newVal: string) {
           if (modelValue.value.props) {
             modelValue.value.props.width = newVal;
           }
@@ -46,10 +50,14 @@ const schema = computed(function () {
       prop: 'height',
       label: '宽度',
       config: {
+        bordered: true,
+        size: "medium",
+        showButton: true,
+        width: "100%",
         modelValue: modelValue.value.props?.height,
       },
       on: {
-        'update:modelValue': function(newVal: string) {
+        'update:modelValue': function (newVal: string) {
           if (modelValue.value.props) {
             modelValue.value.props.height = newVal;
           }

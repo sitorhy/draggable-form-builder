@@ -9,6 +9,8 @@ const modelValue = defineModel('modelValue', {
   }),
 });
 
+const style = computed(() => modelValue.value.props.style);
+
 const id = computed(function () {
   return modelValue.value.id;
 });
@@ -19,7 +21,7 @@ defineExpose({
 </script>
 
 <template>
-  <component :is="modelValue.props?.tag || 'span'">{{ modelValue.props?.text }}</component>
+  <component :is="modelValue.props?.tag || 'span'" :style="style">{{ modelValue.props?.text }}</component>
 </template>
 
 <style scoped lang="scss">

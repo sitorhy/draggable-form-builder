@@ -52,6 +52,12 @@ defineExpose({
   min-height: var(--n-hegiht);
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 128, 0, 0.12);
+  border-style: dashed;
+  border-width: 1px;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0, 128, 0, 0.12);
+  }
 }
 </style>

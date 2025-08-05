@@ -355,7 +355,11 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 id: generateComponentId("text"),
                 props: {
                     tag: 'span',
-                    text: '文本'
+                    text: '文本',
+                    style: {
+                        fontSize: '14px',
+                        fontFamily: 'system-ui',
+                    }
                 },
                 outline: {
                     setting: true,
