@@ -12,7 +12,11 @@ const showBindingViewer = defineModel('modelValue', {
 });
 
 const bindingJson = ref({});
-const redo = ref([]);
+const redo = ref<{
+  path: string;
+  op: string;
+  value: any;
+}[]>([]);
 
 watch(showBindingViewer, (value: boolean) => {
   if (value) {
@@ -38,9 +42,27 @@ watch(showBindingViewer, (value: boolean) => {
   }
 });
 
-function onChange(value, oldValue, patch) {
+function onChange(_value: {
+  json: any,
+  text: string,
+}, _oldValue: {
+  json: any,
+  text: string,
+}, patch: {
+  patchResult: {
+    redo: {
+      path: string;
+      op: string;
+      value: any;
+    }[]
+  }
+}) {
   const patchResult = patch.patchResult;
-  patchResult.redo.forEach((patch) => {
+  patchResult.redo.forEach((patch: {
+    path: string;
+    op: string;
+    value: any;
+  }) => {
     const {op, path, value} = patch;
     const redoItem = redo.value.find((i) => i.path === path);
     if (redoItem) {
