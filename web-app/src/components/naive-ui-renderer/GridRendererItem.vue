@@ -12,6 +12,16 @@ defineProps({
   children: {
     type: Array as PropType<RendererLayout[]>,
     default: () => [],
+  },
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -38,7 +48,7 @@ defineExpose({
     <n-gi v-for="(i, index) in children" :key="i.id" class="grid-item">
       <div :class="gridCellClasses(index)">
         <!--gridColumn-->
-        <GridCellRendererItem v-model="children[index]"/>
+        <GridCellRendererItem :pull="pull" :put="put" v-model="children[index]"/>
       </div>
     </n-gi>
   </n-grid>

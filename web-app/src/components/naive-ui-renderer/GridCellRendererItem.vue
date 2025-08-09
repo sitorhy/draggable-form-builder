@@ -8,6 +8,16 @@ defineProps({
   childIndex: {
     type: Number,
     default: 0,
+  },
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -21,7 +31,7 @@ const modelValue = defineModel('modelValue', {
 
 <template>
   <draggable class="grid-column renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-             :group="{name: `renderer`, put: true}" item-key="id">
+             :group="{name: `renderer`, put: put, pull: pull}" item-key="id">
     <template #item="scope">
       <JsonRenderer v-model="scope.element"/>
     </template>

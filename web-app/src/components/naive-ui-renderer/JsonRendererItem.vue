@@ -28,6 +28,16 @@ defineProps({
     type: String,
     default: '',
   },
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
+  }
 });
 
 const modelValue = defineModel('modelValue', {
@@ -86,7 +96,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'grid'" name="grid">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <GridRendererItem :ref="scope.childRef" v-model="modelValue" v-bind="modelValue.props"
+          <GridRendererItem :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue" v-bind="modelValue.props"
                             :children="modelValue.children"/>
         </template>
       </JsonRendererItemContainer>
@@ -95,7 +105,7 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <BindingScope :default-value="{}" :id="modelValue.id">
-            <Form :ref="scope.childRef" v-model="modelValue"></Form>
+            <Form :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue"></Form>
           </BindingScope>
         </template>
       </JsonRendererItemContainer>
@@ -110,7 +120,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'container'" name="container">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <Container :ref="scope.childRef" v-model="modelValue"></Container>
+          <Container :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue"></Container>
         </template>
       </JsonRendererItemContainer>
     </slot>
@@ -118,7 +128,7 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <BindingScope :id="modelValue.id">
-            <CheckboxGroup :ref="scope.childRef" v-model="modelValue"/>
+            <CheckboxGroup :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
       </JsonRendererItemContainer>
@@ -134,7 +144,7 @@ function cancelActiveComponent() {
       <JsonRendererItemContainer>
         <template #default="scope">
           <BindingScope :id="modelValue.id">
-            <RadioGroup :ref="scope.childRef" v-model="modelValue"/>
+            <RadioGroup :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
         </template>
       </JsonRendererItemContainer>
@@ -149,7 +159,7 @@ function cancelActiveComponent() {
     <slot v-else-if="type === 'button'" name="button">
       <JsonRendererItemContainer>
         <template #default="scope">
-          <Button :ref="scope.childRef" v-model="modelValue"/>
+          <Button :put="put" :pull="pull" :ref="scope.childRef" v-model="modelValue"/>
         </template>
       </JsonRendererItemContainer>
     </slot>

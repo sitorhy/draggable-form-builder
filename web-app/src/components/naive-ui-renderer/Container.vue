@@ -4,6 +4,19 @@ import type {RendererLayout} from "../../types";
 import draggable from "vuedraggable";
 import JsonRenderer from "./JsonRenderer.vue";
 
+defineProps({
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
+  }
+});
+
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
   default: () => ({
@@ -30,7 +43,7 @@ defineExpose({
                ghost-class="ghost"
                drag-class="drag"
                v-model="modelValue.children"
-               :group="{name: 'renderer', put: true}" item-key="id">
+               :group="{name: 'renderer', put: put, pull: pull}" item-key="id">
       <template #item="scope">
         <JsonRenderer v-model="modelValue.children[scope.index]"/>
       </template>

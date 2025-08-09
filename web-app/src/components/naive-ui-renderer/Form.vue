@@ -6,6 +6,19 @@ import {ErrorCircle20Regular} from "@vicons/fluent";
 import JsonRenderer from "./JsonRenderer.vue";
 import {useBindingModel} from "../../common/renderer.ts";
 
+defineProps({
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
+  }
+});
+
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
   default: () => ({
@@ -30,7 +43,7 @@ defineExpose({
       v-if="modelValue.props"
       v-bind="modelValue.props">
     <draggable class="form renderer-drop" v-if="modelValue.children" v-model="modelValue.children"
-               :group="{name: `renderer`, put: true}" item-key="id">
+               :group="{name: `renderer`, put: put, pull: pull}" item-key="id">
       <template #item="scope">
         <JsonRenderer v-model="scope.element"/>
       </template>

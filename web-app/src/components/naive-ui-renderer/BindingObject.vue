@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, type PropType, ref, watch} from "vue";
+import {computed, type PropType, provide, ref, watch} from "vue";
 import type {RendererLayout} from "../../types";
 import {useDatasourceStore, useFunctionStore} from "../../store.ts";
 import {createRendererItemConfig} from "../../common/renderer.ts";
@@ -134,8 +134,11 @@ defineExpose({
     <n-alert v-if="error" title="Error" type="error">
       {{ error }}
     </n-alert>
-    <JsonRenderer v-else-if="modelValue && modelValue.children && modelValue.children.length"
-                  v-model="modelValue.children[0]"/>
+    <JsonRenderer
+        :put="false"
+        :pull="true"
+        v-else-if="modelValue && modelValue.children && modelValue.children.length"
+        v-model="modelValue.children[0]"/>
   </div>
 </template>
 

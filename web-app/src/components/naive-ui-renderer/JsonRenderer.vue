@@ -1,11 +1,32 @@
 <script setup lang="ts">
-import {type PropType} from "vue"
+import {type PropType, computed} from "vue"
 import draggable from "vuedraggable"
 import JsonRendererItem from "./JsonRendererItem.vue";
 import type {RendererLayout} from "../../types";
 
 defineOptions({
   name: 'JsonRenderer',
+});
+
+const props = defineProps({
+  pull: {
+    // 移出
+    type: Boolean,
+    default: true,
+  },
+  put: {
+    // 移入
+    type: Boolean,
+    default: true,
+  }
+});
+
+const group = computed(() => {
+  return {
+    name: 'renderer',
+    put: props.put,
+    pull: props.pull,
+  }
 });
 
 const modelValue = defineModel('modelValue', {
@@ -23,9 +44,9 @@ const modelValue = defineModel('modelValue', {
                  ghost-class="ghost"
                  drag-class="drag"
                  v-model="modelValue.children"
-                 :group="{name: 'renderer', put: true}" item-key="id">
+                 :group="group" item-key="id">
         <template #item="scope">
-          <JsonRenderer v-model="modelValue.children[scope.index]"/>
+          <JsonRenderer :pull="pull" :put="put" v-model="modelValue.children[scope.index]"/>
         </template>
       </draggable>
     </JsonRendererItem>
