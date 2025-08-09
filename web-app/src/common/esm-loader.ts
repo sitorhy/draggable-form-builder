@@ -1,3 +1,5 @@
+/* @vite-ignore */
+
 /**
  * Change Log
  * Add Core Method ESMLoader
@@ -27,6 +29,7 @@ export const dynamicImport = (url: string) => {
 // With nodeJS Relativ resolution would not work with the browser it would
 // ./ === url split / last item if that gets added it would behave consistent as long as all dependencys
 // are using ESMImport thats why its not documented or added to external api till import.meta is solved.
+/* @vite-ignore */
 export const ESMImport = (url: string) => typeof window === 'undefined' ? fetchImport(url) : import(url);
 export {ESMImport as importScript}
 

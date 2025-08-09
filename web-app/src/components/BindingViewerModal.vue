@@ -30,10 +30,13 @@ watch(showBindingViewer, (value: boolean) => {
         }
       });
     });
+    redo.value = [];
   } else {
     for (const i of redo.value) {
+      console.log(i);
       const {op, path, value} = i;
       switch (op) {
+        case 'move':
         case 'replace':
           dotProp.setProperty(bindingStore.state, (path as string || '').split('/').filter((i: string) => !!i).join('.'), value);
           break;
@@ -57,6 +60,7 @@ function onChange(_value: {
     }[]
   }
 }) {
+  console.log(patch);
   const patchResult = patch.patchResult;
   patchResult.redo.forEach((patch: {
     path: string;

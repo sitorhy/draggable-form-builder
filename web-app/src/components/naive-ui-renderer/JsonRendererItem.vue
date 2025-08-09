@@ -19,6 +19,7 @@ import Button from "./Button.vue";
 import Text from "./Text.vue";
 import Image from "./Image.vue";
 import BindingScope from "./BindingScope.vue";
+import BindingObject from "./BindingObject.vue";
 
 const store = useRendererStore();
 
@@ -165,6 +166,13 @@ function cancelActiveComponent() {
           <BindingScope :id="modelValue.id" :default-value="''">
             <Image :ref="scope.childRef" v-model="modelValue"/>
           </BindingScope>
+        </template>
+      </JsonRendererItemContainer>
+    </slot>
+    <slot v-else-if="type === 'bindingObject'" name="bindingObject">
+      <JsonRendererItemContainer>
+        <template #default="scope">
+          <BindingObject :ref="scope.childRef" v-model="modelValue"></BindingObject>
         </template>
       </JsonRendererItemContainer>
     </slot>

@@ -84,10 +84,19 @@ export const useComponentsStore = defineStore('components', {
                         {
                             type: "container",
                             label: "容器",
-                            children: [],
                         }
                     ]
                 },
+                {
+                    groupName: '高级组件',
+                    groupId: 'advanced',
+                    components: [
+                        {
+                            type: 'bindingObject',
+                            label: '对象绑定',
+                        }
+                    ]
+                }
             ]
         }
     },
@@ -144,10 +153,22 @@ export const useDatasourceStore = defineStore<"datasource", {
     createDatasource(newDatasource: Partial<Datasource>): Promise<Datasource>;
     findDatasourceById(id: string): Promise<Datasource | null>;
     updateDatasource(newDatasource: Partial<Datasource>): Promise<Datasource>;
+    loadDatasource(datasource: Partial<Datasource>, data?: any): Promise<any>;
+    loadDatasourceById(id: string, data?: any): Promise<any>;
 }>('datasource', {
     state() {
         return {
             datasource: [
+                {
+                    id: uuid(),
+                    isStatic: true,
+                    name: '图片对象',
+                    description: '属性imageUrl',
+                    feature: 'other',
+                    mock: JSON.stringify({
+                        imageUrl: 'https://www.naiveui.com/assets/naivelogo-BdDVTUmz.svg'
+                    }),
+                },
                 {
                     id: uuid(),
                     isStatic: true,
@@ -324,6 +345,21 @@ export const useDatasourceStore = defineStore<"datasource", {
                 }
             });
         },
+        loadDatasource: async function (datasource: Partial<Datasource>, data?: any): Promise<any> {
+            if (datasource.isStatic) {
+                return JSON.parse(datasource.mock as string);
+            } else {
+                const response = await fetch(datasource.url as string, {
+                    method: datasource.method,
+                    body: data ? JSON.stringify(data) : undefined
+                });
+                return await response.json();
+            }
+        },
+        loadDatasourceById: async function (id: string, data?: any): Promise<any> {
+            const datasource = await this.findDatasourceById(id);
+            return await this.loadDatasource(datasource as Datasource, data);
+        },
     }
 });
 
@@ -346,6 +382,40 @@ export const useFunctionStore = defineStore<"function", {
     state() {
         return {
             functions: [
+                {
+                    id: uuid(),
+                    name: '判断简单对象',
+                    code: `export default function isPlainObject(obj) {
+    if (typeof obj !== 'object' || obj === null) return false
+
+    let proto = Object.getPrototypeOf(obj)
+    if (proto === null) return true
+    let baseProto = proto
+
+    while (Object.getPrototypeOf(baseProto) !== null) {
+        baseProto = Object.getPrototypeOf(baseProto)
+    }
+    return proto === baseProto;
+}
+`,
+                    feature: 'other'
+                },
+                {
+                    id: uuid(),
+                    name: '图片地址判断',
+                    code: `export default function (obj) {
+    return obj.imageUrl || obj.url || obj.src;
+}`,
+                    feature: 'other',
+                },
+                {
+                    id: uuid(),
+                    name: '图片属性转换',
+                    code: `export default function (obj) {
+    return { src: obj.imageUrl || obj.url || obj.src };
+}`,
+                    feature: 'other',
+                },
                 {
                     id: uuid(),
                     name: '单选问题提取',
@@ -409,6 +479,9 @@ export const useFunctionStore = defineStore<"function", {
             });
         },
         async loadModule(code: FunctionCode): Promise<any> {
+            if (!code) {
+                return null;
+            }
             // 查询实例化缓存
             if (this.modules.has(code.id)) {
                 return this.modules.get(code.id);
@@ -418,6 +491,9 @@ export const useFunctionStore = defineStore<"function", {
             return module;
         },
         async loadModuleById(id: string): Promise<any> {
+            if (!id) {
+                return null;
+            }
             if (this.modules.has(id)) {
                 return this.modules.get(id);
             }

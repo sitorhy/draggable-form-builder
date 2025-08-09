@@ -20,7 +20,8 @@ import {
     RadioButton24Regular,
     ControlButton20Regular,
     TextCaseTitle24Filled,
-    Image24Regular
+    Image24Regular,
+    SelectObject24Regular
 } from "@vicons/fluent";
 import {Components} from "@vicons/tabler";
 
@@ -117,7 +118,8 @@ export function getComponentNameByType(type: string): string {
         ["radio", "单选框项"],
         ["button", "按钮"],
         ["text", "文本"],
-        ["image", "图片"]
+        ["image", "图片"],
+        ["bindingObject", "对象绑定"]
     ]);
 
     return map.get(type) || "Unknown";
@@ -155,6 +157,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: [],
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
 
@@ -184,9 +187,10 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 tooltip: {
-                    setting: true,
+                    setting: false,
                 },
             };
         }
@@ -199,9 +203,10 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 tooltip: {
-                    setting: true,
+                    setting: false,
                 },
             };
         }
@@ -215,9 +220,10 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 tooltip: {
-                    setting: true,
+                    setting: false,
                 },
             };
         case 'select':
@@ -233,9 +239,10 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 tooltip: {
-                    setting: true,
+                    setting: false,
                 },
             };
         case "form": {
@@ -250,6 +257,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: [],
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -263,6 +271,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 id: generateComponentId("formItem"),
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 children: [],
             };
@@ -292,6 +301,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 id: generateComponentId("container"),
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 children: [],
             };
@@ -304,6 +314,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: [],
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -317,6 +328,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -328,6 +340,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 children: [],
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -341,6 +354,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -353,6 +367,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
                 children: [
                     createRendererItemConfig({
@@ -375,6 +390,7 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
             };
         }
@@ -383,13 +399,36 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                 type: "image",
                 id: generateComponentId("image"),
                 props: {
-                    width: '100px',
-                    height: '100px',
-                    src: '/vite.svg'
+                    width: 64,
+                    height: 64,
+                    src: undefined,
+                    ...componentDefinition.props,
                 },
                 outline: {
                     setting: true,
+                    focus: true,
                 },
+            };
+        }
+        case "bindingObject": {
+            return {
+                type: "bindingObject",
+                props: {
+                    components: [
+                        {
+                            conditionCode: null,
+                            transformCode: null,
+                            datasource: null,
+                            component: null,
+                        }
+                    ].filter((i) => Boolean(i.conditionCode && i.datasource && i.component)),
+                },
+                id: generateComponentId("bindingObject"),
+                outline: {
+                    setting: true,
+                    focus: true,
+                },
+                children: [],
             };
         }
     }
@@ -439,11 +478,14 @@ export function getIconByType(type: string) {
             return TextCaseTitle24Filled;
         case 'image':
             return Image24Regular;
+        case 'bindingObject':
+            return SelectObject24Regular;
         default:
             return Components;
     }
 }
 
+// 函数集 / 数据集 分类标记
 export const FeatureTypes = [
     {
         value: 'other',

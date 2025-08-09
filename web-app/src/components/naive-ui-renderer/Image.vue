@@ -2,6 +2,9 @@
 import {computed, type PropType, watch} from "vue";
 import type {RendererLayout} from "../../types";
 import {useBindingModel} from "../../common/renderer.ts";
+import {
+  Image24Regular
+} from "@vicons/fluent";
 
 const modelValue = defineModel('modelValue', {
   type: Object as PropType<RendererLayout>,
@@ -34,9 +37,12 @@ defineExpose({
 </script>
 
 <template>
-  <n-image v-bind="modelValue.props" :src="bindingModel"/>
+  <n-image v-bind="modelValue.props" :src="bindingModel"></n-image>
 </template>
 
 <style scoped lang="scss">
-
+.placeholder, .error {
+  width: 64px;
+  height: 64px;
+}
 </style>

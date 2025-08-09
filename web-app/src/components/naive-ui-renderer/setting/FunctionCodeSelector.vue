@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useFunctionStore} from "../../../store.ts";
-import {computed} from "vue";
+import {computed, type PropType} from "vue";
 
 const functionStore = useFunctionStore();
 
@@ -8,12 +8,20 @@ const props = defineProps({
   feature: {
     type: String,
     default: "",
+  },
+  placeholder: {
+    type: String,
+    default: "绑定函数集",
+  },
+  clearable: {
+    type: Boolean,
+    default: true,
   }
 });
 
 const modelValue = defineModel('value', {
-  type: String,
-  default: "",
+  type: String as PropType<string | null>,
+  default: null,
 });
 
 const selectCode = computed(() => {
@@ -29,7 +37,7 @@ const selectCode = computed(() => {
 </script>
 
 <template>
-  <NSelect v-model:value="modelValue" :clearable="true" :options="selectCode" placeholder="绑定函数集"></NSelect>
+  <n-select v-model:value="modelValue" :clearable="clearable" :options="selectCode" :placeholder="placeholder"></n-select>
 </template>
 
 <style scoped lang="scss">

@@ -90,7 +90,10 @@ const config = computed(() => {
 });
 
 const shouldRenderTooltip = computed(function () {
-  return config.value && (config.value as RendererLayout).tooltip && Object.keys((config.value as RendererLayout).tooltip || {}).length;
+  return config.value &&
+      (config.value as RendererLayout).tooltip &&
+      Object.keys((config.value as RendererLayout).tooltip || {}).length &&
+      Object.values((config.value as RendererLayout).tooltip || {}).some((i) => i);
 });
 const componentName = computed(function () {
   if (shouldRenderTooltip.value) {
@@ -111,7 +114,7 @@ const componentName = computed(function () {
       <span>{{ componentName }}</span>
     </template>
     <n-button-group>
-      <n-button text @click="onSettingClick">
+      <n-button v-if="config?.tooltip && config?.tooltip?.setting" text @click="onSettingClick">
         <template #icon>
           <n-icon>
             <Settings16Filled/>

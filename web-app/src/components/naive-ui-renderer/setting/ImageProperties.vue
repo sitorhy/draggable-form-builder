@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, type PropType} from "vue";
+import {computed, type PropType, ref} from "vue";
 import {NInput} from "naive-ui";
 import PropertiesForm from "../../PropertiesForm.vue";
 import SizePropertyInput from "./SizePropertyInput.vue";
@@ -24,52 +24,34 @@ const schema = computed(function () {
     {
       type: NInput,
       prop: 'src',
-      label: '图片地址',
+      label: '地址',
+      config: {
+        placeholder: '图片资源URL',
+      }
     },
     {
-      type: SizePropertyInput,
+      type: 'slotScope',
       prop: 'width',
       label: '宽度',
-      config: {
-        bordered: true,
-        size: "medium",
-        showButton: true,
-        width: "100%",
-        modelValue: modelValue.value.props?.width,
-      },
-      on: {
-        'update:modelValue': function (newVal: string) {
-          if (modelValue.value.props) {
-            modelValue.value.props.width = newVal;
-          }
-        }
-      }
     },
     {
-      type: SizePropertyInput,
+      type: 'slotScope',
       prop: 'height',
       label: '宽度',
-      config: {
-        bordered: true,
-        size: "medium",
-        showButton: true,
-        width: "100%",
-        modelValue: modelValue.value.props?.height,
-      },
-      on: {
-        'update:modelValue': function (newVal: string) {
-          if (modelValue.value.props) {
-            modelValue.value.props.height = newVal;
-          }
-        }
-      }
-    }
+    },
   ];
 });
 </script>
 
 <template>
-  <PropertiesForm :schema="schema" v-model="props" label-width="5em"/>
+  <PropertiesForm :schema="schema" v-model="props" label-width="3em">
+    <template #width>
+      <n-slider v-model:value="props.width" :step="1" :max="1000" />
+    </template>
+    <template #height>
+      <n-slider v-model:value="props.height" :step="1" :max="1000" />
+    </template>
+  </PropertiesForm>
 </template>
 
 <style scoped lang="scss">

@@ -17,7 +17,9 @@ export type RendererLayout = {
     // 大纲视图属性设置
     outline?: {
         // 是否显示设置按钮
-        setting: boolean;
+        setting?: boolean;
+        // 高亮当前控件
+        focus?: boolean,
     },
 
     // 渲染区悬浮选项设置

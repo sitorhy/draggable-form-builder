@@ -7,8 +7,11 @@ import {NIcon, NButton, NButtonGroup} from "naive-ui";
 import {
   Settings24Filled,
   Folder24Regular,
-  FolderOpen24Regular
+  FolderOpen24Regular,
 } from "@vicons/fluent";
+import {
+  CenterFocusStrongRound
+} from "@vicons/material";
 import type {RendererLayout} from "../types";
 import {getComponentNameByType, getIconByType} from "../common/renderer.ts";
 
@@ -61,9 +64,28 @@ function mapTreeOption(layouts: (RendererLayout | string)[]): TreeOption[] {
         if (i.outline && Object.keys(i.outline).length > 0) {
           return h(
               NButtonGroup,
-              {},
+              {
+                size: 'large'
+              },
               () => {
                 const children = [];
+                if (i.outline?.focus) {
+                  children.push(
+                      h(
+                          NButton,
+                          {
+                            title: '高亮',
+                            text: true,
+                            type: 'primary',
+                            onClick: withModifiers(function () {
+                              defaultSelectedKeys.value = [i.id];
+                              store.setActiveComponent(i.id);
+                            }, ['stop'])
+                          },
+                          {default: () => h(NIcon, {}, () => h(CenterFocusStrongRound))}
+                      )
+                  );
+                }
                 if (i.outline?.setting) {
                   children.push(
                       h(
@@ -82,7 +104,7 @@ function mapTreeOption(layouts: (RendererLayout | string)[]): TreeOption[] {
                       )
                   );
                 }
-                return children;
+                return h(NButtonGroup, {}, () => children);
               }
           );
         } else {
