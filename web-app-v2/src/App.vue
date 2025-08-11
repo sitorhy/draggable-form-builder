@@ -7,13 +7,16 @@
     <n-layout position="absolute">
       <n-layout-header style="height: 64px; padding: 0 11px;" bordered>
         <div style="height: 100%; display: flex; align-items: center;">
-          <n-page-header subtitle="让你的听觉更懂视觉">
+          <n-page-header subtitle="">
             <template #title>
-              <a href="https://anyway.fm/" style="text-decoration: none; color: inherit">Anyway.FM</a>
+              <a href="https://anyway.fm/" style="text-decoration: none; color: inherit">Low-Code Engine</a>
             </template>
-            <template #avatar>
-              <n-avatar
-                  src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg"
+            <template #avatar >
+              <n-image
+                  :preview-disabled="true"
+                  src="/icon.png"
+                  width="60"
+                  height="60"
               />
             </template>
           </n-page-header>
@@ -34,26 +37,15 @@
         </n-layout-sider>
 
         <n-layout has-sider sider-placement="right">
-          <n-layout-content embedded content-style="padding: 24px; 11px;" :native-scrollbar="false">
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
-            <n-h2>平山道</n-h2>
+          <n-layout-content embedded content-style="padding: 11px 24px; overflow: auto;" :native-scrollbar="false">
+            <div></div>
           </n-layout-content>
 
           <n-layout-sider
               collapse-mode="transform"
               :native-scrollbar="false"
               :collapsed-width="11"
-              :width="240"
+              :width="360"
               content-style="padding: 11px;"
               show-trigger="arrow-circle"
               bordered
