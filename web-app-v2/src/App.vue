@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import ComponentTagGroup from "./components/pull/ComponentTagGroup.vue";
+import JsonRenderer from "./components/put/JsonRenderer.vue";
+import {ref} from "vue";
+
+const json = ref({
+  type: 'page',
+  children: []
+});
 
 </script>
 
@@ -11,7 +19,7 @@
             <template #title>
               <a href="https://anyway.fm/" style="text-decoration: none; color: inherit">Low-Code Engine</a>
             </template>
-            <template #avatar >
+            <template #avatar>
               <n-image
                   :preview-disabled="true"
                   src="/icon.png"
@@ -32,13 +40,13 @@
             show-trigger="arrow-circle"
             bordered
         >
-          <div style="width: 100%; height: 1000px; background: aqua">
-          </div>
+          <ComponentTagGroup/>
         </n-layout-sider>
 
         <n-layout has-sider sider-placement="right">
-          <n-layout-content embedded content-style="padding: 11px 24px; overflow: auto;" :native-scrollbar="false">
-            <div></div>
+          <n-layout-content embedded content-style="padding: 11px 24px; overflow: auto; width: 100%; height: 100%;"
+                            :native-scrollbar="false">
+            <JsonRenderer v-model="json"/>
           </n-layout-content>
 
           <n-layout-sider
@@ -50,8 +58,7 @@
               show-trigger="arrow-circle"
               bordered
           >
-            <div style="width: 100%; height: 1000px; background: aqua">
-            </div>
+            <textarea style="width: 100%;" :rows="30">{{json}}</textarea>
           </n-layout-sider>
         </n-layout>
       </n-layout>
