@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp, defineComponent} from 'vue'
 import './style.css'
 import App from './App.vue'
 import naive from 'naive-ui'
@@ -6,4 +6,15 @@ import {createPinia} from "pinia"
 
 const pinia = createPinia();
 
-createApp(App).use(pinia).use(naive).mount('#app')
+const ProviderApp = defineComponent({
+    components: {
+        App
+    },
+    template: `
+        <n-message-provider>
+          <App/>
+        </n-message-provider>
+    `
+});
+
+createApp(ProviderApp).use(pinia).use(naive).mount('#app')

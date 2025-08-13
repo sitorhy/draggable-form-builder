@@ -2,11 +2,12 @@
 import ComponentTagGroup from "./components/pull/ComponentTagGroup.vue";
 import JsonRenderer from "./components/put/JsonRenderer.vue";
 import {ref} from "vue";
+import {unitTest} from "./test/data.ts";
+import BindingContext from "./components/put/data/BindingContext.vue";
+import {useBindingStore} from "./store/binding.ts";
 
-const json = ref({
-  type: 'page',
-  children: []
-});
+const schema = ref(unitTest());
+const bindingStore = useBindingStore();
 
 </script>
 
@@ -46,7 +47,9 @@ const json = ref({
         <n-layout has-sider sider-placement="right">
           <n-layout-content embedded content-style="padding: 11px 24px; overflow: auto; width: 100%; height: 100%;"
                             :native-scrollbar="false">
-            <JsonRenderer v-model="json"/>
+            <BindingContext path="pageOne">
+              <JsonRenderer v-model:schema="schema"/>
+            </BindingContext>
           </n-layout-content>
 
           <n-layout-sider
@@ -58,7 +61,8 @@ const json = ref({
               show-trigger="arrow-circle"
               bordered
           >
-            <textarea style="width: 100%;" :rows="30">{{json}}</textarea>
+            <textarea style="width: 100%;" :rows="30">{{schema}}</textarea>
+            <textarea style="width: 100%;" :rows="30">{{bindingStore.root}}</textarea>
           </n-layout-sider>
         </n-layout>
       </n-layout>

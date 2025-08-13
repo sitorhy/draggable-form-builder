@@ -28,7 +28,7 @@ const group = computed(() => {
   }
 });
 
-const modelValue = defineModel('modelValue', {
+const schema = defineModel('schema', {
   type: Object,
   default: () => ({type: '', id: '', children: undefined}),
 });
@@ -36,17 +36,19 @@ const modelValue = defineModel('modelValue', {
 
 <template>
   <!--占位元素 负责具体渲染渲染-->
-  <JsonRendererItem :type="modelValue.type" v-model="modelValue">
+  <JsonRendererItem :type="schema.type" v-model:schema="schema">
     <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
-    <draggable v-if="modelValue.children"
-               :class="['renderer-drop', modelValue.type]"
+    <draggable v-if="schema.children"
+               :class="['renderer-drop', schema.type]"
                :group="group"
                ghost-class="ghost"
                drag-class="drag"
                item-key="id"
-               v-model="modelValue.children">
+               v-model="schema.children">
       <template #item="scope">
-        <JsonRenderer :pull="pull" :put="put" v-model="modelValue.children[scope.index]"/>
+        <div>
+          <JsonRenderer :pull="pull" :put="put" v-model:schema="schema.children[scope.index]"/>
+        </div>
       </template>
     </draggable>
   </JsonRendererItem>

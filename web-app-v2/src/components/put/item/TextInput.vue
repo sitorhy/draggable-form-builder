@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {computed, inject, ref} from "vue";
+import {useMessage} from "naive-ui";
 import {ErrorCircle20Regular} from "@vicons/fluent";
+import {useBindingConnector} from "../../../store/binding.ts";
 
-const modelValue = defineModel('modelValue', {
+const message = useMessage();
+
+const schema = defineModel('schema', {
   type: Object,
-  default: () => ({
-    props: {}
-  }),
+  default: () => ({type: '', id: '', children: undefined}),
 });
 
-const value = ref();
+const innerValue = ref(null);
 
 const id = computed(function () {
-  return modelValue.value.id;
+  return schema.value.id;
+});
+
+const bindingPath = inject<string>('bindingPath', '');
+
+const {updateBinding} = useBindingConnector({
+  path: bindingPath,
+  onBindingChange: function (newVal) {
+    if (newVal !== innerValue.value) {
+      innerValue.value = newVal;
+    }
+  },
+  onError: (e) => message.error(e.message),
 });
 
 defineExpose({
@@ -21,7 +35,7 @@ defineExpose({
 </script>
 
 <template>
-  <n-input v-if="modelValue.props" v-bind="modelValue.props" v-model:value="value"/>
+  <n-input v-if="schema.props" v-bind="schema.props" v-model:value="innerValue" @input="updateBinding"/>
   <n-empty v-else description="TextNumberInput">
     <template #icon>
       <n-icon>

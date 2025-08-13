@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TextInput from "./item/TextInput.vue";
 import DatePicker from "./item/DatePicker.vue";
+import BindingContext from "./data/BindingContext.vue";
 
 defineProps({
   type: {
@@ -19,7 +20,7 @@ defineProps({
   }
 });
 
-const modelValue = defineModel('modelValue', {
+const schema = defineModel('schema', {
   type: Object,
   default: () => ({type: '', id: '', children: undefined}),
 });
@@ -28,11 +29,13 @@ const modelValue = defineModel('modelValue', {
 <template>
   <slot name="default" v-if="type === 'page'">
   </slot>
-  <TextInput v-else-if="type === 'textInput'"/>
-  <DatePicker v-else-if="type === 'datePicker'"/>
-  <div v-else>
-    <n-tag type="info">
-      <span>{{ type }}}</span>
-    </n-tag>
-  </div>
+  <BindingContext :path="schema.id" v-else-if="type === 'textInput'">
+    <TextInput v-model:schema="schema"/>
+  </BindingContext>
+  <BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
+    <DatePicker v-model:schema="schema"/>
+  </BindingContext>
+  <n-alert v-else title="未知组件类型" type="warning">
+    {{ type }}
+  </n-alert>
 </template>

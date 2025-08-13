@@ -31,7 +31,6 @@ function onMove(evt: CustomEvent & {
     index: number;
   },
 }) {
-  console.log(evt);
   return true;
 }
 </script>
