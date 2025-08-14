@@ -9,7 +9,19 @@ export function unitTest() {
                     "placeholder": "文本框",
                     "type": "text",
                     "rows": 2
-                }
+                },
+                "name": "test",
+                "loop": [
+                    {
+                        "id": "0x1234",
+                    },
+                    {
+                        "id": "0x1235",
+                    },
+                    {
+                        "id": "0x1236",
+                    }
+                ]
             }
         ]
     };
