@@ -9,6 +9,11 @@ const props = defineProps({
   path: {
     type: String,
     default: '',
+  },
+  // 局部上下文
+  componentContext: {
+    type: Object,
+    default: null,
   }
 });
 

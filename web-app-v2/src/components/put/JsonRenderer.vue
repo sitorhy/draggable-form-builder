@@ -2,7 +2,6 @@
 import {computed} from "vue"
 import draggable from "vuedraggable"
 import JsonRendererItem from "./JsonRendererItem.vue";
-import BindingContext from "./data/BindingContext.vue";
 
 defineOptions({
   name: 'JsonRenderer',
@@ -37,8 +36,7 @@ const schema = defineModel('schema', {
 
 <template>
   <!--占位元素 负责具体渲染渲染-->
-  <JsonRendererItem v-if="!Array.isArray(schema.loop)" :pull="pull" :put="put" :type="schema.type"
-                    v-model:schema="schema">
+  <JsonRendererItem :type="schema.type" v-model:schema="schema" :put="put" :pull="pull">
     <!-- 拖入区域 占位元素不提供插槽即不可拖入 -->
     <draggable v-if="schema.children"
                :class="['renderer-drop', schema.type]"
@@ -54,11 +52,6 @@ const schema = defineModel('schema', {
       </template>
     </draggable>
   </JsonRendererItem>
-  <div v-else style="border: solid 1px greenyellow;">
-    <BindingContext v-for="(template, index) in schema.loop" :path="`${schema.name}[${index}]`">
-      <JsonRendererItem :pull="pull" :put="put" :type="schema.type" v-model:schema="schema"/>
-    </BindingContext>
-  </div>
 </template>
 
 <style scoped>
