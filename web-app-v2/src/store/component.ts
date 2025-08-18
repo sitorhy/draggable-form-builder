@@ -3,6 +3,7 @@ import {
     LinkSquare24Regular,
     TextField20Regular,
     Timer24Regular,
+    AppsList24Regular,
 } from "@vicons/fluent";
 import {v4 as uuid} from "uuid"
 import type {ComponentDefinition} from "../types.ts";
@@ -44,6 +45,15 @@ export function createRendererItemConfig(componentDefinition: ComponentDefinitio
                     type: "date",
                 },
             };
+        case "linearList":
+            return {
+                type: "linearList",
+                id: generateComponentId("linearList"),
+                props: {
+                    loop: [],
+                    dataSource: "",
+                }
+            };
     }
 
     return Object.assign(
@@ -65,6 +75,8 @@ export function getIconByType(type: string) {
             return TextField20Regular;
         case 'datePicker':
             return Timer24Regular;
+        case 'linearList':
+            return AppsList24Regular;
         default:
             return LinkSquare24Regular;
     }
@@ -88,6 +100,16 @@ export const useComponentsStore = defineStore('components', {
                         },
                     ]
                 },
+                {
+                    groupName: '高阶组件',
+                    groupId: 'advanced',
+                    components: [
+                        {
+                            type: 'linearList',
+                            label: '线性表',
+                        }
+                    ]
+                }
             ]
         }
     },

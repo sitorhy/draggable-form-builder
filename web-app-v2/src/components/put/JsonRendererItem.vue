@@ -2,7 +2,7 @@
 import TextInput from "./item/TextInput.vue";
 import DatePicker from "./item/DatePicker.vue";
 import BindingContext from "./data/BindingContext.vue";
-import JsonRendererArray from "./JsonRendererArray.vue";
+import JsonRendererList from "./JsonRendererList.vue";
 
 defineProps({
   type: {
@@ -36,7 +36,7 @@ const schema = defineModel('schema', {
   <BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
     <DatePicker v-model:schema="schema"/>
   </BindingContext>
-  <JsonRendererArray :pull="pull" :put="put" :schema="schema" v-else-if="type === 'array'"/>
+  <JsonRendererList :pull="pull" :put="put" :schema="schema" v-else-if="type === 'linearList'"/>
   <n-alert v-else title="未知组件类型" type="warning">
     {{ type }}
   </n-alert>

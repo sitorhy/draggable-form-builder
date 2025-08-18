@@ -3,17 +3,15 @@ export function unitTest() {
         "type": "page",
         "children": [
             {
-                "type": "textInput",
-                "id": "textInput_d1769a2e-e571-43e8-ad32-327c16704015",
+                "type": "datePicker",
+                "id": "datePicker_d1769a2e-e571-43e8-ad32-327c16704015",
                 "props": {
-                    "placeholder": "文本框",
-                    "type": "text",
-                    "rows": 2
+                    "placeholder": "日期",
                 }
             },
             {
-                "type": "array",
-                "id": "array_06f601da-67a6-4753-8625-9493b9e9cbc0",
+                "type": "linearList",
+                "id": "linearList_06f601da-67a6-4753-8625-9493b9e9cbc0",
                 "props": {
                     "dataSource": "",
                     "loop": [
