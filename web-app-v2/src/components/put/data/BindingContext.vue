@@ -38,5 +38,5 @@ provide('bindingPath', getBindingPath());
 </script>
 
 <template>
-  <slot></slot>
+  <slot v-bind="$attrs"></slot>
 </template>

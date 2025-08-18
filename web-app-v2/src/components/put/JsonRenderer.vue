@@ -46,9 +46,9 @@ const schema = defineModel('schema', {
                item-key="id"
                v-model="schema.children">
       <template #item="scope">
-        <div>
-          <JsonRenderer :pull="pull" :put="put" v-model:schema="schema.children[scope.index]"/>
-        </div>
+          <div>
+            <JsonRenderer :pull="pull" :put="put" v-model:schema="schema.children[scope.index]"/>
+          </div>
       </template>
     </draggable>
   </JsonRendererItem>

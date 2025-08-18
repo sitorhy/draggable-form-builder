@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import TextInput from "./item/TextInput.vue";
 import DatePicker from "./item/DatePicker.vue";
-import BindingContext from "./data/BindingContext.vue";
 import JsonRendererList from "./JsonRendererList.vue";
 
 defineProps({
@@ -30,12 +29,8 @@ const schema = defineModel('schema', {
 <template>
   <slot name="default" v-if="type === 'page'">
   </slot>
-  <BindingContext :path="schema.id" v-else-if="type === 'textInput'">
-    <TextInput v-model:schema="schema"/>
-  </BindingContext>
-  <BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
-    <DatePicker v-model:schema="schema"/>
-  </BindingContext>
+  <TextInput  v-else-if="type === 'textInput'" v-model:schema="schema"/>
+  <DatePicker v-else-if="type === 'datePicker'" v-model:schema="schema"/>
   <JsonRendererList :pull="pull" :put="put" :schema="schema" v-else-if="type === 'linearList'"/>
   <n-alert v-else title="未知组件类型" type="warning">
     {{ type }}

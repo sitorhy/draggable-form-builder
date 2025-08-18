@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BindingContext from "./data/BindingContext.vue";
 import JsonRendererItem from "./JsonRendererItem.vue";
 import {computed} from "vue";
 
@@ -35,15 +34,10 @@ const loop = computed<any[]>(function () {
 </script>
 
 <template>
-  <BindingContext :path="schema.id">
-    <div style="border: solid 2px greenyellow;">
-      <BindingContext v-for="(item, index) in loop"
-                      :component-context="item"
-                      :path="`[${index}]`">
-        <JsonRendererItem :pull="pull" :put="put" :type="schema.children[0].type" v-model:schema="schema.children[0]"/>
-      </BindingContext>
-    </div>
-  </BindingContext>
+  <div style="border: solid 2px greenyellow;">
+    <JsonRendererItem v-for="(item, index) in loop" :pull="pull" :put="put" :type="schema.children[0].type"
+                      v-model:schema="schema.children[0]"/>
+  </div>
 </template>
 
 <style scoped lang="scss">
