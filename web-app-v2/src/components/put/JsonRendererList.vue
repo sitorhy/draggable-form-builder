@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import JsonRendererItem from "./JsonRendererItem.vue";
 import {computed} from "vue";
+import BindingContext from "./data/BindingContext.vue";
+import JsonRenderer from "./JsonRenderer.vue";
+import draggable from "vuedraggable"
 
 defineProps({
   pull: {
@@ -34,10 +37,24 @@ const loop = computed<any[]>(function () {
 </script>
 
 <template>
-  <div style="border: solid 2px greenyellow;">
-    <JsonRendererItem v-for="(item, index) in loop" :pull="pull" :put="put" :type="schema.children[0].type"
-                      v-model:schema="schema.children[0]"/>
-  </div>
+  <BindingContext v-for="(item, index) in loop"
+                  :component-context="item"
+                  :path="`[${index}]`">
+    <draggable v-if="schema.children"
+               :class="['renderer-drop', schema.type]"
+               :group="{name: 'renderer', put: put, pull: pull}"
+               ghost-class="ghost"
+               drag-class="drag"
+               item-key="id"
+               v-model="schema.children">
+      <template #item="scope">
+        <div>
+          <JsonRenderer :pull="pull" :put="put" :type="schema.children[scope.index].type"
+                        v-model:schema="schema.children[scope.index]"/>
+        </div>
+      </template>
+    </draggable>
+  </BindingContext>
 </template>
 
 <style scoped lang="scss">
