@@ -42,6 +42,9 @@ export function useBindingConnector(options: {
                     }
                 }
             }
+        },
+        queryBinding: function () {
+            return dotProp.getProperty(bindingStore.root, options.path);
         }
     }
 }
