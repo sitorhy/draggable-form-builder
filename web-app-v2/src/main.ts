@@ -1,5 +1,5 @@
 import {createApp, defineComponent} from 'vue'
-import './style.css'
+import './style.scss'
 import App from './App.vue'
 import naive from 'naive-ui'
 import {createPinia} from "pinia"

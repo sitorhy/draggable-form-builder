@@ -33,6 +33,23 @@ const loop = computed<any[]>(function () {
   return props.value.loop;
 });
 
+function onMove(evt: CustomEvent & {
+  from: HTMLElement;
+  to: HTMLElement;
+  draggedContext: {
+    element: {
+      type: string;
+      label: string;
+    },
+    from: HTMLElement;
+    to: HTMLElement;
+    futureIndex: number;
+    index: number;
+  },
+}) {
+  return !evt.to.classList.contains(schema.value.type);
+}
+
 </script>
 
 <template>
@@ -42,8 +59,9 @@ const loop = computed<any[]>(function () {
                   :component-context="item"
                   :path="`${index}`">
     <draggable v-if="schema.children"
-               :class="['renderer-drop', schema.type]"
-               :group="{name: 'renderer', put: put, pull: pull}"
+               :class="['renderer-drop', schema.type, 'linear-list']"
+               :group="{name: 'renderer-list', put: put, pull: pull}"
+               :move="onMove"
                ghost-class="ghost"
                drag-class="drag"
                item-key="id"
@@ -57,7 +75,3 @@ const loop = computed<any[]>(function () {
     </draggable>
   </BindingContext>
 </template>
-
-<style scoped lang="scss">
-
-</style>
