@@ -53,11 +53,16 @@ function onMove(evt: CustomEvent & {
 </script>
 
 <template>
-  <BindingContext v-for="(item, index) in loop"
-                  :bracket="true"
-                  :parse-number="true"
-                  :component-context="item"
-                  :path="`${index}`">
+  <div class="renderer-drop linear-list" v-if="!loop || !loop.length">
+    <!--占位-->
+  </div>
+  <BindingContext
+      v-else
+      v-for="(item, index) in loop"
+      :bracket="true"
+      :parse-number="true"
+      :component-context="item"
+      :path="`${index}`">
     <draggable v-if="schema.children"
                :class="['renderer-drop', schema.type, 'linear-list']"
                :group="{name: 'renderer-list', put: put, pull: pull}"
