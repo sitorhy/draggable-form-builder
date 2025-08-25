@@ -1,45 +1,39 @@
 <script setup lang="ts">
-import TextInput from "./item/TextInput.vue";
-import DatePicker from "./item/DatePicker.vue";
-import JsonRendererList from "./JsonRendererList.vue";
-import BindingContext from "./data/BindingContext.vue";
+import TextInput from './item/TextInput.vue';
+import DatePicker from './item/DatePicker.vue';
+import JsonRendererList from './JsonRendererList.vue';
+import JsonRendererContainer from './JsonRendererContainer.vue';
+import BindingContext from './data/BindingContext.vue';
+import List from './item/List.vue';
+import type { RendererItemDefinition } from '../../types.ts';
+import { computed } from 'vue';
 
-defineProps({
-  type: {
-    type: String,
-    default: '',
-  },
-  pull: {
-    // 移出
-    type: Boolean,
-    default: true,
-  },
-  put: {
-    // 移入
-    type: Boolean,
-    default: true,
-  }
+const schema = defineModel<RendererItemDefinition>('schema', {
+	type: Object,
+	default: () => ({})
 });
 
-const schema = defineModel('schema', {
-  type: Object,
-  default: () => ({type: '', id: '', children: undefined}),
-});
+const type = computed(() => schema.value.type);
 </script>
 
 <template>
-  <slot name="default" v-if="type === 'page'">
-  </slot>
-  <BindingContext :path="schema.id" v-else-if="type === 'textInput'">
-    <TextInput v-model:schema="schema"/>
-  </BindingContext>
-  <BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
-    <DatePicker v-model:schema="schema"/>
-  </BindingContext>
-  <BindingContext :path="schema.id" v-else-if="type === 'linearList'">
-    <JsonRendererList :pull="pull" :put="put" v-model:schema="schema"/>
-  </BindingContext>
-  <n-alert v-else title="未知组件类型" type="warning">
-    {{ type }}
-  </n-alert>
+	<slot v-if="type === 'page'"> </slot>
+	<BindingContext :path="schema.id" v-else-if="type === 'textInput'">
+		<TextInput v-model:schema="schema" />
+	</BindingContext>
+	<BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
+		<DatePicker v-model:schema="schema" />
+	</BindingContext>
+	<BindingContext :path="schema.id" v-else-if="type === 'list'">
+		<List v-model:schema="schema" />
+	</BindingContext>
+	<BindingContext :path="schema.id" v-else-if="type === 'container'">
+		<JsonRendererContainer v-model:schema="schema" />
+	</BindingContext>
+	<BindingContext :path="schema.id" v-else-if="type === 'linearList'">
+		<JsonRendererList v-model:schema="schema" />
+	</BindingContext>
+	<n-alert v-else :title="`未知组件类型 ${type}`" type="warning">
+		{{ schema }}
+	</n-alert>
 </template>

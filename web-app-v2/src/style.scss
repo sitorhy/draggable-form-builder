@@ -5,6 +5,7 @@ body, #root {
 
 %medium-drop-area {
   --n-hegiht: 34px;
+  --n-width: 64px;
   min-height: var(--n-hegiht);
   border-style: dashed;
   border-width: 1px;
@@ -15,6 +16,6 @@ body, #root {
   }
 }
 
-.renderer-drop.linear-list {
+.renderer-drop.draggable-emphasized {
   @extend %medium-drop-area;
 }
