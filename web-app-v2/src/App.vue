@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import BindingContext from './components/put/data/BindingContext.vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
+import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 
 const schemaStore = useSchemaStore();
 const schema = computed(() => schemaStore.$state.schema);
@@ -15,28 +16,17 @@ const bindingStore = useBindingStore();
 <template>
 	<div class="main">
 		<n-layout position="absolute">
-			<n-layout-header style="height: 64px; padding: 0 11px" bordered>
+			<n-layout-header style="height: 48px; padding: 0 11px" bordered>
 				<div style="height: 100%; display: flex; align-items: center">
 					<n-page-header subtitle="">
 						<template #title>
-							<a
-								href="https://anyway.fm/"
-								style="text-decoration: none; color: inherit"
-								>Low-Code Engine</a
-							>
+							<p>Low-Code Engine</p>
 						</template>
-						<template #avatar>
-							<n-image
-								:preview-disabled="true"
-								src="/icon.png"
-								width="60"
-								height="60"
-							/>
-						</template>
+						<template #avatar></template>
 					</n-page-header>
 				</div>
 			</n-layout-header>
-			<n-layout has-sider position="absolute" style="top: 64px; bottom: 64px">
+			<n-layout has-sider position="absolute" style="top: 48px; bottom: 48px">
 				<n-layout-sider
 					collapse-mode="transform"
 					:collapsed-width="11"
@@ -69,6 +59,7 @@ const bindingStore = useBindingStore();
 						show-trigger="arrow-circle"
 						bordered
 					>
+						<JsonSchemaTree />
 						<textarea
 							readonly
 							style="width: 100%"
@@ -87,7 +78,7 @@ const bindingStore = useBindingStore();
 			<n-layout-footer
 				bordered
 				position="absolute"
-				style="height: 64px; padding: 24px"
+				style="height: 48px; padding: 8px"
 			>
 				城府路
 			</n-layout-footer>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue';
-import { useBindingPath } from '../common/binding-path.ts';
+import { useComponentBindingPath } from '../common/binding-path.ts';
 
 defineOptions({
 	name: 'BindingContext'
@@ -35,7 +35,7 @@ const bindingPathOptions = computed(() => {
 		parseNumber: props.parseNumber
 	};
 });
-const { getBindingPath } = useBindingPath(bindingPathOptions);
+const { getBindingPath } = useComponentBindingPath(bindingPathOptions);
 
 provide('bindingPath', getBindingPath());
 </script>

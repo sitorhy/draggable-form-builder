@@ -4,7 +4,7 @@ import JsonRenderer from './JsonRenderer.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useContainerMove } from './common/moveable.ts';
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 
 defineOptions({
 	name: 'JsonRendererContainer'
@@ -25,22 +25,27 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 });
 
 const { containerDragMove } = useContainerMove();
+
+const containerClasses = computed(function () {
+	return [
+		'renderer-drop',
+		'draggable-placeholder',
+		schema.value.type,
+		!schema.value.children?.length ? 'placeholder-width' : ''
+	];
+});
 </script>
 
 <template>
 	<draggable
+		ref="containerRef"
 		v-if="schema.children"
-		:class="[
-			'renderer-drop',
-			schema.type,
-			'draggable-emphasized',
-			!schema.children?.length ? 'placeholder-width' : ''
-		]"
+		:class="containerClasses"
 		:tag="tag"
 		:move="containerDragMove"
 		:group="{ name: 'renderer-container', put: true, pull: true }"
-		item-key="id"
 		:data-binding-path="bindingPath"
+		item-key="id"
 		ghost-class="ghost"
 		drag-class="drag"
 		v-model="schema.children"
@@ -59,9 +64,3 @@ const { containerDragMove } = useContainerMove();
 		</template>
 	</n-empty>
 </template>
-
-<style scoped>
-.placeholder-width {
-	min-width: var(--n-width);
-}
-</style>

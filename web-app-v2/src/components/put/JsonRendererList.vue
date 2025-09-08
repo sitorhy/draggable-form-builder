@@ -5,7 +5,7 @@ import JsonRenderer from './JsonRenderer.vue';
 import draggable from 'vuedraggable';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useContainerMove } from './common/moveable.ts';
-import { useBindingPath } from './common/binding-path.ts';
+import { useComponentBindingPath } from './common/binding-path.ts';
 
 defineOptions({
 	name: 'JsonRendererList'
@@ -59,7 +59,7 @@ const bindingPathOptions = computed(() => {
 });
 
 const { getCurrentPathConfig, collectParentBindingPathConfig, joinPathConfig } =
-	useBindingPath(bindingPathOptions);
+	useComponentBindingPath(bindingPathOptions);
 
 const parentBindingPathConfig = computed(() => {
 	return collectParentBindingPathConfig();
@@ -78,10 +78,19 @@ function createItemBindingPath(index: number) {
 }
 
 const { containerDragMove } = useContainerMove();
+
+const containerClasses = computed(function () {
+	return [
+		'renderer-drop',
+		'draggable-placeholder',
+		schema.value.type,
+		!schema.value.children?.length ? 'placeholder-width' : ''
+	];
+});
 </script>
 
 <template>
-	<div class="renderer-drop draggable-emphasized" v-if="!loop || !loop.length">
+	<div class="renderer-drop draggable-placeholder" v-if="!loop || !loop.length">
 		<!--占位-->
 	</div>
 	<BindingContext
@@ -95,7 +104,8 @@ const { containerDragMove } = useContainerMove();
 	>
 		<draggable
 			v-if="schema.children"
-			:class="['renderer-drop', schema.type, 'draggable-emphasized']"
+			ref="containerRef"
+			:class="containerClasses"
 			:group="{ name: 'renderer-list', put: put, pull: pull }"
 			:move="containerDragMove"
 			:tag="tag"

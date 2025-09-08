@@ -1,6 +1,6 @@
 import { type ComputedRef, getCurrentInstance } from 'vue';
 
-export function useBindingPath(
+export function useComponentBindingPath(
 	props: ComputedRef<{
 		bracket: boolean;
 		path: string;
@@ -17,9 +17,7 @@ export function useBindingPath(
 			path: options.bracket
 				? [
 						'[',
-						options.parseNumber
-							? options.path
-							: `'${options.path}'`,
+						options.parseNumber ? options.path : `'${options.path}'`,
 						']'
 					].join('')
 				: options.path
@@ -89,8 +87,7 @@ export function useBindingPath(
 				const startIndex = path.indexOf(segment);
 				// 找到前一个片段的末尾
 				const prevSegmentEnd =
-					path.indexOf(segments[index - 1]) +
-					segments[index - 1].length;
+					path.indexOf(segments[index - 1]) + segments[index - 1].length;
 				// 提取中间的字符作为分隔符
 				sep = path.substring(prevSegmentEnd, startIndex);
 			}

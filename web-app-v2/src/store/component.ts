@@ -119,6 +119,29 @@ export function getIconByType(type: string) {
 	}
 }
 
+const componentNamesCache = new Map<string, string>([['page', '页面']]);
+function _findLabelByType(
+	type: string,
+	groups: {
+		groupName: string;
+		components: {
+			type: string;
+			label: string;
+		}[];
+	}[]
+): string {
+	for (const group of groups) {
+		if (Array.isArray(group.components)) {
+			for (const comp of group.components) {
+				if (comp.type === type) {
+					return comp.label;
+				}
+			}
+		}
+	}
+	return type;
+}
+
 export const useComponentsStore = defineStore('components', {
 	state() {
 		return {
@@ -163,5 +186,15 @@ export const useComponentsStore = defineStore('components', {
 				}
 			]
 		};
+	},
+	actions: {
+		getComponentNameByType(type: string) {
+			if (componentNamesCache.has(type)) {
+				return componentNamesCache.get(type);
+			}
+			const label = _findLabelByType(type, this.groups);
+			componentNamesCache.set(type, label);
+			return label;
+		}
 	}
 });

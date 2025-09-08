@@ -7,6 +7,7 @@ import BindingContext from './data/BindingContext.vue';
 import List from './item/List.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import { computed } from 'vue';
+import JsonEmphasizeContainer from './JsonEmphasizeContainer.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -19,16 +20,22 @@ const type = computed(() => schema.value.type);
 <template>
 	<slot v-if="type === 'page'"> </slot>
 	<BindingContext :path="schema.id" v-else-if="type === 'textInput'">
-		<TextInput v-model:schema="schema" />
+		<JsonEmphasizeContainer :schema-id="schema.id">
+			<TextInput v-model:schema="schema" />
+		</JsonEmphasizeContainer>
 	</BindingContext>
 	<BindingContext :path="schema.id" v-else-if="type === 'datePicker'">
-		<DatePicker v-model:schema="schema" />
+		<JsonEmphasizeContainer :schema-id="schema.id">
+			<DatePicker v-model:schema="schema" />
+		</JsonEmphasizeContainer>
 	</BindingContext>
 	<BindingContext :path="schema.id" v-else-if="type === 'list'">
 		<List v-model:schema="schema" />
 	</BindingContext>
 	<BindingContext :path="schema.id" v-else-if="type === 'container'">
-		<JsonRendererContainer v-model:schema="schema" />
+		<JsonEmphasizeContainer :schema-id="schema.id">
+			<JsonRendererContainer v-model:schema="schema" />
+		</JsonEmphasizeContainer>
 	</BindingContext>
 	<BindingContext :path="schema.id" v-else-if="type === 'linearList'">
 		<JsonRendererList v-model:schema="schema" />

@@ -25,6 +25,7 @@ export default defineConfig([
 		ignores: ['test/**'],
 		rules: {
 			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-empty-object-type': 'off',
 			'no-useless-escape': 'off',
 			'vue/multi-word-component-names': 'off'
 		}

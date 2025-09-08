@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@he-tree/vue": "^2.9.4",
     "@vicons/fluent": "^0.13.0",
     "dot-prop": "^9.0.0",
     "json-editor-vue": "^0.18.1",

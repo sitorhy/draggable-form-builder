@@ -38,16 +38,3 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 		</draggable>
 	</JsonRendererItem>
 </template>
-
-<style scoped>
-.renderer-drop {
-	--n-hegiht: 34px;
-	min-height: var(--n-hegiht);
-
-	&.page {
-		width: 100%;
-		height: 100%;
-		background: #eee;
-	}
-}
-</style>
