@@ -11,6 +11,7 @@ import { useEmphasizeStore } from '../../../store/emphasize.ts';
 export function useRendererContainerEmphasize(
 	options: ComputedRef<{
 		schemaId: string;
+		containerStyle: object;
 	}>
 ) {
 	const emphasizeStore = useEmphasizeStore();
@@ -50,6 +51,7 @@ export function useRendererContainerEmphasize(
 			return {};
 		}
 		return {
+			...options.value.containerStyle,
 			'--observe-top': `${containerSize.value.top}px`,
 			'--observe-left': `${containerSize.value.left}px`,
 			'--observe-width': `${containerSize.value.width}px`,

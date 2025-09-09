@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import ComponentTagGroup from './components/pull/ComponentTagGroup.vue';
 import JsonRenderer from './components/put/JsonRenderer.vue';
+import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 import { computed } from 'vue';
-import BindingContext from './components/put/data/BindingContext.vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
-import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 
 const schemaStore = useSchemaStore();
 const schema = computed(() => schemaStore.$state.schema);
@@ -45,9 +44,7 @@ const bindingStore = useBindingStore();
 						content-style="padding: 11px 24px; overflow: auto; width: 100%; height: 100%;"
 						:native-scrollbar="false"
 					>
-						<BindingContext path="pageOne">
-							<JsonRenderer v-model:schema="schema" />
-						</BindingContext>
+						<JsonRenderer v-model:schema="schema" />
 					</n-layout-content>
 
 					<n-layout-sider

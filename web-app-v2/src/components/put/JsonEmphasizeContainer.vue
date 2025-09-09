@@ -11,6 +11,14 @@ const props = defineProps({
 	schemaId: {
 		type: String,
 		default: ''
+	},
+	tag: {
+		type: String,
+		default: ''
+	},
+	containerStyle: {
+		type: Object,
+		default: null
 	}
 });
 
@@ -18,7 +26,8 @@ const emphasizeStore = useEmphasizeStore();
 
 const emphasizeOptions = computed(() => {
 	return {
-		schemaId: props.schemaId
+		schemaId: props.schemaId,
+		containerStyle: props.containerStyle,
 	};
 });
 const { containerRef, containerSizeStyle, onContainerClick } =
@@ -38,6 +47,9 @@ const containerClasses = computed(function () {
 		ref="containerRef"
 		@click.stop="onContainerClick"
 	>
-		<slot></slot>
+		<component :is="tag" v-if="tag">
+			<slot></slot>
+		</component>
+		<slot v-else></slot>
 	</div>
 </template>
