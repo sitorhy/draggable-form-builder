@@ -4,7 +4,7 @@ import JsonRenderer from './JsonRenderer.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useContainerMove } from './common/moveable.ts';
-import { computed, inject } from 'vue';
+import { computed, type ComputedRef, inject } from 'vue';
 
 defineOptions({
 	name: 'JsonRendererContainer'
@@ -17,7 +17,7 @@ defineProps({
 	}
 });
 
-const bindingPath = inject<string>('bindingPath', '');
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,

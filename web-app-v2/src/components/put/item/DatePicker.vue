@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, type ComputedRef, inject, ref } from 'vue';
 import { useMessage } from 'naive-ui';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useBindingConnector } from '../../../store/binding.ts';
@@ -12,23 +12,27 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const innerValue = ref(null);
-
 const id = computed(function () {
 	return schema.value.id;
 });
 
-const bindingPath = inject<string>('bindingPath', '');
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
+const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
 
-const { updateBinding } = useBindingConnector({
-	path: bindingPath,
-	onBindingChange: function (newVal) {
+const connectorOptions = computed(() => {
+	return {
+		path: bindingPath ? bindingPath.value : ''
+	};
+});
+const { updateBinding, queryBinding } = useBindingConnector(connectorOptions, {
+	onBindingChange: function (newVal: any) {
 		if (newVal !== innerValue.value) {
 			innerValue.value = newVal;
 		}
 	},
-	onError: (e) => message.error(e.message)
+	onError: (e: Error) => message.error(e.message)
 });
+const innerValue = ref(queryBinding());
 
 defineExpose({
 	id: id.value
@@ -38,9 +42,8 @@ defineExpose({
 <template>
 	<n-date-picker
 		v-if="schema.props"
-		v-bind="schema.props"
+		v-bind="{ ...schema.props, ...bindingProps }"
 		v-model:value="innerValue"
-		year-format="Y"
 		@update-value="updateBinding"
 	/>
 	<n-empty v-else description="DatePicker">

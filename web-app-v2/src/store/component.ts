@@ -5,7 +5,10 @@ import {
 	Timer24Regular,
 	AppsList24Regular,
 	TextNumberListLtr24Regular,
-	Box24Regular
+	Box24Regular,
+	FormNew24Regular,
+	TrayItemAdd24Regular,
+	Grid24Regular
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types.ts';
@@ -29,6 +32,58 @@ export function createRendererItemConfig(
 ): RendererItemDefinition {
 	// 存在props，需要进行额外展开的组件
 	switch (componentDefinition.type) {
+		case 'form': {
+			return {
+				type: 'form',
+				id: generateComponentId('form'),
+				props: {},
+				binding: [],
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
+			};
+		}
+		case 'formItem': {
+			return {
+				type: 'formItem',
+				id: generateComponentId('formItem'),
+				props: {
+					label: '表单项'
+				},
+				binding: [],
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
+			};
+		}
+		case 'grid': {
+			return {
+				type: 'grid',
+				id: generateComponentId('grid'),
+				props: {
+					cols: 4
+				},
+				binding: [],
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					}),
+					createRendererItemConfig({
+						type: 'container'
+					}),
+					createRendererItemConfig({
+						type: 'container'
+					}),
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
+			};
+		}
 		case 'textInput': {
 			return {
 				type: 'textInput',
@@ -37,7 +92,8 @@ export function createRendererItemConfig(
 					placeholder: '',
 					type: 'text',
 					rows: 2
-				}
+				},
+				binding: []
 			};
 		}
 		case 'datePicker':
@@ -47,7 +103,8 @@ export function createRendererItemConfig(
 				props: {
 					placeholder: '',
 					type: 'date'
-				}
+				},
+				binding: []
 			};
 		case 'list':
 			return {
@@ -65,6 +122,7 @@ export function createRendererItemConfig(
 						})
 					}
 				},
+				binding: [],
 				children: [
 					createRendererItemConfig({
 						type: 'container'
@@ -76,7 +134,8 @@ export function createRendererItemConfig(
 				type: 'container',
 				id: generateComponentId('container'),
 				props: {},
-				children: []
+				children: [],
+				binding: []
 			};
 		case 'linearList':
 			return {
@@ -86,14 +145,16 @@ export function createRendererItemConfig(
 					loop: [],
 					dataSource: '',
 					slots: {}
-				}
+				},
+				binding: []
 			};
 	}
 
 	return Object.assign(
 		{
 			id: uuid(),
-			type: componentDefinition.type
+			type: componentDefinition.type,
+			binding: []
 		},
 		omit({
 			description: componentDefinition.description,
@@ -114,6 +175,12 @@ export function getIconByType(type: string) {
 			return Box24Regular;
 		case 'linearList':
 			return AppsList24Regular;
+		case 'form':
+			return FormNew24Regular;
+		case 'formItem':
+			return TrayItemAdd24Regular;
+		case 'grid':
+			return Grid24Regular;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -157,6 +224,14 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'datePicker',
 							label: '日期选择器'
+						},
+						{
+							type: 'form',
+							label: '表单'
+						},
+						{
+							type: 'formItem',
+							label: '表单项'
 						}
 					]
 				},
@@ -164,6 +239,14 @@ export const useComponentsStore = defineStore('components', {
 					groupName: '布局组件',
 					groupId: 'layout',
 					components: [
+						{
+							type: 'container',
+							label: '容器'
+						},
+						{
+							type: 'grid',
+							label: '栅格'
+						},
 						{
 							type: 'list',
 							label: '列表'
@@ -174,10 +257,6 @@ export const useComponentsStore = defineStore('components', {
 					groupName: '高阶组件',
 					groupId: 'advanced',
 					components: [
-						{
-							type: 'container',
-							label: '容器'
-						},
 						{
 							type: 'linearList',
 							label: '线性表'

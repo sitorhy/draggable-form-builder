@@ -27,7 +27,7 @@ const emphasizeStore = useEmphasizeStore();
 const emphasizeOptions = computed(() => {
 	return {
 		schemaId: props.schemaId,
-		containerStyle: props.containerStyle,
+		containerStyle: props.containerStyle
 	};
 });
 const { containerRef, containerSizeStyle, onContainerClick } =
@@ -35,6 +35,7 @@ const { containerRef, containerSizeStyle, onContainerClick } =
 
 const containerClasses = computed(function () {
 	return [
+		'emphasized-container',
 		emphasizeStore.schemaId === props.schemaId ? 'draggable-emphasized' : ''
 	];
 });
@@ -53,3 +54,11 @@ const containerClasses = computed(function () {
 		<slot v-else></slot>
 	</div>
 </template>
+
+<style lang="scss" scoped>
+.emphasized-container {
+	position: relative;
+	width: 100%;
+	height: fit-content;
+}
+</style>

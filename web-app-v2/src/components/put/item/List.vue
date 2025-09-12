@@ -13,11 +13,9 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 });
 
 const componentData = computed(() => {
-	console.log(schema.value?.props?.slots);
 	return {
 		slots: schema.value?.props?.slots,
 		'onUpdate:slots': (slots: Record<string, any>) => {
-			console.log(111);
 			if (schema.value && schema.value.props) {
 				schema.value.props.slots = slots;
 			}

@@ -92,6 +92,7 @@ function onMove(
 
 	.tag {
 		width: calc(50% - 4px);
+		margin: 4px 0;
 	}
 }
 </style>

@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { useEmphasizeStore } from '../../../store/emphasize.ts';
-
-const emphasizeStore = useEmphasizeStore();
-
-// 点击页面空白处
-function onPageFocus() {
-	emphasizeStore.unwatchSchema();
-}
+defineProps({
+	path: {
+		type: String,
+		default: ''
+	}
+});
 </script>
 
 <template>
-	<div class="page" @click.stop="onPageFocus">
+	<div class="page">
 		<slot></slot>
 	</div>
 </template>

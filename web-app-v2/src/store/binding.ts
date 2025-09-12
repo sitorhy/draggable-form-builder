@@ -1,30 +1,34 @@
 import { defineStore } from 'pinia';
 import * as dotProp from 'dot-prop';
-import { watch } from 'vue';
+import { type ComputedRef, watch } from 'vue';
 
-export function useBindingConnector(options: {
-	path: string;
-	onError?: (err: Error) => void;
-	onBindingChange?: (newValue: any, oldValue: any) => void;
-}) {
+export function useBindingConnector(
+	options: ComputedRef<{
+		path: string;
+	}>,
+	fallback: {
+		onError?: (err: Error) => void;
+		onBindingChange?: (newValue: any, oldValue: any) => void;
+	}
+) {
 	const bindingStore = useBindingStore();
 
 	watch(
 		() => {
 			try {
-				return dotProp.getProperty(bindingStore.root, options.path);
+				return dotProp.getProperty(bindingStore.root, options.value.path || '');
 			} catch (e) {
 				console.error(e);
-				if (typeof options.onError === 'function') {
-					options.onError(e as Error);
+				if (typeof fallback.onError === 'function') {
+					fallback.onError(e as Error);
 				} else {
 					throw e;
 				}
 			}
 		},
 		function (newValue, oldValue) {
-			if (typeof options.onBindingChange === 'function') {
-				options.onBindingChange(newValue, oldValue);
+			if (typeof fallback.onBindingChange === 'function') {
+				fallback.onBindingChange(newValue, oldValue);
 			}
 		},
 		{
@@ -34,13 +38,13 @@ export function useBindingConnector(options: {
 
 	return {
 		updateBinding: function (value: any) {
-			if (options.path) {
+			if (options.value.path) {
 				try {
-					dotProp.setProperty(bindingStore.root, options.path, value);
+					dotProp.setProperty(bindingStore.root, options.value.path, value);
 				} catch (e) {
 					console.error(e);
-					if (typeof options.onError === 'function') {
-						options.onError(e as Error);
+					if (typeof fallback.onError === 'function') {
+						fallback.onError(e as Error);
 					} else {
 						throw e;
 					}
@@ -48,7 +52,7 @@ export function useBindingConnector(options: {
 			}
 		},
 		queryBinding: function () {
-			return dotProp.getProperty(bindingStore.root, options.path);
+			return dotProp.getProperty(bindingStore.root, options.value.path);
 		}
 	};
 }
@@ -56,9 +60,7 @@ export function useBindingConnector(options: {
 export const useBindingStore = defineStore('binding', {
 	state() {
 		return {
-			root: {
-				pageOne: {}
-			}
+			root: {}
 		};
 	}
 });

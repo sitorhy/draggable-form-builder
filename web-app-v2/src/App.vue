@@ -1,15 +1,43 @@
 <script setup lang="ts">
 import ComponentTagGroup from './components/pull/ComponentTagGroup.vue';
+import BindingContext from './components/put/data/BindingContext.vue';
 import JsonRenderer from './components/put/JsonRenderer.vue';
 import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
-import { computed } from 'vue';
+import PropertiesBindingEditor from './components/visual/PropertiesBindingEditor.vue';
+import type { TabsInst } from 'naive-ui';
+import { computed, ref, nextTick, watch } from 'vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
+import { v4 as uuid } from 'uuid';
 
 const schemaStore = useSchemaStore();
-const schema = computed(() => schemaStore.$state.schema);
-
 const bindingStore = useBindingStore();
+
+const schema = computed(() => schemaStore.schema);
+
+const tabsInstRef = ref<TabsInst | null>(null);
+const customTabValue = ref('schema');
+
+function onTabChange(tab: string) {
+	customTabValue.value = tab;
+}
+
+function onNodeSetting() {
+	customTabValue.value = 'properties';
+	nextTick(() => tabsInstRef.value?.syncBarPosition());
+}
+
+const schemaKey = ref(uuid());
+
+watch(
+	schema,
+	function () {
+		schemaKey.value = uuid();
+	},
+	{
+		deep: true
+	}
+);
 </script>
 
 <template>
@@ -30,7 +58,7 @@ const bindingStore = useBindingStore();
 					collapse-mode="transform"
 					:collapsed-width="11"
 					:native-scrollbar="false"
-					:width="240"
+					:width="280"
 					content-style="padding: 11px;"
 					show-trigger="arrow-circle"
 					bordered
@@ -44,7 +72,9 @@ const bindingStore = useBindingStore();
 						content-style="padding: 11px 24px; overflow: auto; width: 100%; height: 100%;"
 						:native-scrollbar="false"
 					>
-						<JsonRenderer v-model:schema="schema" />
+						<BindingContext custom-path="">
+							<JsonRenderer :key="schemaKey" v-model:schema="schema" />
+						</BindingContext>
 					</n-layout-content>
 
 					<n-layout-sider
@@ -52,23 +82,75 @@ const bindingStore = useBindingStore();
 						:native-scrollbar="false"
 						:collapsed-width="11"
 						:width="360"
-						content-style="padding: 11px;"
+						content-style="padding: 11px; height: 100%;"
 						show-trigger="arrow-circle"
 						bordered
 					>
-						<JsonSchemaTree />
-						<textarea
-							readonly
-							style="width: 100%"
-							:rows="30"
-							:value="JSON.stringify(schema, null, 2)"
-						></textarea>
-						<textarea
-							style="width: 100%"
-							readonly
-							:rows="30"
-							:value="JSON.stringify(bindingStore.root, null, 2)"
-						></textarea>
+						<div class="custom-tabs">
+							<div class="custom-tabs-header">
+								<n-tabs
+									ref="tabsInstRef"
+									type="line"
+									default-value="schema"
+									:animated="false"
+									v-model:value="customTabValue"
+									@update:value="onTabChange"
+								>
+									<n-tab-pane name="schema" tab="大纲" display-directive="show">
+									</n-tab-pane>
+
+									<n-tab-pane
+										name="properties"
+										tab="属性"
+										display-directive="show"
+									>
+									</n-tab-pane>
+
+									<n-tab-pane name="test" tab="模式" display-directive="show">
+									</n-tab-pane>
+
+									<n-tab-pane name="test2" tab="绑定" display-directive="show">
+									</n-tab-pane>
+								</n-tabs>
+							</div>
+							<div class="custom-tabs-body">
+								<div
+									class="custom-tabs-item"
+									v-show="customTabValue === 'schema'"
+								>
+									<JsonSchemaTree @node:setting="onNodeSetting" />
+								</div>
+
+								<div
+									class="custom-tabs-item"
+									v-show="customTabValue === 'properties'"
+								>
+									<PropertiesBindingEditor />
+								</div>
+
+								<div
+									class="custom-tabs-item non-scrollable"
+									v-show="customTabValue === 'test'"
+								>
+									<textarea
+										readonly
+										style="width: 98%; height: 99%"
+										:value="JSON.stringify(schema, null, 2)"
+									></textarea>
+								</div>
+
+								<div
+									class="custom-tabs-item non-scrollable"
+									v-show="customTabValue === 'test2'"
+								>
+									<textarea
+										style="width: 98%; height: 99%"
+										readonly
+										:value="JSON.stringify(bindingStore.root, null, 2)"
+									></textarea>
+								</div>
+							</div>
+						</div>
 					</n-layout-sider>
 				</n-layout>
 			</n-layout>
@@ -87,5 +169,31 @@ const bindingStore = useBindingStore();
 .main {
 	height: 100%;
 	width: 100%;
+}
+</style>
+
+<style lang="scss" scoped>
+.custom-tabs {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.custom-tabs-header {
+		flex-shrink: 0;
+	}
+
+	.custom-tabs-body {
+		flex-grow: 1;
+		overflow: hidden;
+
+		.custom-tabs-item {
+			height: 100%;
+			overflow: auto;
+
+			&.non-scrollable {
+				overflow: hidden;
+			}
+		}
+	}
 }
 </style>

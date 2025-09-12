@@ -175,7 +175,11 @@ export function moveTo(
 	const target = (fromParent.children as RendererItemDefinition[]).find(
 		(c) => c.id === id
 	);
-	const fromIndex = indexOfParent(targetParent, { type: '', id: id });
+	const fromIndex = indexOfParent(targetParent, {
+		binding: [],
+		type: '',
+		id: id
+	});
 	// 移出，targetParent不为空 => target不为空
 	(fromParent.children as RendererItemDefinition[]).splice(fromIndex, 1);
 

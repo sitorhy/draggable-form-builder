@@ -2,13 +2,13 @@
 import draggable from 'vuedraggable';
 import JsonRendererItem from './JsonRendererItem.vue';
 import type { RendererItemDefinition } from '../../types.ts';
-import { inject } from 'vue';
+import { type ComputedRef, inject } from 'vue';
 
 defineOptions({
 	name: 'JsonRenderer'
 });
 
-const bindingPath = inject<string>('bindingPath', '');
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,

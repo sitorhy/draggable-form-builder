@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type ComputedRef, inject } from 'vue';
 import BindingContext from './data/BindingContext.vue';
 import JsonRenderer from './JsonRenderer.vue';
 import draggable from 'vuedraggable';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useContainerMove } from './common/moveable.ts';
-import { useComponentBindingPath } from './common/binding-path.ts';
+import { joinPathConfig, getCurrentPathConfig } from './common/binding-path.ts';
 
 defineOptions({
 	name: 'JsonRendererList'
@@ -50,30 +50,18 @@ const loop = computed<any[]>(function () {
 	return props.value.loop;
 });
 
-const bindingPathOptions = computed(() => {
-	return {
-		bracket: false,
-		path: schema.value.id,
-		parseNumber: false
-	};
-});
-
-const { getCurrentPathConfig, collectParentBindingPathConfig, joinPathConfig } =
-	useComponentBindingPath(bindingPathOptions);
-
-const parentBindingPathConfig = computed(() => {
-	return collectParentBindingPathConfig();
-});
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
 
 function createItemBindingPath(index: number) {
-	return joinPathConfig(
-		[
+	return (
+		bindingPath?.value +
+		joinPathConfig([
 			getCurrentPathConfig({
 				bracket: true,
 				path: String(index),
 				parseNumber: true
 			})
-		].concat(parentBindingPathConfig.value)
+		])
 	);
 }
 
@@ -96,11 +84,12 @@ const containerClasses = computed(function () {
 	<BindingContext
 		v-else
 		v-for="(item, index) in loop"
+		:schema="schema"
 		:key="createItemBindingPath(index)"
 		:bracket="true"
 		:parse-number="true"
+		:custom-path="`${index}`"
 		:component-context="item"
-		:path="`${index}`"
 	>
 		<draggable
 			v-if="schema.children"

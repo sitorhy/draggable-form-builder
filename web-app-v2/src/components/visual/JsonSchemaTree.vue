@@ -3,12 +3,14 @@ import { computed } from 'vue';
 import { BaseTree, OpenIcon } from '@he-tree/vue';
 import { useSchemaStore } from '../../store/schema.ts';
 import { useComponentsStore } from '../../store/component.ts';
-import { Info24Regular } from '@vicons/fluent';
+import { Settings24Regular } from '@vicons/fluent';
 
 import '@he-tree/vue/style/default.css';
 import '@he-tree/vue/style/material-design.css';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useEmphasizeStore } from '../../store/emphasize.ts';
+
+const emit = defineEmits(['node:setting']);
 
 const schemaStore = useSchemaStore();
 const componentsStore = useComponentsStore();
@@ -21,7 +23,7 @@ type TreeNode = {
 	type: string;
 	id: string;
 	children?: TreeNode[];
-	showInfo?: boolean;
+	showSetting?: boolean;
 };
 
 type CheckedTreeNode = {
@@ -34,7 +36,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 			label: componentsStore.getComponentNameByType(schema.type) || schema.type,
 			type: schema.type,
 			id: schema.id,
-			showInfo: true
+			showSetting: true
 		};
 
 		if (schema.type === 'list') {
@@ -46,14 +48,14 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					children: mapToVisualTree(
 						schema.props?.slots.prefix ? [schema.props?.slots.prefix] : []
 					),
-					showInfo: false
+					showSetting: false
 				},
 				{
 					id: NON_SCHEMA_ID,
 					type: 'slot',
 					label: '内容插槽',
 					children: mapToVisualTree(schema.children || []),
-					showInfo: false
+					showSetting: false
 				},
 				{
 					id: NON_SCHEMA_ID,
@@ -62,7 +64,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					children: mapToVisualTree(
 						schema.props?.slots.suffix ? [schema.props?.slots.suffix] : []
 					),
-					showInfo: false
+					showSetting: false
 				}
 			];
 		} else {
@@ -92,6 +94,17 @@ function onNodeClick(node: CheckedTreeNode) {
 		emphasizeStore.watchSchema(node.data.id);
 	}
 }
+
+function onSettingClick(node: TreeNode) {
+	if (node) {
+		if (node.id === NON_SCHEMA_ID) {
+			emphasizeStore.unwatchSchema();
+			return;
+		}
+		emphasizeStore.watchSchema(node.id);
+		emit('node:setting', node);
+	}
+}
 </script>
 
 <template>
@@ -117,8 +130,12 @@ function onNodeClick(node: CheckedTreeNode) {
 				>
 					<span>{{ node.label }}</span>
 					<div class="node-desc-actions">
-						<n-icon color="#18a058" v-if="node.showInfo">
-							<Info24Regular />
+						<n-icon
+							color="#18a058"
+							v-if="node.showSetting"
+							@click.stop="onSettingClick(node)"
+						>
+							<Settings24Regular />
 						</n-icon>
 					</div>
 				</div>
