@@ -34,6 +34,7 @@ function sections() {
 			},
 			{
 				title: '辅助属性',
+				id: 'design',
 				schema: [
 					{
 						type: NColorPicker,

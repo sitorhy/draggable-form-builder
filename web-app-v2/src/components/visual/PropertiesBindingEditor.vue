@@ -35,7 +35,7 @@ const schemaTypeName = computed(function () {
 
 const bindingSchema = computed(function () {
 	return generateBindingSchema({
-		type: String(watchingSchema.value?.type || '')
+		schema: watchingSchema.value
 	});
 });
 </script>

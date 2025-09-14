@@ -27,8 +27,8 @@ export type PropertyInjection = {
 	config?: Record<string, any>;
 };
 
-export type PropertyInjectionSchema = {
-	type: Component | string;
+export type PropertyInjectionSchema = Record<string, any> & {
+	type: Component<Record<string, any>> | string;
 	label: string;
 	prop: string;
 	config?: Record<string, any>;

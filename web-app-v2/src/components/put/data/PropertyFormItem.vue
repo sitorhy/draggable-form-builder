@@ -28,6 +28,10 @@ const props = defineProps({
 	component: {
 		type: Object as PropType<Component>,
 		default: () => NInput
+	},
+	disabled: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -105,7 +109,7 @@ function cancel() {
 				</n-form-item>
 			</n-form>
 		</div>
-		<div class="edit">
+		<div class="edit" v-if="!disabled">
 			<n-button-group>
 				<n-button circle v-if="!isEditing" @click="edit" title="编辑">
 					<template #icon>

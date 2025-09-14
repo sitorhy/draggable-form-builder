@@ -5,11 +5,11 @@ import { useBindingPathSchema } from './common.ts';
 function sections() {
 	return {
 		sections: [
-			useBindingPathSchema(),
 			{
 				title: '文本输入模式',
 				id: 'props',
 				schema: [
+					useBindingPathSchema(),
 					{
 						type: NSwitch,
 						prop: 'disabled',
