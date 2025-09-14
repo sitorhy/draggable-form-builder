@@ -10,6 +10,17 @@ export function findNodeById(
 	if (root.id === id) {
 		return root;
 	}
+
+	// 处理特殊容器[插槽定义]
+	if (root.props && root.props.slots) {
+		for (const slotName in root.props.slots) {
+			const slotSchema = root.props.slots[slotName];
+			if (slotSchema && slotSchema.id === id) {
+				return slotSchema;
+			}
+		}
+	}
+
 	if (Array.isArray(root.children) && root.children.length > 0) {
 		for (const child of root.children) {
 			if (child.id === id) {
@@ -40,6 +51,17 @@ export function findParentByNodeId(
 			}
 		}
 	}
+
+	// 处理特殊容器[插槽定义]
+	if (root.props && root.props.slots) {
+		for (const slotName in root.props.slots) {
+			const slotSchema = root.props.slots[slotName];
+			if (slotSchema && slotSchema.id === id) {
+				return root;
+			}
+		}
+	}
+
 	return null;
 }
 
@@ -61,6 +83,18 @@ function __findAncestorsByNodeId(
 			}
 		}
 	}
+
+	// 处理特殊容器[插槽定义]
+	if (root.props && root.props.slots) {
+		for (const slotName in root.props.slots) {
+			const slotSchema = root.props.slots[slotName];
+			if (slotSchema && slotSchema.id === id) {
+				receive.push(root);
+				return true;
+			}
+		}
+	}
+
 	return false;
 }
 

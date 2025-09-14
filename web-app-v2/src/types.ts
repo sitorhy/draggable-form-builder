@@ -14,6 +14,7 @@ export type RendererItemDefinition = {
 	id: string;
 	props?: Record<string, any> & {
 		path?: string; // 上下文绑定名称
+		slots?: Record<string, RendererItemDefinition>;
 	};
 	children?: RendererItemDefinition[];
 	binding?: PropertyInjection[];
