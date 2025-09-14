@@ -51,9 +51,8 @@ export function useRequiredInputSchema(options: {
 	};
 }
 
-export function useBindingPathSchema(options: { disabled?: boolean }) {
+export function useBindingPathSchema() {
 	return useRequiredInputSchema({
-		...options,
 		propertyName: 'path',
 		message: '',
 		validator: function (

@@ -88,7 +88,10 @@ export function createRendererItemConfig(
 				type: 'grid',
 				id: generateComponentId('grid'),
 				props: {
-					cols: 4
+					cols: 4,
+					rows: 1,
+					xGap: 12,
+					yGap: 0
 				},
 				binding: [],
 				children: [
@@ -157,7 +160,12 @@ export function createRendererItemConfig(
 			return {
 				type: 'container',
 				id: generateComponentId('container'),
-				props: {},
+				props: {
+					style: {
+						display: 'flex',
+						flexDirection: 'column'
+					}
+				},
 				children: [],
 				binding: []
 			};

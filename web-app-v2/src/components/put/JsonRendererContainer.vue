@@ -45,6 +45,7 @@ const containerClasses = computed(function () {
 		:move="containerDragMove"
 		:group="{ name: 'renderer-container', put: true, pull: true }"
 		:data-binding-path="bindingPath"
+		:style="schema.props?.style"
 		item-key="id"
 		ghost-class="ghost"
 		drag-class="drag"

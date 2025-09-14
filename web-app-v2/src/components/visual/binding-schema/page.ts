@@ -1,18 +1,15 @@
-import {
-	type PropertyFormItemSchemaOptions,
-	useBindingPathSchema
-} from './common';
+import { useBindingPathSchema } from './common';
 import { NSelect, NColorPicker } from 'naive-ui';
 import { PAGE_DIRECTION, PAGE_FORMAT } from '../../put/common/constants.ts';
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections() {
 	return {
 		sections: [
 			{
 				title: '页面模式',
 				id: 'props',
 				schema: [
-					useBindingPathSchema(options),
+					useBindingPathSchema(),
 					{
 						type: NSelect,
 						prop: 'format',
@@ -53,9 +50,9 @@ function sections(options: PropertyFormItemSchemaOptions) {
 	};
 }
 
-export default function (options: PropertyFormItemSchemaOptions) {
+export default function () {
 	return {
-		schemas: sections(options),
+		schemas: sections(),
 		formProps: {}
 	};
 }

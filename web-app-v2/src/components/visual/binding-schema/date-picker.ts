@@ -1,8 +1,5 @@
 import { NInput, NSelect, NSwitch } from 'naive-ui';
-import {
-	type PropertyFormItemSchemaOptions,
-	useBindingPathSchema
-} from './common.ts';
+import { useBindingPathSchema } from './common.ts';
 
 const DATE_TYPE_OPTIONS = [
 	{
@@ -74,14 +71,14 @@ const DATE_FORMAT = [
 	}
 ];
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections() {
 	return {
 		sections: [
 			{
 				title: '日期模式',
 				id: 'props',
 				schema: [
-					useBindingPathSchema(options),
+					useBindingPathSchema(),
 					{
 						type: NSwitch,
 						prop: 'disabled',
@@ -120,9 +117,9 @@ function sections(options: PropertyFormItemSchemaOptions) {
 	};
 }
 
-export default function (options: PropertyFormItemSchemaOptions) {
+export default function () {
 	return {
-		schemas: sections(options),
+		schemas: sections(),
 		formProps: {}
 	};
 }

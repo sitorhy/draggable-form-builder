@@ -24,7 +24,6 @@ defineExpose({
 	<n-grid
 		v-if="schema.props && schema.children"
 		v-bind="{ ...schema.props, ...bindingProps }"
-		x-gap="12"
 	>
 		<n-gi v-for="(cellSchema, index) in schema.children" :key="cellSchema.id">
 			<JsonRenderer v-model:schema="schema.children[index]" />

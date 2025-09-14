@@ -3,6 +3,8 @@ import datePicker from './date-picker';
 import textInput from './textInput';
 import formItem from './form-item';
 import form from './form';
+import grid from './grid';
+import container from './container';
 import type { PropertyInjectionSchema } from '../../../types.ts';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 
@@ -20,19 +22,25 @@ export function getSchemas(options: PropertyFormItemSchemaOptions): {
 
 	switch (type) {
 		case 'datePicker': {
-			return datePicker(options);
+			return datePicker();
 		}
 		case 'page': {
-			return page(options);
+			return page();
 		}
 		case 'textInput': {
-			return textInput(options);
+			return textInput();
 		}
 		case 'formItem': {
-			return formItem(options);
+			return formItem();
 		}
 		case 'form': {
-			return form(options);
+			return form();
+		}
+		case 'grid': {
+			return grid(options);
+		}
+		case 'container': {
+			return container(options);
 		}
 	}
 

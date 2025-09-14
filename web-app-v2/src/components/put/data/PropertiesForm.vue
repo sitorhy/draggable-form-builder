@@ -73,9 +73,9 @@ defineExpose({
 					<component
 						v-if="item.type !== 'slotScope'"
 						:is="item.type"
+						v-model:value="modelValue[item.prop]"
 						v-bind="item.config"
 						v-on="item.on || defaultHandlers"
-						v-model:value="modelValue[item.prop]"
 					/>
 					<slot v-if="item.type === 'slotScope'" :name="item.prop"></slot>
 				</n-form-item>

@@ -110,7 +110,10 @@ export function unitTest(): RendererItemDefinition {
 								type: 'grid',
 								id: 'grid_099a7aa3-d8cb-433d-859c-ce0eeb22a582',
 								props: {
-									cols: 4
+									cols: 4,
+									rows: 1,
+									xGap: 12,
+									yGap: 0
 								},
 								children: [
 									{

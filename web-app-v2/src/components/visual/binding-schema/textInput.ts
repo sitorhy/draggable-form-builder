@@ -1,18 +1,15 @@
 import { NInput, NInputNumber, NSelect, NSwitch } from 'naive-ui';
 import { TEXT_INPUT_TYPE } from '../../put/common/constants.ts';
-import {
-	type PropertyFormItemSchemaOptions,
-	useBindingPathSchema
-} from './common.ts';
+import { useBindingPathSchema } from './common.ts';
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections() {
 	return {
 		sections: [
 			{
 				title: '文本输入模式',
 				id: 'props',
 				schema: [
-					useBindingPathSchema(options),
+					useBindingPathSchema(),
 					{
 						type: NSwitch,
 						prop: 'disabled',
@@ -57,9 +54,9 @@ function sections(options: PropertyFormItemSchemaOptions) {
 	};
 }
 
-export default function (options: PropertyFormItemSchemaOptions) {
+export default function () {
 	return {
-		schemas: sections(options),
+		schemas: sections(),
 		formProps: {}
 	};
 }

@@ -1,21 +1,18 @@
 import { NInput, NSelect } from 'naive-ui';
-import {
-	type PropertyFormItemSchemaOptions,
-	useBindingPathSchema
-} from './common.ts';
+import { useBindingPathSchema } from './common.ts';
 import {
 	FORM_LABEL_ALIGN,
 	FORM_LABEL_PLACEMENT
 } from '../../put/common/constants.ts';
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections() {
 	return {
 		sections: [
 			{
 				title: '表单项模式',
 				id: 'props',
 				schema: [
-					useBindingPathSchema(options),
+					useBindingPathSchema(),
 					{
 						type: NInput,
 						prop: 'label',
@@ -46,9 +43,9 @@ function sections(options: PropertyFormItemSchemaOptions) {
 	};
 }
 
-export default function (options: PropertyFormItemSchemaOptions) {
+export default function () {
 	return {
-		schemas: sections(options),
+		schemas: sections(),
 		formProps: {}
 	};
 }
