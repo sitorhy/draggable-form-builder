@@ -10,6 +10,19 @@ import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
 import { v4 as uuid } from 'uuid';
 
+const contentStyle = computed(() => {
+	return {
+		padding: '11px 24px',
+		overflow: 'auto',
+		width: '100%',
+		height: '100%',
+		background: 'lightgray',
+		backgroundImage: `repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%)`,
+		backgroundSize: `16px 16px`,
+		border: 'solid 1px #eee'
+	};
+});
+
 const schemaStore = useSchemaStore();
 const bindingStore = useBindingStore();
 
@@ -69,12 +82,14 @@ watch(
 				<n-layout has-sider sider-placement="right">
 					<n-layout-content
 						embedded
-						content-style="padding: 11px 24px; overflow: auto; width: 100%; height: 100%;"
+						:content-style="contentStyle"
 						:native-scrollbar="false"
 					>
-						<BindingContext custom-path="">
-							<JsonRenderer :key="schemaKey" v-model:schema="schema" />
-						</BindingContext>
+						<div style="width: fit-content; height: 100%; margin: auto">
+							<BindingContext custom-path="">
+								<JsonRenderer :key="schemaKey" v-model:schema="schema" />
+							</BindingContext>
+						</div>
 					</n-layout-content>
 
 					<n-layout-sider
@@ -96,7 +111,11 @@ watch(
 									v-model:value="customTabValue"
 									@update:value="onTabChange"
 								>
-									<n-tab-pane name="schema" tab="大纲" display-directive="show">
+									<n-tab-pane
+										name="schema"
+										tab="大纲"
+										display-directive="show"
+									>
 									</n-tab-pane>
 
 									<n-tab-pane

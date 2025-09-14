@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, type PropType } from 'vue';
+import { v4 as uuid } from 'uuid';
 import type { PropertyInjectionSchema } from '../../../types.ts';
 
 const props = defineProps({
@@ -25,9 +26,16 @@ const modelValue = defineModel('props', {
 });
 
 const visibleItems = computed(function () {
-	return props.schema.filter(function (item) {
-		return shouldRenderItem(item);
-	});
+	return props.schema
+		.filter(function (item) {
+			return shouldRenderItem(item);
+		})
+		.map((item) => {
+			return {
+				...item,
+				key: uuid()
+			};
+		});
 });
 
 function shouldRenderItem(item: { visible?: () => boolean }): boolean {
@@ -54,11 +62,7 @@ defineExpose({
 		label-placement="top"
 	>
 		<n-grid :x-gap="xGap" :cols="cols">
-			<n-gi
-				v-for="item in visibleItems"
-				:span="item.span || 1"
-				:key="item.prop"
-			>
+			<n-gi v-for="item in visibleItems" :span="item.span || 1" :key="item.key">
 				<n-form-item
 					:label="item.label"
 					:path="item.prop"

@@ -1,44 +1,57 @@
-import { NInput, type FormItemRule } from 'naive-ui';
-import PropertyFormItem from '../../put/data/PropertyFormItem.vue';
-import { isValidAsciiVariableName } from './common.ts';
+import { useBindingPathSchema } from './common';
+import { NSelect, NColorPicker } from 'naive-ui';
+import { PAGE_DIRECTION, PAGE_FORMAT } from '../../put/common/constants.ts';
 
-function schema() {
-	return [
-		{
-			type: PropertyFormItem,
-			prop: 'path',
-			label: '对象路径',
-			config: {
-				component: NInput,
-				prop: 'path',
-				message: '',
-				validator: function (
-					_rule: FormItemRule,
-					value: string,
-					callback: (e?: Error) => void
-				) {
-					if (!value) {
-						callback(new Error('填写节点路径'));
-						return;
-					} else if (!isValidAsciiVariableName(value)) {
-						callback(new Error('路径节点需符合变量定义'));
-						return;
+function sections() {
+	return {
+		sections: [
+			{
+				title: '页面模式',
+				id: 'props',
+				schema: [
+					useBindingPathSchema(),
+					{
+						type: NSelect,
+						prop: 'format',
+						label: '尺寸',
+						config: {
+							placeholder: '',
+							clearable: true,
+							options: PAGE_FORMAT
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'direction',
+						label: '方向',
+						config: {
+							placeholder: '',
+							clearable: true,
+							options: PAGE_DIRECTION
+						}
 					}
-					callback();
-				}
+				]
 			},
-			rules: [
-				{
-					required: true
-				}
-			]
-		}
-	];
+			{
+				title: '辅助属性',
+				schema: [
+					{
+						type: NColorPicker,
+						prop: 'background',
+						label: '背景内容',
+						config: {
+							placeholder: ''
+						}
+					}
+				]
+			}
+		]
+	};
 }
 
 export default function () {
 	return {
-		schema: schema(),
+		schemas: sections(),
 		formProps: {}
 	};
 }

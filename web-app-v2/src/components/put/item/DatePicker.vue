@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, inject, ref } from 'vue';
+import { computed, type ComputedRef, inject } from 'vue';
 import { useMessage } from 'naive-ui';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useBindingConnector } from '../../../store/binding.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
+import { useEmptyBindingPath } from '../common/binding-path.ts';
 
 const message = useMessage();
 
@@ -16,23 +17,35 @@ const id = computed(function () {
 	return schema.value.id;
 });
 
-const bindingPath = inject<ComputedRef<string>>('bindingPath');
+const { emptyBindingPath } = useEmptyBindingPath();
+
+const bindingPath = inject<ComputedRef<string>>(
+	'bindingPath',
+	emptyBindingPath
+);
+const formItemBindingPath = inject<ComputedRef<string>>(
+	'formItemBindingPath',
+	emptyBindingPath
+);
 const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
 
 const connectorOptions = computed(() => {
 	return {
-		path: bindingPath ? bindingPath.value : ''
+		path: formItemBindingPath?.value || bindingPath?.value || ''
 	};
 });
 const { updateBinding, queryBinding } = useBindingConnector(connectorOptions, {
-	onBindingChange: function (newVal: any) {
-		if (newVal !== innerValue.value) {
-			innerValue.value = newVal;
-		}
-	},
 	onError: (e: Error) => message.error(e.message)
 });
-const innerValue = ref(queryBinding());
+
+const modelValue = computed({
+	get() {
+		return queryBinding();
+	},
+	set(value: any) {
+		updateBinding(value);
+	}
+});
 
 defineExpose({
 	id: id.value
@@ -43,8 +56,7 @@ defineExpose({
 	<n-date-picker
 		v-if="schema.props"
 		v-bind="{ ...schema.props, ...bindingProps }"
-		v-model:value="innerValue"
-		@update-value="updateBinding"
+		v-model:value="modelValue"
 	/>
 	<n-empty v-else description="DatePicker">
 		<template #icon>

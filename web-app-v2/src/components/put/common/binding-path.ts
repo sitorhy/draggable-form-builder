@@ -1,4 +1,4 @@
-import { type ComputedRef, getCurrentInstance } from 'vue';
+import { computed, type ComputedRef, getCurrentInstance } from 'vue';
 
 export function getCurrentPathConfig(options: {
 	bracket: boolean;
@@ -20,6 +20,7 @@ export function getCurrentPathConfig(options: {
 export function joinPathConfig(bindings: { sep: string; path: string }[]) {
 	return bindings
 		.reverse()
+		.filter((i) => i.path)
 		.map((item, index) => {
 			return index === 0 ? `${item.path}` : `${item.sep}${item.path}`;
 		})
@@ -88,15 +89,15 @@ export function useComponentBindingPath(
 
 	function collectBindingPathConfig() {
 		const bindings = collectParentBindingPathConfig();
-		bindings.unshift(getCurrentPathConfig(options.value));
+		const self = getCurrentInstance();
+		if (self && self.type.__name === 'BindingContext') {
+			// <slot></slot> getCurrentInstance 直接访问的是子组件
+			bindings.unshift(getCurrentPathConfig(options.value));
+		}
 		return bindings;
 	}
 
 	function getBindingPath() {
-		if (!options.value.path) {
-			// 没有就返回空，否则会重复绑定上级路径
-			return '';
-		}
 		const parentBindings = collectBindingPathConfig();
 		return joinPathConfig(parentBindings);
 	}
@@ -105,5 +106,12 @@ export function useComponentBindingPath(
 		collectBindingPathConfig,
 		collectParentBindingPathConfig,
 		getBindingPath
+	};
+}
+
+export function useEmptyBindingPath() {
+	const emptyBindingPath = computed(() => '');
+	return {
+		emptyBindingPath
 	};
 }

@@ -28,7 +28,7 @@ const type = computed(() => schema.value.type);
 			:schema-id="schema.id"
 			:container-style="{ width: '100%', height: '100%' }"
 		>
-			<Page>
+			<Page v-model:schema="schema">
 				<slot></slot>
 			</Page>
 		</JsonEmphasizeContainer>
@@ -62,12 +62,16 @@ const type = computed(() => schema.value.type);
 			<List v-model:schema="schema" />
 		</JsonEmphasizeContainer>
 	</BindingContext>
-	<BindingContext :schema="schema" v-else-if="type === 'grid'">
+	<BindingContext custom-path="" :schema="schema" v-else-if="type === 'grid'">
 		<JsonEmphasizeContainer :schema-id="schema.id">
 			<Grid v-model:schema="schema" />
 		</JsonEmphasizeContainer>
 	</BindingContext>
-	<BindingContext :schema="schema" v-else-if="type === 'container'">
+	<BindingContext
+		custom-path=""
+		:schema="schema"
+		v-else-if="type === 'container'"
+	>
 		<JsonEmphasizeContainer :schema-id="schema.id">
 			<JsonRendererContainer v-model:schema="schema" />
 		</JsonEmphasizeContainer>

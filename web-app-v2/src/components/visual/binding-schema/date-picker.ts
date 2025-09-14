@@ -1,4 +1,5 @@
 import { NInput, NSelect, NSwitch } from 'naive-ui';
+import { useBindingPathSchema } from './common.ts';
 
 const DATE_TYPE_OPTIONS = [
 	{
@@ -70,46 +71,55 @@ const DATE_FORMAT = [
 	}
 ];
 
-function schema() {
-	return [
-		{
-			type: NSwitch,
-			prop: 'disabled',
-			label: '禁用',
-			config: {}
-		},
-		{
-			type: NInput,
-			prop: 'placeholder',
-			label: '占位信息',
-			config: {
-				placeholder: ''
+function sections() {
+	return {
+		sections: [
+			{
+				title: '日期模式',
+				id: 'props',
+				schema: [
+					useBindingPathSchema(),
+					{
+						type: NSwitch,
+						prop: 'disabled',
+						label: '禁用',
+						config: {}
+					},
+					{
+						type: NInput,
+						prop: 'placeholder',
+						label: '占位信息',
+						config: {
+							placeholder: ''
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'type',
+						label: '日期类型',
+						config: {
+							placeholder: '',
+							options: DATE_TYPE_OPTIONS
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'format',
+						label: '日期格式',
+						config: {
+							placeholder: '',
+							options: DATE_FORMAT
+						}
+					}
+				]
 			}
-		},
-		{
-			type: NSelect,
-			prop: 'type',
-			label: '日期类型',
-			config: {
-				placeholder: '',
-				options: DATE_TYPE_OPTIONS
-			}
-		},
-		{
-			type: NSelect,
-			prop: 'format',
-			label: '日期格式',
-			config: {
-				placeholder: '',
-				options: DATE_FORMAT
-			}
-		}
-	];
+		]
+	};
 }
 
 export default function () {
 	return {
-		schema: schema(),
+		schemas: sections(),
 		formProps: {}
 	};
 }

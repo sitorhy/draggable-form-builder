@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, type ComputedRef, inject, provide } from 'vue';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
+
+defineOptions({
+	name: 'FormItem'
+});
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -13,7 +17,10 @@ const id = computed(function () {
 	return schema.value.id;
 });
 
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
 const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
+
+provide('formItemBindingPath', bindingPath);
 
 defineExpose({
 	id: id.value

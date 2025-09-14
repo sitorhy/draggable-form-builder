@@ -2,6 +2,7 @@ import {
 	markRaw,
 	ref,
 	computed,
+	onMounted,
 	onUnmounted,
 	watch,
 	type ComputedRef
@@ -24,18 +25,22 @@ export function useRendererContainerEmphasize(
 		height: number;
 	} | null>(null);
 
+	function syncTargetBoundary(target: HTMLElement) {
+		containerSize.value = {
+			left: target.offsetLeft,
+			top: target.offsetTop,
+			width: target.offsetWidth,
+			height: target.offsetHeight
+		};
+	}
+
 	const resizeObserver = markRaw(
 		new ResizeObserver((entries) => {
 			const entry = entries[0];
 			if (entry) {
 				const target = entry.target as HTMLElement;
 				if (target) {
-					containerSize.value = {
-						left: target.offsetLeft,
-						top: target.offsetTop,
-						width: target.offsetWidth,
-						height: target.offsetHeight
-					};
+					syncTargetBoundary(target);
 				} else {
 					containerSize.value = null;
 				}
@@ -81,8 +86,18 @@ export function useRendererContainerEmphasize(
 		}
 	});
 
+	function onWindowsResize() {
+		const target = containerRef.value.children[0];
+		syncTargetBoundary(target);
+	}
+
+	onMounted(() => {
+		window.addEventListener('resize', onWindowsResize);
+	});
+
 	onUnmounted(() => {
 		resizeObserver.disconnect();
+		window.removeEventListener('resize', onWindowsResize);
 	});
 
 	return {

@@ -12,9 +12,18 @@ import {
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types.ts';
+import { SequenceGenerator } from '../components/put/common/seq.ts';
+
+const seqGenerator = new SequenceGenerator({
+	startFrom: Math.floor(Math.random() * 1000)
+});
 
 export function generateComponentId(name: string): string {
 	return `${name}_${uuid()}`;
+}
+
+export function generateComponentPath(name: string): string {
+	return `${name}${seqGenerator.next()}`;
 }
 
 function omit(obj: Record<string, any>) {
@@ -32,11 +41,23 @@ export function createRendererItemConfig(
 ): RendererItemDefinition {
 	// 存在props，需要进行额外展开的组件
 	switch (componentDefinition.type) {
+		case 'page': {
+			return {
+				type: 'page',
+				id: generateComponentId('page'),
+				props: {
+					path: generateComponentPath('page'),
+					background: '#eee'
+				}
+			};
+		}
 		case 'form': {
 			return {
 				type: 'form',
 				id: generateComponentId('form'),
-				props: {},
+				props: {
+					path: generateComponentPath('form')
+				},
 				binding: [],
 				children: [
 					createRendererItemConfig({
@@ -50,7 +71,8 @@ export function createRendererItemConfig(
 				type: 'formItem',
 				id: generateComponentId('formItem'),
 				props: {
-					label: '表单项'
+					label: '表单项',
+					path: generateComponentPath('formItem')
 				},
 				binding: [],
 				children: [
@@ -91,7 +113,8 @@ export function createRendererItemConfig(
 				props: {
 					placeholder: '',
 					type: 'text',
-					rows: 2
+					rows: 2,
+					maxlength: 255
 				},
 				binding: []
 			};

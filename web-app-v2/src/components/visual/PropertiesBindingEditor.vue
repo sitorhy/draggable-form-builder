@@ -51,16 +51,36 @@ const bindingSchema = computed(function () {
 				</template>
 				<template #header>
 					<div>
-						<div>{{ schemaTypeName }}</div>
-						<div class="schema-id">{{ watchingSchema.id }}</div>
+						<n-tooltip trigger="hover" placement="right">
+							<template #trigger>
+								<div>{{ schemaTypeName }}</div>
+							</template>
+							<div class="list">
+								<div class="list-item">
+									<div class="list-header">schemaId</div>
+									<div class="list-body">
+										{{ watchingSchema.id }}
+									</div>
+								</div>
+							</div>
+						</n-tooltip>
 					</div>
 				</template>
-				<PropertiesForm
-					v-bind="bindingSchema.formProps"
-					:key="watchingSchema.id"
-					:schema="bindingSchema.schema"
-					v-model:props="watchingSchema.props"
-				></PropertiesForm>
+
+				<n-space :vertical="true">
+					<n-card
+						:key="bindingSchema.id + '_' + section.id"
+						v-for="section in bindingSchema.schemas.sections"
+						:title="section.title"
+						size="small"
+					>
+						<PropertiesForm
+							v-bind="bindingSchema.formProps"
+							:schema="section.schema"
+							v-model:props="watchingSchema.props"
+						></PropertiesForm>
+					</n-card>
+				</n-space>
 			</n-thing>
 		</div>
 		<div v-else class="editor-empty">
@@ -86,10 +106,18 @@ const bindingSchema = computed(function () {
 		flex-direction: column;
 		justify-content: center;
 	}
+}
 
-	.schema-id {
-		font-size: 10px;
-		font-weight: bold;
+.list {
+	font-size: 10px;
+	font-weight: bold;
+
+	.list-item {
+		display: flex;
+
+		.list-header {
+			width: 8em;
+		}
 	}
 }
 </style>

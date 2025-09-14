@@ -5,13 +5,15 @@ export function unitTest(): RendererItemDefinition {
 		type: 'page',
 		id: 'page_ffd7d498-e331-425c-903b-ad346bb76046',
 		props: {
-			path: 'pageOne'
+			path: 'pageOne',
+			background: '#eee'
 		},
 		children: [
 			{
 				type: 'datePicker',
 				id: 'datePicker_d1769a2e-e571-43e8-ad32-327c16704015',
 				props: {
+					path: 'date001',
 					placeholder: '日期'
 				},
 				binding: [
@@ -45,7 +47,8 @@ export function unitTest(): RendererItemDefinition {
 						props: {
 							placeholder: '文本框',
 							type: 'text',
-							rows: 2
+							rows: 2,
+							maxlength: 255
 						}
 					}
 				]
@@ -93,7 +96,9 @@ export function unitTest(): RendererItemDefinition {
 			{
 				type: 'form',
 				id: 'form_3ebeae90-2d3f-4703-b6e9-1742a4f352fa',
-				props: {},
+				props: {
+					path: 'form001'
+				},
 				children: [
 					{
 						type: 'container',
@@ -116,7 +121,8 @@ export function unitTest(): RendererItemDefinition {
 												type: 'formItem',
 												id: 'formItem_70477e55-189f-405a-b688-58cd3717f108',
 												props: {
-													label: '表单项'
+													label: '表单项',
+													path: 'formItem513'
 												},
 												children: [
 													{
@@ -154,7 +160,8 @@ export function unitTest(): RendererItemDefinition {
 												type: 'formItem',
 												id: 'formItem_1d42fa4b-bacf-49e2-bd3d-14d3b8dc917a',
 												props: {
-													label: '表单项'
+													label: '表单项',
+													path: 'formItem514'
 												},
 												children: [
 													{

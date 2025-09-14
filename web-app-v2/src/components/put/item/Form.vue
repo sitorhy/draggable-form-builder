@@ -1,21 +1,44 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, type ComputedRef, inject, onBeforeMount } from 'vue';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
+import { useBindingConnector } from '../../../store/binding.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const innerValue = ref({});
-
 const id = computed(function () {
 	return schema.value.id;
 });
 
+const bindingPath = inject<ComputedRef<string>>('bindingPath');
 const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
+
+const connectorOptions = computed(() => {
+	return {
+		path: bindingPath ? bindingPath.value : ''
+	};
+});
+const { updateBinding, queryBinding } = useBindingConnector(connectorOptions);
+
+onBeforeMount(() => {
+	const formValue = queryBinding();
+	if (!formValue) {
+		updateBinding({});
+	}
+});
+
+const modelValue = computed({
+	get() {
+		return queryBinding();
+	},
+	set(value: any) {
+		updateBinding(value);
+	}
+});
 
 defineExpose({
 	id: id.value
@@ -26,7 +49,7 @@ defineExpose({
 	<n-form
 		v-if="schema.props && schema.children"
 		v-bind="{ ...schema.props, ...bindingProps }"
-		v-model:value="innerValue"
+		v-model:value="modelValue"
 	>
 		<JsonRenderer
 			v-for="(containerSchema, index) in schema.children"

@@ -45,9 +45,6 @@ export function useContainerMove() {
 	 * @returns {boolean} 位于不同分支，禁止拖入，返回 false
 	 */
 	function areOnDifferentBranches(pathA: string, pathB: string): boolean {
-		console.log('pathA = ' + pathA);
-		console.log('pathB = ' + pathB);
-
 		// 匹配所有以 . 分隔的子串或方括号索引
 		const segmentsA = pathA.match(/[^.\[]+|\[\d+]/g) || [];
 		const segmentsB = pathB.match(/[^.\[]+|\[\d+]/g) || [];
@@ -63,13 +60,11 @@ export function useContainerMove() {
 
 				const regex = /^\[(?:'[^']+'|"[^"]+"|\d+)]$/;
 				if (!regex.test(pathA) || !regex.test(pathB)) {
-					console.log(pathA, pathB);
 					return true;
 				}
 
 				const indexA = extractValueFromBracket(pathA);
 				const indexB = extractValueFromBracket(pathB);
-				console.log(indexA, indexB);
 
 				// 不同模板分支
 				return indexA === indexB;
@@ -97,12 +92,8 @@ export function useContainerMove() {
 	) {
 		const fromBindingPath = evt.from.dataset.bindingPath;
 		const toBindingPath = evt.to.dataset.bindingPath;
-		const moveable = areOnDifferentBranches(
-			fromBindingPath || '',
-			toBindingPath || ''
-		);
-		console.log('moveable = ' + moveable);
-		return moveable;
+
+		return areOnDifferentBranches(fromBindingPath || '', toBindingPath || '');
 	}
 
 	return {

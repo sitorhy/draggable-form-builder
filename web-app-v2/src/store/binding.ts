@@ -9,7 +9,7 @@ export function useBindingConnector(
 	fallback: {
 		onError?: (err: Error) => void;
 		onBindingChange?: (newValue: any, oldValue: any) => void;
-	}
+	} = {}
 ) {
 	const bindingStore = useBindingStore();
 
@@ -51,8 +51,12 @@ export function useBindingConnector(
 				}
 			}
 		},
-		queryBinding: function () {
-			return dotProp.getProperty(bindingStore.root, options.value.path);
+		queryBinding: function (defaultValue: any = null) {
+			const val = dotProp.getProperty(bindingStore.root, options.value.path);
+			if (val !== undefined) {
+				return val;
+			}
+			return defaultValue;
 		}
 	};
 }
