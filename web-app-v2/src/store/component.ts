@@ -56,7 +56,8 @@ export function createRendererItemConfig(
 				type: 'form',
 				id: generateComponentId('form'),
 				props: {
-					path: generateComponentPath('form')
+					path: generateComponentPath('form'),
+					requireMarkPlacement: 'left'
 				},
 				binding: [],
 				children: [

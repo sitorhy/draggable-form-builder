@@ -97,7 +97,8 @@ export function unitTest(): RendererItemDefinition {
 				type: 'form',
 				id: 'form_3ebeae90-2d3f-4703-b6e9-1742a4f352fa',
 				props: {
-					path: 'form001'
+					path: 'form001',
+					requireMarkPlacement: 'left'
 				},
 				children: [
 					{

@@ -58,12 +58,14 @@ defineExpose({
 	<n-form
 		v-bind="$attrs"
 		ref="formRef"
-		:model="modelValue"
+		require-mark-placement="left"
 		label-placement="top"
+		:model="modelValue"
 	>
 		<n-grid :x-gap="xGap" :cols="cols">
 			<n-gi v-for="item in visibleItems" :span="item.span || 1" :key="item.key">
 				<n-form-item
+					v-bind="item.formItemProps"
 					:label="item.label"
 					:path="item.prop"
 					:rule="item.rules || []"

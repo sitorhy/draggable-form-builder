@@ -1,5 +1,14 @@
 import PropertyFormItem from '../../put/data/PropertyFormItem.vue';
 import { type FormItemRule, NInput } from 'naive-ui';
+import type {
+	PropertyInjectionSchema,
+	RendererItemDefinition
+} from '../../../types.ts';
+
+export type PropertyFormItemSchemaOptions = {
+	schema: RendererItemDefinition | null | undefined;
+	itemProps?: Partial<PropertyInjectionSchema>[];
+};
 
 /**
  * 快速判断字符串是否为有效的 ASCII 变量名
@@ -13,24 +22,26 @@ export function isValidAsciiVariableName(str: string): boolean {
 	return regex.test(str);
 }
 
-export function useRequiredInputSchema(
-	propertyName: string,
-	message: string = '',
+export function useRequiredInputSchema(options: {
+	propertyName: string;
+	message: string;
 	validator: (
 		_rule: FormItemRule,
 		value: string,
 		callback: (e?: Error) => void
-	) => void
-) {
+	) => void;
+	disabled?: boolean;
+}) {
 	return {
 		type: PropertyFormItem,
-		prop: propertyName,
+		prop: options.propertyName,
 		label: '对象路径',
 		config: {
 			component: NInput,
-			prop: propertyName,
-			message: message,
-			validator: validator
+			prop: options.propertyName,
+			message: options.message,
+			validator: options.validator,
+			disabled: options.disabled || false
 		},
 		rules: [
 			{
@@ -40,11 +51,12 @@ export function useRequiredInputSchema(
 	};
 }
 
-export function useBindingPathSchema() {
-	return useRequiredInputSchema(
-		'path',
-		'',
-		function (
+export function useBindingPathSchema(options: { disabled?: boolean }) {
+	return useRequiredInputSchema({
+		...options,
+		propertyName: 'path',
+		message: '',
+		validator: function (
 			_rule: FormItemRule,
 			value: string,
 			callback: (e?: Error) => void
@@ -58,5 +70,5 @@ export function useBindingPathSchema() {
 			}
 			callback();
 		}
-	);
+	});
 }

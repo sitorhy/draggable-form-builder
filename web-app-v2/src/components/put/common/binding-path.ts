@@ -6,7 +6,7 @@ export function getCurrentPathConfig(options: {
 	parseNumber: boolean;
 }) {
 	return {
-		sep: options.bracket ? '' : '.',
+		sep: options.bracket || options.path === '' ? '' : '.',
 		path: options.bracket
 			? [
 					'[',
@@ -20,7 +20,6 @@ export function getCurrentPathConfig(options: {
 export function joinPathConfig(bindings: { sep: string; path: string }[]) {
 	return bindings
 		.reverse()
-		.filter((i) => i.path)
 		.map((item, index) => {
 			return index === 0 ? `${item.path}` : `${item.sep}${item.path}`;
 		})

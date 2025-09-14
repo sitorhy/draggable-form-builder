@@ -4,13 +4,15 @@ import { computed } from 'vue';
 import { useEmphasizeStore } from '../../store/emphasize.ts';
 import { Settings24Regular } from '@vicons/fluent';
 import { useComponentsStore } from '../../store/component.ts';
-import PropertiesForm from '../put/data/PropertiesForm.vue';
 import { generateBindingSchema } from './binding-schema';
+import { useFormItemSchemaFilter } from './binding-schema/filter';
+import PropertiesForm from '../put/data/PropertiesForm.vue';
 
 const componentsStore = useComponentsStore();
 const emphasizeStore = useEmphasizeStore();
 
 const { findNodeById } = useSchemaActions();
+const { filterFormItemSchema } = useFormItemSchemaFilter();
 
 const watchingSchemaId = computed(function () {
 	return emphasizeStore.schemaId;
@@ -34,8 +36,10 @@ const schemaTypeName = computed(function () {
 });
 
 const bindingSchema = computed(function () {
+	let itemProps = filterFormItemSchema(watchingSchema);
 	return generateBindingSchema({
-		schema: watchingSchema.value
+		schema: watchingSchema.value,
+		itemProps
 	});
 });
 </script>
@@ -69,7 +73,7 @@ const bindingSchema = computed(function () {
 
 				<n-space :vertical="true">
 					<n-card
-						:key="bindingSchema.id + '_' + section.id"
+						:key="watchingSchema.id + '_' + section.id"
 						v-for="section in bindingSchema.schemas.sections"
 						:title="section.title"
 						size="small"

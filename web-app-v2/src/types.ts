@@ -36,4 +36,5 @@ export type PropertyInjectionSchema = Record<string, any> & {
 	rules?: FormItemRule[]; // 保留 没用到
 	on?: Record<string, (...args: any[]) => any>;
 	span?: number | string;
+	formItemProps?: Record<string, any>;
 };
