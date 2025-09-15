@@ -2,6 +2,7 @@ import { NInputNumber } from 'naive-ui';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 import { createRendererItemConfig } from '../../../store/component.ts';
+import type { SectionsReturnType } from './index.ts';
 
 function updateCells(schema: RendererItemDefinition) {
 	if (!schema.props) {
@@ -51,7 +52,7 @@ function updateCells(schema: RendererItemDefinition) {
 	}
 }
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
 			{

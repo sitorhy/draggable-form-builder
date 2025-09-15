@@ -27,6 +27,7 @@ export function unitTest(): RendererItemDefinition {
 				type: 'linearList',
 				id: 'linearList_06f601da-67a6-4753-8625-9493b9e9cbc0',
 				props: {
+					static: true,
 					dataSource: '',
 					loop: [
 						{
@@ -57,6 +58,7 @@ export function unitTest(): RendererItemDefinition {
 				type: 'list',
 				id: 'list_8c1cadac-56cb-4cbe-aa8d-a36afd755492',
 				props: {
+					static: true,
 					dataSource: '',
 					loop: [
 						{

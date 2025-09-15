@@ -4,8 +4,9 @@ import {
 	FORM_LABEL_ALIGN,
 	FORM_LABEL_PLACEMENT
 } from '../../put/common/constants.ts';
+import type { SectionsReturnType } from './index.ts';
 
-function sections() {
+function sections(): SectionsReturnType {
 	return {
 		sections: [
 			{

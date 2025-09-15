@@ -134,10 +134,12 @@ export function createRendererItemConfig(
 				binding: []
 			};
 		case 'list':
+			// 固定排版的线性表
 			return {
 				type: 'list',
 				id: generateComponentId('list'),
 				props: {
+					static: true,
 					loop: [],
 					dataSource: '',
 					slots: {
@@ -174,6 +176,7 @@ export function createRendererItemConfig(
 				type: 'linearList',
 				id: generateComponentId('linearList'),
 				props: {
+					static: true,
 					loop: [],
 					dataSource: '',
 					slots: {}

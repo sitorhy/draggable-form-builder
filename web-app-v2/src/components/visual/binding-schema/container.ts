@@ -2,6 +2,7 @@ import { NSelect } from 'naive-ui';
 import EdgeProperties from '../EdgeProperties.vue';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
+import type { SectionsReturnType } from './index.ts';
 
 function updateContainerStyle(
 	schema: RendererItemDefinition,
@@ -21,7 +22,7 @@ function updateContainerStyle(
 	};
 }
 
-function sections(options: PropertyFormItemSchemaOptions) {
+function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
 			{

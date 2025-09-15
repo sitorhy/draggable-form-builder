@@ -5,19 +5,26 @@ import formItem from './form-item';
 import form from './form';
 import grid from './grid';
 import container from './container';
+import linearList from './linear-list';
 import type { PropertyInjectionSchema } from '../../../types.ts';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 
-export function getSchemas(options: PropertyFormItemSchemaOptions): {
+export type PropertyItemSchemasReturnType = {
 	formProps: Record<string, any>;
-	schemas: {
-		sections: {
-			title: string;
-			id: string;
-			schema: PropertyInjectionSchema[];
-		}[];
-	};
-} {
+	schemas: SectionsReturnType;
+};
+
+export type SectionsReturnType = {
+	sections: {
+		title: string;
+		id: string;
+		schema: PropertyInjectionSchema[];
+	}[];
+};
+
+export function getSchemas(
+	options: PropertyFormItemSchemaOptions
+): PropertyItemSchemasReturnType {
 	const type = options.schema?.type;
 
 	switch (type) {
@@ -41,6 +48,9 @@ export function getSchemas(options: PropertyFormItemSchemaOptions): {
 		}
 		case 'container': {
 			return container(options);
+		}
+		case 'linearList': {
+			return linearList(options);
 		}
 	}
 

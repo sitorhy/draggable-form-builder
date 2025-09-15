@@ -1,8 +1,9 @@
 import { NInput, NInputNumber, NSelect, NSwitch } from 'naive-ui';
 import { TEXT_INPUT_TYPE } from '../../put/common/constants.ts';
 import { useBindingPathSchema } from './common.ts';
+import type { SectionsReturnType } from './index.ts';
 
-function sections() {
+function sections(): SectionsReturnType {
 	return {
 		sections: [
 			{

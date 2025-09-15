@@ -1,8 +1,9 @@
 import { useBindingPathSchema } from './common';
 import { NSelect, NColorPicker } from 'naive-ui';
 import { PAGE_DIRECTION, PAGE_FORMAT } from '../../put/common/constants.ts';
+import type { SectionsReturnType } from './index.ts';
 
-function sections() {
+function sections(): SectionsReturnType {
 	return {
 		sections: [
 			{

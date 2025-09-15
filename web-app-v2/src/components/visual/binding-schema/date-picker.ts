@@ -1,5 +1,6 @@
 import { NInput, NSelect, NSwitch } from 'naive-ui';
 import { useBindingPathSchema } from './common.ts';
+import type { SectionsReturnType } from './index.ts';
 
 const DATE_TYPE_OPTIONS = [
 	{
@@ -71,7 +72,7 @@ const DATE_FORMAT = [
 	}
 ];
 
-function sections() {
+function sections(): SectionsReturnType {
 	return {
 		sections: [
 			{
