@@ -117,11 +117,11 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '布局类型',
 						config: {
 							disabled: false,
-							value: 'flex',
+							value: options.schema?.props?.style?.display,
 							options: [
 								{
 									label: '弹性布局',
-									value: options.schema?.props?.style?.display
+									value: 'flex'
 								}
 							]
 						},
