@@ -6,6 +6,7 @@ import draggable from 'vuedraggable';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useContainerMove } from './common/moveable.ts';
 import { joinPathConfig, getCurrentPathConfig } from './common/binding-path.ts';
+import { useDataSourceInitializer } from './common/data-source-Initializer.ts';
 
 defineOptions({
 	name: 'JsonRendererList'
@@ -37,20 +38,22 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({})
 });
 
-const props = computed(function () {
-	return schema.value.props
-		? schema.value.props
-		: {
-				dataSource: '', // 绑定数据源id，数据源返回数组
-				loop: [] // 绑定静态数据，优先级高于数据源
-			};
-});
-
-const loop = computed<any[]>(function () {
-	return props.value.loop;
-});
-
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
+
+const dataSourceInitOptions = computed(function () {
+	return {
+		bindingPath: bindingPath?.value,
+		staticValue: schema.value.props?.loop || [],
+		static:
+			typeof schema.value.props?.static === 'boolean'
+				? schema.value.props?.static
+				: true,
+		dataSource: schema.value.props?.dataSource // 统一数据源配置
+	};
+});
+const { queryBinding } = useDataSourceInitializer(dataSourceInitOptions);
+
+const loop = computed(() => queryBinding());
 
 function createItemBindingPath(index: number) {
 	return (

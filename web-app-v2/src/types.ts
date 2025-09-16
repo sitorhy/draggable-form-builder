@@ -17,15 +17,7 @@ export type RendererItemDefinition = {
 		slots?: Record<string, RendererItemDefinition>;
 	};
 	children?: RendererItemDefinition[];
-	binding?: PropertyInjection[];
-};
-
-export type PropertyInjection = {
-	prop: string;
-	label?: string;
-	static: boolean;
-	bindingPath?: string;
-	config?: Record<string, any>;
+	binding?: NormalizeDataSource[];
 };
 
 export type PropertyInjectionSchema = Record<string, any> & {
@@ -34,8 +26,14 @@ export type PropertyInjectionSchema = Record<string, any> & {
 	prop: string;
 	config?: Record<string, any>;
 	visible?: () => boolean;
-	rules?: FormItemRule[]; // 保留 没用到
+	rules?: FormItemRule[];
 	on?: Record<string, (...args: any[]) => any>;
 	span?: number | string;
 	formItemProps?: Record<string, any>;
+};
+
+export type NormalizeDataSource = {
+	schema: string;
+	host: string;
+	path: string;
 };

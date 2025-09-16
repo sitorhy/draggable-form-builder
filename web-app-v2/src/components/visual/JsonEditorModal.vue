@@ -2,6 +2,9 @@
 import { computed, nextTick, ref } from 'vue';
 import JsonEditorVue from 'json-editor-vue';
 import { Mode } from 'vanilla-jsoneditor';
+import { useMessage } from 'naive-ui';
+
+const message = useMessage();
 
 const props = defineProps({
 	readOnly: {
@@ -21,12 +24,12 @@ const modelValue = defineModel('value', {
 
 const editorRef = ref();
 const showModal = ref(false);
-const loopJson = ref(null);
+const loopJson = ref<string | null>(null);
 
 const editorProps = computed(() => {
 	return {
 		mode: Mode.text,
-		readOnly: !props.readOnly
+		readOnly: props.readOnly
 	};
 });
 
@@ -35,7 +38,9 @@ const buttonText = computed(() => {
 });
 
 function open() {
-	loopJson.value = JSON.stringify(modelValue.value, null, 2);
+	loopJson.value = modelValue.value
+		? JSON.stringify(modelValue.value, null, 2)
+		: null;
 	showModal.value = true;
 }
 
@@ -47,16 +52,26 @@ function onPositiveClick() {
 	const errors = editorRef.value.jsonEditor.validate();
 	if (!errors) {
 		nextTick(() => {
-			modelValue.value = JSON.parse(loopJson.value);
+			if (loopJson.value) {
+				const arr = JSON.parse(loopJson.value);
+				if (!Array.isArray(arr)) {
+					message.warning('对象为非数组类别');
+					return;
+				}
+				modelValue.value = arr;
+			} else {
+				modelValue.value = null;
+			}
 			loopJson.value = null;
+			showModal.value = false;
 		});
 	}
-	return !errors;
+	return false;
 }
 </script>
 
 <template>
-	<n-button @click="open">{{ buttonText }}</n-button>
+	<n-button type="primary" @click="open">{{ buttonText }}</n-button>
 	<n-modal
 		style="width: 800px"
 		v-model:show="showModal"
@@ -69,8 +84,6 @@ function onPositiveClick() {
 		@positive-click="onPositiveClick"
 		@negative-click="onNegativeClick"
 	>
-		<div class="content">
-			<JsonEditorVue ref="editorRef" v-model="loopJson" v-bind="editorProps" />
-		</div>
+		<JsonEditorVue ref="editorRef" v-model="loopJson" v-bind="editorProps" />
 	</n-modal>
 </template>

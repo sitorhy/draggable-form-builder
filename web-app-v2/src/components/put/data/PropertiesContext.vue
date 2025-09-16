@@ -6,7 +6,7 @@
 
 import { computed, type PropType, provide } from 'vue';
 import type {
-	PropertyInjection,
+	NormalizeDataSource,
 	RendererItemDefinition
 } from '../../../types.ts';
 
@@ -27,7 +27,7 @@ const staticProps = computed(function () {
 
 const propsInjection = computed(() => {
 	const obj: Record<string, any> = {};
-	binding.value.forEach((binding: PropertyInjection) => {
+	binding.value.forEach((binding: NormalizeDataSource) => {
 		if (binding.static) {
 			obj[binding.prop] = staticProps.value[binding.prop];
 		}

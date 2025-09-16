@@ -15,6 +15,10 @@ const props = defineProps({
 	schema: {
 		type: Array as PropType<PropertyInjectionSchema[]>,
 		default: () => []
+	},
+	itemKey: {
+		type: Function as PropType<() => string>,
+		default: null
 	}
 });
 
@@ -31,9 +35,15 @@ const visibleItems = computed(function () {
 			return shouldRenderItem(item);
 		})
 		.map((item) => {
+			let key;
+			if (typeof props.itemKey === 'function') {
+				key = props.itemKey(item);
+			} else {
+				key = uuid();
+			}
 			return {
 				...item,
-				key: uuid()
+				key
 			};
 		});
 });
@@ -49,7 +59,7 @@ const defaultHandlers = computed(() => ({}));
 
 defineExpose({
 	validate: (cb: (errors?: Error[]) => void) => {
-		formRef.value.validate(cb);
+		return formRef.value.validate(cb);
 	}
 });
 </script>

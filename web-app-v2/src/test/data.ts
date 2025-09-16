@@ -15,20 +15,15 @@ export function unitTest(): RendererItemDefinition {
 				props: {
 					path: 'date001',
 					placeholder: '日期'
-				},
-				binding: [
-					{
-						prop: 'type',
-						static: true
-					}
-				]
+				}
 			},
 			{
 				type: 'linearList',
 				id: 'linearList_06f601da-67a6-4753-8625-9493b9e9cbc0',
 				props: {
+					path: 'list001',
 					static: true,
-					dataSource: '',
+					dataSource: null,
 					loop: [
 						{
 							id: '0x1234'
@@ -49,7 +44,9 @@ export function unitTest(): RendererItemDefinition {
 							placeholder: '文本框',
 							type: 'text',
 							rows: 2,
-							maxlength: 255
+							maxlength: 255,
+							disabled: false,
+							path: 'text'
 						}
 					}
 				]
@@ -58,17 +55,18 @@ export function unitTest(): RendererItemDefinition {
 				type: 'list',
 				id: 'list_8c1cadac-56cb-4cbe-aa8d-a36afd755492',
 				props: {
+					path: 'list002',
 					static: true,
-					dataSource: '',
+					dataSource: null,
 					loop: [
 						{
-							id: '0x1234'
+							id: '0x1237'
 						},
 						{
-							id: '0x1235'
+							id: '0x1238'
 						},
 						{
-							id: '0x1236'
+							id: '0x1239'
 						}
 					],
 					slots: {

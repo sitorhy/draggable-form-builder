@@ -80,3 +80,17 @@ export const TEXT_INPUT_TYPE = [
 		value: 'textarea'
 	}
 ];
+
+export const DATA_SOURCE_SCHEMAS = [
+	{
+		label: '对象检索',
+		value: 'object'
+	}
+];
+
+export const DATA_SOURCE_OBJECT_SCHEMA_HOST = [
+	{
+		label: '路径',
+		value: 'path'
+	}
+];

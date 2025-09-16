@@ -133,31 +133,6 @@ export function createRendererItemConfig(
 				},
 				binding: []
 			};
-		case 'list':
-			// 固定排版的线性表
-			return {
-				type: 'list',
-				id: generateComponentId('list'),
-				props: {
-					static: true,
-					loop: [],
-					dataSource: '',
-					slots: {
-						prefix: createRendererItemConfig({
-							type: 'container'
-						}),
-						suffix: createRendererItemConfig({
-							type: 'container'
-						})
-					}
-				},
-				binding: [],
-				children: [
-					createRendererItemConfig({
-						type: 'container'
-					})
-				]
-			};
 		case 'container':
 			return {
 				type: 'container',
@@ -176,12 +151,39 @@ export function createRendererItemConfig(
 				type: 'linearList',
 				id: generateComponentId('linearList'),
 				props: {
+					path: generateComponentPath('linearList'),
 					static: true,
 					loop: [],
-					dataSource: '',
+					dataSource: null,
 					slots: {}
 				},
 				binding: []
+			};
+		case 'list':
+			// 固定排版的线性表
+			return {
+				type: 'list',
+				id: generateComponentId('list'),
+				props: {
+					path: generateComponentPath('list'),
+					static: true,
+					loop: [],
+					dataSource: null,
+					slots: {
+						prefix: createRendererItemConfig({
+							type: 'container'
+						}),
+						suffix: createRendererItemConfig({
+							type: 'container'
+						})
+					}
+				},
+				binding: [],
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
 			};
 	}
 
