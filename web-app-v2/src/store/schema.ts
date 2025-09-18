@@ -6,10 +6,10 @@ import {
 	insertBeforeIndex,
 	findAncestorsByNodeId,
 	moveTo
-} from './nodes.ts';
+} from './nodes';
 import { defineStore } from 'pinia';
-import { unitTest } from '../test/data.ts';
-import type { RendererItemDefinition } from '../types.ts';
+import { unitTest } from '../test/data';
+import type { RendererItemDefinition } from '../types';
 
 export const useSchemaStore = defineStore<
 	'schema',

@@ -4,6 +4,7 @@ import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
 import { useBindingConnector } from '../../../store/binding.ts';
+import { useEmptyPropsInjection } from '../common/props.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -15,7 +16,12 @@ const id = computed(function () {
 });
 
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
-const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
+
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
 
 const connectorOptions = computed(() => {
 	return {

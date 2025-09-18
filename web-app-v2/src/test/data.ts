@@ -198,6 +198,62 @@ export function unitTest(): RendererItemDefinition {
 						]
 					}
 				]
+			},
+			{
+				type: 'textInput',
+				id: 'textInput_8660ddd2-d03c-40e6-940e-2e7f44b7f862',
+				props: {
+					path: 'textInput838',
+					placeholder: '',
+					type: 'text',
+					rows: 2,
+					maxlength: 255
+				}
+			},
+			{
+				type: 'textInput',
+				id: 'textInput_6a3a041c-ec2c-4034-80aa-18d636c9fa3f',
+				props: {
+					path: 'textInput839',
+					placeholder: '',
+					type: 'text',
+					rows: 2,
+					maxlength: 255
+				}
+			},
+			{
+				type: 'container',
+				id: 'container_ee8ff148-17f3-4b29-aa22-eba7de97aa1c',
+				props: {
+					style: {
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'flex-start'
+					},
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'flex-start'
+				},
+				children: [
+					{
+						type: 'ellipsis',
+						id: 'ellipsis_f8056fec-5178-4cd4-8acc-a47aeac9f288',
+						props: {
+							text: '文本同步：'
+						}
+					},
+					{
+						type: 'ellipsis',
+						id: 'ellipsis_8eaafe7f-1ce8-4d76-97e4-6dc15bc21d71',
+						props: {
+							text: '测试'
+						},
+						binding: {
+							text: 'object://path:pageOne.textInput839'
+						}
+					}
+				]
 			}
 		]
 	};

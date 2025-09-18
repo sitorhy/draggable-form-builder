@@ -6,12 +6,57 @@ import {
 import { type FormItemRule, NInput, NSelect } from 'naive-ui';
 import type { NormalizeDataSource } from '../../../types.ts';
 
+export function stringifyDataSourceSchema(options: NormalizeDataSource) {
+	if (options && options.schema && options.host && options.path) {
+		return `${options.schema}://${options.host}:${options.path}`;
+	}
+	return '';
+}
+
+export function parseUri(uri: string): NormalizeDataSource {
+	const result = {
+		schema: '',
+		host: '',
+		path: ''
+	};
+
+	// 1. 查找并拆分 schema
+	const schemaSeparatorIndex = uri.indexOf('://');
+	if (schemaSeparatorIndex === -1) {
+		return result; // 格式不正确，返回空
+	}
+	result.schema = uri.substring(0, schemaSeparatorIndex);
+
+	// 2. 截取剩余部分，并查找 host 和 path
+	const rest = uri.substring(schemaSeparatorIndex + 3);
+
+	// 查找 host 和 path 的分隔符
+	const hostSeparatorIndex = rest.indexOf(':');
+	if (hostSeparatorIndex === -1) {
+		// 如果没有 host 分隔符，说明格式不正确，或者 host 就是全部
+		return result;
+	}
+	result.host = rest.substring(0, hostSeparatorIndex);
+
+	// 3. 查找 path 和查询参数的分隔符
+	const pathAndQuery = rest.substring(hostSeparatorIndex + 1);
+	const querySeparatorIndex = pathAndQuery.indexOf('?');
+
+	if (querySeparatorIndex !== -1) {
+		result.path = pathAndQuery.substring(0, querySeparatorIndex);
+	} else {
+		result.path = pathAndQuery;
+	}
+
+	return result;
+}
+
 /**
  * 判断字符串是否是一个有效的对象属性路径
  * @param {string} path 待验证的路径字符串
  * @returns {boolean}
  */
-function isValidObjectPath(path) {
+function isValidObjectPath(path: any): boolean {
 	if (typeof path !== 'string' || path.length === 0) {
 		return false;
 	}
@@ -34,7 +79,7 @@ function isValidObjectPath(path) {
 }
 
 function getQueryString(queryString: string) {
-	const params = {};
+	const params: Record<string, string> = {};
 	if (queryString) {
 		const start = queryString.indexOf('?');
 		if (start < 0) {
@@ -59,7 +104,12 @@ export function useDataSourceConfig() {
 
 	const schemaOptions = computed(() => DATA_SOURCE_SCHEMAS);
 
-	const hostOptions = ref([]);
+	const hostOptions = ref<
+		{
+			value: string;
+			label: string;
+		}[]
+	>([]);
 
 	function onSchemaChanged(value: string) {
 		dataSourceSchemaRef.value.host = '';
@@ -85,21 +135,20 @@ export function useDataSourceConfig() {
 		return '';
 	});
 
-	function itemKeyGetter(item) {
-		return item.prop;
+	function itemKeyGetter(item: Record<any, any>): string {
+		return item.prop as string;
 	}
 
 	function reset() {
 		dataSourceSchemaRef.value = {
 			schema: 'object',
 			host: '',
-			path: '',
-			query: ''
+			path: ''
 		};
 		onSchemaChanged(dataSourceSchemaRef.value.schema);
 	}
 
-	const formSchema = computed(() => {
+	const formSchema = computed(function () {
 		return [
 			{
 				type: NSelect,
@@ -185,19 +234,10 @@ export function useDataSourceConfig() {
 		onSchemaChanged(dataSourceSchemaRef.value.schema);
 	});
 
-	function stringifyDataSourceSchema(options: NormalizeDataSource) {
-		if (options && options.schema && options.host && options.path) {
-			return `${options.schema}://${options.host}:${options.path}`;
-		}
-		return '';
-	}
-
 	return {
 		dataSourceSchemaRef,
 		formSchema,
 		itemKeyGetter,
-		stringifyDataSourceSchema,
-		isValidObjectPath,
 		reset
 	};
 }

@@ -6,6 +6,7 @@ import form from './form';
 import grid from './grid';
 import container from './container';
 import linearList from './linear-list';
+import ellipsis from './ellipsis';
 import type { PropertyInjectionSchema } from '../../../types.ts';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 
@@ -49,8 +50,12 @@ export function getSchemas(
 		case 'container': {
 			return container(options);
 		}
-		case 'linearList': {
+		case 'linearList':
+		case 'list': {
 			return linearList(options);
+		}
+		case 'ellipsis': {
+			return ellipsis();
 		}
 	}
 

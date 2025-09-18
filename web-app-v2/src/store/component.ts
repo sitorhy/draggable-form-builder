@@ -8,11 +8,12 @@ import {
 	Box24Regular,
 	FormNew24Regular,
 	TrayItemAdd24Regular,
-	Grid24Regular
+	Grid24Regular,
+	DrawText24Regular
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
-import type { ComponentDefinition, RendererItemDefinition } from '../types.ts';
-import { SequenceGenerator } from '../components/put/common/seq.ts';
+import type { ComponentDefinition, RendererItemDefinition } from '../types';
+import { SequenceGenerator } from '../components/put/common/seq';
 
 const seqGenerator = new SequenceGenerator({
 	startFrom: Math.floor(Math.random() * 1000)
@@ -59,7 +60,6 @@ export function createRendererItemConfig(
 					path: generateComponentPath('form'),
 					requireMarkPlacement: 'left'
 				},
-				binding: [],
 				children: [
 					createRendererItemConfig({
 						type: 'container'
@@ -75,7 +75,6 @@ export function createRendererItemConfig(
 					label: '表单项',
 					path: generateComponentPath('formItem')
 				},
-				binding: [],
 				children: [
 					createRendererItemConfig({
 						type: 'container'
@@ -93,7 +92,6 @@ export function createRendererItemConfig(
 					xGap: 12,
 					yGap: 0
 				},
-				binding: [],
 				children: [
 					createRendererItemConfig({
 						type: 'container'
@@ -115,12 +113,12 @@ export function createRendererItemConfig(
 				type: 'textInput',
 				id: generateComponentId('textInput'),
 				props: {
+					path: generateComponentPath('textInput'),
 					placeholder: '',
 					type: 'text',
 					rows: 2,
 					maxlength: 255
-				},
-				binding: []
+				}
 			};
 		}
 		case 'datePicker':
@@ -128,10 +126,10 @@ export function createRendererItemConfig(
 				type: 'datePicker',
 				id: generateComponentId('datePicker'),
 				props: {
+					path: generateComponentPath('datePicker'),
 					placeholder: '',
 					type: 'date'
-				},
-				binding: []
+				}
 			};
 		case 'container':
 			return {
@@ -143,8 +141,7 @@ export function createRendererItemConfig(
 						flexDirection: 'column'
 					}
 				},
-				children: [],
-				binding: []
+				children: []
 			};
 		case 'linearList':
 			return {
@@ -157,7 +154,11 @@ export function createRendererItemConfig(
 					dataSource: null,
 					slots: {}
 				},
-				binding: []
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
 			};
 		case 'list':
 			// 固定排版的线性表
@@ -178,20 +179,27 @@ export function createRendererItemConfig(
 						})
 					}
 				},
-				binding: [],
 				children: [
 					createRendererItemConfig({
 						type: 'container'
 					})
 				]
 			};
+		case 'ellipsis': {
+			return {
+				type: 'ellipsis',
+				id: generateComponentId('ellipsis'),
+				props: {
+					text: '文本'
+				}
+			};
+		}
 	}
 
 	return Object.assign(
 		{
 			id: uuid(),
-			type: componentDefinition.type,
-			binding: []
+			type: componentDefinition.type
 		},
 		omit({
 			description: componentDefinition.description,
@@ -218,6 +226,8 @@ export function getIconByType(type: string) {
 			return TrayItemAdd24Regular;
 		case 'grid':
 			return Grid24Regular;
+		case 'ellipsis':
+			return DrawText24Regular;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -269,6 +279,16 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'formItem',
 							label: '表单项'
+						}
+					]
+				},
+				{
+					groupName: '通用组件',
+					groupId: 'common',
+					components: [
+						{
+							type: 'ellipsis',
+							label: '文本'
 						}
 					]
 				},

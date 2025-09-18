@@ -5,6 +5,7 @@ import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useBindingConnector } from '../../../store/binding.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
+import { useEmptyPropsInjection } from '../common/props.ts';
 
 const message = useMessage();
 
@@ -27,7 +28,12 @@ const formItemBindingPath = inject<ComputedRef<string>>(
 	'formItemBindingPath',
 	emptyBindingPath
 );
-const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
+
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
 
 const connectorOptions = computed(() => {
 	return {

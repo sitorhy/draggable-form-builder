@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue';
 import JsonEditorVue from 'json-editor-vue';
+import { v4 as uuid } from 'uuid';
 import { Mode } from 'vanilla-jsoneditor';
 import { useMessage } from 'naive-ui';
 
@@ -36,6 +37,21 @@ const editorProps = computed(() => {
 const buttonText = computed(() => {
 	return editorProps.value.readOnly ? '查看' : '编辑';
 });
+
+function writeTemplateArr() {
+	loopJson.value = JSON.stringify(
+		[
+			{
+				id: uuid()
+			},
+			{
+				id: uuid()
+			}
+		],
+		null,
+		2
+	);
+}
 
 function open() {
 	loopJson.value = modelValue.value
@@ -85,5 +101,13 @@ function onPositiveClick() {
 		@negative-click="onNegativeClick"
 	>
 		<JsonEditorVue ref="editorRef" v-model="loopJson" v-bind="editorProps" />
+
+		<template #action>
+			<n-space>
+				<n-button type="info" @click="writeTemplateArr">填充模板数组</n-button>
+				<n-button type="primary" @click="onPositiveClick">确定</n-button>
+				<n-button @click="onNegativeClick">取消</n-button>
+			</n-space>
+		</template>
 	</n-modal>
 </template>

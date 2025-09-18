@@ -210,7 +210,6 @@ export function moveTo(
 		(c) => c.id === id
 	);
 	const fromIndex = indexOfParent(targetParent, {
-		binding: [],
 		type: '',
 		id: id
 	});

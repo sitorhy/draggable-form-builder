@@ -13,6 +13,7 @@ import Form from './item/Form.vue';
 import FormItem from './item/FormItem.vue';
 import Grid from './item/Grid.vue';
 import type { RendererItemDefinition } from '../../types.ts';
+import Ellipsis from './item/Ellipsis.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -59,7 +60,9 @@ const type = computed(() => schema.value.type);
 	</BindingContext>
 	<BindingContext :schema="schema" v-else-if="type === 'list'">
 		<JsonEmphasizeContainer :schema-id="schema.id">
-			<List v-model:schema="schema" />
+			<PropertiesContext :schema="schema">
+				<List v-model:schema="schema" />
+			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>
 	<BindingContext custom-path="" :schema="schema" v-else-if="type === 'grid'">
@@ -78,7 +81,16 @@ const type = computed(() => schema.value.type);
 	</BindingContext>
 	<BindingContext :schema="schema" v-else-if="type === 'linearList'">
 		<JsonEmphasizeContainer :schema-id="schema.id" tag="div">
-			<JsonRendererList v-model:schema="schema" />
+			<PropertiesContext :schema="schema">
+				<JsonRendererList v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'ellipsis'">
+		<JsonEmphasizeContainer :schema-id="schema.id">
+			<PropertiesContext :schema="schema">
+				<Ellipsis v-model:schema="schema" />
+			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>
 	<n-alert v-else :title="`未知组件类型 ${type}`" type="warning">

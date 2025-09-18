@@ -31,6 +31,7 @@ export function useRequiredInputSchema(options: {
 		callback: (e?: Error) => void
 	) => void;
 	disabled?: boolean;
+	formItemProps?: Record<string, any>;
 }) {
 	return {
 		type: PropertyFormItem,
@@ -47,7 +48,10 @@ export function useRequiredInputSchema(options: {
 			{
 				required: true
 			}
-		]
+		],
+		formItemProps: {
+			...options.formItemProps
+		}
 	};
 }
 

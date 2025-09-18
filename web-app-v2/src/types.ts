@@ -17,7 +17,7 @@ export type RendererItemDefinition = {
 		slots?: Record<string, RendererItemDefinition>;
 	};
 	children?: RendererItemDefinition[];
-	binding?: NormalizeDataSource[];
+	binding?: Record<string, string>;
 };
 
 export type PropertyInjectionSchema = Record<string, any> & {

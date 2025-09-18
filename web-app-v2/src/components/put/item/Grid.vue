@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, type ComputedRef, inject } from 'vue';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
+import { useEmptyPropsInjection } from '../common/props.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -13,7 +14,11 @@ const id = computed(function () {
 	return schema.value.id;
 });
 
-const bindingProps = inject<Record<string, any> | null>('bindingProps', null);
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
 
 defineExpose({
 	id: id.value

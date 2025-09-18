@@ -4,11 +4,13 @@ import BindingContext from './components/put/data/BindingContext.vue';
 import JsonRenderer from './components/put/JsonRenderer.vue';
 import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 import PropertiesBindingEditor from './components/visual/PropertiesBindingEditor.vue';
+import JsonEditorVue from 'json-editor-vue';
 import type { TabsInst } from 'naive-ui';
 import { computed, ref, nextTick, watch } from 'vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
 import { v4 as uuid } from 'uuid';
+import { Mode } from 'vanilla-jsoneditor';
 
 const contentStyle = computed(() => {
 	return {
@@ -51,18 +53,35 @@ watch(
 		deep: true
 	}
 );
+
+const schemaDrawerShow = ref(false);
+const bindingDrawerShow = ref(false);
+const editorProps = computed(() => {
+	return {
+		mode: Mode.text,
+		readOnly: true
+	};
+});
 </script>
 
 <template>
 	<div class="main">
 		<n-layout position="absolute">
 			<n-layout-header style="height: 48px; padding: 0 11px" bordered>
-				<div style="height: 100%; display: flex; align-items: center">
-					<n-page-header subtitle="">
+				<div
+					style="width: 100%; height: 100%; display: flex; align-items: center"
+				>
+					<n-page-header subtitle="" style="width: 100%">
 						<template #title>
 							<p>Low-Code Engine</p>
 						</template>
 						<template #avatar></template>
+						<template #extra>
+							<n-space>
+								<n-button @click="schemaDrawerShow = true">模式</n-button>
+								<n-button @click="bindingDrawerShow = true">状态</n-button>
+							</n-space>
+						</template>
 					</n-page-header>
 				</div>
 			</n-layout-header>
@@ -111,11 +130,7 @@ watch(
 									v-model:value="customTabValue"
 									@update:value="onTabChange"
 								>
-									<n-tab-pane
-										name="schema"
-										tab="大纲"
-										display-directive="show"
-									>
+									<n-tab-pane name="schema" tab="大纲" display-directive="show">
 									</n-tab-pane>
 
 									<n-tab-pane
@@ -123,12 +138,6 @@ watch(
 										tab="属性"
 										display-directive="show"
 									>
-									</n-tab-pane>
-
-									<n-tab-pane name="test" tab="模式" display-directive="show">
-									</n-tab-pane>
-
-									<n-tab-pane name="test2" tab="绑定" display-directive="show">
 									</n-tab-pane>
 								</n-tabs>
 							</div>
@@ -146,28 +155,6 @@ watch(
 								>
 									<PropertiesBindingEditor />
 								</div>
-
-								<div
-									class="custom-tabs-item non-scrollable"
-									v-show="customTabValue === 'test'"
-								>
-									<textarea
-										readonly
-										style="width: 98%; height: 99%"
-										:value="JSON.stringify(schema, null, 2)"
-									></textarea>
-								</div>
-
-								<div
-									class="custom-tabs-item non-scrollable"
-									v-show="customTabValue === 'test2'"
-								>
-									<textarea
-										style="width: 98%; height: 99%"
-										readonly
-										:value="JSON.stringify(bindingStore.root, null, 2)"
-									></textarea>
-								</div>
 							</div>
 						</div>
 					</n-layout-sider>
@@ -182,6 +169,30 @@ watch(
 			</n-layout-footer>
 		</n-layout>
 	</div>
+
+	<n-drawer
+		v-model:show="schemaDrawerShow"
+		:display-directive="'show'"
+		:width="1000"
+		placement="right"
+	>
+		<n-drawer-content closable title="模式">
+			<div>
+				<JsonEditorVue :modelValue="schema" v-bind="editorProps" />
+			</div>
+		</n-drawer-content>
+	</n-drawer>
+
+	<n-drawer
+		v-model:show="bindingDrawerShow"
+		:display-directive="'show'"
+		:width="1000"
+		placement="right"
+	>
+		<n-drawer-content closable title="状态">
+			<JsonEditorVue :modelValue="bindingStore.root" v-bind="editorProps" />
+		</n-drawer-content>
+	</n-drawer>
 </template>
 
 <style scoped>

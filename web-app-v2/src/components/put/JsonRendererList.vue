@@ -6,7 +6,8 @@ import draggable from 'vuedraggable';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useContainerMove } from './common/moveable.ts';
 import { joinPathConfig, getCurrentPathConfig } from './common/binding-path.ts';
-import { useDataSourceInitializer } from './common/data-source-Initializer.ts';
+import { useBindingConnector } from '../../store/binding.ts';
+import { useMessage } from 'naive-ui';
 
 defineOptions({
 	name: 'JsonRendererList'
@@ -33,6 +34,8 @@ defineProps({
 	}
 });
 
+const message = useMessage();
+
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
 	default: () => ({})
@@ -40,18 +43,14 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
 
-const dataSourceInitOptions = computed(function () {
+const connectorOptions = computed(() => {
 	return {
-		bindingPath: bindingPath?.value,
-		staticValue: schema.value.props?.loop || [],
-		static:
-			typeof schema.value.props?.static === 'boolean'
-				? schema.value.props?.static
-				: true,
-		dataSource: schema.value.props?.dataSource // 统一数据源配置
+		path: bindingPath?.value || ''
 	};
 });
-const { queryBinding } = useDataSourceInitializer(dataSourceInitOptions);
+const { queryBinding } = useBindingConnector(connectorOptions, {
+	onError: (e: Error) => message.error(e.message)
+});
 
 const loop = computed(() => queryBinding());
 

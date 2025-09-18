@@ -66,5 +66,31 @@ export const useBindingStore = defineStore('binding', {
 		return {
 			root: {}
 		};
+	},
+	actions: {
+		queryBinding: function (path: string, defaultValue?: any) {
+			const val = dotProp.getProperty(this.root, path);
+			if (val !== undefined) {
+				return val;
+			}
+			return defaultValue;
+		},
+		updateBinding: function (
+			path: string,
+			value: any,
+			onError?: (err: Error) => void
+		) {
+			if (path) {
+				try {
+					dotProp.setProperty(this.root, path, value);
+				} catch (e) {
+					if (typeof onError === 'function') {
+						onError(e as Error);
+					} else {
+						throw e;
+					}
+				}
+			}
+		}
 	}
 });

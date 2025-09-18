@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import { useSchemaActions } from '../../store/schema.ts';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useEmphasizeStore } from '../../store/emphasize.ts';
 import { Settings24Regular } from '@vicons/fluent';
 import { useComponentsStore } from '../../store/component.ts';
 import { generateBindingSchema } from './binding-schema';
 import { useFormItemSchemaFilter } from './binding-schema/filter';
 import PropertiesForm from '../put/data/PropertiesForm.vue';
+import type {
+	NormalizeDataSource,
+	PropertyInjectionSchema
+} from '../../types.ts';
+import DataSourceSchema from './DataSourceSchema.vue';
+import { parseUri, stringifyDataSourceSchema } from './data-source/config.ts';
 
 const componentsStore = useComponentsStore();
 const emphasizeStore = useEmphasizeStore();
+
+const dataSourceSchemaDlgRef = ref();
 
 const { findNodeById } = useSchemaActions();
 const { filterFormItemSchema } = useFormItemSchemaFilter();
@@ -42,6 +50,33 @@ const bindingSchema = computed(function () {
 		itemProps
 	});
 });
+
+const propBindingSchemaSession = ref({
+	prop: ''
+});
+
+function onPropLink(item: PropertyInjectionSchema) {
+	propBindingSchemaSession.value.prop = item.prop;
+	const uri = watchingSchema.value?.binding?.[item.prop] || '';
+	dataSourceSchemaDlgRef.value.open(uri ? parseUri(uri) : null);
+}
+
+function onPropUnLink(item: PropertyInjectionSchema) {
+	if (watchingSchema.value && watchingSchema.value.binding) {
+		delete watchingSchema.value.binding[item.prop];
+	}
+}
+
+function createPropBinding(dataSourceSchema: NormalizeDataSource) {
+	if (watchingSchema.value) {
+		watchingSchema.value.binding = {
+			...watchingSchema.value.binding,
+			[propBindingSchemaSession.value.prop]:
+				stringifyDataSourceSchema(dataSourceSchema)
+		};
+	}
+	dataSourceSchemaDlgRef.value.close();
+}
 </script>
 
 <template>
@@ -81,6 +116,9 @@ const bindingSchema = computed(function () {
 						<PropertiesForm
 							v-bind="bindingSchema.formProps"
 							:schema="section.schema"
+							@link:prop="onPropLink"
+							@unlink:prop="onPropUnLink"
+							v-model:binding="watchingSchema.binding"
 							v-model:props="watchingSchema.props"
 						></PropertiesForm>
 					</n-card>
@@ -98,6 +136,12 @@ const bindingSchema = computed(function () {
 			</n-empty>
 		</div>
 	</div>
+
+	<DataSourceSchema
+		:controls="false"
+		ref="dataSourceSchemaDlgRef"
+		@confirm="createPropBinding"
+	/>
 </template>
 
 <style scoped lang="scss">
