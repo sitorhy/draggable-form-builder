@@ -37,3 +37,11 @@ export type NormalizeDataSource = {
 	host: string;
 	path: string;
 };
+
+export type FunctionCode = {
+	id: string;
+	name: string;
+	code: string;
+	description?: string;
+	feature?: string;
+};
