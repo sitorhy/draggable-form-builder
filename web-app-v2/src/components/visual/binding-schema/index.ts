@@ -7,6 +7,7 @@ import grid from './grid';
 import container from './container';
 import linearList from './linear-list';
 import ellipsis from './ellipsis';
+import image from './image';
 import type { PropertyInjectionSchema } from '../../../types.ts';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 
@@ -56,6 +57,9 @@ export function getSchemas(
 		}
 		case 'ellipsis': {
 			return ellipsis();
+		}
+		case 'image': {
+			return image();
 		}
 	}
 

@@ -11,6 +11,7 @@ import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
 import { v4 as uuid } from 'uuid';
 import { Mode } from 'vanilla-jsoneditor';
+import FunctionDialog from './components/visual/FunctionDialog.vue';
 
 const contentStyle = computed(() => {
 	return {
@@ -62,6 +63,11 @@ const editorProps = computed(() => {
 		readOnly: true
 	};
 });
+
+const funModelShow = ref(false);
+function openFunctionDlg() {
+	funModelShow.value = true;
+}
 </script>
 
 <template>
@@ -75,11 +81,20 @@ const editorProps = computed(() => {
 						<template #title>
 							<p>Low-Code Engine</p>
 						</template>
-						<template #avatar></template>
+						<template #avatar>
+							<n-image width="32" src="/code.png" />
+						</template>
 						<template #extra>
 							<n-space>
-								<n-button @click="schemaDrawerShow = true">模式</n-button>
-								<n-button @click="bindingDrawerShow = true">状态</n-button>
+								<n-button type="primary" @click="schemaDrawerShow = true"
+									>模式</n-button
+								>
+								<n-button type="primary" @click="bindingDrawerShow = true"
+									>状态</n-button
+								>
+								<n-button type="primary" @click="openFunctionDlg"
+									>函数集</n-button
+								>
 							</n-space>
 						</template>
 					</n-page-header>
@@ -193,6 +208,8 @@ const editorProps = computed(() => {
 			<JsonEditorVue :modelValue="bindingStore.root" v-bind="editorProps" />
 		</n-drawer-content>
 	</n-drawer>
+
+	<FunctionDialog v-model="funModelShow" />
 </template>
 
 <style scoped>

@@ -9,7 +9,8 @@ import {
 	FormNew24Regular,
 	TrayItemAdd24Regular,
 	Grid24Regular,
-	DrawText24Regular
+	DrawText24Regular,
+	Image24Regular
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types';
@@ -194,6 +195,17 @@ export function createRendererItemConfig(
 				}
 			};
 		}
+		case 'image': {
+			return {
+				type: 'image',
+				id: generateComponentId('image'),
+				props: {
+					src: 'data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxnIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xNCA3LjVhMS41IDEuNSAwIDEgMS0zIDBhMS41IDEuNSAwIDAgMSAzIDB6bS0xIDBhLjUuNSAwIDEgMC0xIDBhLjUuNSAwIDAgMCAxIDB6TTMgNmEzIDMgMCAwIDEgMy0zaDhhMyAzIDAgMCAxIDMgM3Y4YTMgMyAwIDAgMS0zIDNINmEzIDMgMCAwIDEtMy0zVjZ6bTMtMmEyIDIgMCAwIDAtMiAydjhjMCAuMzczLjEwMi43MjIuMjggMS4wMmw0LjY2OS00LjU4OGExLjUgMS41IDAgMCAxIDIuMTAyIDBsNC42NyA0LjU4OEExLjk5IDEuOTkgMCAwIDAgMTYgMTRWNmEyIDIgMCAwIDAtMi0ySDZ6bTAgMTJoOGMuMzcgMCAuNzE1LS4xIDEuMDEyLS4yNzRsLTQuNjYyLTQuNThhLjUuNSAwIDAgMC0uNyAwbC00LjY2MiA0LjU4QTEuOTkgMS45OSAwIDAgMCA2IDE2eiIgZmlsbD0iY3VycmVudENvbG9yIj48L3BhdGg+PC9nPjwvc3ZnPg==',
+					width: 100,
+					height: 100
+				}
+			};
+		}
 	}
 
 	return Object.assign(
@@ -228,6 +240,8 @@ export function getIconByType(type: string) {
 			return Grid24Regular;
 		case 'ellipsis':
 			return DrawText24Regular;
+		case 'image':
+			return Image24Regular;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -289,6 +303,10 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'ellipsis',
 							label: '文本'
+						},
+						{
+							type: 'image',
+							label: '图像'
 						}
 					]
 				},

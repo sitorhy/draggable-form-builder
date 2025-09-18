@@ -14,6 +14,7 @@ import FormItem from './item/FormItem.vue';
 import Grid from './item/Grid.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import Ellipsis from './item/Ellipsis.vue';
+import Image from './item/Image.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -90,6 +91,13 @@ const type = computed(() => schema.value.type);
 		<JsonEmphasizeContainer :schema-id="schema.id">
 			<PropertiesContext :schema="schema">
 				<Ellipsis v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'image'">
+		<JsonEmphasizeContainer :schema-id="schema.id">
+			<PropertiesContext :schema="schema">
+				<Image v-model:schema="schema" />
 			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>

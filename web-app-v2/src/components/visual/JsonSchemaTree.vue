@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { BaseTree, OpenIcon } from '@he-tree/vue';
 import { useSchemaStore } from '../../store/schema.ts';
-import { useComponentsStore } from '../../store/component.ts';
+import { getIconByType, useComponentsStore } from '../../store/component.ts';
 import { Settings24Regular } from '@vicons/fluent';
 
 import '@he-tree/vue/style/default.css';
@@ -46,7 +46,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					type: 'slot',
 					label: '首部内容插槽',
 					children: mapToVisualTree(
-						schema.props?.slots.prefix ? [schema.props?.slots.prefix] : []
+						schema.props?.slots?.prefix ? [schema.props?.slots.prefix] : []
 					),
 					showSetting: false
 				},
@@ -62,7 +62,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					type: 'slot',
 					label: '尾部内容插槽',
 					children: mapToVisualTree(
-						schema.props?.slots.suffix ? [schema.props?.slots.suffix] : []
+						schema.props?.slots?.suffix ? [schema.props?.slots.suffix] : []
 					),
 					showSetting: false
 				}
@@ -128,16 +128,19 @@ function onSettingClick(node: TreeNode) {
 						watchingSchemaId === node.id ? 'emphasize' : ''
 					]"
 				>
-					<span>{{ node.label }}</span>
-					<div class="node-desc-actions">
-						<n-icon
-							color="#18a058"
-							v-if="node.showSetting"
-							@click.stop="onSettingClick(node)"
-						>
-							<Settings24Regular />
-						</n-icon>
-					</div>
+					<n-space align="center" :size="5">
+						<n-icon><component :is="getIconByType(node.type)" /></n-icon>
+						<span>{{ node.label }}</span>
+						<div class="node-desc-actions">
+							<n-icon
+								color="#18a058"
+								v-if="node.showSetting"
+								@click.stop="onSettingClick(node)"
+							>
+								<Settings24Regular />
+							</n-icon>
+						</div>
+					</n-space>
 				</div>
 			</div>
 		</template>

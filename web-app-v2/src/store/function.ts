@@ -1,4 +1,8 @@
 import type { FunctionCode } from '../types';
+import { defineStore } from 'pinia';
+import { v4 as uuid } from 'uuid';
+import { ESMLoader } from '../libs/esm-loader.ts';
+import inlineFuncList from './inline-functions';
 
 export const useFunctionStore = defineStore<
 	'function',
@@ -26,7 +30,7 @@ export const useFunctionStore = defineStore<
 >('function', {
 	state() {
 		return {
-			functions: [],
+			functions: [...inlineFuncList],
 			modules: new Map<string, any>()
 		};
 	},
