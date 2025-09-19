@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, type PropType } from 'vue';
-import { useComponentBindingPath } from '../common/binding-path.ts';
+import {
+	useBindingPathsCacheStore,
+	useComponentBindingPath
+} from '../common/binding-path.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 
 defineOptions({
@@ -33,6 +36,8 @@ const props = defineProps({
 		default: null
 	}
 });
+
+const pathCacheStore = useBindingPathsCacheStore();
 
 const bindingContextPath = computed(() => {
 	const customPath = props.customPath;

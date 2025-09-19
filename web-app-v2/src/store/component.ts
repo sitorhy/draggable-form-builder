@@ -137,10 +137,7 @@ export function createRendererItemConfig(
 				type: 'container',
 				id: generateComponentId('container'),
 				props: {
-					style: {
-						display: 'flex',
-						flexDirection: 'column'
-					}
+					style: {}
 				},
 				children: []
 			};

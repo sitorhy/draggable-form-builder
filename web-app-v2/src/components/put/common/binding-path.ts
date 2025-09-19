@@ -1,4 +1,6 @@
 import { computed, type ComputedRef, getCurrentInstance } from 'vue';
+import { defineStore } from 'pinia';
+import { v4 as uuid } from 'uuid';
 
 export function getCurrentPathConfig(options: {
 	bracket: boolean;
@@ -114,3 +116,56 @@ export function useEmptyBindingPath() {
 		emptyBindingPath
 	};
 }
+
+export const useBindingPathsCacheStore = defineStore<
+	'bindingPaths',
+	{
+		paths: {
+			id: string;
+			schemaId: string;
+			bindingPath: string;
+		}[];
+	},
+	{},
+	{
+		searchByPath: (part: string) => {
+			id: string;
+			schemaId: string;
+			bindingPath: string;
+		}[];
+		add: (path: string) => void;
+		remove: (path: string) => void;
+	}
+>('bindingPaths', {
+	state() {
+		return {
+			paths: []
+		};
+	},
+	actions: {
+		searchByPath(part: string) {
+			return this.paths.filter((p) => p.bindingPath.indexOf(part) >= 0);
+		},
+		add(path: string, schemaId: string) {
+			if (
+				this.paths.findIndex(
+					(p) => path === p.bindingPath && p.schemaId === schemaId
+				) < 0
+			) {
+				this.paths.push({
+					bindingPath: path,
+					id: uuid(),
+					schemaId: schemaId
+				});
+			}
+		},
+		remove(path: string, schemaId: string) {
+			const index = this.paths.findIndex(
+				(p) => p.bindingPath === path && p.schemaId === schemaId
+			);
+			if (index >= 0) {
+				this.paths.splice(index, 1);
+			}
+		}
+	}
+});

@@ -1,4 +1,4 @@
-import { NSelect } from 'naive-ui';
+import { NInputNumber, NSelect } from 'naive-ui';
 import EdgeProperties from '../EdgeProperties.vue';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
@@ -122,6 +122,18 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 								{
 									label: '弹性布局',
 									value: 'flex'
+								},
+								{
+									label: '行内弹性布局',
+									value: 'inline-flex'
+								},
+								{
+									label: '行内',
+									value: 'inline'
+								},
+								{
+									label: '块级',
+									value: 'block'
 								}
 							]
 						},
@@ -227,6 +239,23 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 								if (options.schema) {
 									updateContainerStyle(options.schema, {
 										alignItems
+									});
+								}
+							}
+						}
+					},
+					{
+						type: NInputNumber,
+						prop: 'flex',
+						label: '填充权重',
+						config: {
+							value: options.schema?.props?.style?.flex
+						},
+						on: {
+							'update:value': function (flex: string | number) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										flex
 									});
 								}
 							}

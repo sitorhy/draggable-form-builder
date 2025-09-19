@@ -17,6 +17,7 @@ import type {
 import { useBindingConnector, useBindingStore } from '../../../store/binding';
 import { useMessage } from 'naive-ui';
 import { parseUri } from '../../visual/data-source/config';
+import { joinPathConfig, splitPathConfig } from '../common/binding-path.ts';
 
 const message = useMessage();
 
@@ -45,6 +46,10 @@ const binding = computed(() => {
 	return props.schema.binding;
 });
 
+const loop = computed(() => {
+	return props.schema.props?.loop;
+});
+
 function resolveLocalSchema(
 	prop: string,
 	dataSourceSchema: NormalizeDataSource
@@ -52,14 +57,41 @@ function resolveLocalSchema(
 	switch (dataSourceSchema.host) {
 		case 'path':
 			{
-				const fullBindingPath = dataSourceSchema.path;
-				obj.value = {
-					...obj.value,
-					[prop]: bindingStore.queryBinding(fullBindingPath),
-					[`update:${prop}`]: function (value: any) {
-						bindingStore.updateBinding(fullBindingPath, value);
+				let fullBindingPath = '';
+				let bindingValue = undefined;
+				const nearestBindingPath = bindingPath?.value;
+
+				if (nearestBindingPath) {
+					const parts = splitPathConfig(nearestBindingPath);
+					parts.reverse();
+					for (let end = parts.length; end >= 0; end--) {
+						if (/\[\d+]/.test(parts[end])) {
+							continue;
+						}
+						const subParts = parts.slice(0, end);
+						subParts.reverse();
+						const prefix = `${joinPathConfig(subParts)}`;
+						const bindingPath = `${prefix}${prefix ? '.' : ''}${dataSourceSchema.path}`;
+						bindingValue = bindingStore.queryBinding(bindingPath);
+						if (bindingValue !== undefined) {
+							fullBindingPath = bindingPath;
+							break;
+						}
 					}
-				};
+				}
+
+				if (fullBindingPath) {
+					obj.value = {
+						...obj.value,
+						[prop]: bindingValue,
+						[`onUpdate:${prop}`]: function (value: any) {
+							bindingStore.updateBinding(fullBindingPath, value);
+						}
+					};
+				} else {
+					delete obj.value[prop];
+					delete obj.value[`update:${prop}`];
+				}
 			}
 			break;
 	}
@@ -80,23 +112,22 @@ function resolveBinding() {
 	}
 }
 
+function syncListLoop() {
+	if (bindingPath?.value && loop.value) {
+		updateBinding(structuredClone(toRaw(loop.value) || []));
+	}
+}
+
 watch(binding, resolveBinding);
 
 watch(bindingStore.root, function () {
 	resolveBinding();
 });
 
-onBeforeMount(function () {
-	const loop = props.schema.props?.loop;
-	if (bindingPath?.value) {
-		if (loop) {
-			const staticValue = queryBinding();
-			if (!staticValue) {
-				updateBinding(structuredClone(toRaw(loop)));
-			}
-		}
-	}
+watch(loop, syncListLoop);
 
+onBeforeMount(function () {
+	syncListLoop();
 	resolveBinding();
 });
 

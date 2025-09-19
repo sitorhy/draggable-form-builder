@@ -48,7 +48,7 @@ const containerClasses = computed(function () {
 		ref="containerRef"
 		@click.stop="onContainerClick"
 	>
-		<component :is="tag" v-if="tag">
+		<component class="emphasized-container" :is="tag" v-if="tag">
 			<slot></slot>
 		</component>
 		<slot v-else></slot>
@@ -57,8 +57,10 @@ const containerClasses = computed(function () {
 
 <style lang="scss" scoped>
 .emphasized-container {
-	position: relative;
-	width: 100%;
-	height: fit-content;
+	flex: inherit;
+	display: inherit;
+	flex-direction: inherit;
+	align-items: inherit;
+	justify-content: inherit;
 }
 </style>

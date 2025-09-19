@@ -18,13 +18,27 @@ body, #root {
 }
 
 .renderer-drop {
-  position: relative;
   --n-hegiht: 34px;
   min-height: var(--n-hegiht);
+  flex: 1;
+  flex-direction: inherit;
+  align-items: inherit;
+  justify-content: inherit;
 
   &.page {
     width: 100%;
-    height: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.container {
+    width: auto;
+    display: flex;
+    flex: 1;
+    flex-direction: inherit;
+    align-items: inherit;
+    justify-content: inherit;
   }
 }
 

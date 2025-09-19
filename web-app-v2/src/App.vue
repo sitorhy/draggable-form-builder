@@ -119,7 +119,14 @@ function openFunctionDlg() {
 						:content-style="contentStyle"
 						:native-scrollbar="false"
 					>
-						<div style="width: fit-content; height: 100%; margin: auto">
+						<div
+							style="
+								width: fit-content;
+								height: 100%;
+								margin: auto;
+								position: relative;
+							"
+						>
 							<BindingContext custom-path="">
 								<JsonRenderer :key="schemaKey" v-model:schema="schema" />
 							</BindingContext>

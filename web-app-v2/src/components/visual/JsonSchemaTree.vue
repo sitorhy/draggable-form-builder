@@ -152,7 +152,7 @@ function onSettingClick(node: TreeNode) {
 	display: flex;
 
 	&.emphasize {
-		> span {
+		span {
 			color: green;
 			font-weight: bold;
 		}

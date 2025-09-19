@@ -52,7 +52,7 @@ const containerClasses = computed(function () {
 		v-model="schema.children"
 	>
 		<template #item="scope">
-			<div>
+			<div class="renderer-drop-item">
 				<JsonRenderer v-model:schema="schema.children[scope.index]" />
 			</div>
 		</template>
@@ -65,3 +65,11 @@ const containerClasses = computed(function () {
 		</template>
 	</n-empty>
 </template>
+
+<style scoped>
+.renderer-drop-item {
+	display: inherit;
+	flex: inherit;
+	flex-direction: inherit;
+}
+</style>

@@ -226,7 +226,7 @@ export function unitTest(): RendererItemDefinition {
 				id: 'container_ee8ff148-17f3-4b29-aa22-eba7de97aa1c',
 				props: {
 					style: {
-						display: 'flex',
+						display: 'inline-flex',
 						flexDirection: 'row',
 						alignItems: 'center',
 						justifyContent: 'flex-start'
@@ -252,6 +252,70 @@ export function unitTest(): RendererItemDefinition {
 						binding: {
 							text: 'object://path:pageOne.textInput839'
 						}
+					}
+				]
+			},
+			{
+				type: 'container',
+				id: 'container_08f88382-1f92-443c-8bff-0b3a2a79cf2c',
+				props: {
+					style: {
+						display: 'flex',
+						flexDirection: 'row'
+					}
+				},
+				children: [
+					{
+						type: 'linearList',
+						id: 'linearList_de41eca2-d34b-4a47-a069-3d86ee76af5c',
+						props: {
+							path: 'linearList195',
+							static: true,
+							loop: [
+								{
+									id: '98d89cc6-949a-4d0c-9ac8-09f271807e70',
+									img: '/files/445Garchomp.png'
+								},
+								{
+									id: '9e870a99-5847-49ea-a2a3-b8bbd5f85a91',
+									img: '/files/598Ferrothorn.png'
+								},
+								{
+									id: '40ec5252-ed29-4446-8a71-bae4f1fa62d6',
+									img: '/files/637Volcarona.png'
+								}
+							],
+							dataSource: null,
+							slots: {}
+						},
+						children: [
+							{
+								type: 'container',
+								id: 'container_2bcf7780-4505-4298-9195-d65cd1b3ab74',
+								props: {
+									style: {
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										justifyContent: 'center'
+									}
+								},
+								children: [
+									{
+										type: 'image',
+										id: 'image_24ba5176-d79d-4a8d-9ff2-54ad3321ae38',
+										props: {
+											src: 'data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxnIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xNCA3LjVhMS41IDEuNSAwIDEgMS0zIDBhMS41IDEuNSAwIDAgMSAzIDB6bS0xIDBhLjUuNSAwIDEgMC0xIDBhLjUuNSAwIDAgMCAxIDB6TTMgNmEzIDMgMCAwIDEgMy0zaDhhMyAzIDAgMCAxIDMgM3Y4YTMgMyAwIDAgMS0zIDNINmEzIDMgMCAwIDEtMy0zVjZ6bTMtMmEyIDIgMCAwIDAtMiAydjhjMCAuMzczLjEwMi43MjIuMjggMS4wMmw0LjY2OS00LjU4OGExLjUgMS41IDAgMCAxIDIuMTAyIDBsNC42NyA0LjU4OEExLjk5IDEuOTkgMCAwIDAgMTYgMTRWNmEyIDIgMCAwIDAtMi0ySDZ6bTAgMTJoOGMuMzcgMCAuNzE1LS4xIDEuMDEyLS4yNzRsLTQuNjYyLTQuNThhLjUuNSAwIDAgMC0uNyAwbC00LjY2MiA0LjU4QTEuOTkgMS45OSAwIDAgMCA2IDE2eiIgZmlsbD0iY3VycmVudENvbG9yIj48L3BhdGg+PC9nPjwvc3ZnPg==',
+											width: 100,
+											height: 100
+										},
+										binding: {
+											src: 'object://path:img'
+										}
+									}
+								]
+							}
+						]
 					}
 				]
 			}

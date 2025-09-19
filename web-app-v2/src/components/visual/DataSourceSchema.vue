@@ -90,11 +90,18 @@ function onPositiveClick() {
 
 defineExpose({
 	open: (schema: NormalizeDataSource | string) => {
-		reset();
 		if (typeof schema === 'string') {
-			dataSourceSchemaRef.value = structuredClone(parseUri(toRaw(schema)));
+			if (schema) {
+				dataSourceSchemaRef.value = structuredClone(parseUri(toRaw(schema)));
+			} else {
+				reset();
+			}
 		} else {
-			dataSourceSchemaRef.value = structuredClone(toRaw(schema));
+			if (schema) {
+				dataSourceSchemaRef.value = structuredClone(toRaw(schema));
+			} else {
+				reset();
+			}
 		}
 		showModal.value = true;
 	},

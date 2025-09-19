@@ -1,4 +1,4 @@
-import { NInput, NSlider } from 'naive-ui';
+import { NInput, NInputNumber } from 'naive-ui';
 import type { SectionsReturnType } from './index.ts';
 
 function sections(): SectionsReturnType {
@@ -23,7 +23,7 @@ function sections(): SectionsReturnType {
 						}
 					},
 					{
-						type: NSlider,
+						type: NInputNumber,
 						prop: 'height',
 						label: '高度',
 						config: {
@@ -34,7 +34,7 @@ function sections(): SectionsReturnType {
 						}
 					},
 					{
-						type: NSlider,
+						type: NInputNumber,
 						prop: 'width',
 						label: '宽度',
 						config: {

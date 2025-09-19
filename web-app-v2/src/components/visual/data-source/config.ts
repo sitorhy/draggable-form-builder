@@ -20,6 +20,10 @@ export function parseUri(uri: string): NormalizeDataSource {
 		path: ''
 	};
 
+	if (!uri) {
+		return result;
+	}
+
 	// 1. 查找并拆分 schema
 	const schemaSeparatorIndex = uri.indexOf('://');
 	if (schemaSeparatorIndex === -1) {
@@ -128,6 +132,9 @@ export function useDataSourceConfig() {
 	}
 
 	const queryStringText = computed(() => {
+		if (!dataSourceSchemaRef.value) {
+			return '';
+		}
 		const qs = getQueryString(dataSourceSchemaRef.value.path);
 		if (qs) {
 			return JSON.stringify(qs, null, 2);
