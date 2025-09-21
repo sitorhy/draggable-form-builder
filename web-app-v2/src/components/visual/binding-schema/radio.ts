@@ -14,6 +14,9 @@ function sections(): SectionsReturnType {
 						label: '标签',
 						config: {
 							placeholder: ''
+						},
+						formItemProps: {
+							useBinding: true
 						}
 					},
 					{
@@ -22,6 +25,9 @@ function sections(): SectionsReturnType {
 						label: '值',
 						config: {
 							placeholder: ''
+						},
+						formItemProps: {
+							useBinding: true
 						}
 					},
 					{

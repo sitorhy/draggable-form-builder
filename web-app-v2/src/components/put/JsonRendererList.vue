@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, inject } from 'vue';
+import { computed, type ComputedRef, inject, type PropType } from 'vue';
 import BindingContext from './data/BindingContext.vue';
 import JsonRenderer from './JsonRenderer.vue';
 import draggable from 'vuedraggable';
 import type { RendererItemDefinition } from '../../types.ts';
 import { useContainerMove } from './common/moveable.ts';
 import { joinPathConfig, getCurrentPathConfig } from './common/binding-path.ts';
-import { useBindingConnector } from '../../store/binding.ts';
-import { useMessage } from 'naive-ui';
+import { useEmptyPropsInjection } from './common/props.ts';
 
 defineOptions({
 	name: 'JsonRendererList'
@@ -31,28 +30,30 @@ defineProps({
 		// 附加属性（DOM） / 容器组件Props（Custom Component）
 		type: Object,
 		default: () => ({})
+	},
+	loop: {
+		type: Array as PropType<Record<string, any>>,
+		default: () => []
 	}
 });
-
-const message = useMessage();
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
 	default: () => ({})
 });
 
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
+
+const propsReduce = computed(() => ({
+	...schema.value.props,
+	...bindingProps.value
+}));
+
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
-
-const connectorOptions = computed(() => {
-	return {
-		path: bindingPath?.value || ''
-	};
-});
-const { queryBinding } = useBindingConnector(connectorOptions, {
-	onError: (e: Error) => message.error(e.message)
-});
-
-const loop = computed(() => queryBinding());
 
 function createItemBindingPath(index: number) {
 	return (
@@ -80,12 +81,15 @@ const containerClasses = computed(function () {
 </script>
 
 <template>
-	<div class="renderer-drop draggable-placeholder" v-if="!loop || !loop.length">
+	<div
+		class="renderer-drop draggable-placeholder"
+		v-if="!propsReduce.loop || !propsReduce.loop.length"
+	>
 		<!--占位-->
 	</div>
 	<BindingContext
 		v-else
-		v-for="(item, index) in loop"
+		v-for="(item, index) in propsReduce.loop"
 		:schema="schema"
 		:key="createItemBindingPath(index)"
 		:bracket="true"

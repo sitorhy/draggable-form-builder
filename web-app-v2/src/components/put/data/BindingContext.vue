@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, provide, ref, watch, type PropType } from 'vue';
 import {
-	useBindingPathsCacheStore,
+	resolveContextPath,
 	useComponentBindingPath
 } from '../common/binding-path.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
@@ -37,17 +37,8 @@ const props = defineProps({
 	}
 });
 
-const pathCacheStore = useBindingPathsCacheStore();
-
 const bindingContextPath = computed(() => {
-	const customPath = props.customPath;
-	const defaultPath = props.schema.id;
-	const bindingPath = props.schema.props?.path;
-
-	if (customPath !== null) {
-		return customPath;
-	}
-	return bindingPath || defaultPath;
+	return resolveContextPath(props);
 });
 
 const bindingPathOptions = computed(() => {
@@ -57,11 +48,16 @@ const bindingPathOptions = computed(() => {
 		parseNumber: props.parseNumber
 	};
 });
-const { getBindingPath } = useComponentBindingPath(bindingPathOptions);
+const { getBindingPath, collectBindingKeys } =
+	useComponentBindingPath(bindingPathOptions);
 const currentContextBindingPath = ref('');
 const bindingPath = computed(() => currentContextBindingPath.value);
+const bindingKeys = computed(() => {
+	return collectBindingKeys();
+});
 
 provide('bindingPath', bindingPath);
+provide('bindingKeys', bindingKeys);
 
 watch(
 	() => props.schema,
@@ -75,7 +71,8 @@ watch(
 );
 
 defineExpose({
-	bindingContextPath: bindingContextPath.value
+	bindingContextPath: bindingContextPath.value,
+	bindingContextKeys: bindingKeys.value
 });
 </script>
 

@@ -7,19 +7,17 @@ import {
 	type PropType,
 	provide,
 	ref,
-	toRaw,
 	watch
 } from 'vue';
+import * as dotProp from 'dot-prop';
 import type {
 	NormalizeDataSource,
 	RendererItemDefinition
 } from '../../../types';
-import { useBindingConnector, useBindingStore } from '../../../store/binding';
-import { useMessage } from 'naive-ui';
+import { useBindingStore } from '../../../store/binding';
 import { parseUri } from '../../visual/data-source/config';
 import { joinPathConfig, splitPathConfig } from '../common/binding-path.ts';
-
-const message = useMessage();
+import { useEmptyPropsInjection } from '../common/props.ts';
 
 const props = defineProps({
 	schema: {
@@ -31,14 +29,13 @@ const props = defineProps({
 const bindingStore = useBindingStore();
 
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
-const connectorOptions = computed(() => {
-	return {
-		path: bindingPath?.value || ''
-	};
-});
-const { queryBinding, updateBinding } = useBindingConnector(connectorOptions, {
-	onError: (e: Error) => message.error(e.message)
-});
+const bindingKeys = inject<ComputedRef<string>>('bindingKeys');
+
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
 
 const obj = ref<Record<string, any>>({});
 
@@ -59,13 +56,13 @@ function resolveLocalSchema(
 			{
 				let fullBindingPath = '';
 				let bindingValue = undefined;
+				let isStatic = false;
 				const nearestBindingPath = bindingPath?.value;
-
 				if (nearestBindingPath) {
 					const parts = splitPathConfig(nearestBindingPath);
 					parts.reverse();
 					for (let end = parts.length; end >= 0; end--) {
-						if (/\[\d+]/.test(parts[end])) {
+						if (parts[end] && /\[\d+]/.test(parts[end].path)) {
 							continue;
 						}
 						const subParts = parts.slice(0, end);
@@ -80,13 +77,30 @@ function resolveLocalSchema(
 					}
 				}
 
-				if (fullBindingPath) {
+				if (bindingValue === undefined) {
+					const loop = bindingProps.value['loop'];
+					const keys = bindingKeys?.value;
+					if (Array.isArray(loop) && Array.isArray(keys)) {
+						const nearest = keys[0];
+						if (nearest && nearest.key !== null) {
+							bindingValue = dotProp.getProperty(
+								loop[nearest.key],
+								dataSourceSchema.path
+							);
+						}
+					}
+					isStatic = true;
+				}
+
+				if (bindingValue !== undefined) {
 					obj.value = {
 						...obj.value,
 						[prop]: bindingValue,
-						[`onUpdate:${prop}`]: function (value: any) {
-							bindingStore.updateBinding(fullBindingPath, value);
-						}
+						[`onUpdate:${prop}`]: isStatic
+							? function () {}
+							: function (value: any) {
+									bindingStore.updateBinding(fullBindingPath, value);
+								}
 					};
 				} else {
 					delete obj.value[prop];
@@ -114,7 +128,9 @@ function resolveBinding() {
 
 function syncListLoop() {
 	if (bindingPath?.value && loop.value) {
-		updateBinding(structuredClone(toRaw(loop.value) || []));
+		obj.value['loop'] = loop.value;
+	} else {
+		delete obj.value['loop'];
 	}
 }
 

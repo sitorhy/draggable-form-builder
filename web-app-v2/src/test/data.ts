@@ -257,7 +257,96 @@ export function unitTest(): RendererItemDefinition {
 										type: 'container',
 										id: 'container_43858896-8ff5-437d-ab11-25eca531b6b7',
 										props: {},
-										children: []
+										children: [
+											{
+												type: 'formItem',
+												id: 'formItem_694d26fe-9c60-4292-b34c-5ede683b1a30',
+												props: {
+													label: '表单项',
+													path: 'formItem12'
+												},
+												children: [
+													{
+														type: 'container',
+														id: 'container_1fbd53aa-4a3c-4bfb-a55b-a4ca37d07cdc',
+														props: {
+															style: {}
+														},
+														children: [
+															{
+																type: 'radioGroup',
+																id: 'radioGroup_e8c9bf97-f54d-406e-8c59-be6496458bdd',
+																props: {
+																	path: 'radioGroup13',
+																	text: '单选组',
+																	name: 'radioGroup'
+																},
+																children: [
+																	{
+																		type: 'container',
+																		id: 'container_aff308f1-9c2d-4a50-9b11-94ae1016c6d6',
+																		props: {
+																			style: {
+																				display: 'flex',
+																				flexDirection: 'column'
+																			},
+																			display: 'flex',
+																			flexDirection: 'column'
+																		},
+																		children: [
+																			{
+																				type: 'linearList',
+																				id: 'linearList_09c7da59-a836-4cd3-88de-96ce71808e4d',
+																				props: {
+																					path: 'linearList14',
+																					static: true,
+																					loop: [
+																						{
+																							id: 'd42a808c-b592-4f41-a79e-2d84524c0b49',
+																							value: '1111',
+																							label: '单选1111'
+																						},
+																						{
+																							id: '84e4382e-a40f-4d6d-96b0-b13fa5143258',
+																							value: '2222',
+																							label: '单选2222'
+																						}
+																					],
+																					dataSource: null,
+																					slots: {}
+																				},
+																				children: [
+																					{
+																						type: 'container',
+																						id: 'container_825815bb-b917-420f-88c6-7e9801bd0622',
+																						props: {
+																							style: {}
+																						},
+																						children: [
+																							{
+																								type: 'radio',
+																								id: 'radio_9c58b486-fe36-4b34-8986-1ba84f8fa741',
+																								props: {
+																									label: '单选项'
+																								},
+																								binding: {
+																									value: 'object://path:value',
+																									label: 'object://path:label'
+																								}
+																							}
+																						]
+																					}
+																				]
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
 									}
 								]
 							}

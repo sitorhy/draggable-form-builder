@@ -71,5 +71,6 @@ const containerClasses = computed(function () {
 	display: inherit;
 	flex: inherit;
 	flex-direction: inherit;
+	min-width: var(--n-width);
 }
 </style>

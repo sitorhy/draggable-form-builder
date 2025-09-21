@@ -1,6 +1,5 @@
 import { computed, type ComputedRef, getCurrentInstance } from 'vue';
-import { defineStore } from 'pinia';
-import { v4 as uuid } from 'uuid';
+import type { RendererItemDefinition } from '../../../types.ts';
 
 export function getCurrentPathConfig(options: {
 	bracket: boolean;
@@ -60,6 +59,17 @@ export function splitPathConfig(path: string): { sep: string; path: string }[] {
 	return result.reverse();
 }
 
+export function resolveContextPath(props: Record<string, any>): any {
+	const customPath = props.customPath;
+	const defaultPath = props.schema.id;
+	const bindingPath = props.schema.props?.path;
+
+	if (customPath !== null) {
+		return customPath;
+	}
+	return bindingPath || defaultPath;
+}
+
 export function useComponentBindingPath(
 	options: ComputedRef<{
 		bracket: boolean;
@@ -67,6 +77,47 @@ export function useComponentBindingPath(
 		parseNumber: boolean;
 	}>
 ) {
+	function collectBindingKeys() {
+		const keys: {
+			path: string;
+			key: string | number | null;
+			schemaId: string;
+		}[] = [];
+		let instance = getCurrentInstance()?.parent;
+		while (instance) {
+			if (instance.type.__name === 'BindingContext') {
+				if (instance.props) {
+					const path = resolveContextPath(instance.props);
+					if (path) {
+						if (instance.props.bracket) {
+							keys.push({
+								path: '',
+								key: instance.props.parseNumber
+									? Number(instance.props.customPath)
+									: `'${instance.props.customPath}'`,
+								schemaId: (instance.props.schema as RendererItemDefinition).id
+							});
+						} else {
+							const last = keys[keys.length - 1];
+							if (last && last.key !== null && !last.path) {
+								last.path = path;
+							} else {
+								keys.push({
+									path: path,
+									key: null,
+									schemaId: (instance.props.schema as RendererItemDefinition).id
+								});
+							}
+						}
+					}
+				}
+			}
+			instance = instance?.parent;
+		}
+
+		return keys;
+	}
+
 	function collectParentBindingPathConfig(): { sep: string; path: string }[] {
 		const parentBindings = [];
 		let instance = getCurrentInstance()?.parent;
@@ -106,6 +157,7 @@ export function useComponentBindingPath(
 	return {
 		collectBindingPathConfig,
 		collectParentBindingPathConfig,
+		collectBindingKeys,
 		getBindingPath
 	};
 }
@@ -116,56 +168,3 @@ export function useEmptyBindingPath() {
 		emptyBindingPath
 	};
 }
-
-export const useBindingPathsCacheStore = defineStore<
-	'bindingPaths',
-	{
-		paths: {
-			id: string;
-			schemaId: string;
-			bindingPath: string;
-		}[];
-	},
-	{},
-	{
-		searchByPath: (part: string) => {
-			id: string;
-			schemaId: string;
-			bindingPath: string;
-		}[];
-		add: (path: string) => void;
-		remove: (path: string) => void;
-	}
->('bindingPaths', {
-	state() {
-		return {
-			paths: []
-		};
-	},
-	actions: {
-		searchByPath(part: string) {
-			return this.paths.filter((p) => p.bindingPath.indexOf(part) >= 0);
-		},
-		add(path: string, schemaId: string) {
-			if (
-				this.paths.findIndex(
-					(p) => path === p.bindingPath && p.schemaId === schemaId
-				) < 0
-			) {
-				this.paths.push({
-					bindingPath: path,
-					id: uuid(),
-					schemaId: schemaId
-				});
-			}
-		},
-		remove(path: string, schemaId: string) {
-			const index = this.paths.findIndex(
-				(p) => p.bindingPath === path && p.schemaId === schemaId
-			);
-			if (index >= 0) {
-				this.paths.splice(index, 1);
-			}
-		}
-	}
-});
