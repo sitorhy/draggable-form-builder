@@ -17,6 +17,9 @@ const ProviderApp = defineComponent({
 		zhCN: () => zhCN,
 		dateZhCN: () => dateZhCN
 	},
+	errorCaptured(e) {
+		console.log(e);
+	},
 	template: `
 		<n-dialog-provider>
 			<n-config-provider :locale="zhCN" :date-locale="dateZhCN">

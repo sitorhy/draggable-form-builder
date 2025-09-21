@@ -15,6 +15,8 @@ import Grid from './item/Grid.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import Ellipsis from './item/Ellipsis.vue';
 import Image from './item/Image.vue';
+import RadioGroup from './item/RadioGroup.vue';
+import Radio from './item/Radio.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -103,6 +105,24 @@ const type = computed(() => schema.value.type);
 		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
 			<PropertiesContext :schema="schema">
 				<Image v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'radioGroup'">
+		<JsonEmphasizeContainer
+			:class="[schema.type]"
+			:schema-id="schema.id"
+			tag="div"
+		>
+			<PropertiesContext :schema="schema">
+				<RadioGroup v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'radio'">
+		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
+			<PropertiesContext :schema="schema">
+				<Radio v-model:schema="schema" />
 			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>

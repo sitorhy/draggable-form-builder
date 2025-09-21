@@ -12,6 +12,11 @@ import { useBindingStore } from './store/binding.ts';
 import { v4 as uuid } from 'uuid';
 import { Mode } from 'vanilla-jsoneditor';
 import FunctionDialog from './components/visual/FunctionDialog.vue';
+import {
+	TextFontInfo24Regular,
+	Info24Regular,
+	SlideSettings24Regular
+} from '@vicons/fluent';
 
 const contentStyle = computed(() => {
 	return {
@@ -86,15 +91,24 @@ function openFunctionDlg() {
 						</template>
 						<template #extra>
 							<n-space>
-								<n-button type="primary" @click="schemaDrawerShow = true"
-									>模式</n-button
-								>
-								<n-button type="primary" @click="bindingDrawerShow = true"
-									>状态</n-button
-								>
-								<n-button type="primary" @click="openFunctionDlg"
-									>函数集</n-button
-								>
+								<n-button type="primary" @click="schemaDrawerShow = true">
+									<template #icon>
+										<n-icon><TextFontInfo24Regular /></n-icon>
+									</template>
+									<span>模式</span>
+								</n-button>
+								<n-button type="primary" @click="bindingDrawerShow = true">
+									<template #icon>
+										<n-icon><Info24Regular /></n-icon>
+									</template>
+									<span>状态</span>
+								</n-button>
+								<n-button type="primary" @click="openFunctionDlg">
+									<template #icon>
+										<n-icon><SlideSettings24Regular /></n-icon>
+									</template>
+									<span>函数集</span>
+								</n-button>
 							</n-space>
 						</template>
 					</n-page-header>

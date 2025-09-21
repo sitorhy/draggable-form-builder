@@ -125,7 +125,7 @@ export function unitTest(): RendererItemDefinition {
 												type: 'formItem',
 												id: 'formItem_70477e55-189f-405a-b688-58cd3717f108',
 												props: {
-													label: '表单项',
+													label: '文本',
 													path: 'formItem513'
 												},
 												children: [
@@ -153,7 +153,73 @@ export function unitTest(): RendererItemDefinition {
 										type: 'container',
 										id: 'container_4c755a44-d8de-4c8a-876b-b384944ac19d',
 										props: {},
-										children: []
+										children: [
+											{
+												type: 'formItem',
+												id: 'formItem_796d9ecb-d0d9-46ac-8589-cbf71ea7852a',
+												props: {
+													label: '单选',
+													path: 'formItem569'
+												},
+												children: [
+													{
+														type: 'container',
+														id: 'container_0cfb0434-9c13-4be0-9a82-115383090bc7',
+														props: {
+															style: {
+																display: 'flex',
+																flexDirection: 'column'
+															},
+															display: 'flex',
+															flexDirection: 'column'
+														},
+														children: [
+															{
+																type: 'radioGroup',
+																id: 'radioGroup_93b1399b-3225-49b5-bd5e-de0cf70d69ef',
+																props: {
+																	path: 'radioGroup570',
+																	text: '单选组',
+																	name: 'radioGroup'
+																},
+																children: [
+																	{
+																		type: 'container',
+																		id: 'container_963e3d17-d21b-4199-aed9-3528d7ecffa5',
+																		props: {
+																			style: {
+																				display: 'flex',
+																				flexDirection: 'column'
+																			},
+																			display: 'flex',
+																			flexDirection: 'column'
+																		},
+																		children: [
+																			{
+																				type: 'radio',
+																				id: 'radio_4006b348-1111-41b2-8aa7-17cf2bfbb4cf',
+																				props: {
+																					label: '单选项111',
+																					value: '111'
+																				}
+																			},
+																			{
+																				type: 'radio',
+																				id: 'radio_1fa1d4c8-832b-4f0a-bb6d-156ab5f3e378',
+																				props: {
+																					label: '单选项222',
+																					value: '222'
+																				}
+																			}
+																		]
+																	}
+																]
+															}
+														]
+													}
+												]
+											}
+										]
 									},
 									{
 										type: 'container',
@@ -164,7 +230,7 @@ export function unitTest(): RendererItemDefinition {
 												type: 'formItem',
 												id: 'formItem_1d42fa4b-bacf-49e2-bd3d-14d3b8dc917a',
 												props: {
-													label: '表单项',
+													label: '日期',
 													path: 'formItem514'
 												},
 												children: [

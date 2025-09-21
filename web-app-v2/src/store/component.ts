@@ -10,7 +10,9 @@ import {
 	TrayItemAdd24Regular,
 	Grid24Regular,
 	DrawText24Regular,
-	Image24Regular
+	Image24Regular,
+	Group24Filled,
+	RadioButton24Filled
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types';
@@ -203,6 +205,31 @@ export function createRendererItemConfig(
 				}
 			};
 		}
+		case 'radioGroup': {
+			return {
+				type: 'radioGroup',
+				id: generateComponentId('radioGroup'),
+				props: {
+					path: generateComponentPath('radioGroup'),
+					text: '单选组',
+					name: 'radioGroup'
+				},
+				children: [
+					createRendererItemConfig({
+						type: 'container'
+					})
+				]
+			};
+		}
+		case 'radio': {
+			return {
+				type: 'radio',
+				id: generateComponentId('radio'),
+				props: {
+					label: '单选项'
+				}
+			};
+		}
 	}
 
 	return Object.assign(
@@ -239,6 +266,10 @@ export function getIconByType(type: string) {
 			return DrawText24Regular;
 		case 'image':
 			return Image24Regular;
+		case 'radioGroup':
+			return Group24Filled;
+		case 'radio':
+			return RadioButton24Filled;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -290,6 +321,14 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'formItem',
 							label: '表单项'
+						},
+						{
+							type: 'radioGroup',
+							label: '单选组'
+						},
+						{
+							type: 'radio',
+							label: '单选项'
 						}
 					]
 				},

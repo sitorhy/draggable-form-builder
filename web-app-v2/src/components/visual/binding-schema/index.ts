@@ -8,8 +8,10 @@ import container from './container';
 import linearList from './linear-list';
 import ellipsis from './ellipsis';
 import image from './image';
-import type { PropertyInjectionSchema } from '../../../types.ts';
-import type { PropertyFormItemSchemaOptions } from './common.ts';
+import radioGroup from './radio-group';
+import radio from './radio';
+import type { PropertyInjectionSchema } from '../../../types';
+import type { PropertyFormItemSchemaOptions } from './common';
 
 export type PropertyItemSchemasReturnType = {
 	formProps: Record<string, any>;
@@ -60,6 +62,12 @@ export function getSchemas(
 		}
 		case 'image': {
 			return image();
+		}
+		case 'radioGroup': {
+			return radioGroup();
+		}
+		case 'radio': {
+			return radio();
 		}
 	}
 
