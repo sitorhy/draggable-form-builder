@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
+defineProps({
 	options: {
 		type: Array,
 		default: () => [
@@ -14,14 +14,18 @@ const props = defineProps({
 				value: 'em'
 			},
 			{
+				label: 'cm',
+				value: 'cm'
+			},
+			{
+				label: 'mm',
+				value: 'mm'
+			},
+			{
 				label: '%',
 				value: '%'
 			}
 		]
-	},
-	modelValue: {
-		type: String,
-		default: ''
 	},
 	direction: {
 		type: String,
@@ -45,10 +49,10 @@ const props = defineProps({
 	}
 });
 
-const emit = defineEmits(['update:modelValue']);
+const modelValue = defineModel<string>('value');
 
 const num = computed(() => {
-	const value = Number.parseInt(props.modelValue);
+	const value = Number.parseInt(modelValue.value || '');
 	if (Number.isNaN(value)) {
 		return 0;
 	}
@@ -56,16 +60,16 @@ const num = computed(() => {
 });
 
 const unit = computed(() => {
-	const m = (props.modelValue || '').match(/(\d+)(.*)/);
+	const m = (modelValue.value || '').match(/(\d+)(.*)/);
 	return m && m[2] ? m[2] : 'px';
 });
 
 function onNumUpdate(value: number) {
-	emit('update:modelValue', `${value}${unit.value}`);
+	modelValue.value = `${value}${unit.value}`;
 }
 
 function onUnitUpdate(value: string) {
-	emit('update:modelValue', `${num.value}${value}`);
+	modelValue.value = `${num.value}${value}`;
 }
 </script>
 

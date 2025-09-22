@@ -12,7 +12,9 @@ import {
 	DrawText24Regular,
 	Image24Regular,
 	Group24Filled,
-	RadioButton24Filled
+	RadioButton24Filled,
+	EqualCircle24Regular,
+	SlideText24Regular
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types';
@@ -52,7 +54,21 @@ export function createRendererItemConfig(
 				props: {
 					path: generateComponentPath('page'),
 					background: '#eee'
-				}
+				},
+				children: [
+					Object.assign(
+						createRendererItemConfig({
+							type: 'container'
+						}),
+						{
+							props: {
+								style: {
+									flexDirection: 'column'
+								}
+							}
+						}
+					)
+				]
 			};
 		}
 		case 'form': {
@@ -194,6 +210,15 @@ export function createRendererItemConfig(
 				}
 			};
 		}
+		case 'richText': {
+			return {
+				type: 'richText',
+				id: generateComponentId('richText'),
+				props: {
+					value: '<p>富文本</p>'
+				}
+			};
+		}
 		case 'image': {
 			return {
 				type: 'image',
@@ -227,6 +252,15 @@ export function createRendererItemConfig(
 				id: generateComponentId('radio'),
 				props: {
 					label: '单选项'
+				}
+			};
+		}
+		case 'equation': {
+			return {
+				type: 'equation',
+				id: generateComponentId('equation'),
+				props: {
+					katex: '\\displaystyle= \\frac{k(k+1)}{2}+k+1'
 				}
 			};
 		}
@@ -264,12 +298,16 @@ export function getIconByType(type: string) {
 			return Grid24Regular;
 		case 'ellipsis':
 			return DrawText24Regular;
+		case 'richText':
+			return SlideText24Regular;
 		case 'image':
 			return Image24Regular;
 		case 'radioGroup':
 			return Group24Filled;
 		case 'radio':
 			return RadioButton24Filled;
+		case 'equation':
+			return EqualCircle24Regular;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -343,6 +381,14 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'image',
 							label: '图像'
+						},
+						{
+							type: 'equation',
+							label: '公式'
+						},
+						{
+							type: 'richText',
+							label: '富文本'
 						}
 					]
 				},

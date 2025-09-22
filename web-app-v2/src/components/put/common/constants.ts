@@ -1,5 +1,23 @@
 export const PAGE_FORMAT = [
 	{
+		label: 'WEB',
+		value: 'web',
+		size: {
+			width: '100%',
+			height: 'fit-content',
+			minHeight: '34px'
+		}
+	},
+	{
+		label: '拉伸',
+		value: 'full',
+		size: {
+			width: '100%',
+			height: '100%',
+			minHeight: '34px'
+		}
+	},
+	{
 		label: 'A4',
 		value: 'A4',
 		size: {

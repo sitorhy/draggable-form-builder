@@ -13,6 +13,7 @@ type PageProps = {
 	format: string;
 	direction: string;
 	background: string;
+	padding: string;
 };
 
 const props = computed<PageProps>(() => schema.value.props as PageProps);
@@ -21,10 +22,11 @@ const dimension = computed(() => {
 	if (props.value.format) {
 		const format = PAGE_FORMAT.find((i) => i.value === props.value.format);
 		if (format) {
-			if (props.value.direction === 'landscape') {
+			if (format.size && props.value.direction === 'landscape') {
 				return {
 					width: format.size.height,
-					height: format.size.width
+					height: format.size.width,
+					minHeight: format.size.minHeight || '34px'
 				};
 			}
 			return {
@@ -47,6 +49,10 @@ const pageStyle = computed(() => {
 
 	if (props.value.background) {
 		style.background = props.value.background;
+	}
+
+	if (props.value.padding) {
+		style.padding = props.value.padding;
 	}
 
 	return style;

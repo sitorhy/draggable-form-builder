@@ -9,6 +9,8 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { type Environment } from 'monaco-editor';
 
+import 'katex/dist/katex.css';
+
 declare global {
 	interface Window {
 		MonacoEnvironment: Environment;

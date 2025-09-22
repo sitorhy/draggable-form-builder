@@ -10,6 +10,8 @@ import ellipsis from './ellipsis';
 import image from './image';
 import radioGroup from './radio-group';
 import radio from './radio';
+import equation from './equation';
+import richText from './rich-text';
 import type { PropertyInjectionSchema } from '../../../types';
 import type { PropertyFormItemSchemaOptions } from './common';
 
@@ -68,6 +70,12 @@ export function getSchemas(
 		}
 		case 'radio': {
 			return radio();
+		}
+		case 'equation': {
+			return equation();
+		}
+		case 'richText': {
+			return richText();
 		}
 	}
 

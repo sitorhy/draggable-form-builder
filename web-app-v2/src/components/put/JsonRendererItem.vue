@@ -17,6 +17,8 @@ import Ellipsis from './item/Ellipsis.vue';
 import Image from './item/Image.vue';
 import RadioGroup from './item/RadioGroup.vue';
 import Radio from './item/Radio.vue';
+import Equation from './item/Equation.vue';
+import RichText from './item/RichText.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -101,6 +103,13 @@ const type = computed(() => schema.value.type);
 			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'richText'">
+		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
+			<PropertiesContext :schema="schema">
+				<RichText v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
 	<BindingContext :schema="schema" v-else-if="type === 'image'">
 		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
 			<PropertiesContext :schema="schema">
@@ -123,6 +132,13 @@ const type = computed(() => schema.value.type);
 		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
 			<PropertiesContext :schema="schema">
 				<Radio v-model:schema="schema" />
+			</PropertiesContext>
+		</JsonEmphasizeContainer>
+	</BindingContext>
+	<BindingContext :schema="schema" v-else-if="type === 'equation'">
+		<JsonEmphasizeContainer :class="[schema.type]" :schema-id="schema.id">
+			<PropertiesContext :schema="schema">
+				<Equation v-model:schema="schema" />
 			</PropertiesContext>
 		</JsonEmphasizeContainer>
 	</BindingContext>

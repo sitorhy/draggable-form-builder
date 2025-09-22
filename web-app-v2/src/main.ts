@@ -2,6 +2,7 @@ import { createApp, defineComponent } from 'vue';
 import './style.scss';
 import App from './App.vue';
 import naive from 'naive-ui';
+import katex from 'katex';
 import { createPinia } from 'pinia';
 import registerGlobalComponents from './global-components.ts';
 
@@ -15,14 +16,15 @@ const ProviderApp = defineComponent({
 	},
 	computed: {
 		zhCN: () => zhCN,
-		dateZhCN: () => dateZhCN
+		dateZhCN: () => dateZhCN,
+		katex: () => katex
 	},
 	errorCaptured(e) {
 		console.log(e);
 	},
 	template: `
 		<n-dialog-provider>
-			<n-config-provider :locale="zhCN" :date-locale="dateZhCN">
+			<n-config-provider :katex="katex" :locale="zhCN" :date-locale="dateZhCN">
 				<n-message-provider>
 					<App />
 				</n-message-provider>

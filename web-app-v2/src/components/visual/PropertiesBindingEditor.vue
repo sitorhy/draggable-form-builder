@@ -116,6 +116,7 @@ function createPropBinding(dataSourceSchema: NormalizeDataSource) {
 						<PropertiesForm
 							v-bind="bindingSchema.formProps"
 							:schema="section.schema"
+							:form-id="watchingSchema.id"
 							@link:prop="onPropLink"
 							@unlink:prop="onPropUnLink"
 							v-model:binding="watchingSchema.binding"

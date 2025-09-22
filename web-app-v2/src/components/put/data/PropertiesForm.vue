@@ -23,6 +23,10 @@ const props = defineProps({
 	itemKey: {
 		type: Function as PropType<(item: any) => string>,
 		default: null
+	},
+	formId: {
+		type: String,
+		default: uuid()
 	}
 });
 
@@ -48,7 +52,7 @@ const visibleItems = computed(function () {
 			if (typeof props.itemKey === 'function') {
 				key = props.itemKey(item);
 			} else {
-				key = uuid();
+				key = props.formId + '_' + item.prop;
 			}
 			return {
 				...item,

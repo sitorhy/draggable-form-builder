@@ -25,19 +25,19 @@ const bottom = defineModel('bottom', {
 <template>
 	<div class="edge-root">
 		<div class="top">
-			<SizePropertyInput v-model="top" direction="horizontal" />
+			<SizePropertyInput v-model:value="top" direction="horizontal" />
 		</div>
 		<div class="middle">
 			<div class="left">
-				<SizePropertyInput v-model="left" direction="vertical" />
+				<SizePropertyInput v-model:value="left" direction="vertical" />
 			</div>
 			<div class="placeholder"></div>
 			<div class="right">
-				<SizePropertyInput v-model="right" direction="vertical" />
+				<SizePropertyInput v-model:value="right" direction="vertical" />
 			</div>
 		</div>
 		<div class="bottom">
-			<SizePropertyInput v-model="bottom" direction="horizontal" />
+			<SizePropertyInput v-model:value="bottom" direction="horizontal" />
 		</div>
 	</div>
 </template>

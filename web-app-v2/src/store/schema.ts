@@ -8,8 +8,8 @@ import {
 	moveTo
 } from './nodes';
 import { defineStore } from 'pinia';
-import { unitTest } from '../test/data';
 import type { RendererItemDefinition } from '../types';
+import { createRendererItemConfig } from './component.ts';
 
 export const useSchemaStore = defineStore<
 	'schema',
@@ -19,7 +19,7 @@ export const useSchemaStore = defineStore<
 >('schema', {
 	state() {
 		return {
-			schema: unitTest()
+			schema: createRendererItemConfig({ type: 'page' })
 		};
 	}
 });

@@ -84,7 +84,7 @@ function openFunctionDlg() {
 				>
 					<n-page-header subtitle="" style="width: 100%">
 						<template #title>
-							<p>Low-Code Engine</p>
+							<p>Low-Code Engine Demo</p>
 						</template>
 						<template #avatar>
 							<n-image width="32" src="/code.png" />
@@ -135,7 +135,7 @@ function openFunctionDlg() {
 					>
 						<div
 							style="
-								width: fit-content;
+								width: 100%;
 								height: 100%;
 								margin: auto;
 								position: relative;
@@ -201,7 +201,7 @@ function openFunctionDlg() {
 				position="absolute"
 				style="height: 48px; padding: 8px"
 			>
-				城府路
+
 			</n-layout-footer>
 		</n-layout>
 	</div>

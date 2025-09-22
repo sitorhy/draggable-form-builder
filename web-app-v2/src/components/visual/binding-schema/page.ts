@@ -2,6 +2,7 @@ import { useBindingPathSchema } from './common';
 import { NSelect, NColorPicker } from 'naive-ui';
 import { PAGE_DIRECTION, PAGE_FORMAT } from '../../put/common/constants.ts';
 import type { SectionsReturnType } from './index.ts';
+import SizePropertyInput from '../SizePropertyInput.vue';
 
 function sections(): SectionsReturnType {
 	return {
@@ -30,6 +31,11 @@ function sections(): SectionsReturnType {
 							clearable: true,
 							options: PAGE_DIRECTION
 						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'padding',
+						label: '边距'
 					}
 				]
 			},

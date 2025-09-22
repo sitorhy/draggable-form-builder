@@ -3,6 +3,7 @@ import EdgeProperties from '../EdgeProperties.vue';
 import type { PropertyFormItemSchemaOptions } from './common.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 import type { SectionsReturnType } from './index.ts';
+import SizePropertyInput from '../SizePropertyInput.vue';
 
 function updateContainerStyle(
 	schema: RendererItemDefinition,
@@ -256,6 +257,40 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 								if (options.schema) {
 									updateContainerStyle(options.schema, {
 										flex
+									});
+								}
+							}
+						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'width',
+						label: '固定宽度',
+						config: {
+							value: options.schema?.props?.style?.width
+						},
+						on: {
+							'update:value': function (width: string | number) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										width
+									});
+								}
+							}
+						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'height',
+						label: '固定高度',
+						config: {
+							value: options.schema?.props?.style?.height
+						},
+						on: {
+							'update:value': function (height: string | number) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										height
 									});
 								}
 							}
