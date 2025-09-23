@@ -54,6 +54,7 @@ defineExpose({
 <template>
 	<n-form
 		v-if="schema.props && schema.children"
+		v-emphasize:schemaId="schema.id"
 		v-bind="{ ...schema.props, ...bindingProps }"
 		v-model:value="modelValue"
 	>

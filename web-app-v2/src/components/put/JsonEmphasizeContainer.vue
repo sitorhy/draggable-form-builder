@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRendererContainerEmphasize } from './common/container-emphasize.ts';
+import { Delete24Regular, Settings24Regular } from '@vicons/fluent';
+import { useSchemaActions } from '../../store/schema.ts';
 import { useEmphasizeStore } from '../../store/emphasize.ts';
+
+const emit = defineEmits(['click:setting', 'click:delete']);
 
 defineOptions({
 	name: 'JsonEmphasizeContainer'
@@ -12,55 +15,84 @@ const props = defineProps({
 		type: String,
 		default: ''
 	},
-	tag: {
-		type: String,
-		default: ''
-	},
 	containerStyle: {
 		type: Object,
 		default: null
+	},
+	showAction: {
+		type: Boolean,
+		default: false
 	}
 });
 
 const emphasizeStore = useEmphasizeStore();
+const { removeNodeById } = useSchemaActions();
 
-const emphasizeOptions = computed(() => {
+const style = computed(() => {
 	return {
-		schemaId: props.schemaId,
-		containerStyle: props.containerStyle
+		...props.containerStyle
 	};
 });
-const { containerRef, containerSizeStyle, onContainerClick } =
-	useRendererContainerEmphasize(emphasizeOptions);
 
-const containerClasses = computed(function () {
-	return [
-		'emphasized-container',
-		emphasizeStore.schemaId === props.schemaId ? 'draggable-emphasized' : ''
-	];
+const actionStyle = computed(() => {
+	return {
+		top: `${parseInt(props.containerStyle.top) - 22.3}px`,
+		left: `${parseInt(props.containerStyle.width) + parseInt(props.containerStyle.left) - 22.3 * 2}px`
+	};
 });
+
+function onSchemaDeleting() {
+	emit('click:delete', props.schemaId);
+}
+
+function onSchemaSetting() {
+	removeNodeById(props.schemaId);
+	emphasizeStore.unwatchSchema();
+	emit('click:setting', props.schemaId);
+}
 </script>
 
 <template>
-	<div
-		:class="containerClasses"
-		:style="containerSizeStyle"
-		ref="containerRef"
-		@click.stop="onContainerClick"
-	>
-		<component class="emphasized-container" :is="tag" v-if="tag">
-			<slot></slot>
-		</component>
-		<slot v-else></slot>
+	<div class="actions" :style="actionStyle" v-if="showAction">
+		<n-space :size="0">
+			<div class="action-item" @click.stop="onSchemaDeleting">
+				<n-icon :size="13">
+					<Delete24Regular />
+				</n-icon>
+			</div>
+			<div class="action-item" @click.stop="onSchemaSetting">
+				<n-icon :size="13">
+					<Settings24Regular />
+				</n-icon>
+			</div>
+		</n-space>
 	</div>
+	<div class="emphasize-container" :style="style"></div>
 </template>
 
 <style lang="scss" scoped>
-.emphasized-container {
-	flex: inherit;
-	display: inherit;
-	flex-direction: inherit;
-	align-items: inherit;
-	justify-content: inherit;
+.emphasize-container {
+	position: absolute;
+	z-index: 10;
+	pointer-events: none;
+	box-sizing: border-box;
+	border: 2px dashed green;
+}
+
+.actions {
+	position: absolute;
+	right: 0;
+	color: white;
+	z-index: 100;
+
+	.action-item {
+		width: 23px;
+		text-align: center;
+		background: green;
+
+		&:hover {
+			background: limegreen;
+		}
+	}
 }
 </style>

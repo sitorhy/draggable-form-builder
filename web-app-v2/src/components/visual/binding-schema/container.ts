@@ -1,27 +1,11 @@
 import { NInputNumber, NSelect } from 'naive-ui';
 import EdgeProperties from '../EdgeProperties.vue';
-import type { PropertyFormItemSchemaOptions } from './common.ts';
-import type { RendererItemDefinition } from '../../../types.ts';
+import {
+	type PropertyFormItemSchemaOptions,
+	updateContainerStyle
+} from './common.ts';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
-
-function updateContainerStyle(
-	schema: RendererItemDefinition,
-	style: Record<string, any>
-) {
-	if (!schema.props) {
-		schema.props = {};
-	}
-
-	if (!schema.props.style) {
-		schema.props.style = {};
-	}
-
-	schema.props.style = {
-		...schema.props.style,
-		...style
-	};
-}
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {

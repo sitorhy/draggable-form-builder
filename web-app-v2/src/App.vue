@@ -9,6 +9,7 @@ import type { TabsInst } from 'naive-ui';
 import { computed, ref, nextTick, watch } from 'vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useBindingStore } from './store/binding.ts';
+import { useEmphasizeStore } from './store/emphasize.ts';
 import { v4 as uuid } from 'uuid';
 import { Mode } from 'vanilla-jsoneditor';
 import FunctionDialog from './components/visual/FunctionDialog.vue';
@@ -17,6 +18,8 @@ import {
 	Info24Regular,
 	SlideSettings24Regular
 } from '@vicons/fluent';
+import ProjectSelector from './components/visual/ProjectSelector.vue';
+import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue';
 
 const contentStyle = computed(() => {
 	return {
@@ -30,9 +33,9 @@ const contentStyle = computed(() => {
 		border: 'solid 1px #eee'
 	};
 });
-
 const schemaStore = useSchemaStore();
 const bindingStore = useBindingStore();
+const emphasizeStore = useEmphasizeStore();
 
 const schema = computed(() => schemaStore.schema);
 
@@ -73,6 +76,9 @@ const funModelShow = ref(false);
 function openFunctionDlg() {
 	funModelShow.value = true;
 }
+
+const emphasizeRects = computed(() => emphasizeStore.$state.bounds);
+const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 </script>
 
 <template>
@@ -144,6 +150,19 @@ function openFunctionDlg() {
 							<BindingContext custom-path="">
 								<JsonRenderer :key="schemaKey" v-model:schema="schema" />
 							</BindingContext>
+
+							<JsonEmphasizeContainer
+								:container-style="{
+									left: `${rect.left}px`,
+									top: `${rect.top}px`,
+									height: `${rect.height}px`,
+									width: `${rect.width}px`
+								}"
+								@click:setting="onNodeSetting"
+								v-for="rect in emphasizeRects"
+								:key="rect.id"
+								:schema-id="emphasizeSchemaId"
+							/>
 						</div>
 					</n-layout-content>
 
@@ -151,7 +170,7 @@ function openFunctionDlg() {
 						collapse-mode="transform"
 						:native-scrollbar="false"
 						:collapsed-width="11"
-						:width="360"
+						:width="420"
 						content-style="padding: 11px; height: 100%;"
 						show-trigger="arrow-circle"
 						bordered
@@ -182,7 +201,9 @@ function openFunctionDlg() {
 									class="custom-tabs-item"
 									v-show="customTabValue === 'schema'"
 								>
-									<JsonSchemaTree @node:setting="onNodeSetting" />
+									<div style="width: max-content">
+										<JsonSchemaTree @node:setting="onNodeSetting" />
+									</div>
 								</div>
 
 								<div
@@ -201,7 +222,16 @@ function openFunctionDlg() {
 				position="absolute"
 				style="height: 48px; padding: 8px"
 			>
-
+				<n-space justify="space-between">
+					<span>
+						<span style="font-weight: bold; font-size: 10px"></span>
+					</span>
+					<div>
+						<n-space>
+							<ProjectSelector />
+						</n-space>
+					</div>
+				</n-space>
 			</n-layout-footer>
 		</n-layout>
 	</div>

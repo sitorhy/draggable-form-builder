@@ -30,7 +30,11 @@ defineExpose({
 </script>
 
 <template>
-	<n-image v-if="schema.props" v-bind="propsReduce" />
+	<n-image
+		v-if="schema.props"
+		v-emphasize:schemaId="schema.id"
+		v-bind="propsReduce"
+	/>
 	<n-empty v-else description="Ellipsis">
 		<template #icon>
 			<n-icon>

@@ -67,7 +67,7 @@ function onPositiveClick() {
 			ref="editorRef"
 			v-model:value="content"
 			:options="{
-				placeholder: 'core',
+				placeholder: '输入文本',
 				modules: {}
 			}"
 			:disabled="readOnly"

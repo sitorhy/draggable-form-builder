@@ -135,20 +135,30 @@ defineExpose({
 							<span>{{ item.label }}</span>
 
 							<template v-if="useBinding(item)">
-								<n-icon
-									:size="24"
-									v-if="!hasDataSourceBinding(item)"
-									@click.stop="switchPropToDataSource(item)"
-								>
-									<Link24Regular />
-								</n-icon>
-								<n-icon
-									:size="24"
-									v-else
-									@click.stop="resetPropFromDataSource(item)"
-								>
-									<LinkDismiss24Regular />
-								</n-icon>
+								<n-button-group>
+									<n-tag
+										round
+										size="small"
+										v-if="!hasDataSourceBinding(item)"
+										@click.stop="() => switchPropToDataSource(item)"
+									>
+										<span>关联</span>
+										<template #icon>
+											<n-icon><Link24Regular /></n-icon>
+										</template>
+									</n-tag>
+									<n-tag
+										round
+										size="small"
+										v-else
+										@click.prevent="() => resetPropFromDataSource(item)"
+									>
+										<span>断联</span>
+										<template #icon>
+											<n-icon><LinkDismiss24Regular /></n-icon>
+										</template>
+									</n-tag>
+								</n-button-group>
 							</template>
 						</n-space>
 					</template>

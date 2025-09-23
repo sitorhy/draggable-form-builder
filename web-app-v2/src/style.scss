@@ -31,15 +31,6 @@ body, #root {
     display: flex;
     flex-direction: column;
   }
-
-  &.container {
-    width: auto;
-    display: flex;
-    flex: 1;
-    flex-direction: inherit;
-    align-items: inherit;
-    justify-content: inherit;
-  }
 }
 
 .placeholder-width {
@@ -51,19 +42,12 @@ body, #root {
   @extend %medium-drop-area;
 }
 
-.draggable-emphasized {
-  &::after {
-    content: "";
-    position: absolute;
-    border-color: green;
-    top: var(--observe-top);
-    left: var(--observe-left);
-    width: var(--observe-width);
-    height: var(--observe-height);
-    border-style: dashed;
-    border-width: 2px;
-    z-index: 10;
-    pointer-events: none;
-    box-sizing: border-box;
-  }
+// 普通容器占位
+.renderer-item-placeholder {
+  @extend %medium-drop-area;
+  min-width: var(--n-width);
+}
+
+.renderer-item-contents {
+  display: contents;
 }

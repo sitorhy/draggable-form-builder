@@ -36,6 +36,7 @@ defineExpose({
 <template>
 	<n-form-item
 		v-if="schema.props && schema.children"
+		v-emphasize:schemaId="schema.id"
 		v-bind="{ ...schema.props, ...bindingProps }"
 	>
 		<JsonRenderer

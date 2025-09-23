@@ -61,6 +61,7 @@ defineExpose({
 
 <template>
 	<n-input
+		v-emphasize:schemaId="schema.id"
 		v-if="schema.props"
 		v-bind="{ ...schema.props, ...bindingProps }"
 		v-model:value="modelValue"

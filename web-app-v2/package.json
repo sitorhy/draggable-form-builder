@@ -8,6 +8,7 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
+  "web-types": "./web-types.json",
   "dependencies": {
     "@he-tree/vue": "^2.9.4",
     "@types/quill": "^2.0.14",

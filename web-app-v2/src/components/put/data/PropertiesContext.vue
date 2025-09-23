@@ -44,7 +44,7 @@ const binding = computed(() => {
 });
 
 const loop = computed(() => {
-	return props.schema.props?.loop;
+	return props.schema.props?.loop || bindingProps.value.loop;
 });
 
 function resolveLocalSchema(

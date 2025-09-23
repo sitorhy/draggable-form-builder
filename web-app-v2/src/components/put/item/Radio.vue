@@ -30,7 +30,11 @@ defineExpose({
 </script>
 
 <template>
-	<n-radio v-if="schema.props" v-bind="propsReduce"></n-radio>
+	<n-radio
+		v-if="schema.props"
+		v-emphasize:schemaId="schema.id"
+		v-bind="propsReduce"
+	></n-radio>
 	<n-empty v-else description="Radio">
 		<template #icon>
 			<n-icon>

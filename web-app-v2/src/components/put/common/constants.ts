@@ -112,3 +112,34 @@ export const DATA_SOURCE_OBJECT_SCHEMA_HOST = [
 		value: 'path'
 	}
 ];
+
+export const FONTS = [
+	{
+		label: '宋体',
+		value: '宋体'
+	},
+	{
+		label: '黑体',
+		value: '黑体'
+	},
+	{
+		label: '仿宋',
+		value: '仿宋'
+	},
+	{
+		label: '楷体',
+		value: '楷体'
+	},
+	{
+		label: '微软雅黑',
+		value: '微软雅黑'
+	},
+	{
+		label: 'Arial',
+		value: 'Arial'
+	},
+	{
+		label: 'Time New Roman',
+		value: 'Time New Roman'
+	}
+];

@@ -40,6 +40,7 @@ const containerClasses = computed(function () {
 	<draggable
 		ref="containerRef"
 		v-if="schema.children"
+		v-emphasize:schemaId="schema.id"
 		:class="containerClasses"
 		:tag="tag"
 		:move="containerDragMove"
@@ -52,7 +53,7 @@ const containerClasses = computed(function () {
 		v-model="schema.children"
 	>
 		<template #item="scope">
-			<div class="renderer-drop-item">
+			<div class="renderer-item-contents">
 				<JsonRenderer v-model:schema="schema.children[scope.index]" />
 			</div>
 		</template>
@@ -65,12 +66,3 @@ const containerClasses = computed(function () {
 		</template>
 	</n-empty>
 </template>
-
-<style scoped>
-.renderer-drop-item {
-	display: inherit;
-	flex: inherit;
-	flex-direction: inherit;
-	min-width: var(--n-width);
-}
-</style>

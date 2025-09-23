@@ -34,7 +34,7 @@ defineExpose({
 </script>
 
 <template>
-	<div class="equation" v-if="schema.props">
+	<div class="equation" v-if="schema.props" v-emphasize:schemaId="schema.id">
 		<n-equation :value="katexText" />
 	</div>
 	<n-empty v-else description="Equation">

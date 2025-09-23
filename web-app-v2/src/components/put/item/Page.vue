@@ -60,7 +60,7 @@ const pageStyle = computed(() => {
 </script>
 
 <template>
-	<div class="page" :style="pageStyle">
+	<div v-emphasize:schemaId="schema.id" class="page" :style="pageStyle">
 		<slot></slot>
 	</div>
 </template>

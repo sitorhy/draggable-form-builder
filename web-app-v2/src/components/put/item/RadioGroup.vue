@@ -68,6 +68,7 @@ defineExpose({
 <template>
 	<n-radio-group
 		class="radio-group-container"
+		v-emphasize:schemaId="schema.id"
 		v-if="schema.props && schema.children"
 		v-bind="propsReduce"
 		v-model:value="modelValue"

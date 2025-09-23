@@ -34,7 +34,12 @@ defineExpose({
 </script>
 
 <template>
-	<div class="rich-text-placeholder" v-if="schema.props" v-html="content" />
+	<div
+		class="renderer-item-placeholder"
+		v-emphasize:schemaId="schema.id"
+		v-if="schema.props"
+		v-html="content"
+	/>
 	<n-empty v-else description="RichText">
 		<template #icon>
 			<n-icon>
@@ -43,9 +48,3 @@ defineExpose({
 		</template>
 	</n-empty>
 </template>
-
-<style lang="scss" scoped>
-.rich-text-placeholder {
-	min-height: var(--n-hegiht);
-}
-</style>

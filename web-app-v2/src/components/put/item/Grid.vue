@@ -28,6 +28,7 @@ defineExpose({
 <template>
 	<n-grid
 		v-if="schema.props && schema.children"
+		v-emphasize:schemaId="schema.id"
 		v-bind="{ ...schema.props, ...bindingProps }"
 	>
 		<n-gi v-for="(cellSchema, index) in schema.children" :key="cellSchema.id">

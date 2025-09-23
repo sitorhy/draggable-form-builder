@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { BaseTree, OpenIcon } from '@he-tree/vue';
-import { useSchemaStore } from '../../store/schema.ts';
+import { useSchemaActions, useSchemaStore } from '../../store/schema.ts';
 import { getIconByType, useComponentsStore } from '../../store/component.ts';
-import { Settings24Regular } from '@vicons/fluent';
+import { Settings24Regular, Delete24Regular } from '@vicons/fluent';
 
 import '@he-tree/vue/style/default.css';
 import '@he-tree/vue/style/material-design.css';
@@ -15,6 +15,7 @@ const emit = defineEmits(['node:setting']);
 const schemaStore = useSchemaStore();
 const componentsStore = useComponentsStore();
 const emphasizeStore = useEmphasizeStore();
+const { removeNodeById } = useSchemaActions();
 
 const NON_SCHEMA_ID = '#';
 
@@ -30,13 +31,24 @@ type CheckedTreeNode = {
 	data: TreeNode;
 };
 
+function mapStaticNodes(nodes: TreeNode[]) {
+	return nodes.map((node: TreeNode) => {
+		return {
+			...node,
+			showSetting: true,
+			showDelete: false
+		};
+	});
+}
+
 function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 	return schemas.map(function (schema) {
 		const node: TreeNode = {
 			label: componentsStore.getComponentNameByType(schema.type) || schema.type,
 			type: schema.type,
 			id: schema.id,
-			showSetting: true
+			showSetting: true,
+			showDelete: true
 		};
 
 		if (schema.type === 'list') {
@@ -45,26 +57,33 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					id: NON_SCHEMA_ID,
 					type: 'slot',
 					label: '首部内容插槽',
-					children: mapToVisualTree(
-						schema.props?.slots?.prefix ? [schema.props?.slots.prefix] : []
+					children: mapStaticNodes(
+						mapToVisualTree(
+							schema.props?.slots?.prefix ? [schema.props?.slots.prefix] : []
+						)
 					),
-					showSetting: false
+					showSetting: false,
+					showDelete: false
 				},
 				{
 					id: NON_SCHEMA_ID,
 					type: 'slot',
 					label: '内容插槽',
-					children: mapToVisualTree(schema.children || []),
-					showSetting: false
+					children: mapStaticNodes(mapToVisualTree(schema.children || [])),
+					showSetting: false,
+					showDelete: false
 				},
 				{
 					id: NON_SCHEMA_ID,
 					type: 'slot',
 					label: '尾部内容插槽',
-					children: mapToVisualTree(
-						schema.props?.slots?.suffix ? [schema.props?.slots.suffix] : []
+					children: mapStaticNodes(
+						mapToVisualTree(
+							schema.props?.slots?.suffix ? [schema.props?.slots.suffix] : []
+						)
 					),
-					showSetting: false
+					showSetting: false,
+					showDelete: false
 				}
 			];
 		} else {
@@ -105,6 +124,19 @@ function onSettingClick(node: TreeNode) {
 		emit('node:setting', node);
 	}
 }
+
+function onDeleteClick(node: TreeNode) {
+	if (node) {
+		if (node.id === NON_SCHEMA_ID) {
+			emphasizeStore.unwatchSchema();
+			return;
+		}
+		removeNodeById(node.id);
+		if (emphasizeStore.$state.schemaId === node.id) {
+			emphasizeStore.unwatchSchema();
+		}
+	}
+}
 </script>
 
 <template>
@@ -131,7 +163,7 @@ function onSettingClick(node: TreeNode) {
 					<n-space align="center" :size="5">
 						<n-icon><component :is="getIconByType(node.type)" /></n-icon>
 						<span>{{ node.label }}</span>
-						<div class="node-desc-actions">
+						<n-space :size="5" class="node-desc-actions" align="center">
 							<n-icon
 								color="#18a058"
 								v-if="node.showSetting"
@@ -139,7 +171,15 @@ function onSettingClick(node: TreeNode) {
 							>
 								<Settings24Regular />
 							</n-icon>
-						</div>
+
+							<n-icon
+								color="#18a058"
+								v-if="node.showDelete"
+								@click.stop="onDeleteClick(node)"
+							>
+								<Delete24Regular />
+							</n-icon>
+						</n-space>
 					</n-space>
 				</div>
 			</div>
@@ -160,16 +200,7 @@ function onSettingClick(node: TreeNode) {
 }
 
 .node-desc-actions {
-	padding-top: 2px;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-
 	visibility: hidden;
-
-	> * {
-		margin-left: 4px;
-	}
 }
 
 .tree-node:hover .node-desc-actions {

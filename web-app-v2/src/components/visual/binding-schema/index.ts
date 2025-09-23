@@ -60,7 +60,7 @@ export function getSchemas(
 			return linearList(options);
 		}
 		case 'ellipsis': {
-			return ellipsis();
+			return ellipsis(options);
 		}
 		case 'image': {
 			return image();

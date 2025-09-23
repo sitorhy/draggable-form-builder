@@ -20,6 +20,18 @@ export type RendererItemDefinition = {
 	binding?: Record<string, string>;
 };
 
+export type ProjectDefinition = {
+	name: string;
+	id: string;
+	pages: [
+		{
+			id: string;
+			name: string;
+			schema: RendererItemDefinition;
+		}
+	];
+};
+
 export type PropertyInjectionSchema = Record<string, any> & {
 	type: Component<Record<string, any>> | string;
 	label: string;

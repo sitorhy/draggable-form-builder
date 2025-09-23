@@ -99,6 +99,7 @@ const containerClasses = computed(function () {
 	>
 		<draggable
 			v-if="schema.children"
+			v-emphasize:schemaId="schema.id"
 			ref="containerRef"
 			:class="containerClasses"
 			:group="{ name: 'renderer-list', put: put, pull: pull }"
@@ -112,7 +113,7 @@ const containerClasses = computed(function () {
 			v-model="schema.children"
 		>
 			<template #item="scope">
-				<div>
+				<div class="renderer-item-contents">
 					<JsonRenderer v-model:schema="schema.children[scope.index]" />
 				</div>
 			</template>

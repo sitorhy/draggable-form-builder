@@ -34,12 +34,14 @@ defineExpose({
 </script>
 
 <template>
-	<n-ellipsis v-if="schema.props" v-bind="propsReduce">{{ text }}</n-ellipsis>
-	<n-empty v-else description="Ellipsis">
-		<template #icon>
-			<n-icon>
-				<ErrorCircle20Regular />
-			</n-icon>
-		</template>
-	</n-empty>
+	<span v-emphasize:schemaId="schema.id">
+		<n-ellipsis v-if="schema.props" v-bind="propsReduce">{{ text }}</n-ellipsis>
+		<n-empty v-else description="Ellipsis">
+			<template #icon>
+				<n-icon>
+					<ErrorCircle20Regular />
+				</n-icon>
+			</template>
+		</n-empty>
+	</span>
 </template>

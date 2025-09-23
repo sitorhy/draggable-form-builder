@@ -54,7 +54,7 @@ const modelValue = defineModel<string>('value');
 const num = computed(() => {
 	const value = Number.parseInt(modelValue.value || '');
 	if (Number.isNaN(value)) {
-		return 0;
+		return undefined;
 	}
 	return value;
 });

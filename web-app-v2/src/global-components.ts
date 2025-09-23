@@ -1,4 +1,5 @@
 import type { App } from 'vue';
+import { VEmphasize } from './components/put/common/vEmphasize.ts';
 import ListItem from './components/put/item/ListItem.vue';
 
 import * as monaco from 'monaco-editor';
@@ -9,6 +10,7 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { type Environment } from 'monaco-editor';
 
+import './libs/vue3-quill/fonts.ts';
 import 'katex/dist/katex.css';
 
 declare global {
@@ -39,4 +41,5 @@ monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
 export default function registerGlobalComponents(app: App): void {
 	app.component('list-item', ListItem);
+	app.directive('emphasize', VEmphasize);
 }

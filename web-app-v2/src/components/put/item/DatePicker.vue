@@ -61,6 +61,7 @@ defineExpose({
 <template>
 	<n-date-picker
 		v-if="schema.props"
+		v-emphasize:schemaId="schema.id"
 		v-bind="{ ...schema.props, ...bindingProps }"
 		v-model:value="modelValue"
 	/>
