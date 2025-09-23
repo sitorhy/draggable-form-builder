@@ -41,14 +41,17 @@ function mapStaticNodes(nodes: TreeNode[]) {
 	});
 }
 
-function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
+function mapToVisualTree(
+	schemas: RendererItemDefinition[],
+	level: number
+): TreeNode[] {
 	return schemas.map(function (schema) {
 		const node: TreeNode = {
 			label: componentsStore.getComponentNameByType(schema.type) || schema.type,
 			type: schema.type,
 			id: schema.id,
 			showSetting: true,
-			showDelete: true
+			showDelete: level > 1
 		};
 
 		if (schema.type === 'list') {
@@ -59,7 +62,8 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					label: '首部内容插槽',
 					children: mapStaticNodes(
 						mapToVisualTree(
-							schema.props?.slots?.prefix ? [schema.props?.slots.prefix] : []
+							schema.props?.slots?.prefix ? [schema.props?.slots.prefix] : [],
+							level + 1
 						)
 					),
 					showSetting: false,
@@ -69,7 +73,9 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					id: NON_SCHEMA_ID,
 					type: 'slot',
 					label: '内容插槽',
-					children: mapStaticNodes(mapToVisualTree(schema.children || [])),
+					children: mapStaticNodes(
+						mapToVisualTree(schema.children || [], level + 1)
+					),
 					showSetting: false,
 					showDelete: false
 				},
@@ -79,7 +85,8 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 					label: '尾部内容插槽',
 					children: mapStaticNodes(
 						mapToVisualTree(
-							schema.props?.slots?.suffix ? [schema.props?.slots.suffix] : []
+							schema.props?.slots?.suffix ? [schema.props?.slots.suffix] : [],
+							level + 1
 						)
 					),
 					showSetting: false,
@@ -88,7 +95,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 			];
 		} else {
 			if (Array.isArray(schema.children)) {
-				node.children = mapToVisualTree(schema.children);
+				node.children = mapToVisualTree(schema.children, level + 1);
 			}
 		}
 
@@ -97,7 +104,7 @@ function mapToVisualTree(schemas: RendererItemDefinition[]): TreeNode[] {
 }
 
 const treeData = computed(function () {
-	return mapToVisualTree([schemaStore.schema]);
+	return mapToVisualTree([schemaStore.schema], 0);
 });
 
 const watchingSchemaId = computed(function () {
