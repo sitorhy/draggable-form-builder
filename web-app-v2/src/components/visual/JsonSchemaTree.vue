@@ -25,6 +25,7 @@ type TreeNode = {
 	id: string;
 	children?: TreeNode[];
 	showSetting?: boolean;
+	showDelete?: boolean;
 };
 
 type CheckedTreeNode = {

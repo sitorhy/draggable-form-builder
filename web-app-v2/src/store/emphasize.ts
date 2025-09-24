@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import { v4 as uuid } from 'uuid';
 
-function toRelativeRect(el: Element) {
+function toRelativeRect(el: HTMLElement) {
 	const rect = el.getBoundingClientRect();
 	let top = 0;
 	let left = 0;
-	let parent = el;
+	let parent: HTMLElement | null = el;
 	while (parent) {
 		const pRect = parent.getBoundingClientRect();
 		top = pRect.top;
@@ -15,7 +15,7 @@ function toRelativeRect(el: Element) {
 			break;
 		}
 
-		parent = parent.parentNode;
+		parent = parent.parentNode as HTMLElement;
 	}
 
 	return {
@@ -34,8 +34,6 @@ export const useEmphasizeStore = defineStore<
 			id: string;
 			left: number;
 			top: number;
-			right?: number;
-			bottom?: number;
 			height: number;
 			width: number;
 		}[];
@@ -45,11 +43,8 @@ export const useEmphasizeStore = defineStore<
 		watchSchemaBounds: (
 			schemaId: string,
 			bounds: {
-				id: string;
 				left: number;
 				top: number;
-				right?: number;
-				bottom?: number;
 				height: number;
 				width: number;
 			}[]
@@ -71,7 +66,9 @@ export const useEmphasizeStore = defineStore<
 					`[data-schema-id="${schemaId}"]`
 				);
 				if (list && list.length) {
-					const bounds = Array.from(list).map((el) => toRelativeRect(el));
+					const bounds = Array.from(list).map((el) =>
+						toRelativeRect(el as HTMLElement)
+					);
 					this.watchSchemaBounds(schemaId, bounds);
 				} else {
 					this.unwatchSchema();
@@ -85,8 +82,6 @@ export const useEmphasizeStore = defineStore<
 			bounds: {
 				left: number;
 				top: number;
-				right?: number;
-				bottom?: number;
 				height: number;
 				width: number;
 			}[]
@@ -96,8 +91,6 @@ export const useEmphasizeStore = defineStore<
 				return {
 					left: r.left,
 					top: r.top,
-					right: r.right,
-					bottom: r.bottom,
 					width: r.width,
 					height: r.height,
 					id: uuid()

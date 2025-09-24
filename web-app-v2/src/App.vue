@@ -4,21 +4,12 @@ import BindingContext from './components/put/data/BindingContext.vue';
 import JsonRenderer from './components/put/JsonRenderer.vue';
 import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 import PropertiesBindingEditor from './components/visual/PropertiesBindingEditor.vue';
-import JsonEditorVue from 'json-editor-vue';
 import type { TabsInst } from 'naive-ui';
 import { computed, ref, nextTick, watch } from 'vue';
 import { useSchemaStore } from './store/schema.ts';
-import { useBindingStore } from './store/binding.ts';
 import { useEmphasizeStore } from './store/emphasize.ts';
 import { v4 as uuid } from 'uuid';
-import { Mode } from 'vanilla-jsoneditor';
-import FunctionDialog from './components/visual/FunctionDialog.vue';
-import {
-	TextFontInfo24Regular,
-	Info24Regular,
-	SlideSettings24Regular
-} from '@vicons/fluent';
-import ProjectSelector from './components/visual/ProjectSelector.vue';
+import ProjectView from './components/visual/ProjectView.vue';
 import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue';
 
 const contentStyle = computed(() => {
@@ -34,7 +25,6 @@ const contentStyle = computed(() => {
 	};
 });
 const schemaStore = useSchemaStore();
-const bindingStore = useBindingStore();
 const emphasizeStore = useEmphasizeStore();
 
 const schema = computed(() => schemaStore.schema);
@@ -57,25 +47,16 @@ watch(
 	schema,
 	function () {
 		schemaKey.value = uuid();
+		if (emphasizeSchemaId.value) {
+			nextTick(() => {
+				emphasizeStore.watchSchema(emphasizeSchemaId.value);
+			});
+		}
 	},
 	{
 		deep: true
 	}
 );
-
-const schemaDrawerShow = ref(false);
-const bindingDrawerShow = ref(false);
-const editorProps = computed(() => {
-	return {
-		mode: Mode.text,
-		readOnly: true
-	};
-});
-
-const funModelShow = ref(false);
-function openFunctionDlg() {
-	funModelShow.value = true;
-}
 
 const emphasizeRects = computed(() => emphasizeStore.$state.bounds);
 const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
@@ -93,30 +74,9 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 							<p>Low-Code Engine Demo</p>
 						</template>
 						<template #avatar>
-							<n-image width="32" src="/code.png" />
+							<n-image :preview-disabled="true" width="32" src="/code.png" />
 						</template>
-						<template #extra>
-							<n-space>
-								<n-button type="primary" @click="schemaDrawerShow = true">
-									<template #icon>
-										<n-icon><TextFontInfo24Regular /></n-icon>
-									</template>
-									<span>模式</span>
-								</n-button>
-								<n-button type="primary" @click="bindingDrawerShow = true">
-									<template #icon>
-										<n-icon><Info24Regular /></n-icon>
-									</template>
-									<span>状态</span>
-								</n-button>
-								<n-button type="primary" @click="openFunctionDlg">
-									<template #icon>
-										<n-icon><SlideSettings24Regular /></n-icon>
-									</template>
-									<span>函数集</span>
-								</n-button>
-							</n-space>
-						</template>
+						<template #extra></template>
 					</n-page-header>
 				</div>
 			</n-layout-header>
@@ -170,7 +130,7 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 						collapse-mode="transform"
 						:native-scrollbar="false"
 						:collapsed-width="11"
-						:width="420"
+						:width="360"
 						content-style="padding: 11px; height: 100%;"
 						show-trigger="arrow-circle"
 						bordered
@@ -194,6 +154,13 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 										display-directive="show"
 									>
 									</n-tab-pane>
+
+									<n-tab-pane
+										name="project"
+										tab="项目"
+										display-directive="show"
+									>
+									</n-tab-pane>
 								</n-tabs>
 							</div>
 							<div class="custom-tabs-body">
@@ -201,7 +168,7 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 									class="custom-tabs-item"
 									v-show="customTabValue === 'schema'"
 								>
-									<div style="width: max-content">
+									<div style="width: 100%">
 										<JsonSchemaTree @node:setting="onNodeSetting" />
 									</div>
 								</div>
@@ -211,6 +178,13 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 									v-show="customTabValue === 'properties'"
 								>
 									<PropertiesBindingEditor />
+								</div>
+
+								<div
+									class="custom-tabs-item"
+									v-show="customTabValue === 'project'"
+								>
+									<ProjectView />
 								</div>
 							</div>
 						</div>
@@ -223,44 +197,16 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 				style="height: 48px; padding: 8px"
 			>
 				<n-space justify="space-between">
-					<span>
-						<span style="font-weight: bold; font-size: 10px"></span>
-					</span>
 					<div>
-						<n-space>
-							<ProjectSelector />
-						</n-space>
+						<span style="font-weight: bold; font-size: 10px"></span>
+					</div>
+					<div>
+						<n-space></n-space>
 					</div>
 				</n-space>
 			</n-layout-footer>
 		</n-layout>
 	</div>
-
-	<n-drawer
-		v-model:show="schemaDrawerShow"
-		:display-directive="'show'"
-		:width="1000"
-		placement="right"
-	>
-		<n-drawer-content closable title="模式">
-			<div>
-				<JsonEditorVue :modelValue="schema" v-bind="editorProps" />
-			</div>
-		</n-drawer-content>
-	</n-drawer>
-
-	<n-drawer
-		v-model:show="bindingDrawerShow"
-		:display-directive="'show'"
-		:width="1000"
-		placement="right"
-	>
-		<n-drawer-content closable title="状态">
-			<JsonEditorVue :modelValue="bindingStore.root" v-bind="editorProps" />
-		</n-drawer-content>
-	</n-drawer>
-
-	<FunctionDialog v-model="funModelShow" />
 </template>
 
 <style scoped>

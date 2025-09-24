@@ -1,34 +1,40 @@
 import { defineStore } from 'pinia';
 import type { ProjectDefinition } from '../types.ts';
-import { getTestProjects } from '../test/projects.ts';
+import { getTestProject001 } from '../test/project.ts';
 
 export const useProjectStore = defineStore<
 	'project',
 	{
-		projects: ProjectDefinition[];
-		currentProject: string;
+		project: ProjectDefinition;
 		currentPage: string;
 	},
 	{},
 	{
-		getProjectPages: (projectId: string) => ProjectDefinition | undefined;
-		watchProject: (projectId: string, pageId: string) => void;
+		switchPage: (pageId: string) => void;
+		loadProject: (project: ProjectDefinition) => void;
 	}
 >('project', {
 	state() {
 		return {
-			projects: getTestProjects(),
-			currentProject: '',
+			project: getTestProject001(),
 			currentPage: ''
 		};
 	},
+	getters: {
+		currentPageSchema: (state) => {
+			if (state.project) {
+				return state.project.pages.find((p) => p.id === state.currentPage);
+			}
+			return null;
+		}
+	},
 	actions: {
-		getProjectPages(projectId: string) {
-			return this.projects.find((project) => project.id === projectId);
-		},
-		watchProject(projectId: string, pageId: string) {
-			this.currentProject = projectId;
+		switchPage(pageId: string) {
 			this.currentPage = pageId;
+		},
+		loadProject(project: ProjectDefinition) {
+			this.project = project;
+			this.currentPage = project.pages[0]?.id || '';
 		}
 	}
 });

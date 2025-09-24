@@ -21,15 +21,14 @@ export type RendererItemDefinition = {
 };
 
 export type ProjectDefinition = {
-	name: string;
+	title: string; // 项目标题
+	name: string; // 项目标识
 	id: string;
-	pages: [
-		{
-			id: string;
-			name: string;
-			schema: RendererItemDefinition;
-		}
-	];
+	pages: {
+		id: string;
+		title: string;
+		schema: RendererItemDefinition;
+	}[];
 };
 
 export type PropertyInjectionSchema = Record<string, any> & {

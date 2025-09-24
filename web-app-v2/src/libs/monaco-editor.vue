@@ -47,6 +47,7 @@ export default defineComponent({
 		this.initMonaco();
 	},
 	beforeUnmount() {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		this.editor && this.editor.dispose();
 	},
 	methods: {
@@ -61,10 +62,12 @@ export default defineComponent({
 				theme: theme,
 				...options
 			});
+			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			this.diffEditor && this._setModel(this.value, this.original);
 
 			// @event `change`
 			const editor = this._getEditor();
+			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			editor &&
 				editor.onDidChangeModelContent((event) => {
 					const value = editor.getValue();
@@ -111,6 +114,7 @@ export default defineComponent({
 			}
 		},
 		value() {
+			// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 			this.value !== this._getValue() && this._setValue(this.value);
 		},
 		original() {
