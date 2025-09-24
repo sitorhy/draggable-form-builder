@@ -44,7 +44,11 @@ const customPath = computed(function () {
 			<FormItem v-model:schema="schema" v-else-if="type === 'formItem'" />
 			<TextInput v-model:schema="schema" v-else-if="type === 'textInput'" />
 			<DatePicker v-model:schema="schema" v-else-if="type === 'datePicker'" />
-			<div v-else-if="type === 'list'" v-emphasize:schemaId="schema.id">
+			<div
+				v-else-if="type === 'list'"
+				v-emphasize:schemaId="schema.id"
+				style="display: inherit"
+			>
 				<List v-model:schema="schema" />
 			</div>
 			<Grid v-model:schema="schema" v-else-if="type === 'grid'" />
@@ -52,7 +56,11 @@ const customPath = computed(function () {
 				v-model:schema="schema"
 				v-else-if="type === 'container'"
 			/>
-			<div v-else-if="type === 'linearList'" v-emphasize:schemaId="schema.id">
+			<div
+				style="display: inherit"
+				v-else-if="type === 'linearList'"
+				v-emphasize:schemaId="schema.id"
+			>
 				<JsonRendererList v-model:schema="schema" />
 			</div>
 			<Ellipsis v-model:schema="schema" v-else-if="type === 'ellipsis'" />

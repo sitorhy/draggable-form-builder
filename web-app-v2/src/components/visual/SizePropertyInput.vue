@@ -22,6 +22,10 @@ defineProps({
 				value: 'mm'
 			},
 			{
+				label: 'pt',
+				value: 'pt'
+			},
+			{
 				label: '%',
 				value: '%'
 			}
