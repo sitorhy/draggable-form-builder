@@ -5,12 +5,21 @@ import JsonRenderer from './components/put/JsonRenderer.vue';
 import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 import PropertiesBindingEditor from './components/visual/PropertiesBindingEditor.vue';
 import type { TabsInst } from 'naive-ui';
-import { computed, ref, nextTick, watch } from 'vue';
+import {
+	computed,
+	ref,
+	nextTick,
+	watch,
+	onUnmounted,
+	onMounted,
+	markRaw
+} from 'vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useEmphasizeStore } from './store/emphasize.ts';
 import { v4 as uuid } from 'uuid';
 import ProjectView from './components/visual/ProjectView.vue';
 import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue';
+import { useThrottle } from './components/put/common/throttle.ts';
 
 const contentStyle = computed(() => {
 	return {
@@ -58,8 +67,29 @@ watch(
 	}
 );
 
+const contentRootDOMRef = ref<HTMLElement | null>(null);
 const emphasizeRects = computed(() => emphasizeStore.$state.bounds);
 const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
+function onWindowResize() {
+	emphasizeStore.updateSchema();
+}
+const resizeFunc = useThrottle(onWindowResize, 0);
+
+const resizeObserverRef = markRaw(
+	new ResizeObserver(() => {
+		resizeFunc();
+	})
+);
+
+onUnmounted(() => {
+	resizeObserverRef.disconnect();
+});
+
+onMounted(() => {
+	if (contentRootDOMRef.value) {
+		resizeObserverRef.observe(contentRootDOMRef.value);
+	}
+});
 </script>
 
 <template>
@@ -100,6 +130,7 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 						:native-scrollbar="false"
 					>
 						<div
+							ref="contentRootDOMRef"
 							style="
 								width: 100%;
 								height: 100%;
@@ -168,7 +199,7 @@ const emphasizeSchemaId = computed(() => emphasizeStore.$state.schemaId);
 									class="custom-tabs-item"
 									v-show="customTabValue === 'schema'"
 								>
-									<div style="width: 100%">
+									<div style="width: 1200px">
 										<JsonSchemaTree @node:setting="onNodeSetting" />
 									</div>
 								</div>

@@ -45,9 +45,9 @@ const customPath = computed(function () {
 			<TextInput v-model:schema="schema" v-else-if="type === 'textInput'" />
 			<DatePicker v-model:schema="schema" v-else-if="type === 'datePicker'" />
 			<div
+				class="renderer-item-container"
 				v-else-if="type === 'list'"
 				v-emphasize:schemaId="schema.id"
-				style="display: inherit"
 			>
 				<List v-model:schema="schema" />
 			</div>
@@ -57,7 +57,7 @@ const customPath = computed(function () {
 				v-else-if="type === 'container'"
 			/>
 			<div
-				style="display: inherit"
+				class="renderer-item-container"
 				v-else-if="type === 'linearList'"
 				v-emphasize:schemaId="schema.id"
 			>

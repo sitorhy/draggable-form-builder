@@ -53,7 +53,7 @@ const containerClasses = computed(function () {
 		v-model="schema.children"
 	>
 		<template #item="scope">
-			<div class="renderer-item-contents">
+			<div class="renderer-item-container">
 				<JsonRenderer v-model:schema="schema.children[scope.index]" />
 			</div>
 		</template>

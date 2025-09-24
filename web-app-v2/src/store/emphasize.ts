@@ -51,6 +51,7 @@ export const useEmphasizeStore = defineStore<
 		) => void;
 		unwatchSchema: () => void;
 		watchSchema: (schemaId: string) => void;
+		updateSchema: () => void;
 	}
 >('emphasize', {
 	state() {
@@ -60,6 +61,9 @@ export const useEmphasizeStore = defineStore<
 		};
 	},
 	actions: {
+		updateSchema() {
+			this.watchSchema(this.schemaId);
+		},
 		watchSchema(schemaId: string) {
 			if (schemaId) {
 				const list = document.querySelectorAll(

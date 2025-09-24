@@ -1,4 +1,4 @@
-import type { App } from 'vue';
+import type { App, Directive } from 'vue';
 import { VEmphasize } from './components/put/common/vEmphasize.ts';
 import ListItem from './components/put/item/ListItem.vue';
 
@@ -12,7 +12,6 @@ import { type Environment } from 'monaco-editor';
 
 import './libs/vue3-quill/fonts.ts';
 import 'katex/dist/katex.css';
-
 declare global {
 	interface Window {
 		MonacoEnvironment: Environment;
@@ -41,5 +40,5 @@ monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 
 export default function registerGlobalComponents(app: App): void {
 	app.component('list-item', ListItem);
-	app.directive('emphasize', VEmphasize);
+	app.directive('emphasize', VEmphasize as Directive);
 }

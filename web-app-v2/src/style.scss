@@ -11,10 +11,6 @@ body, #root {
   border-width: 1px;
   box-sizing: border-box;
   border-color: grey;
-
-  &:hover {
-    background-color: rgba(0, 128, 0, 0.12);
-  }
 }
 
 .renderer-drop {
@@ -30,6 +26,12 @@ body, #root {
     height: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  &.container {
+    &:hover {
+      background-color: rgba(0, 128, 0, 0.12);
+    }
   }
 }
 
@@ -50,4 +52,11 @@ body, #root {
 
 .renderer-item-contents {
   display: contents;
+}
+
+.renderer-item-container {
+  display: inherit;
+  flex: inherit;
+  flex-wrap: inherit;
+  flex-direction: inherit;
 }

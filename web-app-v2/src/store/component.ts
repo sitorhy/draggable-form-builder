@@ -55,20 +55,7 @@ export function createRendererItemConfig(
 					path: generateComponentPath('page'),
 					background: '#eee'
 				},
-				children: [
-					Object.assign(
-						createRendererItemConfig({
-							type: 'container'
-						}),
-						{
-							props: {
-								style: {
-									flexDirection: 'column'
-								}
-							}
-						}
-					)
-				]
+				children: []
 			};
 		}
 		case 'form': {

@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { PAGE_FORMAT } from '../common/constants.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
+import JsonRendererContainer from '../JsonRendererContainer.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -61,7 +62,7 @@ const pageStyle = computed(() => {
 
 <template>
 	<div v-emphasize:schemaId="schema.id" class="page" :style="pageStyle">
-		<slot></slot>
+		<JsonRendererContainer v-model:schema="schema" />
 	</div>
 </template>
 

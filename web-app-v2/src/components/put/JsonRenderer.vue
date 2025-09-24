@@ -31,7 +31,7 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 			v-model="schema.children"
 		>
 			<template #item="scope">
-				<div class="renderer-item-contents" :data-binding-path="bindingPath">
+				<div class="renderer-item-container" :data-binding-path="bindingPath">
 					<JsonRenderer v-model:schema="schema.children[scope.index]" />
 				</div>
 			</template>
