@@ -6,10 +6,32 @@ import {
 	updateContainerStyle
 } from './common.ts';
 import { FONTS } from '../../put/common/constants.ts';
+import SchemaBindingEditor from '../SchemaBindingEditor.vue';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
+			{
+				title: '字段绑定',
+				id: 'binding',
+				schema: [
+					{
+						type: SchemaBindingEditor,
+						prop: '$binding',
+						label: '',
+						config: {
+							schema: options.schema,
+							value: undefined,
+							'update:value': function () {
+								// ignore
+							}
+						},
+						formItemProps: {
+							labelPlacement: 'left'
+						}
+					}
+				]
+			},
 			{
 				title: '文本模式',
 				id: 'props',
@@ -25,7 +47,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 							rows: 5
 						},
 						formItemProps: {
-							useBinding: true
+							useBinding: false
 						}
 					},
 					{

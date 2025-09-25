@@ -8,21 +8,45 @@ import {
 	moveTo
 } from './nodes';
 import { defineStore } from 'pinia';
-import type { RendererItemDefinition } from '../types';
-// import { unitTest } from '../test/data.ts';
-import { createRendererItemConfig } from './component.ts';
+import { unitTest } from '../test/data.ts';
+import type { RendererItemDefinition } from '../types.ts';
+// import { createRendererItemConfig } from './component.ts';
 
-export const useSchemaStore = defineStore<
-	'schema',
-	{
-		schema: RendererItemDefinition;
+function collectStaticContext(
+	node: RendererItemDefinition,
+	collection: Record<string, any>
+) {
+	if (!node) {
+		return;
 	}
->('schema', {
+	const props = node.props;
+	const propKeys = props ? Object.keys(props) : [];
+	const partPath = props?.path;
+	if (propKeys.includes('loop')) {
+		if (partPath) {
+			collection[`${partPath}`] = props?.['loop'];
+		}
+	}
+	if (Array.isArray(node.children) && node.children.length > 0) {
+		for (const child of node.children) {
+			collectStaticContext(child, collection);
+		}
+	}
+}
+
+export const useSchemaStore = defineStore('schema', {
 	state() {
 		return {
-			schema: createRendererItemConfig({ type: 'page' })
-			// schema: unitTest()
+			// schema: createRendererItemConfig({ type: 'page' })
+			schema: unitTest()
 		};
+	},
+	actions: {
+		collectStaticContext() {
+			const obj = {};
+			collectStaticContext(this.schema, obj);
+			return obj;
+		}
 	}
 });
 

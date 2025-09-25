@@ -67,7 +67,7 @@ defineExpose({
 
 <template>
 	<n-radio-group
-		class="radio-group-container"
+		class="renderer-item-container"
 		v-emphasize:schemaId="schema.id"
 		v-if="schema.props && schema.children"
 		v-bind="propsReduce"
@@ -87,10 +87,3 @@ defineExpose({
 		</template>
 	</n-empty>
 </template>
-
-<style lang="scss" scoped>
-.radio-group-container {
-	display: flex;
-	flex: 1;
-}
-</style>

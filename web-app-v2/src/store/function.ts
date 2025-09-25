@@ -23,6 +23,7 @@ export const useFunctionStore = defineStore<
 		}>;
 		createFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
 		findFunctionCodeById(id: string): Promise<FunctionCode | null>;
+		findFunctionCodeByName(name: string): Promise<FunctionCode | null>;
 		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
 		loadModule(code: FunctionCode): Promise<any>;
 		loadModuleById(id: string): Promise<any>;
@@ -84,6 +85,11 @@ export const useFunctionStore = defineStore<
 		},
 		findFunctionCodeById(id: string): Promise<FunctionCode | null> {
 			return Promise.resolve(this.functions.find((i) => i.id === id) || null);
+		},
+		findFunctionCodeByName(name: string): Promise<FunctionCode | null> {
+			return Promise.resolve(
+				this.functions.find((i) => i.name === name) || null
+			);
 		},
 		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode> {
 			return new Promise<FunctionCode>((resolve, reject) => {

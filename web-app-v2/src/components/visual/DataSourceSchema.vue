@@ -129,6 +129,7 @@ defineExpose({
 		<PropertiesForm
 			ref="formRef"
 			v-model:props="dataSourceSchemaRef"
+			:cols="2"
 			:item-key="itemKeyGetter"
 			:schema="formSchema as PropertyInjectionSchema[]"
 		/>

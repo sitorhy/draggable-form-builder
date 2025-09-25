@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { h, watch } from 'vue';
 import { ref, computed } from 'vue';
-import { NButton } from 'naive-ui';
+import { NButton, type RowKey } from 'naive-ui';
 import { useFunctionStore } from '../../store/function.ts';
 import type { FunctionCode } from '../../types.ts';
 import FunctionCodeDialog from './FunctionCodeDialog.vue';
 
-defineProps({});
+const emit = defineEmits(['confirm']);
+
+const props = defineProps({
+	selectable: {
+		type: Boolean,
+		default: false
+	}
+});
 const functionStore = useFunctionStore();
 const page = ref(1);
 const pageSize = ref(10);
@@ -18,11 +25,13 @@ const showModal = defineModel('modelValue', {
 });
 const showDetailDlg = ref(false);
 const detailModelValue = ref<Partial<FunctionCode>>({});
+const checkedRowKeysRef = ref([]);
 
+const tableRef = ref();
 const data = ref<Partial<FunctionCode>[]>([]);
 
 const columns = computed(() => {
-	return [
+	const cols = [
 		{
 			title: '名称',
 			key: 'name',
@@ -53,6 +62,14 @@ const columns = computed(() => {
 			resizable: true
 		}
 	];
+
+	if (props.selectable) {
+		cols.unshift({
+			type: 'selection'
+		});
+	}
+
+	return cols;
 });
 
 watch(showModal, (show) => {
@@ -82,8 +99,26 @@ function onCreate() {
 }
 
 function onPositiveClick() {
+	if (props.selectable) {
+		emit('confirm', checkedRowKeysRef.value);
+	}
 	showModal.value = false;
 }
+
+function rowKey(item: FunctionCode) {
+	return item.name;
+}
+
+function handleCheck(rowKeys: RowKey[]) {
+	checkedRowKeysRef.value = rowKeys;
+}
+
+defineExpose({
+	select(codes: string[]) {
+		checkedRowKeysRef.value = codes || [];
+		showModal.value = true;
+	}
+});
 </script>
 
 <template>
@@ -95,14 +130,18 @@ function onPositiveClick() {
 		:bordered="false"
 	>
 		<n-space vertical>
-			<n-button-group>
+			<n-button-group v-if="!selectable">
 				<n-button type="primary" @click="onCreate">新建</n-button>
 			</n-button-group>
 			<n-data-table
+				ref="tableRef"
 				:columns="columns"
 				:data="data"
+				:row-key="rowKey"
 				:bordered="false"
 				:pagination="false"
+				:checked-row-keys="checkedRowKeysRef"
+				@update:checked-row-keys="handleCheck"
 			/>
 			<n-pagination
 				v-model:page="page"
@@ -111,6 +150,12 @@ function onPositiveClick() {
 			/>
 		</n-space>
 		<template #footer>
+			<n-space v-if="selectable">
+				<n-tag :key="i" type="info" v-for="i in checkedRowKeysRef">{{
+					i
+				}}</n-tag>
+			</n-space>
+			<n-divider v-if="selectable" />
 			<n-button-group>
 				<n-button @click="onPositiveClick" type="primary">确定</n-button>
 			</n-button-group>

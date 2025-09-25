@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch, type PropType } from 'vue';
+import { computed, provide, ref, watch, type PropType, onMounted } from 'vue';
 import {
 	resolveContextPath,
 	useComponentBindingPath
@@ -48,16 +48,9 @@ const bindingPathOptions = computed(() => {
 		parseNumber: props.parseNumber
 	};
 });
-const { getBindingPath, collectBindingKeys } =
-	useComponentBindingPath(bindingPathOptions);
+const { getBindingPath } = useComponentBindingPath(bindingPathOptions);
 const currentContextBindingPath = ref('');
 const bindingPath = computed(() => currentContextBindingPath.value);
-const bindingKeys = computed(() => {
-	return collectBindingKeys();
-});
-
-provide('bindingPath', bindingPath);
-provide('bindingKeys', bindingKeys);
 
 watch(
 	() => props.schema,
@@ -70,9 +63,14 @@ watch(
 	}
 );
 
+onMounted(() => {
+	currentContextBindingPath.value = getBindingPath();
+});
+
+provide('bindingPath', bindingPath);
+
 defineExpose({
-	bindingContextPath: bindingContextPath.value,
-	bindingContextKeys: bindingKeys.value
+	bindingContextPath: bindingContextPath.value
 });
 </script>
 

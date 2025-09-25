@@ -3,11 +3,6 @@ import { useProjectStore } from '../../store/project.ts';
 import { useBindingStore } from '../../store/binding.ts';
 import { useSchemaStore } from '../../store/schema.ts';
 import { computed, ref, watch } from 'vue';
-import {
-	Info24Regular,
-	SlideSettings24Regular,
-	TextFontInfo24Regular
-} from '@vicons/fluent';
 import { Mode } from 'vanilla-jsoneditor';
 import JsonEditorVue from 'json-editor-vue';
 import FunctionDialog from './FunctionDialog.vue';
@@ -20,6 +15,13 @@ const pages = computed(() => project.value?.pages || []);
 const schemaStore = useSchemaStore();
 const bindingStore = useBindingStore();
 const schema = computed(() => schemaStore.schema);
+
+const stateViewObject = computed(() => {
+	return {
+		state: bindingStore.state,
+		staticContext: bindingStore.staticContext
+	};
+});
 
 const schemaDrawerShow = ref(false);
 const bindingDrawerShow = ref(false);
@@ -88,28 +90,34 @@ function openFunctionDlg() {
 			</n-form-item>
 
 			<n-form-item path="$schema" label="模式">
-				<n-button size="small" type="primary" @click="schemaDrawerShow = true">
-					<template #icon>
-						<n-icon><TextFontInfo24Regular /></n-icon>
-					</template>
+				<n-button
+					style="width: 100%"
+					size="small"
+					type="primary"
+					@click="schemaDrawerShow = true"
+				>
 					<span>查看</span>
 				</n-button>
 			</n-form-item>
 
 			<n-form-item path="$schema" label="状态">
-				<n-button size="small" type="primary" @click="bindingDrawerShow = true">
-					<template #icon>
-						<n-icon><Info24Regular /></n-icon>
-					</template>
+				<n-button
+					style="width: 100%"
+					size="small"
+					type="primary"
+					@click="bindingDrawerShow = true"
+				>
 					<span>查看</span>
 				</n-button>
 			</n-form-item>
 
 			<n-form-item path="$schema" label="函数集">
-				<n-button size="small" type="primary" @click="openFunctionDlg">
-					<template #icon>
-						<n-icon><SlideSettings24Regular /></n-icon>
-					</template>
+				<n-button
+					style="width: 100%"
+					size="small"
+					type="primary"
+					@click="openFunctionDlg"
+				>
 					<span>查看</span>
 				</n-button>
 			</n-form-item>
@@ -136,7 +144,7 @@ function openFunctionDlg() {
 		placement="right"
 	>
 		<n-drawer-content closable title="状态">
-			<JsonEditorVue :modelValue="bindingStore.root" v-bind="editorProps" />
+			<JsonEditorVue :modelValue="stateViewObject" v-bind="editorProps" />
 		</n-drawer-content>
 	</n-drawer>
 

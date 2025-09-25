@@ -17,10 +17,10 @@ export function useFormItemSchemaFilter() {
 			if (formItemWrapped) {
 				itemProps.push({
 					prop: 'path',
-					props: {
-						disabled: false
+					config: {
+						disabled: true
 					},
-					visible: () => false
+					visible: () => true
 				});
 			}
 		}

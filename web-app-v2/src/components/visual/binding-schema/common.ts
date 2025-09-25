@@ -42,7 +42,7 @@ export function useRequiredInputSchema(options: {
 			prop: options.propertyName,
 			message: options.message,
 			validator: options.validator,
-			disabled: options.disabled || false
+			disabled: !!options.disabled
 		},
 		rules: [
 			{

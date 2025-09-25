@@ -106,14 +106,14 @@ export function generateBindingSchema(options: PropertyFormItemSchemaOptions): {
 					(j) => j.prop === i.prop
 				);
 				if (extraFormItemConfig) {
-					const { props, visible, formItemProps } = extraFormItemConfig;
+					const { config, visible, formItemProps } = extraFormItemConfig;
 					Object.assign(i, {
 						visible
 					});
-					if (props) {
-						i.props = {
-							...i.props,
-							...props
+					if (config) {
+						i.config = {
+							...i.config,
+							...config
 						};
 					}
 					if (formItemProps) {

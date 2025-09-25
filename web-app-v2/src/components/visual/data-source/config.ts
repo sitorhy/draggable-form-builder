@@ -5,10 +5,18 @@ import {
 } from '../../put/common/constants.ts';
 import { type FormItemRule, NInput, NSelect } from 'naive-ui';
 import type { NormalizeDataSource } from '../../../types.ts';
+import FunctionCodeSelect from '../FunctionCodeSelect.vue';
 
 export function stringifyDataSourceSchema(options: NormalizeDataSource) {
 	if (options && options.schema && options.host && options.path) {
-		return `${options.schema}://${options.host}:${options.path}`;
+		let uri = `${options.schema}://${options.host}:${options.path}`;
+		const qs = [options.filter ? 'filter=' + options.filter : '']
+			.filter((i) => !!i)
+			.join('&');
+		if (qs) {
+			uri += `?${qs}`;
+		}
+		return uri;
 	}
 	return '';
 }
@@ -17,7 +25,8 @@ export function parseUri(uri: string): NormalizeDataSource {
 	const result = {
 		schema: '',
 		host: '',
-		path: ''
+		path: '',
+		filter: ''
 	};
 
 	if (!uri) {
@@ -50,6 +59,18 @@ export function parseUri(uri: string): NormalizeDataSource {
 		result.path = pathAndQuery.substring(0, querySeparatorIndex);
 	} else {
 		result.path = pathAndQuery;
+	}
+
+	if (querySeparatorIndex >= 0) {
+		const filterIndex = uri.indexOf('filter=', querySeparatorIndex + 1);
+		const end = uri.indexOf('&', filterIndex);
+		const filter = uri.substring(
+			filterIndex + 'filter='.length,
+			end === -1 ? uri.length : end
+		);
+		if (filter) {
+			result.filter = filter;
+		}
 	}
 
 	return result;
@@ -103,7 +124,8 @@ export function useDataSourceConfig() {
 	const dataSourceSchemaRef = ref<NormalizeDataSource>({
 		schema: 'object',
 		host: '',
-		path: ''
+		path: '',
+		filter: ''
 	});
 
 	const schemaOptions = computed(() => DATA_SOURCE_SCHEMAS);
@@ -150,7 +172,8 @@ export function useDataSourceConfig() {
 		dataSourceSchemaRef.value = {
 			schema: 'object',
 			host: '',
-			path: ''
+			path: '',
+			filter: ''
 		};
 		onSchemaChanged(dataSourceSchemaRef.value.schema);
 	}
@@ -218,7 +241,14 @@ export function useDataSourceConfig() {
 							callback();
 						}
 					}
-				]
+				],
+				span: 2
+			},
+			{
+				type: FunctionCodeSelect,
+				prop: 'filter',
+				label: '过滤器',
+				span: 2
 			},
 			{
 				type: NInput,
@@ -227,6 +257,7 @@ export function useDataSourceConfig() {
 				formItemProps: {
 					feedback: '仅回显解析'
 				},
+				span: 2,
 				config: {
 					readonly: true,
 					disabled: true,

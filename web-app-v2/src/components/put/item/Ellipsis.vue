@@ -4,6 +4,26 @@ import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import { useEmptyPropsInjection } from '../common/props.ts';
 
+/**
+ * 提取所有被 {{}} 包裹的字段（更简洁的实现）。
+ * @param {string} str 待处理的字符串。
+ * @returns {string[]} 提取到的字段数组。
+ */
+function extractFieldsConcise(str) {
+	const fields = [];
+	const regex = /{{(.*?)}}/g;
+
+	// replace() 的回调函数会遍历所有匹配项
+	str.replace(regex, (fullMatch, captureGroup1) => {
+		// fullMatch 是完整匹配的字符串 (例如 "{{a}}")
+		// captureGroup1 是第一个捕获组的内容 (例如 "a")
+		fields.push(captureGroup1);
+		return fullMatch; // 必须返回一个值，否则会替换掉原字符串
+	});
+
+	return fields;
+}
+
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
 	default: () => ({ type: '', id: '', children: undefined })
@@ -25,7 +45,19 @@ const propsReduce = computed(() => ({
 }));
 
 const text = computed(function () {
-	return propsReduce.value.text || '';
+	let str = propsReduce.value.text;
+	const fields = extractFieldsConcise(str);
+	const values = fields
+		.map((field) => {
+			return [field, propsReduce.value[field]];
+		})
+		.reduce((acc, cur) => {
+			return Object.assign(acc, { [cur[0]]: cur[1] });
+		}, {});
+	fields.forEach((field) => {
+		str = str.replace(`{{${field}}}`, values[field]);
+	});
+	return str;
 });
 
 defineExpose({
@@ -34,7 +66,7 @@ defineExpose({
 </script>
 
 <template>
-	<div v-emphasize:schemaId="schema.id">
+	<span v-emphasize:schemaId="schema.id">
 		<n-ellipsis v-if="schema.props" v-bind="propsReduce">{{ text }}</n-ellipsis>
 		<n-empty v-else description="Ellipsis">
 			<template #icon>
@@ -43,5 +75,5 @@ defineExpose({
 				</n-icon>
 			</template>
 		</n-empty>
-	</div>
+	</span>
 </template>

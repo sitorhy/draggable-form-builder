@@ -9,15 +9,14 @@ import {
 	ref,
 	watch
 } from 'vue';
-import * as dotProp from 'dot-prop';
 import type {
 	NormalizeDataSource,
 	RendererItemDefinition
 } from '../../../types';
 import { useBindingStore } from '../../../store/binding';
 import { parseUri } from '../../visual/data-source/config';
-import { joinPathConfig, splitPathConfig } from '../common/binding-path.ts';
-import { useEmptyPropsInjection } from '../common/props.ts';
+import { useEmptyBindingPath } from '../common/binding-path.ts';
+import { useFunctionStore } from '../../../store/function.ts';
 
 const props = defineProps({
 	schema: {
@@ -26,88 +25,148 @@ const props = defineProps({
 	}
 });
 
+const { emptyBindingPath } = useEmptyBindingPath();
 const bindingStore = useBindingStore();
+const funcStore = useFunctionStore();
 
-const bindingPath = inject<ComputedRef<string>>('bindingPath');
-const bindingKeys = inject<ComputedRef<string>>('bindingKeys');
-
-const { emptyPropsInjection } = useEmptyPropsInjection();
-const bindingProps = inject<ComputedRef<Record<string, any>>>(
-	'bindingProps',
-	emptyPropsInjection
+const bindingPath = inject<ComputedRef<string>>(
+	'bindingPath',
+	emptyBindingPath
+);
+const formItemBindingPath = inject<ComputedRef<string>>(
+	'formItemBindingPath',
+	emptyBindingPath
 );
 
 const obj = ref<Record<string, any>>({});
+
+const loop = computed(() => {
+	return props.schema.props?.loop;
+});
 
 const binding = computed(() => {
 	return props.schema.binding;
 });
 
-const loop = computed(() => {
-	return props.schema.props?.loop || bindingProps.value.loop;
-});
+watch(
+	loop,
+	(value) => {
+		if (!value) {
+			delete obj.value['loop'];
+		} else {
+			// 重定向静态数据
+			const partPath = props.schema.props?.path;
+			const staticContext = bindingStore.staticContext;
+			obj.value['loop'] = staticContext[partPath];
+		}
+	},
+	{
+		immediate: true
+	}
+);
+
+async function injectProps(
+	prop: string,
+	result:
+		| {
+				value: any;
+				fullBindingPath: string;
+		  }
+		| undefined,
+	funNames?: string[]
+) {
+	if (!funNames) {
+		// 同步
+		if (result) {
+			const { value, fullBindingPath } = result;
+
+			obj.value[prop] = value;
+			if (result.source === 'static') {
+				obj.value['update:' + prop] = function (value: any) {
+					bindingStore.updateStaticContext(fullBindingPath, value);
+				};
+			} else {
+				obj.value['update:' + prop] = function (value: any) {
+					bindingStore.updateBinding(fullBindingPath, value);
+				};
+			}
+			return;
+		} else {
+			delete obj.value[prop];
+			delete obj.value['update:' + prop];
+		}
+	} else {
+		// 需要过滤器处理返回值
+		const moduleDescriptors = await Promise.all(
+			funNames.map(async (name: string) => {
+				const module = funcStore.findFunctionCodeByName(name);
+				if (!module) {
+					console.warn(`Cannot find module '${name}'`);
+				}
+				return module;
+			})
+		);
+		const modules = await Promise.all(
+			moduleDescriptors.filter((i) => !!i).map((m) => funcStore.loadModule(m))
+		);
+
+		obj.value[prop] = modules.reduce(
+			(acc, module) => {
+				const func = module['default'];
+				if (typeof func === 'function') {
+					return func(acc);
+				}
+				return acc;
+			},
+			result ? result.value : undefined
+		);
+		if (result) {
+			const { fullBindingPath } = result;
+			if (result.source === 'static') {
+				obj.value['update:' + prop] = function (value: any) {
+					bindingStore.updateStaticContext(fullBindingPath, value);
+				};
+			} else {
+				obj.value['update:' + prop] = function (value: any) {
+					bindingStore.updateBinding(fullBindingPath, value);
+				};
+			}
+		} else {
+			delete obj.value['update:' + prop];
+		}
+	}
+}
 
 function resolveLocalSchema(
 	prop: string,
 	dataSourceSchema: NormalizeDataSource
 ) {
-	switch (dataSourceSchema.host) {
-		case 'path':
-			{
-				let fullBindingPath = '';
-				let bindingValue = undefined;
-				let isStatic = false;
-				const nearestBindingPath = bindingPath?.value;
-				if (nearestBindingPath) {
-					const parts = splitPathConfig(nearestBindingPath);
-					parts.reverse();
-					for (let end = parts.length; end >= 0; end--) {
-						if (parts[end] && /\[\d+]/.test(parts[end].path)) {
-							continue;
-						}
-						const subParts = parts.slice(0, end);
-						subParts.reverse();
-						const prefix = `${joinPathConfig(subParts)}`;
-						const bindingPath = `${prefix}${prefix ? '.' : ''}${dataSourceSchema.path}`;
-						bindingValue = bindingStore.queryBinding(bindingPath);
-						if (bindingValue !== undefined) {
-							fullBindingPath = bindingPath;
-							break;
-						}
+	const resolvedPath = formItemBindingPath.value || bindingPath.value;
+	if (resolvedPath) {
+		switch (dataSourceSchema.host) {
+			case 'path':
+				{
+					let funNames;
+					const filter = dataSourceSchema.filter;
+					if (filter) {
+						funNames = filter.split(',');
 					}
-				}
 
-				if (bindingValue === undefined) {
-					const loop = bindingProps.value['loop'];
-					const keys = bindingKeys?.value;
-					if (Array.isArray(loop) && Array.isArray(keys)) {
-						const nearest = keys[0];
-						if (nearest && nearest.key !== null) {
-							bindingValue = dotProp.getProperty(
-								loop[nearest.key],
-								dataSourceSchema.path
-							);
-						}
+					let result = bindingStore.searchBinding(
+						resolvedPath,
+						dataSourceSchema.path
+					);
+					if (!result) {
+						result = bindingStore.searchStaticContext(
+							bindingPath.value,
+							dataSourceSchema.path
+						);
 					}
-					isStatic = true;
-				}
 
-				if (bindingValue !== undefined) {
-					obj.value = {
-						...obj.value,
-						[prop]: bindingValue,
-						[`onUpdate:${prop}`]: isStatic
-							? function () {}
-							: function (value: any) {
-									bindingStore.updateBinding(fullBindingPath, value);
-								}
-					};
-				} else {
-					delete obj.value[prop];
-					delete obj.value[`update:${prop}`];
+					injectProps(prop, result, funNames);
 				}
-			}
-			break;
+				break;
+		}
 	}
 }
 
@@ -126,24 +185,17 @@ function resolveBinding() {
 	}
 }
 
-function syncListLoop() {
-	if (bindingPath?.value && loop.value) {
-		obj.value['loop'] = loop.value;
-	} else {
-		delete obj.value['loop'];
+watch(
+	bindingStore.state,
+	function () {
+		resolveBinding();
+	},
+	{
+		immediate: true
 	}
-}
+);
 
-watch(binding, resolveBinding);
-
-watch(bindingStore.root, function () {
-	resolveBinding();
-});
-
-watch(loop, syncListLoop);
-
-onBeforeMount(function () {
-	syncListLoop();
+onBeforeMount(() => {
 	resolveBinding();
 });
 

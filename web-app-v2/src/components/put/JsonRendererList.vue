@@ -94,8 +94,8 @@ const containerClasses = computed(function () {
 		:key="createItemBindingPath(index)"
 		:bracket="true"
 		:parse-number="true"
-		:custom-path="`${index}`"
 		:component-context="item"
+		:custom-path="`${index}`"
 	>
 		<draggable
 			v-if="schema.children"

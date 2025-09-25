@@ -27,10 +27,7 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 const type = computed(() => schema.value.type);
 
 const customPath = computed(function () {
-	if (['grid', 'container'].includes(type.value)) {
-		return '';
-	}
-	return undefined;
+	return schema.value.props?.path || '';
 });
 </script>
 

@@ -1,5 +1,4 @@
 import { computed, type ComputedRef, getCurrentInstance } from 'vue';
-import type { RendererItemDefinition } from '../../../types.ts';
 
 export function getCurrentPathConfig(options: {
 	bracket: boolean;
@@ -27,47 +26,9 @@ export function joinPathConfig(bindings: { sep: string; path: string }[]) {
 		.join('');
 }
 
-export function splitPathConfig(path: string): { sep: string; path: string }[] {
-	// 使用正则表达式来捕获所有路径片段。
-	// 这段正则会匹配：
-	//   1. 任何非 . 和 [ 的字符序列
-	//   2. 或者像 [数字] 这样的方括号索引
-	const segments = path.match(/[^.\[]+|\[\d+]/g);
-	if (!segments) {
-		return [];
-	}
-
-	const result = segments.map((segment, index) => {
-		let sep = '';
-		if (index > 0) {
-			// 获取当前片段在原始路径字符串中的起始位置
-			const startIndex = path.indexOf(segment);
-			// 找到前一个片段的末尾
-			const prevSegmentEnd =
-				path.indexOf(segments[index - 1]) + segments[index - 1].length;
-			// 提取中间的字符作为分隔符
-			sep = path.substring(prevSegmentEnd, startIndex);
-		}
-
-		return {
-			sep,
-			path: segment
-		};
-	});
-
-	// 最终结果需要反向，以匹配 joinPathConfig 的输入格式
-	return result.reverse();
-}
-
 export function resolveContextPath(props: Record<string, any>): any {
-	const customPath = props.customPath;
-	const defaultPath = props.schema.id;
 	const bindingPath = props.schema.props?.path;
-
-	if (customPath !== null) {
-		return customPath;
-	}
-	return bindingPath || defaultPath;
+	return bindingPath || '';
 }
 
 export function useComponentBindingPath(
@@ -77,47 +38,6 @@ export function useComponentBindingPath(
 		parseNumber: boolean;
 	}>
 ) {
-	function collectBindingKeys() {
-		const keys: {
-			path: string;
-			key: string | number | null;
-			schemaId: string;
-		}[] = [];
-		let instance = getCurrentInstance()?.parent;
-		while (instance) {
-			if (instance.type.__name === 'BindingContext') {
-				if (instance.props) {
-					const path = resolveContextPath(instance.props);
-					if (path) {
-						if (instance.props.bracket) {
-							keys.push({
-								path: '',
-								key: instance.props.parseNumber
-									? Number(instance.props.customPath)
-									: `'${instance.props.customPath}'`,
-								schemaId: (instance.props.schema as RendererItemDefinition).id
-							});
-						} else {
-							const last = keys[keys.length - 1];
-							if (last && last.key !== null && !last.path) {
-								last.path = path;
-							} else {
-								keys.push({
-									path: path,
-									key: null,
-									schemaId: (instance.props.schema as RendererItemDefinition).id
-								});
-							}
-						}
-					}
-				}
-			}
-			instance = instance?.parent;
-		}
-
-		return keys;
-	}
-
 	function collectParentBindingPathConfig(): { sep: string; path: string }[] {
 		const parentBindings = [];
 		let instance = getCurrentInstance()?.parent;
@@ -127,7 +47,10 @@ export function useComponentBindingPath(
 					parentBindings.push(
 						getCurrentPathConfig({
 							bracket: instance.props.bracket as boolean,
-							path: instance.exposed?.bindingContextPath as string,
+							path:
+								instance.props.customPath ||
+								instance.exposed?.bindingContextPath?.value ||
+								'',
 							parseNumber: instance.props.parseNumber as boolean
 						})
 					);
@@ -155,9 +78,6 @@ export function useComponentBindingPath(
 	}
 
 	return {
-		collectBindingPathConfig,
-		collectParentBindingPathConfig,
-		collectBindingKeys,
 		getBindingPath
 	};
 }

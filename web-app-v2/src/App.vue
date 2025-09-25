@@ -20,6 +20,9 @@ import { v4 as uuid } from 'uuid';
 import ProjectView from './components/visual/ProjectView.vue';
 import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue';
 import { useThrottle } from './components/put/common/throttle.ts';
+import { useAppInit } from './components/put/common/app.ts';
+
+useAppInit();
 
 const contentStyle = computed(() => {
 	return {
@@ -199,7 +202,7 @@ onMounted(() => {
 									class="custom-tabs-item"
 									v-show="customTabValue === 'schema'"
 								>
-									<div style="width: 1200px">
+									<div style="width: 200%">
 										<JsonSchemaTree @node:setting="onNodeSetting" />
 									</div>
 								</div>

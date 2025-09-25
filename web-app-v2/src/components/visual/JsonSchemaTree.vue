@@ -52,7 +52,7 @@ function mapToVisualTree(
 			type: schema.type,
 			id: schema.id,
 			showSetting: true,
-			showDelete: level > 1
+			showDelete: level > 0
 		};
 
 		if (schema.type === 'list') {

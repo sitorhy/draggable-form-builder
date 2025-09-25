@@ -391,17 +391,10 @@ export function unitTest(): RendererItemDefinition {
 						type: 'ellipsis',
 						id: 'ellipsis_f8056fec-5178-4cd4-8acc-a47aeac9f288',
 						props: {
-							text: '文本同步：'
-						}
-					},
-					{
-						type: 'ellipsis',
-						id: 'ellipsis_8eaafe7f-1ce8-4d76-97e4-6dc15bc21d71',
-						props: {
-							text: '测试'
+							text: '文本同步：{{syncText}}'
 						},
 						binding: {
-							text: 'object://path:pageOne.textInput839'
+							syncText: 'object://path:pageOne.textInput839?filter=toSafeString'
 						}
 					}
 				]

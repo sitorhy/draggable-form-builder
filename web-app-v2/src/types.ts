@@ -47,6 +47,7 @@ export type NormalizeDataSource = {
 	schema: string;
 	host: string;
 	path: string;
+	filter?: string;
 };
 
 export type FunctionCode = {
