@@ -23,13 +23,15 @@ const ProviderApp = defineComponent({
 		console.log(e);
 	},
 	template: `
-		<n-dialog-provider>
-			<n-config-provider :katex="katex" :locale="zhCN" :date-locale="dateZhCN">
-				<n-message-provider>
-					<App />
-				</n-message-provider>
-			</n-config-provider>
-		</n-dialog-provider>
+		<n-notification-provider>
+			<n-dialog-provider>
+				<n-config-provider :katex="katex" :locale="zhCN" :date-locale="dateZhCN">
+					<n-message-provider>
+						<App />
+					</n-message-provider>
+				</n-config-provider>
+			</n-dialog-provider>
+		</n-notification-provider>
 	`
 });
 

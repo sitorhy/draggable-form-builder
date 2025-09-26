@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import * as dotProp from 'dot-prop';
 import { type ComputedRef, watch } from 'vue';
 
-function findMaxIndex(arr) {
+function findMaxIndex(arr: number[]) {
 	if (arr.length === 0) {
 		return -1;
 	}

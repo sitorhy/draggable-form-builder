@@ -206,16 +206,14 @@ export function moveTo(
 		throw new Error('Dragging element not match specify container');
 	}
 
-	const target = (fromParent.children as RendererItemDefinition[]).find(
-		(c) => c.id === id
-	);
-	const fromIndex = indexOfParent(targetParent, {
+	const fromIndex = indexOfParent(fromParent, {
 		type: '',
 		id: id
 	});
-	// 移出，targetParent不为空 => target不为空
+	const form = fromParent.children?.[fromIndex];
+	// 移出
 	(fromParent.children as RendererItemDefinition[]).splice(fromIndex, 1);
 
 	// 移入
-	insertBeforeId(root, targetBeforeId, target as RendererItemDefinition);
+	insertBeforeId(targetParent, targetBeforeId, form as RendererItemDefinition);
 }

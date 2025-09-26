@@ -202,7 +202,7 @@ onMounted(() => {
 									class="custom-tabs-item"
 									v-show="customTabValue === 'schema'"
 								>
-									<div style="width: 200%">
+									<div style="width: 1200px">
 										<JsonSchemaTree @node:setting="onNodeSetting" />
 									</div>
 								</div>
