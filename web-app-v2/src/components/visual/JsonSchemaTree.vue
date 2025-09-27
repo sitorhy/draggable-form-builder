@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted } from 'vue';
 import { BaseTree, OpenIcon } from '@he-tree/vue';
 import { useSchemaActions, useSchemaStore } from '../../store/schema.ts';
 import { getIconByType, useComponentsStore } from '../../store/component.ts';
@@ -223,19 +223,22 @@ function onDeleteClick(node: TreeNode) {
 }
 
 function onDrag(node: TreeNode) {
-	console.log(node);
 	schemaContextStore.startDrag(node.id);
 
 	notification.create({
 		title: '移动节点',
 		content: `选择目标位置，右键取消移动`,
-		duration: 3000,
+		duration: 1000,
 		closable: true
 	});
 }
 
 function onDrop(node: TreeNode, action: string) {
+	const dragNodeId = treeDraggingSchemaId.value;
 	schemaContextStore.endDrag(node.id, action);
+	nextTick(() => {
+		emphasizeStore.watchSchema(dragNodeId);
+	});
 }
 
 function onRightClick(e: MouseEvent) {

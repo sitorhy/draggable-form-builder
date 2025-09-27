@@ -77,6 +77,7 @@ function onSchemaSetting() {
 	pointer-events: none;
 	box-sizing: border-box;
 	border: 2px dashed green;
+	box-shadow: limegreen 0 0 3px;
 }
 
 .actions {

@@ -11,6 +11,7 @@
   "web-types": "./web-types.json",
   "dependencies": {
     "@he-tree/vue": "^2.9.4",
+    "@types/node": "^24.5.2",
     "@types/quill": "^2.0.14",
     "@vicons/fluent": "^0.13.0",
     "dot-prop": "^9.0.0",

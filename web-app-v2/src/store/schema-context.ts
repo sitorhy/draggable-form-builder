@@ -24,7 +24,6 @@ export const useSchemaContextStore = defineStore('schemaContext', {
 			this.treeDragging = true;
 		},
 		endDrag(anchorSchemaId: string, action: string) {
-			console.log(anchorSchemaId);
 			if (action) {
 				switch (action) {
 					case 'insertBefore':
