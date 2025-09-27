@@ -8,7 +8,7 @@ import {
 	moveTo
 } from './nodes';
 import { defineStore } from 'pinia';
-import { unitTest } from '../test/data.ts';
+import { unitTest } from '../test/data2.ts';
 import type { RendererItemDefinition } from '../types.ts';
 // import { createRendererItemConfig } from './component.ts';
 

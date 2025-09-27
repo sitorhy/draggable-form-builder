@@ -143,3 +143,57 @@ export const FONTS = [
 		value: 'Time New Roman'
 	}
 ];
+
+export const WHITE_SPACE_OPTIONS = [
+	{
+		label: 'normal',
+		value: 'normal'
+	},
+	{
+		label: 'nowrap',
+		value: 'nowrap'
+	},
+	{
+		label: 'pre',
+		value: 'pre'
+	},
+	{
+		label: 'pre-wrap',
+		value: 'pre-wrap'
+	},
+	{
+		label: 'pre-line',
+		value: 'pre-line'
+	},
+	{
+		label: 'break-spaces',
+		value: 'break-spaces'
+	}
+];
+
+export const FLEX_WRAP_OPTIONS = [
+	{
+		label: 'nowrap',
+		value: 'nowrap'
+	},
+	{
+		label: 'wrap',
+		value: 'wrap'
+	},
+	{
+		label: 'revert',
+		value: 'revert'
+	},
+	{
+		label: 'inherit',
+		value: 'inherit'
+	},
+	{
+		label: 'unset',
+		value: 'unset'
+	},
+	{
+		label: 'wrap-reverse',
+		value: 'wrap-reverse'
+	}
+];

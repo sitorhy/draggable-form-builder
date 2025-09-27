@@ -331,6 +331,30 @@ onUnmounted(function () {
 								<n-tooltip trigger="hover" v-if="node.showInfo">
 									<template #trigger>
 										<n-icon
+											color="red"
+											@click.stop="onDrop(node, 'insertBefore')"
+										>
+											<ArrowCurveUpRight20Regular />
+										</n-icon>
+									</template>
+									<span>到控件前面</span>
+								</n-tooltip>
+
+								<n-tooltip trigger="hover" v-if="node.showInfo">
+									<template #trigger>
+										<n-icon
+											color="red"
+											@click.stop="onDrop(node, 'insertAfter')"
+										>
+											<ArrowCurveDownRight20Regular />
+										</n-icon>
+									</template>
+									<span>到控件后面</span>
+								</n-tooltip>
+
+								<n-tooltip trigger="hover" v-if="node.showInfo">
+									<template #trigger>
+										<n-icon
 											color="#18a058"
 											@click.stop="onDrop(node, 'unshift')"
 										>

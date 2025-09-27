@@ -66,7 +66,7 @@ defineExpose({
 </script>
 
 <template>
-	<span v-emphasize:schemaId="schema.id">
+	<div class="ellipsis-container" v-emphasize:schemaId="schema.id">
 		<n-ellipsis v-if="schema.props" v-bind="propsReduce">{{ text }}</n-ellipsis>
 		<n-empty v-else description="Ellipsis">
 			<template #icon>
@@ -75,5 +75,13 @@ defineExpose({
 				</n-icon>
 			</template>
 		</n-empty>
-	</span>
+	</div>
 </template>
+
+<style lang="scss" scoped>
+.ellipsis-container {
+	display: inline-block;
+	height: fit-content;
+	--n-hegiht: 12px;
+}
+</style>

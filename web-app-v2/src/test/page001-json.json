@@ -1,0 +1,2289 @@
+{
+  "type": "page",
+  "id": "page_22cb564f-8b09-4e31-9676-06eeda31eda5",
+  "props": {
+    "path": "page576",
+    "background": "#FFFFFFFF",
+    "format": "A4",
+    "padding": "12mm"
+  },
+  "children": [
+    {
+      "type": "ellipsis",
+      "id": "ellipsis_b2c83e74-ed5c-4808-a2ea-cb5254a9402f",
+      "props": {
+        "text": "绝密★测试",
+        "fontSize": "11pt",
+        "style": {
+          "fontSize": "11pt",
+          "fontFamily": "黑体"
+        },
+        "fontFamily": "黑体"
+      }
+    },
+    {
+      "type": "container",
+      "id": "container_f55aa579-5f6d-44ca-84f4-b4c855451b7e",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "center"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "center"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_f70c5d3e-2da6-41d9-9bf0-4a0182d493df",
+          "props": {
+            "text": "普通高中高三第一学期期中考试",
+            "fontFamily": "宋体",
+            "style": {
+              "fontFamily": "宋体",
+              "fontSize": "17pt"
+            },
+            "fontSize": "17pt"
+          }
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_1e8f8e84-d882-48de-a7d1-1b5088e2d58e",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "center"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "center"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_49adac02-3224-4ba0-95b7-c27e3f8fd4a3",
+          "props": {
+            "text": "数    学",
+            "fontFamily": "黑体",
+            "style": {
+              "fontFamily": "黑体",
+              "fontSize": "22pt"
+            },
+            "fontSize": "22pt"
+          }
+        }
+      ]
+    },
+    {
+      "type": "ellipsis",
+      "id": "ellipsis_7f837c72-a5da-4b6f-9196-06b796f72f7d",
+      "props": {
+        "text": "注意事项：",
+        "fontSize": "11pt",
+        "style": {
+          "fontSize": "11pt",
+          "fontFamily": "黑体"
+        },
+        "fontFamily": "黑体"
+      }
+    },
+    {
+      "type": "container",
+      "id": "container_faf27a30-8ad7-464d-a6ff-47cc732efc9b",
+      "props": {
+        "style": {}
+      },
+      "children": [
+        {
+          "type": "richText",
+          "id": "richText_836c6803-46e9-487e-a623-1ac50d8b8874",
+          "props": {
+            "value": "<ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><span style=\"font-size: 11pt; font-family: SimSun;\">答卷前，考生务必将自己的姓名、准考证号填写在答题卡上。</span></li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><span style=\"font-size: 11pt; font-family: SimSun;\">回答选择题时，选出每小题答案后，用铅笔把答题卡上对应题目的答案标号涂黑。如需改动，用橡皮擦干净后，再选涂其他答案标号。回答非选择题时，将答案写在答题卡上。写在本试卷上无效。</span></li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"></span><span style=\"font-size: 11pt; font-family: SimSun;\">考试结束后，将本试卷和答题卡一并交回。</span></li></ol>"
+          }
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_7b46ed9f-600f-4b32-b2c5-7c13aa21ee67",
+      "props": {
+        "style": {
+          "height": "1em",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "stretch",
+          "flex": 1
+        },
+        "height": "1em",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "stretch",
+        "flex": 1
+      },
+      "children": []
+    },
+    {
+      "type": "ellipsis",
+      "id": "ellipsis_5008bb32-9402-4c48-b897-9572c397d39f",
+      "props": {
+        "text": "一、选择题：本大题共10小题，每小题4分，共40分.在每小题给出的四个选项中，只有一项是符合题目要求的。",
+        "fontSize": "11pt",
+        "style": {
+          "fontSize": "11pt",
+          "fontFamily": "黑体"
+        },
+        "fontFamily": "黑体"
+      }
+    },
+    {
+      "type": "container",
+      "id": "container_6f0a0ce6-395f-499a-a13f-84c2c0ae3801",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "flex-start"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "flex-start"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_6a42b80a-5f05-4be3-8b95-462fffa0abd5",
+          "props": {
+            "text": "1. 已知集合",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_54e4ac1b-7e91-40a1-a1bf-70f694ee561c",
+          "props": {
+            "katex": "A=\\left\\{x\\middle|\\log_2{x}<1\\right\\}",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_5f4c4a30-fc8e-4c7c-82d5-6417c4433608",
+          "props": {
+            "text": "，集合",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_77250739-ac47-4d35-9e07-6abb3c4cc0e5",
+          "props": {
+            "katex": "B=\\left\\{x\\middle|-1\\le{x}\\le1\\right\\}",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_7bf68560-e5bc-45c2-8fe4-0a97a8c11b66",
+          "props": {
+            "text": "，则"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_459988f0-b4e2-4e73-981f-dc9474319148",
+          "props": {
+            "katex": "A\\cap B =",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_285d604a-83aa-4aec-a207-543fcadd2f1d",
+          "props": {
+            "text": "（    ）",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体",
+              "whiteSpace": "break-spaces"
+            },
+            "fontFamily": "宋体",
+            "whiteSpace": "break-spaces"
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_7f10e7a0-bfdf-457d-9585-cb29272f55d6",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_52abc235-3b59-4cfa-871f-20f27214caa0",
+          "props": {
+            "style": {
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "flex-start"
+            },
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "flex-start"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_2a975e45-12bf-4683-9216-f740083e791e",
+              "props": {
+                "text": "A.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_6246df7f-8528-4a9e-9c36-2e8d1ce939e2",
+              "props": {
+                "katex": "\\left[-1,1\\right]",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_0c3b4fa4-1253-4ae1-98d2-1c0b1eac8384",
+          "props": {
+            "style": {
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "flex-start"
+            },
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "flex-start"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_ab661af1-eed3-4dd5-b862-79ada974d322",
+              "props": {
+                "text": "B.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_53ba36ec-68a0-466c-89e1-cb4ccd16e940",
+              "props": {
+                "katex": "\\left[-1,2\\right)",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_1f74aec0-f890-4df4-b4d2-c3da7c1d9d7e",
+          "props": {
+            "style": {
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "stretch"
+            },
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "stretch"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_87bf0602-e7ef-4651-a404-e577faadba3f",
+              "props": {
+                "text": "C.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_76d46ea2-3bc2-4173-b0a8-a244b596171c",
+              "props": {
+                "katex": "\\left(0,1\\right]",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_a19c2eaa-f0ce-4f8b-a33c-fed7133747c5",
+          "props": {
+            "style": {
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "stretch"
+            },
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "stretch"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_7e37b8bb-bdbe-4f88-83ad-dfbdb8fa1e04",
+              "props": {
+                "text": "D.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_318df33f-01ef-449e-85b1-8e6b9c8f2bf6",
+              "props": {
+                "katex": "\\left(-∞,2\\right)",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_b71f93d6-25cf-4e95-a569-15c2e7b9334a",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row"
+        },
+        "display": "flex",
+        "flexDirection": "row"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_9f31478a-df81-4325-9efd-7f68cacba5c6",
+          "props": {
+            "text": "2.  设",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_102a0343-0cf1-4d52-8178-52b537af081b",
+          "props": {
+            "katex": "a=3^{0.7}",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_cb05aa41-9425-43b9-8d36-a39a11339ffb",
+          "props": {
+            "text": "，"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_ee97447d-118e-4014-8784-d2b5407ca218",
+          "props": {
+            "katex": "b=\\left(\\frac{1}{3}\\right)^{-0.8}",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_ab5c96ea-d389-4f88-8f66-5360e23076a9",
+          "props": {
+            "text": "，",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_871fa272-4169-47b4-a329-8571205bdadb",
+          "props": {
+            "katex": "c=\\log_2{0.8}",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_10e68d24-213a-4906-ad98-f8782c1e1c28",
+          "props": {
+            "text": "，则 "
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_a750b8c6-2475-47ef-a2b4-28d3d64301ea",
+          "props": {
+            "katex": "a,b,c"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_a9944e06-16c7-47f3-b67b-80241867fec7",
+          "props": {
+            "text": "的大小关系为（    ）",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_68d27b49-e0d7-45d5-b735-329e15e1983f",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_a62546e6-0121-4904-b24c-d00cecb4af09",
+          "props": {
+            "style": {
+              "display": "flex"
+            },
+            "display": "flex"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_ab093481-efc4-4fac-a0ff-2b7a0321e52a",
+              "props": {
+                "text": "A.  ",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt",
+                  "whiteSpace": "pre",
+                  "fontFamily": "宋体"
+                },
+                "whiteSpace": "pre",
+                "fontFamily": "宋体"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_857da601-a8d1-48b3-b23b-4be0631d68e1",
+              "props": {
+                "katex": "a\\ <b<c",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_ec31658c-b51b-4e98-89de-277b229c318b",
+          "props": {
+            "style": {
+              "display": "flex"
+            },
+            "display": "flex"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_852dd813-c50b-4e82-b953-52a333c5b3a8",
+              "props": {
+                "text": "B.  ",
+                "fontFamily": "宋体",
+                "style": {
+                  "fontFamily": "宋体",
+                  "fontSize": "11pt",
+                  "whiteSpace": "pre"
+                },
+                "fontSize": "11pt",
+                "whiteSpace": "pre"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_5c141c8b-3ab9-4944-a003-ac3e97a037e6",
+              "props": {
+                "katex": "b\\ <a<c",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_878b43c5-c9dd-4de2-adea-051eba9422ad",
+          "props": {
+            "style": {
+              "display": "flex"
+            },
+            "display": "flex"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_1b75332b-e0bc-4fbf-b69f-0071e4cdd692",
+              "props": {
+                "text": "C.  ",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体",
+                  "whiteSpace": "pre"
+                },
+                "fontFamily": "宋体",
+                "whiteSpace": "pre"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_a455bd2a-1562-439e-85cb-43c5f9c31165",
+              "props": {
+                "katex": "b\\ <c<a",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_1672dcff-ff62-4e8b-81eb-d0577b0473f7",
+          "props": {
+            "style": {
+              "display": "flex"
+            },
+            "display": "flex"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_a80f473e-902e-4a46-8111-eb65a0729544",
+              "props": {
+                "text": "D.  ",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体",
+                  "whiteSpace": "pre"
+                },
+                "fontFamily": "宋体",
+                "whiteSpace": "pre"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_5e7403a5-5240-4168-8e54-26fe7d29ce10",
+              "props": {
+                "katex": "c\\ <a<b",
+                "fontSize": "11pt",
+                "style": {
+                  "fontSize": "11pt"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_0fae3dad-db89-4721-b93f-f811439c6228",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row"
+        },
+        "display": "flex",
+        "flexDirection": "row"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_abc7c392-f038-4c91-a830-d2fbacd4c808",
+          "props": {
+            "text": "3.  已知平面",
+            "fontFamily": "宋体",
+            "style": {
+              "fontFamily": "宋体",
+              "whiteSpace": "pre",
+              "fontSize": "11pt"
+            },
+            "whiteSpace": "pre",
+            "fontSize": "11pt"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_fbc2308e-2f75-46ed-8de3-add2d9c9be57",
+          "props": {
+            "katex": "\\alpha",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_1f5395cb-6b1d-4225-ba4f-789b13aaf8de",
+          "props": {
+            "text": "，",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_017b4f4a-42f8-46d5-b0e4-81d6ca415a73",
+          "props": {
+            "katex": "β",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_f87c01f3-6c78-407d-935e-4f47b0841cd3",
+          "props": {
+            "text": "，",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_0749c9d9-24b4-41be-ac0a-35d20342c198",
+          "props": {
+            "text": "直线",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_3989421f-7f53-4ab6-ad0f-90f9812288c4",
+          "props": {
+            "katex": "l\\subset\\alpha",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_afff1e54-1a16-453f-b784-92baf662373e",
+          "props": {
+            "text": "，",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_d0e1a611-42c4-46c6-868f-16976bc3d926",
+          "props": {
+            "text": "直线",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "whiteSpace": "normal",
+              "fontFamily": "宋体"
+            },
+            "whiteSpace": "normal",
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_db7c5768-21d2-4b7b-a31d-8b1d15fbd4fa",
+          "props": {
+            "katex": "m",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_742e4c06-668b-4374-a08c-0015b0890e58",
+          "props": {
+            "text": "不在平面",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontFamily": "宋体"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_4de7a51c-d1f4-428a-961b-f2decdc16b97",
+          "props": {
+            "katex": "\\alpha",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_cdafea7f-0425-451a-98d9-4002a52e13cd",
+          "props": {
+            "text": "上，下列说法正确的是（    ）",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre",
+              "fontFamily": "宋体",
+              "fontSize": "11pt"
+            },
+            "fontFamily": "宋体",
+            "fontSize": "11pt"
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_4fd2f3ea-fa81-4c69-8924-d303a2cf6685",
+      "props": {
+        "cols": 2,
+        "rows": 2,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_44ed55dd-50d3-40cd-93b3-b8ad6397eb7d",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_89b97ab0-e778-4a23-8bad-c9d4d8ad49cd",
+              "props": {
+                "text": "A.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_9d6da063-ecb8-4d6e-a92a-a134ce9cd0c3",
+              "props": {
+                "text": "若"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_e60b4edc-882d-469b-8b99-09260cc074d1",
+              "props": {
+                "katex": "\\alpha//\\beta,m//\\beta\\ "
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_919e0570-fc71-42fe-a6c2-08c3cba2a66b",
+              "props": {
+                "text": "，则"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_bea4679c-b81b-4ae5-afe6-f5b0b6bc10e2",
+              "props": {
+                "katex": "l\\mathrm{//}m"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_711600bf-2cdc-4bdf-9eec-563ef6b4f01a",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_d62feb1b-d17b-4a62-a2f3-b75b80959b34",
+              "props": {
+                "text": "B.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_39af7382-2f20-4a39-8b17-5dec69828845",
+              "props": {
+                "text": "若"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_293114e8-0566-4a3a-a913-871f8e226788",
+              "props": {
+                "katex": "\\alpha//\\beta,m\\bot\\beta\\ "
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_c5e768cc-4481-4b85-abaa-79081dd14921",
+              "props": {
+                "text": "，则"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_64ad1253-2d21-4fdd-86d9-ce00a753afc2",
+              "props": {
+                "katex": "l\\mathrm{\\bot}m"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_3f5ef5aa-cb0d-46fa-835e-8b48fb622379",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_cc13fede-2763-40af-8b21-d5c469d9f6f4",
+              "props": {
+                "text": "C.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_b662bcb4-df41-4eb9-a475-235230165883",
+              "props": {
+                "text": "若"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_9ebf3f35-a06b-42cd-b0f0-a0eb3d466ac7",
+              "props": {
+                "katex": "l\\mathrm{//}m,\\alpha\\mathrm{//}\\beta"
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_9d37a8b7-89c8-4b87-acc5-ba81d5372426",
+              "props": {
+                "text": "，则"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_072e0722-7142-48df-86c3-b490a2dc51e1",
+              "props": {
+                "katex": "m\\mathrm{//}\\beta"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_e468d2f7-d0af-4e78-9ea4-0c87d653cfb1",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_9d744539-aecc-4e77-bb43-b32d02314249",
+              "props": {
+                "text": "D.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_7103d036-4cac-4bbe-ab91-9a3878623ae2",
+              "props": {
+                "text": "若"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_2a9191b2-b9ef-4e18-bc36-5de2561fdfe9",
+              "props": {
+                "katex": "l\\bot m,m\\mathrm{//}\\beta"
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_c37ea4b5-57fb-44c9-802e-efe4e84b3e83",
+              "props": {
+                "text": "，则"
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_1378b6f4-a6fb-4ed8-a4f5-fc52d7e60f89",
+              "props": {
+                "katex": "\\alpha\\bot\\beta"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_cbae58b2-cdb9-470d-9292-94df42939e6a",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "alignItems": "center",
+          "fontSize": "11pt",
+          "fontFamily": "宋体"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "alignItems": "center",
+        "fontSize": "11pt",
+        "fontFamily": "宋体"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_03488a88-5915-4c23-a877-3fc9a2d418db",
+          "props": {
+            "text": "4.  ",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_08040623-cc99-4b5c-8a3e-1263c7a15f3b",
+          "props": {
+            "text": "已知"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_b9ebbf3e-179b-4624-9175-c35e570a0e2c",
+          "props": {
+            "katex": "x"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_d8765014-5f4e-465e-875a-e231d0628e03",
+          "props": {
+            "text": "，"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_11744fb7-9263-491a-87f5-13cf4a82ac14",
+          "props": {
+            "katex": "y"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_c9017628-f87c-4ea2-b9e1-4409c4edb83d",
+          "props": {
+            "text": "满足约束条件"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_3105b3c2-d724-4a42-87b3-b8ed33c83626",
+          "props": {
+            "katex": "\\left\\{\\begin{matrix}2x-y-1\\le0\\\\x+y+1\\geq0\\\\y\\le1\\\\\\end{matrix}\\right."
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_f4f1ede0-19ac-40a2-b26b-dcce98bae335",
+          "props": {
+            "text": "，则"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_ef5921da-8280-42be-852b-8726fba714ec",
+          "props": {
+            "katex": "Z=\\left|x-3y-2\\right|"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_2ff885b1-a285-4905-806b-e42238f62911",
+          "props": {
+            "text": "的取值范围是（    ）",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_ced5d6c7-4b37-4d84-81a3-1cd667bd72dc",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_237ad20f-0659-4b46-978d-912d35d781b3",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_92e0a3a7-bf58-45f4-9cdf-e52acb476efa",
+              "props": {
+                "text": "A.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_de3f8b8a-0d3e-4cb0-bc0e-11e6e2348f31",
+              "props": {
+                "katex": "\\left[0,7\\right]"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_fecdc280-9a01-463b-9450-cf4472069be0",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_0a1e556e-d492-430b-9e1d-4b394c0b4dec",
+              "props": {
+                "text": "B.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_fc0513a9-054a-4a6e-9789-9d99787a79fc",
+              "props": {
+                "katex": "\\left(1,7\\right)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_6aac820a-c5b4-4b25-afd5-1594ef2cfb67",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_0cfe4d68-95ab-4658-a0aa-abdc70b6c983",
+              "props": {
+                "text": "C.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_143653a0-9a7b-4463-bc5e-146e7175e478",
+              "props": {
+                "katex": "\\left[0,4\\right]"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_1f90b0b8-e250-42de-a75f-07e0784c9af5",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_110fba84-733c-4384-839a-750b4b639069",
+              "props": {
+                "text": "D.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_2728bab1-6660-4a30-bcfb-723d076a97d6",
+              "props": {
+                "katex": "\\left[1,4\\right]"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_aec8f963-f338-46f5-8b8a-da2a4e6070e6",
+      "props": {
+        "style": {
+          "fontFamily": "宋体",
+          "display": "flex",
+          "flexDirection": "row",
+          "fontSize": "11pt"
+        },
+        "fontFamily": "宋体",
+        "display": "flex",
+        "flexDirection": "row",
+        "fontSize": "11pt"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_2db7cf08-65e4-4657-8c84-b320d52e7545",
+          "props": {
+            "text": "5.  ",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_7f139b0c-4034-4a62-8f60-16249e9dacc0",
+          "props": {
+            "text": "已知等比数列"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_e7996e0e-4701-4036-9863-312a970c0068",
+          "props": {
+            "katex": "{a_n}"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_d1bd86c3-2729-4ca9-8593-af1af64bedab",
+          "props": {
+            "text": "的前"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_a32b64f3-aaa3-4733-b16a-5f6454c0d4e8",
+          "props": {
+            "katex": "n"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_a66021df-4a48-40a0-9aad-d72e28c145ef",
+          "props": {
+            "text": "和为"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_61874c59-923d-4bb1-a493-b3ec3b76fd23",
+          "props": {
+            "katex": "S_n"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_216728da-68c0-4762-9322-81d6bae7aadc",
+          "props": {
+            "text": "，若"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_ad6273fc-2328-47b2-9d56-e1b17ba15cd3",
+          "props": {
+            "katex": "\\frac{1}{a_1}+\\frac{1}{a_2}+\\frac{1}{a_3}=2"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_b2949a5b-5635-44c9-8b2b-c86674346007",
+          "props": {
+            "text": "，"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_1260abc2-2812-4412-a802-785fe0eabd44",
+          "props": {
+            "katex": "a_2=2"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_9476f64a-6ce8-41ed-a546-d5965b919e04",
+          "props": {
+            "text": "，则"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_04e1cfd8-9274-45a8-8419-91014afb6272",
+          "props": {
+            "katex": "S_3 ="
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_c5061f54-23f8-4ec8-9fad-0b72a82bd450",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_3f0e64e2-d94e-4c9c-8f8b-850ee4acf220",
+          "props": {
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_69e0fc40-8b72-43c6-a27b-5da761225423",
+              "props": {
+                "text": "A.  8",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt"
+                },
+                "fontSize": "11pt"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_cacff67a-ab32-4562-8d57-386ffddbd346",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_41afc170-b433-431e-b4e3-c6e4426dd77d",
+              "props": {
+                "text": "B.  7",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontFamily": "宋体",
+                  "fontSize": "11pt"
+                },
+                "fontFamily": "宋体",
+                "fontSize": "11pt"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_0610f348-bd15-43ff-b118-bb026947183e",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_8aa4b616-5557-4987-9427-f8799954dc95",
+              "props": {
+                "text": "C.  6",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontFamily": "宋体",
+                  "fontSize": "11pt"
+                },
+                "fontFamily": "宋体",
+                "fontSize": "11pt"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_f9caaf26-3978-430a-bf39-96ced15e9cde",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_20756f5b-42be-421a-8567-f657dfac60e7",
+              "props": {
+                "text": "D.  4",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_0f17481c-29f7-49a2-bc4a-8272a2a3325c",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "fontSize": "11pt",
+          "fontFamily": "宋体",
+          "alignItems": "center"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "fontSize": "11pt",
+        "fontFamily": "宋体",
+        "alignItems": "center"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_c720173e-da9e-4d37-ad8f-782d094f4b46",
+          "props": {
+            "text": "6.  ",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_dd53edff-dc89-4c74-8d74-7a4bbe1db930",
+          "props": {
+            "text": "函数"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_179679cf-a7e5-4e1e-857d-beec084fc410",
+          "props": {
+            "katex": "f\\left(x\\right)=\\frac{x(e^x-e^{-x})}{x^2-1}"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_71ae947f-798f-409a-b1e7-66b7b3a1ed10",
+          "props": {
+            "text": "的图象大致是（    ）",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_ffa9e2ea-077b-4d9a-af4e-ae41bae4be68",
+      "props": {
+        "cols": 2,
+        "rows": 2,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_44032e0d-ecee-4c5c-81d5-d9292a410f4a",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontSize": "11pt",
+              "fontFamily": "宋体",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontSize": "11pt",
+            "fontFamily": "宋体",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_e9a9973f-4d4c-4100-b5fa-8ba1ae976879",
+              "props": {
+                "text": "A.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "image",
+              "id": "image_8a88e434-3ac5-44a6-bf25-12d0f19b46a5",
+              "props": {
+                "src": "data:image/png;base64,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",
+                "width": 100,
+                "height": 100
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_aea28330-ae30-46f0-a52d-72aac7294ecc",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_b864d165-c236-419a-ba33-4080990ec076",
+              "props": {
+                "text": "B.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "image",
+              "id": "image_823a7e82-c979-429a-8fe9-41bae1474156",
+              "props": {
+                "src": "data:image/png;base64,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",
+                "width": 100,
+                "height": 100
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_3e6ce8fc-2a9a-444c-81fb-d91327d2e78f",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_33daac31-5a66-47f8-a76b-fc23bba09880",
+              "props": {
+                "text": "C.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "image",
+              "id": "image_d97a64b5-04c0-4d0e-9572-df5a499b1197",
+              "props": {
+                "src": "data:image/png;base64,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",
+                "width": 100,
+                "height": 100
+              }
+            },
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_63a0cd5b-daa7-4bd3-b3a2-38d63a797ba8",
+              "props": {
+                "text": "7.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_778edac4-c277-4af3-b0d1-52632b86cef6",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_c722a3a4-437d-49b2-bf8f-17fdb849f085",
+              "props": {
+                "text": "D.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "image",
+              "id": "image_ff3eb987-cd89-4e8a-a2a0-55d77a9e7a19",
+              "props": {
+                "src": "data:image/png;base64,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",
+                "width": 100,
+                "height": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_f731e2a6-ef20-4b3d-ac75-2a8295a450c6",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "fontFamily": "宋体",
+          "fontSize": "11pt",
+          "alignItems": "center"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "fontFamily": "宋体",
+        "fontSize": "11pt",
+        "alignItems": "center"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_270de5df-9c9f-4827-9297-d24c4d365d30",
+          "props": {
+            "text": "7.  已知函数"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_5604250d-e0a3-47cb-b85d-42bea980e7fc",
+          "props": {
+            "katex": "f\\left(x\\right)=\\left|x\\right|\\left(e^x-e^{-x}\\right)"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_f19cf053-20ef-4415-bc37-647e0f6b0c2f",
+          "props": {
+            "text": "，对于实数"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_f6b7b4b6-a196-42d2-b2a0-78b517bb115b",
+          "props": {
+            "katex": "a"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_c9e5e8fd-17d0-42a3-b547-c8da9084aa19",
+          "props": {
+            "text": "，"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_60ead219-4bd5-43ad-9399-533010421195",
+          "props": {
+            "katex": "b"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_6d24db8b-fcf0-443b-b9ea-1f9fc69f635f",
+          "props": {
+            "text": "，“"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_07059486-e244-49e8-a161-78c52ba1a73e",
+          "props": {
+            "katex": "a+b>0"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_4e0e242e-c935-44e6-996c-e912255ddd1d",
+          "props": {
+            "text": "”是“"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_74c64c37-a5ff-49eb-ba5f-b22e6a618f00",
+          "props": {
+            "katex": "f\\left(a\\right)+f\\left(b\\right)>0"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_cf7fa1c4-6f42-4d1c-8820-ebfc0ab4458c",
+          "props": {
+            "text": "”"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_9f1c4c6a-f2d8-4a95-bdfa-f4713c6e3b7a",
+          "props": {
+            "text": "的(　 　)"
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_92f38d1e-fb90-42ad-b12e-e8711e0f288f",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_8a7b4950-b518-4ac3-8af4-0226a845aa13",
+          "props": {
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "宋体"
+            },
+            "fontSize": "11pt",
+            "fontFamily": "宋体"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_1de0e78b-acab-45b5-9fe2-ffe163328ed7",
+              "props": {
+                "text": "A. 充分不必要条件",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_f80b4b67-dff2-481e-87dc-9134f93798a9",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_bbd53bc9-6730-4273-835c-d445a438217e",
+              "props": {
+                "text": "B. 必要不充分条件",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_46740331-ee73-422b-a7b2-ad491f2fc88c",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_9d7c9ef5-6549-4315-a206-5481534b5f5b",
+              "props": {
+                "text": "C. 充要条件",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontSize": "11pt",
+                  "fontFamily": "宋体"
+                },
+                "fontSize": "11pt",
+                "fontFamily": "宋体"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_a356e017-1fce-4d4b-8ee8-cb628fcf6472",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_5f609e20-a2fc-4f66-bdd8-cafc569d6a7e",
+              "props": {
+                "text": "D. 既不充分也不必要条件",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre",
+                  "fontFamily": "宋体",
+                  "fontSize": "11pt"
+                },
+                "fontFamily": "宋体",
+                "fontSize": "11pt"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "id": "container_2569b543-2005-4ec9-90cc-440ccb73bff8",
+      "props": {
+        "style": {
+          "display": "flex",
+          "flexDirection": "row",
+          "fontSize": "11pt",
+          "fontFamily": "宋体",
+          "flexWrap": "wrap"
+        },
+        "display": "flex",
+        "flexDirection": "row",
+        "fontSize": "11pt",
+        "fontFamily": "宋体",
+        "flexWrap": "wrap"
+      },
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_f802a4f5-f446-4196-a8ff-548e9984dceb",
+          "props": {
+            "text": "8. ",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_0a60b2d2-570e-439a-97f3-3127b5442ad0",
+          "props": {
+            "text": "已知函数"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_68f4ca85-bcbc-48bb-b16d-df651bd99c22",
+          "props": {
+            "katex": "f\\left(x\\right)=2sin{(}2x+\\frac{\\pi}{6})"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_ed0646ad-383a-42a3-b975-a001df34efb2",
+          "props": {
+            "text": "，将"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_aded46f1-064e-4d95-9de4-8517f58d603e",
+          "props": {
+            "katex": "f\\left(x\\right)"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_e81ad862-adb7-412b-bc24-94cc7f4e4216",
+          "props": {
+            "text": "的图象上所有点向右平移"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_3cc3e3a6-fd81-451b-9393-a02fd877617b",
+          "props": {
+            "katex": "\\theta(\\theta>0)"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_d0be7526-0dd3-4b4a-a69a-58956eca8d0b",
+          "props": {
+            "text": "个单位长度，得到的图象关于直线"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_718dbded-c621-4944-8179-3c5e385bc84a",
+          "props": {
+            "katex": "x=\\frac{\\pi}{6}"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_0bff90ea-c4b4-429a-9ea7-e9ae13ea31cf",
+          "props": {
+            "text": "对称，则"
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_d44edcc4-af5b-46b6-a46c-268d8e81bf12",
+          "props": {
+            "katex": "\\theta"
+          }
+        },
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_5482c808-e019-4576-b389-7d199821c125",
+          "props": {
+            "text": "的最小值为(　 　)",
+            "whiteSpace": "pre",
+            "style": {
+              "whiteSpace": "pre"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "grid",
+      "id": "grid_14249cdd-6ea1-47d9-b1ec-2b4c0e64b41b",
+      "props": {
+        "cols": 4,
+        "rows": 1,
+        "xGap": 12,
+        "yGap": 0
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_5f4e26b7-df34-4462-a06a-193d3c1cbfeb",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_ab809651-47af-49d4-8b50-f5dabe4defdf",
+              "props": {
+                "text": "A.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_d82546bc-8f19-4a92-8a74-bcfd56278187",
+              "props": {
+                "katex": "\\frac{\\pi}{6}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_e700a401-9e58-44b2-8844-7eaecf0a602b",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_d585354f-d955-45a7-a7fd-d48f6dd0392b",
+              "props": {
+                "text": "B.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_f255971f-f11b-4548-b2a5-d15462642595",
+              "props": {
+                "katex": "\\frac{\\pi}{3}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_3bb21284-0129-4ecd-b730-67883befd99d",
+          "props": {
+            "style": {
+              "display": "flex",
+              "width": "nullpx",
+              "fontSize": "11pt",
+              "fontFamily": "宋体",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "width": "nullpx",
+            "fontSize": "11pt",
+            "fontFamily": "宋体",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_455893e5-15da-4da7-a641-30ebc3ce0861",
+              "props": {
+                "text": "C.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_3aa9a9ed-a6dc-44f7-bfa0-f8b874106ca9",
+              "props": {
+                "katex": "\\frac{\\pi}{2}"
+              }
+            }
+          ]
+        },
+        {
+          "type": "container",
+          "id": "container_a5b4c06b-6c18-43a1-bd37-0c86d8afa161",
+          "props": {
+            "style": {
+              "display": "flex",
+              "fontFamily": "宋体",
+              "fontSize": "11pt",
+              "alignItems": "center"
+            },
+            "display": "flex",
+            "fontFamily": "宋体",
+            "fontSize": "11pt",
+            "alignItems": "center"
+          },
+          "children": [
+            {
+              "type": "ellipsis",
+              "id": "ellipsis_cf52ee41-2261-43a3-803f-358a20f8fbbd",
+              "props": {
+                "text": "D.  ",
+                "whiteSpace": "pre",
+                "style": {
+                  "whiteSpace": "pre"
+                }
+              }
+            },
+            {
+              "type": "equation",
+              "id": "equation_e6f8425d-540b-446a-82a4-b30ee3c339da",
+              "props": {
+                "katex": "\\pi"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

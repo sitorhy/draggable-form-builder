@@ -28,13 +28,22 @@ const katexText = computed(() => {
 	return propsReduce.value.katex || '';
 });
 
+const style = computed(() => {
+	return propsReduce.value.style || {};
+});
+
 defineExpose({
 	id: id.value
 });
 </script>
 
 <template>
-	<div class="equation" v-if="schema.props" v-emphasize:schemaId="schema.id">
+	<div
+		class="equation-container"
+		:style="style"
+		v-if="schema.props"
+		v-emphasize:schemaId="schema.id"
+	>
 		<n-equation :value="katexText" />
 	</div>
 	<n-empty v-else description="Equation">
@@ -47,7 +56,9 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-.equation {
+.equation-container {
 	display: inline-block;
+	height: fit-content;
+	--n-hegiht: 12px;
 }
 </style>

@@ -5,7 +5,7 @@ import {
 	type PropertyFormItemSchemaOptions,
 	updateContainerStyle
 } from './common.ts';
-import { FONTS } from '../../put/common/constants.ts';
+import { FONTS, WHITE_SPACE_OPTIONS } from '../../put/common/constants.ts';
 import SchemaBindingEditor from '../SchemaBindingEditor.vue';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
@@ -92,6 +92,33 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 									});
 								}
 							}
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'whiteSpace',
+						label: '空白字符控制',
+						config: {
+							options: WHITE_SPACE_OPTIONS,
+							value: options.schema?.props?.style?.whiteSpace
+						},
+						on: {
+							'update:value': function (whiteSpace: string) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										whiteSpace
+									});
+								}
+							}
+						}
+					},
+					{
+						type: NInputNumber,
+						prop: 'lineHeight',
+						label: '行高',
+						config: {
+							placeholder: '',
+							clearable: true
 						}
 					}
 				]

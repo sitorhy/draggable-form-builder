@@ -405,7 +405,8 @@ export function unitTest(): RendererItemDefinition {
 				props: {
 					style: {
 						display: 'flex',
-						flexDirection: 'row'
+						flexDirection: 'row',
+						flex: 1
 					}
 				},
 				children: [

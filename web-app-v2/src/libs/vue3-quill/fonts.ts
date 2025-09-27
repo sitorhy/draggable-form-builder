@@ -10,7 +10,7 @@ const fonts = [
 	'Times-New-Roman',
 	'sans-serif'
 ];
-const Font: any = Quill.import('formats/font');
+const Font: any = Quill.import('attributors/style/font');
 Font.whitelist = fonts; //将字体加入到白名单
 Quill.register(Font, true);
 

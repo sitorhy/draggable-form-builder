@@ -27,11 +27,13 @@ const dimension = computed(() => {
 				return {
 					width: format.size.height,
 					height: format.size.width,
-					minHeight: format.size.minHeight || '34px'
+					minHeight: format.size.minHeight || '34px',
+					margin: 'auto'
 				};
 			}
 			return {
-				...format.size
+				...format.size,
+				margin: 'auto'
 			};
 		}
 	}

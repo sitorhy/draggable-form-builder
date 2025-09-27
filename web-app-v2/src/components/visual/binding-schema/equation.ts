@@ -1,7 +1,12 @@
 import { NInput } from 'naive-ui';
 import type { SectionsReturnType } from './index.ts';
+import SizePropertyInput from '../SizePropertyInput.vue';
+import {
+	type PropertyFormItemSchemaOptions,
+	updateContainerStyle
+} from './common.ts';
 
-function sections(): SectionsReturnType {
+function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
 			{
@@ -21,6 +26,23 @@ function sections(): SectionsReturnType {
 						formItemProps: {
 							useBinding: true
 						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'fontSize',
+						label: '字号',
+						config: {
+							value: options.schema?.props?.style?.fontSize
+						},
+						on: {
+							'update:value': function (fontSize: string) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										fontSize
+									});
+								}
+							}
+						}
 					}
 				]
 			}
@@ -28,9 +50,9 @@ function sections(): SectionsReturnType {
 	};
 }
 
-export default function () {
+export default function (options: PropertyFormItemSchemaOptions) {
 	return {
-		schemas: sections(),
+		schemas: sections(options),
 		formProps: {}
 	};
 }

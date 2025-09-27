@@ -6,6 +6,7 @@ import {
 } from './common.ts';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
+import { FONTS, FLEX_WRAP_OPTIONS } from '../../put/common/constants.ts';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
@@ -278,6 +279,70 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 									});
 								}
 							}
+						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'fontSize',
+						label: '字号',
+						config: {
+							value: options.schema?.props?.style?.fontSize
+						},
+						on: {
+							'update:value': function (fontSize: string) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										fontSize
+									});
+								}
+							}
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'fontFamily',
+						label: '字体',
+						config: {
+							options: FONTS,
+							value: options.schema?.props?.style?.fontFamily
+						},
+						on: {
+							'update:value': function (fontFamily: string) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										fontFamily
+									});
+								}
+							}
+						}
+					},
+					{
+						type: NSelect,
+						prop: 'flexWrap',
+						label: '换行',
+						config: {
+							disabled: false,
+							value: options.schema?.props?.style?.flexWrap,
+							options: FLEX_WRAP_OPTIONS,
+							placeholder: ''
+						},
+						on: {
+							'update:value': function (flexWrap: string) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										flexWrap
+									});
+								}
+							}
+						}
+					},
+					{
+						type: NInputNumber,
+						prop: 'lineHeight',
+						label: '行高',
+						config: {
+							placeholder: '',
+							clearable: true
 						}
 					}
 				]

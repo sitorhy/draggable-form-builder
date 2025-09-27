@@ -16,7 +16,7 @@ body, #root {
 .renderer-drop {
   --n-hegiht: 34px;
   min-height: var(--n-hegiht);
-  flex: 1;
+  flex: inherit;
   flex-direction: inherit;
   align-items: inherit;
   justify-content: inherit;

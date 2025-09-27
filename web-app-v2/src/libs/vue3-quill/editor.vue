@@ -10,6 +10,7 @@ import 'quill/dist/quill.bubble.css';
 import Quill from 'quill';
 import { onMounted, ref, watch, onUnmounted, onBeforeUnmount } from 'vue';
 import fonts from './fonts';
+import sizes from './font-size.js';
 
 const defaultOptions = {
 	theme: 'snow',
@@ -23,7 +24,7 @@ const defaultOptions = {
 			[{ script: 'sub' }, { script: 'super' }],
 			[{ indent: '-1' }, { indent: '+1' }],
 			[{ direction: 'rtl' }],
-			[{ size: ['small', false, 'large', 'huge'] }],
+			[{ size: sizes }],
 			[{ header: [1, 2, 3, 4, 5, 6, false] }],
 			[{ color: [] }, { background: [] }],
 			[{ font: fonts }],
@@ -248,5 +249,52 @@ export default {
 }
 .ql-font-sans-serif {
 	font-family: 'sans-serif';
+}
+
+/*
+文字大小
+ */
+.ql-snow .ql-picker.ql-size {
+	width: 70px;
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='10px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='10px']::before {
+	content: '10px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='12px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='12px']::before {
+	content: '12px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='14px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='14px']::before {
+	content: '14px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='16px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='16px']::before {
+	content: '16px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='20px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='20px']::before {
+	content: '20px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='24px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='24px']::before {
+	content: '24px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='36px']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='36px']::before {
+	content: '36px';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='11pt']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='11pt']::before {
+	content: '11pt';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='17pt']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='17pt']::before {
+	content: '17pt';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value='22pt']::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value='22pt']::before {
+	content: '22pt';
 }
 </style>

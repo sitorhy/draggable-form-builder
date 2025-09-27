@@ -72,7 +72,7 @@ export function getSchemas(
 			return radio();
 		}
 		case 'equation': {
-			return equation();
+			return equation(options);
 		}
 		case 'richText': {
 			return richText();

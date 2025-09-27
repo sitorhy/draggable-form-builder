@@ -11,6 +11,7 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import { type Environment } from 'monaco-editor';
 
 import './libs/vue3-quill/fonts.ts';
+import './libs/vue3-quill/font-size.ts';
 import 'katex/dist/katex.css';
 declare global {
 	interface Window {
