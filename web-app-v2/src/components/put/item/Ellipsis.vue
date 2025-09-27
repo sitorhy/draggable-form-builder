@@ -9,8 +9,8 @@ import { useEmptyPropsInjection } from '../common/props.ts';
  * @param {string} str 待处理的字符串。
  * @returns {string[]} 提取到的字段数组。
  */
-function extractFieldsConcise(str) {
-	const fields = [];
+function extractFieldsConcise(str: string): string[] {
+	const fields: string[] = str.split(',');
 	const regex = /{{(.*?)}}/g;
 
 	// replace() 的回调函数会遍历所有匹配项
@@ -47,7 +47,7 @@ const propsReduce = computed(() => ({
 const text = computed(function () {
 	let str = propsReduce.value.text;
 	const fields = extractFieldsConcise(str);
-	const values = fields
+	const values: Record<string, any> = fields
 		.map((field) => {
 			return [field, propsReduce.value[field]];
 		})
@@ -55,7 +55,7 @@ const text = computed(function () {
 			return Object.assign(acc, { [cur[0]]: cur[1] });
 		}, {});
 	fields.forEach((field) => {
-		str = str.replace(`{{${field}}}`, values[field]);
+		str = str.replace(`{{${field}}}`, String(values[field]));
 	});
 	return str;
 });

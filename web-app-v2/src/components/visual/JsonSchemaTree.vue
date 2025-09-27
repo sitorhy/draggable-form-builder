@@ -234,14 +234,14 @@ function onDrag(node: TreeNode) {
 	});
 }
 
-function onDrop(node: TreeNode, action) {
+function onDrop(node: TreeNode, action: string) {
 	schemaContextStore.endDrag(node.id, action);
 }
 
 function onRightClick(e: MouseEvent) {
 	if (treeDragging.value) {
 		e.preventDefault();
-		schemaContextStore.endDrag('');
+		schemaContextStore.endDrag('', '');
 	}
 }
 

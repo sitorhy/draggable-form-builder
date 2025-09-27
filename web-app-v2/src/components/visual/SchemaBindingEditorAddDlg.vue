@@ -47,8 +47,16 @@ function onPositiveClick() {
 	return false;
 }
 
-function updateDataSourceSchema(schema: NormalizeDataSource): void {
-	modelValue.value.uri = stringifyDataSourceSchema(schema);
+function updateDataSourceSchema(
+	schema: string | NormalizeDataSource | undefined
+): void {
+	if (typeof schema !== 'string') {
+		modelValue.value.uri = stringifyDataSourceSchema(
+			schema as NormalizeDataSource
+		);
+	} else {
+		modelValue.value.uri = schema;
+	}
 }
 
 const rules = computed(() => {

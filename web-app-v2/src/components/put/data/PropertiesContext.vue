@@ -40,35 +40,15 @@ const formItemBindingPath = inject<ComputedRef<string>>(
 
 const obj = ref<Record<string, any>>({});
 
-const loop = computed(() => {
-	return props.schema.props?.loop;
-});
-
 const binding = computed(() => {
 	return props.schema.binding;
 });
-
-watch(
-	loop,
-	(value) => {
-		if (!value) {
-			delete obj.value['loop'];
-		} else {
-			// 重定向静态数据
-			const partPath = props.schema.props?.path;
-			const staticContext = bindingStore.staticContext;
-			obj.value['loop'] = staticContext[partPath];
-		}
-	},
-	{
-		immediate: true
-	}
-);
 
 async function injectProps(
 	prop: string,
 	result:
 		| {
+				source: string;
 				value: any;
 				fullBindingPath: string;
 		  }

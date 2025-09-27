@@ -4,7 +4,10 @@ import { ref } from 'vue';
 
 const funcDlgRef = ref();
 
-const modelValue = defineModel('value');
+const modelValue = defineModel('value', {
+	type: String,
+	default: ''
+});
 
 function onSelect() {
 	funcDlgRef.value.select(modelValue.value.split(','));

@@ -30,7 +30,7 @@ defineProps({
 
 const formRef = ref();
 const modelValue = defineModel<string | NormalizeDataSource>('value');
-const modelValueText = defineModel<string | NormalizeDataSource>('uri');
+const modelValueText = defineModel<string>('uri');
 
 const { dataSourceSchemaRef, formSchema, itemKeyGetter, reset } =
 	useDataSourceConfig();

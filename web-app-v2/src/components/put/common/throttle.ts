@@ -2,7 +2,7 @@ export function useThrottle<T extends (...args: any[]) => any>(
 	func: T,
 	delay: number
 ) {
-	let timeout: number | null = null;
+	let timeout: number | undefined = undefined;
 
 	return function () {
 		if (timeout != null) {
@@ -11,7 +11,7 @@ export function useThrottle<T extends (...args: any[]) => any>(
 		timeout = setTimeout(() => {
 			func();
 			clearTimeout(timeout);
-			timeout = null;
+			timeout = undefined;
 		}, delay);
 	};
 }

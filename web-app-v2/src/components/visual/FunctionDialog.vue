@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, watch } from 'vue';
 import { ref, computed } from 'vue';
-import { NButton, type RowKey } from 'naive-ui';
+import { NButton, type DataTableRowKey } from 'naive-ui';
 import { useFunctionStore } from '../../store/function.ts';
 import type { FunctionCode } from '../../types.ts';
 import FunctionCodeDialog from './FunctionCodeDialog.vue';
@@ -25,13 +25,13 @@ const showModal = defineModel('modelValue', {
 });
 const showDetailDlg = ref(false);
 const detailModelValue = ref<Partial<FunctionCode>>({});
-const checkedRowKeysRef = ref([]);
+const checkedRowKeysRef = ref<DataTableRowKey[]>([]);
 
 const tableRef = ref();
 const data = ref<Partial<FunctionCode>[]>([]);
 
-const columns = computed(() => {
-	const cols = [
+const columns = computed<Record<string, any>[]>(() => {
+	const cols: Record<string, any>[] = [
 		{
 			title: '名称',
 			key: 'name',
@@ -65,7 +65,8 @@ const columns = computed(() => {
 
 	if (props.selectable) {
 		cols.unshift({
-			type: 'selection'
+			type: 'selection',
+			key: '$selection'
 		});
 	}
 
@@ -109,7 +110,7 @@ function rowKey(item: FunctionCode) {
 	return item.name;
 }
 
-function handleCheck(rowKeys: RowKey[]) {
+function handleCheck(rowKeys: DataTableRowKey[]) {
 	checkedRowKeysRef.value = rowKeys;
 }
 

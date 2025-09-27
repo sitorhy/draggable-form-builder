@@ -38,9 +38,15 @@ const dlgProtectedFields = computed(() => {
 
 function updateDataSourceSchema(
 	field: string,
-	schema: NormalizeDataSource
+	schema: string | NormalizeDataSource | undefined
 ): void {
-	binding.value[field] = stringifyDataSourceSchema(schema);
+	if (typeof schema === 'string') {
+		binding.value[field] = schema;
+	} else {
+		binding.value[field] = stringifyDataSourceSchema(
+			schema as NormalizeDataSource
+		);
+	}
 }
 
 function onAddBinding() {
