@@ -36,9 +36,7 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 					v-model:schema="schema.children[scope.index]"
 					:data-binding-path="bindingPath"
 				>
-					<div class="renderer-item-container" :data-binding-path="bindingPath">
-						<JsonRenderer v-model:schema="schema.children[scope.index]" />
-					</div>
+					<JsonRenderer v-model:schema="schema.children[scope.index]" />
 				</JsonRendererItemContainer>
 			</template>
 		</draggable>

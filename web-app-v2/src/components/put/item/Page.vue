@@ -66,7 +66,12 @@ const pageStyle = computed(() => {
 </script>
 
 <template>
-	<div v-emphasize:schemaId="schema.id" class="page" :style="pageStyle">
+	<div
+		v-emphasize:schemaId="schema.id"
+		class="page"
+		:style="pageStyle"
+		:id="schema.id"
+	>
 		<JsonRendererContainer v-model:schema="schema" />
 	</div>
 </template>

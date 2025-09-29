@@ -1,7 +1,8 @@
 import { useEmphasizeStore } from '../../../store/emphasize.ts';
 import { useSchemaStore } from '../../../store/schema.ts';
 import { useBindingStore } from '../../../store/binding.ts';
-import { watch } from 'vue';
+import { onBeforeMount, watch } from 'vue';
+import { useProjectStore } from '../../../store/project.ts';
 
 export const EmphasizeContext: {
 	emphasizeStore: ReturnType<typeof useEmphasizeStore> | null;
@@ -12,11 +13,12 @@ export const EmphasizeContext: {
 export function useAppInit() {
 	EmphasizeContext.emphasizeStore = useEmphasizeStore();
 
+	const projectStore = useProjectStore();
 	const schemaStore = useSchemaStore();
 	const bindingStore = useBindingStore();
 
 	watch(
-		schemaStore.schema,
+		() => schemaStore.schema,
 		(value) => {
 			if (value) {
 				const collection = schemaStore.collectStaticContext();
@@ -26,7 +28,19 @@ export function useAppInit() {
 			}
 		},
 		{
-			immediate: true
+			immediate: true,
+			deep: true
 		}
 	);
+
+	onBeforeMount(async () => {
+		if (projectStore.projectList.length > 0) {
+			await projectStore.loadProject(projectStore.projectList[0]);
+			const pages = projectStore.project.pages;
+			if (pages.length > 0) {
+				await projectStore.switchPage(pages[0].id);
+				// await projectStore.switchPage('page002.json');
+			}
+		}
+	});
 }

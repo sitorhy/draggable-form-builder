@@ -278,3 +278,19 @@ export const ALIGN_ITEMS_OPTIONS = [
 		value: 'initial'
 	}
 ];
+
+export const FLEX_OPTIONS: {
+	label: string;
+	value: any;
+}[] = [
+	{
+		label: 'initial',
+		value: 'initial'
+	}
+];
+for (let i = 1; i <= 12; i++) {
+	FLEX_OPTIONS.push({
+		value: i,
+		label: `${i}`
+	});
+}

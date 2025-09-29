@@ -10,6 +10,8 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { type Environment } from 'monaco-editor';
 
+import { printPlugin } from 'vue-print-next';
+
 import './libs/vue3-quill/fonts.ts';
 import './libs/vue3-quill/font-size.ts';
 import 'katex/dist/katex.css';
@@ -42,4 +44,5 @@ monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
 export default function registerGlobalComponents(app: App): void {
 	app.component('list-item', ListItem);
 	app.directive('emphasize', VEmphasize as Directive);
+	app.use(printPlugin);
 }

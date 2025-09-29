@@ -3,7 +3,7 @@
   "id": "page_efefc9b7-129e-461e-bef0-14a5de050427",
   "props": {
     "path": "page656",
-    "background": "#eee",
+    "background": "#FFFFFFFF",
     "format": "A4",
     "padding": "8mm"
   },
@@ -12,21 +12,40 @@
       "type": "container",
       "id": "container_107a0d1d-eef4-4444-8d68-a39b84e6645a",
       "props": {
-        "style": {}
+        "style": {
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": 1,
+          "justifyContent": "space-between"
+        },
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": 1,
+        "justifyContent": "space-between"
       },
       "children": [
         {
           "type": "container",
           "id": "container_82e6a52a-b0cd-4bea-ab80-41f9ebaf0eb7",
           "props": {
-            "style": {}
+            "style": {
+              "display": "block",
+              "flex": 1
+            },
+            "display": "block",
+            "flex": 1
           },
           "children": [
             {
               "type": "container",
               "id": "container_1b086e11-54c1-4df6-8d2d-5634b19db6fb",
               "props": {
-                "style": {}
+                "style": {
+                  "display": "block",
+                  "flex": "initial"
+                },
+                "display": "block",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -98,7 +117,12 @@
               "type": "container",
               "id": "container_111e75d9-16f7-4952-aa97-5fe113987a82",
               "props": {
-                "style": {}
+                "style": {
+                  "flex": "initial",
+                  "display": "block"
+                },
+                "flex": "initial",
+                "display": "block"
               },
               "children": [
                 {
@@ -116,7 +140,12 @@
               "type": "container",
               "id": "container_b5718b92-2c05-40a9-81f5-0e9aac15ba2c",
               "props": {
-                "style": {}
+                "style": {
+                  "display": "block",
+                  "flex": "initial"
+                },
+                "display": "block",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -160,7 +189,12 @@
               "type": "container",
               "id": "container_a0ecac14-2a78-44d3-921c-96f7e079fcdc",
               "props": {
-                "style": {}
+                "style": {
+                  "flex": "initial",
+                  "display": "block"
+                },
+                "flex": "initial",
+                "display": "block"
               },
               "children": [
                 {
@@ -418,14 +452,24 @@
           "type": "container",
           "id": "container_17ba87e0-3bea-444b-b223-2023172a356e",
           "props": {
-            "style": {}
+            "style": {
+              "display": "block",
+              "flex": 1
+            },
+            "display": "block",
+            "flex": 1
           },
           "children": [
             {
               "type": "container",
               "id": "container_d96badc2-45b6-497e-b48b-7d601d05eee0",
               "props": {
-                "style": {}
+                "style": {
+                  "display": "block",
+                  "flex": "initial"
+                },
+                "display": "block",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -497,7 +541,12 @@
               "type": "container",
               "id": "container_14835831-2ba1-4563-af2b-05cf3d0ba0e8",
               "props": {
-                "style": {}
+                "style": {
+                  "display": "block",
+                  "flex": "initial"
+                },
+                "display": "block",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -555,7 +604,12 @@
               "type": "container",
               "id": "container_9c2cae98-1866-45ae-84e7-80585a36a889",
               "props": {
-                "style": {}
+                "style": {
+                  "display": "block",
+                  "flex": "initial"
+                },
+                "display": "block",
+                "flex": "initial"
               },
               "children": [
                 {

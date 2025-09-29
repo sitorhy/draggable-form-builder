@@ -27,7 +27,8 @@ export type ProjectDefinition = {
 	pages: {
 		id: string;
 		title: string;
-		schema: RendererItemDefinition;
+		schema?: RendererItemDefinition;
+		localFlag?: boolean; // 本地测试用途
 	}[];
 };
 

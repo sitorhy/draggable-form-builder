@@ -70,58 +70,61 @@ function openFunctionDlg() {
 
 <template>
 	<n-card>
-		<n-form :model="modelValue" label-placement="top">
-			<n-form-item path="title" label="项目">
-				<n-input v-model:value="modelValue.title" readonly />
-			</n-form-item>
+		<template v-if="projectStore.$state.project.id">
+			<n-form :model="modelValue" label-placement="top">
+				<n-form-item path="title" label="项目">
+					<n-input v-model:value="modelValue.title" readonly />
+				</n-form-item>
 
-			<n-form-item path="page" label="页面">
-				<n-radio-group
-					v-model:value="modelValue.page"
-					name="page"
-					@update:value="onPageSwitch"
-				>
-					<n-space vertical>
-						<n-radio v-for="page in pages" :key="page.id" :value="page.id">
-							{{ page.title }}
-						</n-radio>
-					</n-space>
-				</n-radio-group>
-			</n-form-item>
+				<n-form-item path="page" label="页面">
+					<n-radio-group
+						v-model:value="modelValue.page"
+						name="page"
+						@update:value="onPageSwitch"
+					>
+						<n-space vertical>
+							<n-radio v-for="page in pages" :key="page.id" :value="page.id">
+								{{ page.title }}
+							</n-radio>
+						</n-space>
+					</n-radio-group>
+				</n-form-item>
 
-			<n-form-item path="$schema" label="模式">
-				<n-button
-					style="width: 100%"
-					size="small"
-					type="primary"
-					@click="schemaDrawerShow = true"
-				>
-					<span>查看</span>
-				</n-button>
-			</n-form-item>
+				<n-form-item path="$schema" label="模式">
+					<n-button
+						style="width: 100%"
+						size="small"
+						type="primary"
+						@click="schemaDrawerShow = true"
+					>
+						<span>查看</span>
+					</n-button>
+				</n-form-item>
 
-			<n-form-item path="$schema" label="状态">
-				<n-button
-					style="width: 100%"
-					size="small"
-					type="primary"
-					@click="bindingDrawerShow = true"
-				>
-					<span>查看</span>
-				</n-button>
-			</n-form-item>
+				<n-form-item path="$schema" label="状态">
+					<n-button
+						style="width: 100%"
+						size="small"
+						type="primary"
+						@click="bindingDrawerShow = true"
+					>
+						<span>查看</span>
+					</n-button>
+				</n-form-item>
 
-			<n-form-item path="$schema" label="函数集">
-				<n-button
-					style="width: 100%"
-					size="small"
-					type="primary"
-					@click="openFunctionDlg"
-				>
-					<span>查看</span>
-				</n-button>
-			</n-form-item>
-		</n-form>
+				<n-form-item path="$schema" label="函数集">
+					<n-button
+						style="width: 100%"
+						size="small"
+						type="primary"
+						@click="openFunctionDlg"
+					>
+						<span>查看</span>
+					</n-button>
+				</n-form-item>
+			</n-form>
+		</template>
+		<n-empty v-else description="无演示项目" />
 	</n-card>
 
 	<n-drawer

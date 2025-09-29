@@ -21,6 +21,7 @@ import ProjectView from './components/visual/ProjectView.vue';
 import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue';
 import { useThrottle } from './components/put/common/throttle.ts';
 import { useAppInit } from './components/put/common/app.ts';
+import ProjectMenu from './components/visual/ProjectMenu.vue';
 
 useAppInit();
 
@@ -109,7 +110,9 @@ onMounted(() => {
 						<template #avatar>
 							<n-image :preview-disabled="true" width="32" src="/code.png" />
 						</template>
-						<template #extra></template>
+						<template #extra>
+							<ProjectMenu />
+						</template>
 					</n-page-header>
 				</div>
 			</n-layout-header>

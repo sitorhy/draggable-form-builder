@@ -11,7 +11,8 @@ import {
 	FLEX_WRAP_OPTIONS,
 	DISPLAY_OPTIONS,
 	JUSTIFY_CONTENT_OPTIONS,
-	ALIGN_ITEMS_OPTIONS
+	ALIGN_ITEMS_OPTIONS,
+	FLEX_OPTIONS
 } from '../../put/common/constants.ts';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
@@ -186,11 +187,12 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						}
 					},
 					{
-						type: NInputNumber,
+						type: NSelect,
 						prop: 'flex',
 						label: '填充权重',
 						config: {
-							value: options.schema?.props?.style?.flex
+							value: options.schema?.props?.style?.flex,
+							options: FLEX_OPTIONS
 						},
 						on: {
 							'update:value': function (flex: string | number) {

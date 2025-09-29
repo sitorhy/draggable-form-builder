@@ -1,23 +1,35 @@
 import { defineStore } from 'pinia';
-import type { ProjectDefinition } from '../types.ts';
-import { getTestProject001 } from '../test/project.ts';
+import type { ProjectDefinition, RendererItemDefinition } from '../types.ts';
+import { getTestProject001 } from '../test/project001.ts';
 
-export const useProjectStore = defineStore<
-	'project',
-	{
-		project: ProjectDefinition;
-		currentPage: string;
-	},
-	{},
-	{
-		switchPage: (pageId: string) => void;
-		loadProject: (project: ProjectDefinition) => void;
-	}
->('project', {
+import page001 from '../test/page001.json';
+import page002 from '../test/page002.json';
+import page003 from '../test/page003.json';
+import page004 from '../test/page004.json';
+import { useSchemaStore } from './schema.ts';
+
+const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
+	'page001.json': page001,
+	'page002.json': page002,
+	'page003.json': page003,
+	'page004.json': page004
+};
+
+export const useProjectStore = defineStore('project', {
 	state() {
 		return {
-			project: getTestProject001(),
+			project: {
+				title: '',
+				name: '',
+				id: '',
+				pages: []
+			},
+			projectList: [getTestProject001()],
 			currentPage: ''
+		} as {
+			project: ProjectDefinition;
+			currentPage: string;
+			projectList: ProjectDefinition[];
 		};
 	},
 	getters: {
@@ -26,13 +38,34 @@ export const useProjectStore = defineStore<
 				return state.project.pages.find((p) => p.id === state.currentPage);
 			}
 			return null;
-		}
+		},
+		schemaStore: () => useSchemaStore()
 	},
 	actions: {
-		switchPage(pageId: string) {
-			this.currentPage = pageId;
+		reset() {
+			this.project = {
+				title: '',
+				name: '',
+				id: '',
+				pages: []
+			};
+			this.currentPage = '';
 		},
-		loadProject(project: ProjectDefinition) {
+		async switchPage(pageId: string) {
+			this.currentPage = pageId;
+			const page = this.project.pages.find((p) => p.id === pageId);
+			if (page) {
+				if (page.localFlag) {
+					const data = LOCAL_TEST_PAGE_DATA[page.id];
+					if (data) {
+						this.schemaStore.loadSchema(
+							structuredClone(data as RendererItemDefinition)
+						);
+					}
+				}
+			}
+		},
+		async loadProject(project: ProjectDefinition) {
 			this.project = project;
 			this.currentPage = project.pages[0]?.id || '';
 		}
