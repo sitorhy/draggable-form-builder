@@ -62,6 +62,10 @@ export const useProjectStore = defineStore('project', {
 							structuredClone(data as RendererItemDefinition)
 						);
 					}
+				} else {
+					if (page.schema) {
+						this.schemaStore.loadSchema(page.schema);
+					}
 				}
 			}
 		},

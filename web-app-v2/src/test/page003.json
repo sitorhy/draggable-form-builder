@@ -439,11 +439,13 @@
               "id": "container_38f1cd97-4ef7-49d0-8bac-ce4284935ba3",
               "props": {
                 "style": {
-                  "display": "inline-flex",
-                  "flexDirection": "row"
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "flex": "initial"
                 },
-                "display": "inline-flex",
-                "flexDirection": "row"
+                "display": "flex",
+                "flexDirection": "row",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -474,11 +476,13 @@
               "id": "container_b73ee949-e82c-477f-8d09-efb1d9a4e5ce",
               "props": {
                 "style": {
-                  "display": "inline-flex",
-                  "flexDirection": "row"
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "flex": "initial"
                 },
-                "display": "inline-flex",
-                "flexDirection": "row"
+                "display": "flex",
+                "flexDirection": "row",
+                "flex": "initial"
               },
               "children": [
                 {
@@ -573,13 +577,15 @@
                   "id": "container_a1cf45a6-333b-43fc-b87d-750f8d6262f9",
                   "props": {
                     "style": {
-                      "display": "inline",
+                      "display": "flex",
                       "flexDirection": "row",
-                      "flexWrap": "wrap"
+                      "flexWrap": "wrap",
+                      "flex": "initial"
                     },
-                    "display": "inline",
+                    "display": "flex",
                     "flexDirection": "row",
-                    "flexWrap": "wrap"
+                    "flexWrap": "wrap",
+                    "flex": "initial"
                   },
                   "children": [
                     {

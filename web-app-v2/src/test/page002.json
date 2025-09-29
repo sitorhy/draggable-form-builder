@@ -83,7 +83,11 @@
           "type": "ellipsis",
           "id": "ellipsis_d0be7526-0dd3-4b4a-a69a-58956eca8d0b",
           "props": {
-            "text": "个单位长度，得到的图象关于直线"
+            "text": "个单位长度，得到的图象关于直线",
+            "whiteSpace": "pre-wrap",
+            "style": {
+              "whiteSpace": "pre-wrap"
+            }
           }
         },
         {
@@ -344,9 +348,23 @@
         },
         {
           "type": "ellipsis",
+          "id": "ellipsis_73658609-8d0f-4778-88a1-aafd3c4280b9",
+          "props": {
+            "text": "，若点 "
+          }
+        },
+        {
+          "type": "equation",
+          "id": "equation_e6c5de20-1d2f-4900-8073-a1f758c0f05c",
+          "props": {
+            "katex": "P"
+          }
+        },
+        {
+          "type": "ellipsis",
           "id": "ellipsis_74d04215-e5bb-4296-a631-f4253978dd4d",
           "props": {
-            "text": "，若点 为直线"
+            "text": "为直线"
           }
         },
         {

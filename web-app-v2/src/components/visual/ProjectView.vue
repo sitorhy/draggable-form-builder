@@ -6,6 +6,13 @@ import { computed, ref, watch } from 'vue';
 import { Mode } from 'vanilla-jsoneditor';
 import JsonEditorVue from 'json-editor-vue';
 import FunctionDialog from './FunctionDialog.vue';
+import { createRendererItemConfig } from '../../store/component.ts';
+import { v4 as uuid } from 'uuid';
+import { SequenceGenerator } from '../put/common/seq.ts';
+
+const seqGenerator = new SequenceGenerator({
+	startFrom: Math.floor(Math.random() * 1000)
+});
 
 const projectStore = useProjectStore();
 const project = computed(() => projectStore.project);
@@ -66,6 +73,19 @@ function onPageSwitch(pageId: string) {
 function openFunctionDlg() {
 	funModelShow.value = true;
 }
+
+function createPage() {
+	const page = createRendererItemConfig({
+		type: 'page'
+	});
+	const id = uuid();
+	projectStore.$state.project.pages.push({
+		id: id,
+		title: '测试数据_' + seqGenerator.next(),
+		schema: page
+	});
+	projectStore.switchPage(id);
+}
 </script>
 
 <template>
@@ -77,17 +97,28 @@ function openFunctionDlg() {
 				</n-form-item>
 
 				<n-form-item path="page" label="页面">
-					<n-radio-group
-						v-model:value="modelValue.page"
-						name="page"
-						@update:value="onPageSwitch"
-					>
-						<n-space vertical>
-							<n-radio v-for="page in pages" :key="page.id" :value="page.id">
-								{{ page.title }}
-							</n-radio>
-						</n-space>
-					</n-radio-group>
+					<n-space vertical align="stretch">
+						<n-radio-group
+							v-model:value="modelValue.page"
+							name="page"
+							@update:value="onPageSwitch"
+						>
+							<n-space vertical align="stretch">
+								<n-radio
+									style="width: 100%"
+									v-for="page in pages"
+									:key="page.id"
+									:value="page.id"
+								>
+									{{ page.title }}
+								</n-radio>
+							</n-space>
+						</n-radio-group>
+
+						<n-button size="small" type="primary" @click="createPage">
+							<span>新页面</span>
+						</n-button>
+					</n-space>
 				</n-form-item>
 
 				<n-form-item path="$schema" label="模式">
