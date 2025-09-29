@@ -3,6 +3,7 @@ import draggable from 'vuedraggable';
 import JsonRendererItem from './JsonRendererItem.vue';
 import type { RendererItemDefinition } from '../../types.ts';
 import { type ComputedRef, inject } from 'vue';
+import JsonRendererItemContainer from './JsonRendererItemContainer.vue';
 
 defineOptions({
 	name: 'JsonRenderer'
@@ -31,9 +32,14 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 			v-model="schema.children"
 		>
 			<template #item="scope">
-				<div class="renderer-item-container" :data-binding-path="bindingPath">
-					<JsonRenderer v-model:schema="schema.children[scope.index]" />
-				</div>
+				<JsonRendererItemContainer
+					v-model:schema="schema.children[scope.index]"
+					:data-binding-path="bindingPath"
+				>
+					<div class="renderer-item-container" :data-binding-path="bindingPath">
+						<JsonRenderer v-model:schema="schema.children[scope.index]" />
+					</div>
+				</JsonRendererItemContainer>
 			</template>
 		</draggable>
 	</JsonRendererItem>

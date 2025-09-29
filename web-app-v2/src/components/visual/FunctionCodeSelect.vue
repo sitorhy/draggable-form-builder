@@ -10,7 +10,7 @@ const modelValue = defineModel('value', {
 });
 
 function onSelect() {
-	funcDlgRef.value.select(modelValue.value.split(','));
+	funcDlgRef.value.select(modelValue.value.split(',').filter((v) => !!v));
 }
 
 function onConfirm(codes: string[]) {

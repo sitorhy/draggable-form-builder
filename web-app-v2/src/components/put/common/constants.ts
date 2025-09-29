@@ -195,5 +195,86 @@ export const FLEX_WRAP_OPTIONS = [
 	{
 		label: 'wrap-reverse',
 		value: 'wrap-reverse'
+	},
+	{
+		label: 'initial',
+		value: 'initial'
+	}
+];
+
+export const DISPLAY_OPTIONS = [
+	{
+		label: '弹性布局',
+		value: 'flex'
+	},
+	{
+		label: '行内弹性布局',
+		value: 'inline-flex'
+	},
+	{
+		label: '行内',
+		value: 'inline'
+	},
+	{
+		label: '块级',
+		value: 'block'
+	},
+	{
+		label: 'initial',
+		value: 'initial'
+	}
+];
+
+export const JUSTIFY_CONTENT_OPTIONS = [
+	{
+		value: 'stretch',
+		label: '拉伸'
+	},
+	{
+		value: 'flex-start',
+		label: '起点'
+	},
+	{
+		value: 'flex-end',
+		label: '终点'
+	},
+	{
+		value: 'center',
+		label: '居中'
+	},
+	{
+		value: 'space-between',
+		label: '首尾均分'
+	},
+	{
+		value: 'space-around',
+		label: '居中均分'
+	},
+	{
+		label: 'initial',
+		value: 'initial'
+	}
+];
+
+export const ALIGN_ITEMS_OPTIONS = [
+	{
+		value: 'stretch',
+		label: '拉伸'
+	},
+	{
+		value: 'flex-start',
+		label: '起点'
+	},
+	{
+		value: 'flex-end',
+		label: '终点'
+	},
+	{
+		value: 'center',
+		label: '居中'
+	},
+	{
+		label: 'initial',
+		value: 'initial'
 	}
 ];

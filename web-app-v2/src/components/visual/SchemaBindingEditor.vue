@@ -7,6 +7,7 @@ import { computed, type PropType, ref } from 'vue';
 import DataSourceSchema from './DataSourceSchema.vue';
 import { stringifyDataSourceSchema } from './data-source/config.ts';
 import SchemaBindingEditorAddDlg from './SchemaBindingEditorAddDlg.vue';
+import { useSchemaActions } from '../../store/schema.ts';
 
 const props = defineProps({
 	schema: {
@@ -18,6 +19,8 @@ const props = defineProps({
 		default: () => []
 	}
 });
+
+const { findNodeById } = useSchemaActions();
 
 const addDlgRef = ref();
 
@@ -54,7 +57,13 @@ function onAddBinding() {
 }
 
 function onDlgConfirm(data: { uri: string; field: string }) {
-	binding.value[data.field] = data.uri;
+	const schemaNode = findNodeById(props.schema.id);
+	if (schemaNode) {
+		schemaNode.binding = {
+			...props.schema.binding,
+			[data.field]: data.uri
+		};
+	}
 }
 </script>
 

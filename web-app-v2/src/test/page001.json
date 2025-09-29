@@ -5,7 +5,7 @@
     "path": "page576",
     "background": "#FFFFFFFF",
     "format": "A4",
-    "padding": "12mm"
+    "padding": "8mm"
   },
   "children": [
     {
@@ -110,35 +110,28 @@
     },
     {
       "type": "container",
-      "id": "container_7b46ed9f-600f-4b32-b2c5-7c13aa21ee67",
+      "id": "container_d0ca6719-9fa0-4631-b8c6-9d82927d904a",
       "props": {
         "style": {
-          "height": "1em",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "stretch",
-          "flex": 1
-        },
-        "height": "1em",
-        "display": "flex",
-        "flexDirection": "row",
-        "justifyContent": "stretch",
-        "flex": 1
+          "marginTop": "1em"
+        }
       },
-      "children": []
-    },
-    {
-      "type": "ellipsis",
-      "id": "ellipsis_5008bb32-9402-4c48-b897-9572c397d39f",
-      "props": {
-        "text": "一、选择题：本大题共10小题，每小题4分，共40分.在每小题给出的四个选项中，只有一项是符合题目要求的。",
-        "fontSize": "11pt",
-        "style": {
-          "fontSize": "11pt",
-          "fontFamily": "黑体"
-        },
-        "fontFamily": "黑体"
-      }
+      "children": [
+        {
+          "type": "ellipsis",
+          "id": "ellipsis_5008bb32-9402-4c48-b897-9572c397d39f",
+          "props": {
+            "text": "一、选择题：本大题共10小题，每小题4分，共40分.在每小题给出的四个选项中，只有一项是符合题目要求的。",
+            "fontSize": "11pt",
+            "style": {
+              "fontSize": "11pt",
+              "fontFamily": "黑体"
+            },
+            "fontFamily": "黑体",
+            "lineClamp": 2
+          }
+        }
+      ]
     },
     {
       "type": "container",
@@ -2009,276 +2002,6 @@
                 },
                 "fontFamily": "宋体",
                 "fontSize": "11pt"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "container",
-      "id": "container_2569b543-2005-4ec9-90cc-440ccb73bff8",
-      "props": {
-        "style": {
-          "display": "flex",
-          "flexDirection": "row",
-          "fontSize": "11pt",
-          "fontFamily": "宋体",
-          "flexWrap": "wrap"
-        },
-        "display": "flex",
-        "flexDirection": "row",
-        "fontSize": "11pt",
-        "fontFamily": "宋体",
-        "flexWrap": "wrap"
-      },
-      "children": [
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_f802a4f5-f446-4196-a8ff-548e9984dceb",
-          "props": {
-            "text": "8. ",
-            "whiteSpace": "pre",
-            "style": {
-              "whiteSpace": "pre"
-            }
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_0a60b2d2-570e-439a-97f3-3127b5442ad0",
-          "props": {
-            "text": "已知函数"
-          }
-        },
-        {
-          "type": "equation",
-          "id": "equation_68f4ca85-bcbc-48bb-b16d-df651bd99c22",
-          "props": {
-            "katex": "f\\left(x\\right)=2sin{(}2x+\\frac{\\pi}{6})"
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_ed0646ad-383a-42a3-b975-a001df34efb2",
-          "props": {
-            "text": "，将"
-          }
-        },
-        {
-          "type": "equation",
-          "id": "equation_aded46f1-064e-4d95-9de4-8517f58d603e",
-          "props": {
-            "katex": "f\\left(x\\right)"
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_e81ad862-adb7-412b-bc24-94cc7f4e4216",
-          "props": {
-            "text": "的图象上所有点向右平移"
-          }
-        },
-        {
-          "type": "equation",
-          "id": "equation_3cc3e3a6-fd81-451b-9393-a02fd877617b",
-          "props": {
-            "katex": "\\theta(\\theta>0)"
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_d0be7526-0dd3-4b4a-a69a-58956eca8d0b",
-          "props": {
-            "text": "个单位长度，得到的图象关于直线"
-          }
-        },
-        {
-          "type": "equation",
-          "id": "equation_718dbded-c621-4944-8179-3c5e385bc84a",
-          "props": {
-            "katex": "x=\\frac{\\pi}{6}"
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_0bff90ea-c4b4-429a-9ea7-e9ae13ea31cf",
-          "props": {
-            "text": "对称，则"
-          }
-        },
-        {
-          "type": "equation",
-          "id": "equation_d44edcc4-af5b-46b6-a46c-268d8e81bf12",
-          "props": {
-            "katex": "\\theta"
-          }
-        },
-        {
-          "type": "ellipsis",
-          "id": "ellipsis_5482c808-e019-4576-b389-7d199821c125",
-          "props": {
-            "text": "的最小值为(　 　)",
-            "whiteSpace": "pre",
-            "style": {
-              "whiteSpace": "pre"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "grid",
-      "id": "grid_14249cdd-6ea1-47d9-b1ec-2b4c0e64b41b",
-      "props": {
-        "cols": 4,
-        "rows": 1,
-        "xGap": 12,
-        "yGap": 0
-      },
-      "children": [
-        {
-          "type": "container",
-          "id": "container_5f4e26b7-df34-4462-a06a-193d3c1cbfeb",
-          "props": {
-            "style": {
-              "display": "flex",
-              "fontFamily": "宋体",
-              "fontSize": "11pt",
-              "alignItems": "center"
-            },
-            "display": "flex",
-            "fontFamily": "宋体",
-            "fontSize": "11pt",
-            "alignItems": "center"
-          },
-          "children": [
-            {
-              "type": "ellipsis",
-              "id": "ellipsis_ab809651-47af-49d4-8b50-f5dabe4defdf",
-              "props": {
-                "text": "A.  ",
-                "whiteSpace": "pre",
-                "style": {
-                  "whiteSpace": "pre"
-                }
-              }
-            },
-            {
-              "type": "equation",
-              "id": "equation_d82546bc-8f19-4a92-8a74-bcfd56278187",
-              "props": {
-                "katex": "\\frac{\\pi}{6}"
-              }
-            }
-          ]
-        },
-        {
-          "type": "container",
-          "id": "container_e700a401-9e58-44b2-8844-7eaecf0a602b",
-          "props": {
-            "style": {
-              "display": "flex",
-              "fontFamily": "宋体",
-              "fontSize": "11pt",
-              "alignItems": "center"
-            },
-            "display": "flex",
-            "fontFamily": "宋体",
-            "fontSize": "11pt",
-            "alignItems": "center"
-          },
-          "children": [
-            {
-              "type": "ellipsis",
-              "id": "ellipsis_d585354f-d955-45a7-a7fd-d48f6dd0392b",
-              "props": {
-                "text": "B.  ",
-                "whiteSpace": "pre",
-                "style": {
-                  "whiteSpace": "pre"
-                }
-              }
-            },
-            {
-              "type": "equation",
-              "id": "equation_f255971f-f11b-4548-b2a5-d15462642595",
-              "props": {
-                "katex": "\\frac{\\pi}{3}"
-              }
-            }
-          ]
-        },
-        {
-          "type": "container",
-          "id": "container_3bb21284-0129-4ecd-b730-67883befd99d",
-          "props": {
-            "style": {
-              "display": "flex",
-              "width": "nullpx",
-              "fontSize": "11pt",
-              "fontFamily": "宋体",
-              "alignItems": "center"
-            },
-            "display": "flex",
-            "width": "nullpx",
-            "fontSize": "11pt",
-            "fontFamily": "宋体",
-            "alignItems": "center"
-          },
-          "children": [
-            {
-              "type": "ellipsis",
-              "id": "ellipsis_455893e5-15da-4da7-a641-30ebc3ce0861",
-              "props": {
-                "text": "C.  ",
-                "whiteSpace": "pre",
-                "style": {
-                  "whiteSpace": "pre"
-                }
-              }
-            },
-            {
-              "type": "equation",
-              "id": "equation_3aa9a9ed-a6dc-44f7-bfa0-f8b874106ca9",
-              "props": {
-                "katex": "\\frac{\\pi}{2}"
-              }
-            }
-          ]
-        },
-        {
-          "type": "container",
-          "id": "container_a5b4c06b-6c18-43a1-bd37-0c86d8afa161",
-          "props": {
-            "style": {
-              "display": "flex",
-              "fontFamily": "宋体",
-              "fontSize": "11pt",
-              "alignItems": "center"
-            },
-            "display": "flex",
-            "fontFamily": "宋体",
-            "fontSize": "11pt",
-            "alignItems": "center"
-          },
-          "children": [
-            {
-              "type": "ellipsis",
-              "id": "ellipsis_cf52ee41-2261-43a3-803f-358a20f8fbbd",
-              "props": {
-                "text": "D.  ",
-                "whiteSpace": "pre",
-                "style": {
-                  "whiteSpace": "pre"
-                }
-              }
-            },
-            {
-              "type": "equation",
-              "id": "equation_e6f8425d-540b-446a-82a4-b30ee3c339da",
-              "props": {
-                "katex": "\\pi"
               }
             }
           ]

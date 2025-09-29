@@ -1,9 +1,14 @@
 import { NInput, NInputNumber, NSelect, NSwitch } from 'naive-ui';
 import { TEXT_INPUT_TYPE } from '../../put/common/constants.ts';
-import { useBindingPathSchema } from './common.ts';
+import {
+	type PropertyFormItemSchemaOptions,
+	updateContainerStyle,
+	useBindingPathSchema
+} from './common.ts';
 import type { SectionsReturnType } from './index.ts';
+import SizePropertyInput from '../SizePropertyInput.vue';
 
-function sections(): SectionsReturnType {
+function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
 			{
@@ -48,6 +53,23 @@ function sections(): SectionsReturnType {
 						config: {
 							placeholder: ''
 						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'width',
+						label: '固定宽度',
+						config: {
+							value: options.schema?.props?.style?.width
+						},
+						on: {
+							'update:value': function (width: string | number) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										width
+									});
+								}
+							}
+						}
 					}
 				]
 			}
@@ -55,9 +77,9 @@ function sections(): SectionsReturnType {
 	};
 }
 
-export default function () {
+export default function (options: PropertyFormItemSchemaOptions) {
 	return {
-		schemas: sections(),
+		schemas: sections(options),
 		formProps: {}
 	};
 }

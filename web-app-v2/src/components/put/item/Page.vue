@@ -28,12 +28,14 @@ const dimension = computed(() => {
 					width: format.size.height,
 					height: format.size.width,
 					minHeight: format.size.minHeight || '34px',
-					margin: 'auto'
+					margin: 'auto',
+					boxSizing: 'border-box'
 				};
 			}
 			return {
 				...format.size,
-				margin: 'auto'
+				margin: 'auto',
+				boxSizing: 'border-box'
 			};
 		}
 	}
@@ -41,7 +43,8 @@ const dimension = computed(() => {
 	return {
 		width: '100%',
 		height: 'fit-content',
-		minHeight: '34px'
+		minHeight: '34px',
+		boxSizing: 'border-box'
 	};
 });
 

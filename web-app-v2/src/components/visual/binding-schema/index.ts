@@ -41,7 +41,7 @@ export function getSchemas(
 			return page();
 		}
 		case 'textInput': {
-			return textInput();
+			return textInput(options);
 		}
 		case 'formItem': {
 			return formItem();

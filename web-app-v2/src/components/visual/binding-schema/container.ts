@@ -6,7 +6,13 @@ import {
 } from './common.ts';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
-import { FONTS, FLEX_WRAP_OPTIONS } from '../../put/common/constants.ts';
+import {
+	FONTS,
+	FLEX_WRAP_OPTIONS,
+	DISPLAY_OPTIONS,
+	JUSTIFY_CONTENT_OPTIONS,
+	ALIGN_ITEMS_OPTIONS
+} from '../../put/common/constants.ts';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
@@ -104,24 +110,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						config: {
 							disabled: false,
 							value: options.schema?.props?.style?.display,
-							options: [
-								{
-									label: '弹性布局',
-									value: 'flex'
-								},
-								{
-									label: '行内弹性布局',
-									value: 'inline-flex'
-								},
-								{
-									label: '行内',
-									value: 'inline'
-								},
-								{
-									label: '块级',
-									value: 'block'
-								}
-							]
+							options: DISPLAY_OPTIONS
 						},
 						on: {
 							'update:value': function (display: string) {
@@ -166,24 +155,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '主轴对齐',
 						config: {
 							value: options.schema?.props?.style?.justifyContent,
-							options: [
-								{
-									value: 'stretch',
-									label: '拉伸'
-								},
-								{
-									value: 'flex-start',
-									label: '起点'
-								},
-								{
-									value: 'flex-end',
-									label: '终点'
-								},
-								{
-									value: 'center',
-									label: '居中'
-								}
-							]
+							options: JUSTIFY_CONTENT_OPTIONS
 						},
 						on: {
 							'update:value': function (justifyContent: string) {
@@ -201,24 +173,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '交叉轴对齐',
 						config: {
 							value: options.schema?.props?.style?.alignItems,
-							options: [
-								{
-									value: 'stretch',
-									label: '拉伸'
-								},
-								{
-									value: 'flex-start',
-									label: '起点'
-								},
-								{
-									value: 'flex-end',
-									label: '终点'
-								},
-								{
-									value: 'center',
-									label: '居中'
-								}
-							]
+							options: ALIGN_ITEMS_OPTIONS
 						},
 						on: {
 							'update:value': function (alignItems: string) {

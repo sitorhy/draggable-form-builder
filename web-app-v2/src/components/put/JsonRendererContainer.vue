@@ -5,6 +5,7 @@ import type { RendererItemDefinition } from '../../types.ts';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import { useContainerMove } from './common/moveable.ts';
 import { computed, type ComputedRef, inject } from 'vue';
+import JsonRendererItemContainer from './JsonRendererItemContainer.vue';
 
 defineOptions({
 	name: 'JsonRendererContainer'
@@ -53,9 +54,9 @@ const containerClasses = computed(function () {
 		v-model="schema.children"
 	>
 		<template #item="scope">
-			<div class="renderer-item-container">
+			<JsonRendererItemContainer v-model:schema="schema.children[scope.index]">
 				<JsonRenderer v-model:schema="schema.children[scope.index]" />
-			</div>
+			</JsonRendererItemContainer>
 		</template>
 	</draggable>
 	<n-empty v-else description="Container">

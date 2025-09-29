@@ -17,7 +17,7 @@ function findMaxIndex(arr: number[]) {
 		}
 	}
 
-	return maxIndex && arr[maxIndex] !== -1 ? maxIndex : -1;
+	return max !== -1 ? maxIndex : -1;
 }
 
 export function useBindingConnector(
