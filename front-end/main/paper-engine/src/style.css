@@ -1,0 +1,37 @@
+.katex-display {
+    margin: 0 !important;
+}
+
+.container {
+    min-height: 34px;
+}
+
+.input {
+    border-bottom: solid 1px black;
+    min-height: 24px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.renderer-item-contents {
+    display: inherit;
+    flex: inherit;
+    flex-wrap: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+}
+
+.renderer-item-container {
+    display: inherit;
+    flex: inherit;
+    flex-wrap: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+}
+
+.radio {
+    font-size: inherit;
+    font-weight: inherit;
+}

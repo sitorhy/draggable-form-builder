@@ -1,0 +1,8 @@
+packages:
+  - main/*
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
+  - json-editor-vue
+  - vue-demi
