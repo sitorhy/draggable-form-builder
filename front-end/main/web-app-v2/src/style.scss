@@ -1,0 +1,64 @@
+body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+%medium-drop-area {
+  --n-hegiht: 34px;
+  --n-width: 64px;
+  min-height: var(--n-hegiht);
+  border-style: dashed;
+  border-width: 1px;
+  box-sizing: border-box;
+  border-color: grey;
+}
+
+.renderer-drop {
+  --n-hegiht: 34px;
+  min-height: var(--n-hegiht);
+  flex: inherit;
+  flex-direction: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+
+  &.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.container {
+    &:hover {
+      background-color: rgba(0, 128, 0, 0.12);
+    }
+  }
+}
+
+.placeholder-width {
+  min-width: var(--n-width);
+}
+
+// 拖动容器占位 仅处理高度
+.draggable-placeholder {
+  @extend %medium-drop-area;
+}
+
+// 普通容器占位
+.renderer-item-placeholder {
+  @extend %medium-drop-area;
+  min-width: var(--n-width);
+}
+
+.renderer-item-contents {
+  display: contents;
+}
+
+.renderer-item-container {
+  display: inherit;
+  flex: inherit;
+  flex-wrap: inherit;
+  flex-direction: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+}

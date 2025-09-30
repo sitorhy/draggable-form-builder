@@ -1,0 +1,32 @@
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import MonacoEditorPlugin from 'vite-plugin-monaco-editor-esm';
+
+// https://vite.dev/config/
+export default defineConfig({
+	optimizeDeps: {
+		exclude: ['uuid']
+	},
+	plugins: [vue(), MonacoEditorPlugin()],
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: function (id) {
+					if (id.includes('node_modules/monaco-editor')) {
+						return 'monaco-editor';
+					}
+					if (id.includes('node_modules/katex')) {
+						return 'katex';
+					}
+					if (id.includes('node_modules/@vicons')) {
+						return '@vicons';
+					}
+					if (id.includes('node_modules/naive-ui')) {
+						return 'naive-ui';
+					}
+					return null;
+				}
+			}
+		}
+	}
+});

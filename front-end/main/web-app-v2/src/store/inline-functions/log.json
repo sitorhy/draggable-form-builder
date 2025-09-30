@@ -1,0 +1,6 @@
+{
+  "id": "f636df44-11f3-42fb-ac7a-8b8d85d5ddb5",
+  "name": "consoleLog",
+  "code": "export default function log(value) {\n    console.log(value);\n    return value;\n}",
+  "description": "通用，控制台打印，打印并返回过滤值"
+}
