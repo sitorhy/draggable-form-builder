@@ -1,16 +1,6 @@
-import {
-	findNodeById,
-	findParentByNodeId,
-	insertBefore,
-	insertBeforeId,
-	insertBeforeIndex,
-	findAncestorsByNodeId,
-	moveTo
-} from './nodes';
 import { defineStore } from 'pinia';
+import { v4 as uuid } from 'uuid';
 import type { RendererItemDefinition } from '../types.ts';
-import { createRendererItemConfig } from './component.ts';
-import data from '../assets/page002.json';
 
 function collectStaticContext(
 	node: RendererItemDefinition,
@@ -37,8 +27,14 @@ function collectStaticContext(
 export const useSchemaStore = defineStore('schema', {
 	state() {
 		return {
-			// schema: createRendererItemConfig({ type: 'page' })
-            schema: data
+			schema: {
+                type: 'page',
+                id: uuid(),
+                children: [],
+                props: {
+                    format: 'WEB'
+                }
+            } as RendererItemDefinition
 		};
 	},
 	actions: {
@@ -48,40 +44,17 @@ export const useSchemaStore = defineStore('schema', {
 			return obj;
 		},
 		resetSchema() {
-			this.schema = createRendererItemConfig({ type: 'page' });
+			this.schema = {
+                type: 'page',
+                id: uuid(),
+                children: [],
+                props: {
+                    format: 'WEB'
+                }
+            };
 		},
 		loadSchema(data: RendererItemDefinition) {
 			this.schema = data;
 		}
 	}
 });
-
-export function useSchemaActions() {
-	const store = useSchemaStore();
-
-	return {
-		findNodeById: (id: string) => findNodeById(store.schema, id),
-		findParentByNodeId: (id: string) => findParentByNodeId(store.schema, id),
-		findAncestorsByNodeId: (id: string) =>
-			findAncestorsByNodeId(store.schema, id),
-		insertBefore,
-		insertBeforeId,
-		insertBeforeIndex,
-		moveTo: (id: string, targetParentId: string, targetBeforeId?: string) =>
-			moveTo(store.schema, id, targetParentId, targetBeforeId),
-		removeNodeById: (id: string) => {
-			const parent = findParentByNodeId(store.schema, id);
-			if (parent) {
-				const children = parent.children;
-				if (children) {
-					const index = children?.findIndex((c) => c.id === id);
-					if (index !== -1) {
-						children.splice(index, 1);
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-	};
-}

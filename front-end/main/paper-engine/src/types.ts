@@ -1,17 +1,3 @@
-import type { Component } from 'vue';
-type FormItemRule = Partial<{
-    required: boolean;
-    message: string;
-    validator: (rule: Record<string, any>, value: any, callback: (e: Error) => void) => any;
-}>;
-
-export type ComponentDefinition = {
-	type: string;
-	label?: string;
-	description?: string;
-	props?: Record<string, any>; // 默认属性，被渲染定义继承
-};
-
 export type RendererItemDefinition = {
 	type: string;
 	id: string;
@@ -33,18 +19,6 @@ export type ProjectDefinition = {
 		schema?: RendererItemDefinition;
 		localFlag?: boolean; // 本地测试用途
 	}[];
-};
-
-export type PropertyInjectionSchema = Record<string, any> & {
-	type: Component<Record<string, any>> | string;
-	label: string;
-	prop: string;
-	config?: Record<string, any>;
-	visible?: () => boolean;
-	rules?: FormItemRule[];
-	on?: Record<string, (...args: any[]) => any>;
-	span?: number | string;
-	formItemProps?: Record<string, any>;
 };
 
 export type NormalizeDataSource = {

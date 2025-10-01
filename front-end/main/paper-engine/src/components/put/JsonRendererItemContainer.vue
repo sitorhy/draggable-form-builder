@@ -25,7 +25,7 @@ const style = computed(() => {
 
 <template>
 	<div
-		class="renderer-item-container"
+		:class="['renderer-item-container']"
 		:style="style"
 		:data-binding-path="dataBindingPath"
 	>

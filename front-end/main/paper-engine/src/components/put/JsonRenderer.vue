@@ -18,16 +18,18 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 
 <template>
   <JsonRendererItem v-model:schema="schema">
-    <template
-        v-if="schema.children"
-        v-for="(_, index) in schema.children"
-    >
-      <JsonRendererItemContainer
-          v-model:schema="schema.children[index]"
-          :data-binding-path="bindingPath"
+    <div :class="['renderer-drop', schema.type]">
+      <template
+          v-if="schema.children"
+          v-for="(_, index) in schema.children"
       >
-        <JsonRenderer v-model:schema="schema.children[index]" />
-      </JsonRendererItemContainer>
-    </template>
+        <JsonRendererItemContainer
+            v-model:schema="schema.children[index]"
+            :data-binding-path="bindingPath"
+        >
+          <JsonRenderer v-model:schema="schema.children[index]" />
+        </JsonRendererItemContainer>
+      </template>
+    </div>
   </JsonRendererItem>
 </template>

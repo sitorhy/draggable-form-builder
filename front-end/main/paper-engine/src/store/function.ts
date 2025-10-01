@@ -102,7 +102,7 @@ export const useFunctionStore = defineStore<
 					this.functions.splice(index, 1, {
 						...(newCode as FunctionCode)
 					});
-					resolve(this.functions[index]);
+					resolve(this.functions[index] as FunctionCode);
 				}
 			});
 		},

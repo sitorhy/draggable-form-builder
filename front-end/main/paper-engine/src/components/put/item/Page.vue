@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { PAGE_FORMAT } from '../common/constants.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
-import JsonRendererContainer from '../JsonRendererContainer.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -67,17 +66,16 @@ const pageStyle = computed(() => {
 
 <template>
 	<div
-		class="page"
+    class="page-preview-border"
 		:style="pageStyle"
 		:id="schema.id"
 	>
-		<JsonRendererContainer v-model:schema="schema" />
+		<slot></slot>
 	</div>
 </template>
 
-<style lang="scss" scoped>
-.page {
-	position: relative;
-  border: solid 1px #ccc;
+<style scoped>
+.page-preview-border {
+  border: solid 1px grey;
 }
 </style>

@@ -28,7 +28,7 @@ const style = computed(() => {
 
 <template>
   <div
-      class="container"
+      :class="['renderer-item-container', schema.type || '']"
       v-if="schema.children"
       :data-binding-path="bindingPath"
       :style="style"

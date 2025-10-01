@@ -7,15 +7,20 @@ const slots = defineModel<Record<string, RendererItemDefinition>>('slots', {
 });
 </script>
 
-<!-- 不支持多插槽，通过包装件传递其他插槽数据 -->
 <template>
 	<div style="display: flex; justify-content: space-between;">
 		<slot name="prefix" v-if="slots.prefix">
-			<JsonRenderer v-model:schema="slots.prefix" />
+			<div>
+        <JsonRenderer v-model:schema="slots.prefix" />
+      </div>
 		</slot>
 		<slot name="suffix" v-if="slots.suffix">
-			<JsonRenderer v-model:schema="slots.suffix" />
+			<div>
+        <JsonRenderer v-model:schema="slots.suffix" />
+      </div>
 		</slot>
-		<slot></slot>
+		<div>
+      <slot></slot>
+    </div>
 	</div>
 </template>
