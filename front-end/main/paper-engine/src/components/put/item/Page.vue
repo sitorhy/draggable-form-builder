@@ -74,7 +74,7 @@ const pageStyle = computed(() => {
 	</div>
 </template>
 
-<style scoped>
+<style>
 .page-preview-border {
   border: solid 1px grey;
 }

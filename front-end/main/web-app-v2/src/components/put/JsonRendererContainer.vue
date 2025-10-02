@@ -39,7 +39,6 @@ const containerClasses = computed(function () {
 
 <template>
 	<draggable
-		ref="containerRef"
 		v-if="schema.children"
 		v-emphasize:schemaId="schema.id"
 		:class="containerClasses"

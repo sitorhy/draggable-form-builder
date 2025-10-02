@@ -98,6 +98,9 @@ export const useBindingStore = defineStore('binding', {
 		resetStaticContext(context: Record<string, any>) {
 			this.staticContext = context;
 		},
+        assignStaticContext(context: Record<string, any>) {
+            Object.assign(this.staticContext, context);
+        },
 		updateStaticContext: function (
 			path: string,
 			value: any,

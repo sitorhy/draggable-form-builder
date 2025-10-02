@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { v4 as uuid } from 'uuid';
 import type { RendererItemDefinition } from '../types.ts';
 
-function collectStaticContext(
+export function collectStaticContext(
 	node: RendererItemDefinition,
 	collection: Record<string, any>
 ) {

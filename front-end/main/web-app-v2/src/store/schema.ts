@@ -11,7 +11,7 @@ import { defineStore } from 'pinia';
 import type { RendererItemDefinition } from '../types.ts';
 import { createRendererItemConfig } from './component.ts';
 
-function collectStaticContext(
+export function collectStaticContext(
 	node: RendererItemDefinition,
 	collection: Record<string, any>
 ) {

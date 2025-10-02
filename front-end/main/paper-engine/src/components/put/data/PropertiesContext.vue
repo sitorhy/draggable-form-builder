@@ -155,7 +155,7 @@ function resolveBinding() {
 	if (uriMap) {
 		Object.keys(uriMap).forEach((prop) => {
 			const uri = uriMap[prop];
-			const dataSourceSchema = parseUri(uri);
+			const dataSourceSchema = parseUri(uri as string);
 			switch (dataSourceSchema.schema) {
 				case 'object': {
 					resolveLocalSchema(prop, dataSourceSchema);
