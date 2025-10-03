@@ -10,6 +10,7 @@ import { createRendererItemConfig } from '../../store/component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../put/common/seq.ts';
 import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
+import { useOutputEnginesInfo } from '../put/common/output.ts';
 
 const seqGenerator = new SequenceGenerator({
 	startFrom: Math.floor(Math.random() * 1000)
@@ -19,6 +20,8 @@ const projectStore = useProjectStore();
 const project = computed(() => projectStore.project);
 const currentPage = computed(() => projectStore.currentPage);
 const pages = computed(() => project.value?.pages || []);
+
+const { engineOptions } = useOutputEnginesInfo();
 
 const schemaStore = useSchemaStore();
 const bindingStore = useBindingStore();
@@ -42,12 +45,13 @@ const editorProps = computed(() => {
 const funModelShow = ref(false);
 
 function reset() {
-	modelValue.value = { title: '', page: '' };
+	modelValue.value = { title: '', page: '', engine: 'pager-engine-app' };
 }
 
 const modelValue = ref({
 	title: '',
-	page: ''
+	page: '',
+	engine: 'pager-engine-app'
 });
 
 watch(
@@ -55,6 +59,7 @@ watch(
 	([project, currentPage]) => {
 		if (project) {
 			modelValue.value = {
+				...modelValue.value,
 				title: project.title,
 				page: currentPage
 			};
@@ -160,15 +165,22 @@ function previewCurrentPage() {
 					</n-button>
 				</n-form-item>
 
-				<n-form-item path="$schema" label="预览">
-					<n-button
-						style="width: 100%"
-						size="small"
-						type="primary"
-						@click="previewCurrentPage"
-					>
-						<span>查看</span>
-					</n-button>
+				<n-form-item path="engine" label="预览">
+					<n-space vertical align="stretch" style="width: 100%">
+						<n-select
+							v-model:value="modelValue.engine"
+							:options="engineOptions"
+						></n-select>
+						<n-button
+							style="width: 100%"
+							:disabled="!modelValue.engine"
+							size="small"
+							type="primary"
+							@click="previewCurrentPage"
+						>
+							<span>查看</span>
+						</n-button>
+					</n-space>
 				</n-form-item>
 			</n-form>
 		</template>
@@ -200,7 +212,10 @@ function previewCurrentPage() {
 	</n-drawer>
 
 	<FunctionDialog v-model="funModelShow" />
-	<MicroAppPreviewDialog v-model:model-value="previewDlgShow" />
+	<MicroAppPreviewDialog
+		:engine="modelValue.engine"
+		v-model:model-value="previewDlgShow"
+	/>
 </template>
 
 <style scoped lang="scss"></style>

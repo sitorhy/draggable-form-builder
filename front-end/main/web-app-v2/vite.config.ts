@@ -7,6 +7,9 @@ export default defineConfig({
 	optimizeDeps: {
 		exclude: ['uuid']
 	},
+	server: {
+		port: 6680
+	},
 	plugins: [
 		vue({
 			template: {

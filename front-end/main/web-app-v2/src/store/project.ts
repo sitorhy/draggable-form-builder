@@ -56,16 +56,24 @@ export const useProjectStore = defineStore('project', {
 				pages: []
 			});
 		},
-		async packageProject() {
+		async packageProject(options?: { pageIds?: string[] }) {
 			const pages = await Promise.all(
-				this.project.pages.map(async (page) => {
-					const schema = await this.loadPageSchema(page);
-					return {
-						id: page.id,
-						title: page.title,
-						schema: schema
-					};
-				})
+				this.project.pages
+					.filter((p) => {
+						if (options && options.pageIds) {
+							return options.pageIds.includes(p.id);
+						} else {
+							return true;
+						}
+					})
+					.map(async (page) => {
+						const schema = await this.loadPageSchema(page);
+						return {
+							id: page.id,
+							title: page.title,
+							schema: schema
+						};
+					})
 			);
 			const project: ProjectDefinition = {
 				title: this.project.title,
