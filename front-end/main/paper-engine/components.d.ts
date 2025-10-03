@@ -34,6 +34,8 @@ declare module 'vue' {
     Radio: typeof import('./src/components/put/item/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/put/item/RadioGroup.vue')['default']
     RichText: typeof import('./src/components/put/item/RichText.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     TextInput: typeof import('./src/components/put/item/TextInput.vue')['default']
   }
 }

@@ -2,13 +2,19 @@ import {collectStaticContext, useSchemaStore} from '../../../store/schema.ts';
 import {useBindingStore} from '../../../store/binding.ts';
 import {useProjectStore} from '../../../store/project.ts';
 import {computed, onBeforeMount, watch} from 'vue';
+import {useRoute, useRouter} from "vue-router";
 
 export function useAppInit() {
+    const route = useRoute();
+    const router = useRouter();
     const schemaStore = useSchemaStore();
     const bindingStore = useBindingStore();
     const projectStore = useProjectStore();
 
-    const currentPage = computed(() => projectStore.currentPage);
+    const currentPage = computed(() => {
+            return route.params.pageId ? String(route.params.pageId) : '';
+        }
+    );
     const currentPageIndex = computed(() => {
         const pages = projectStore.project.pages;
         return pages.findIndex((p) => p.id === currentPage.value);
@@ -28,7 +34,7 @@ export function useAppInit() {
         if (hasNext.value) {
             const pages = projectStore.project.pages;
             const nextPage = pages[currentPageIndex.value + 1];
-            await projectStore.switchPage(nextPage?.id as string);
+            await router.replace(`/${nextPage?.id}`);
         }
     }
 
@@ -36,7 +42,7 @@ export function useAppInit() {
         if (hasPrev.value) {
             const pages = projectStore.project.pages;
             const prevPage = pages[currentPageIndex.value - 1];
-            await projectStore.switchPage(prevPage?.id as string);
+            await router.replace(`/${prevPage?.id}`);
         }
     }
 
@@ -66,12 +72,27 @@ export function useAppInit() {
                 bindingStore.assignStaticContext(collection);
             }
         });
-        if (Array.isArray(pages) && pages.length > 0 && pages[0]) {
-            await projectStore.switchPage(pages[0].id);
+
+        if (currentPage.value) {
+            await projectStore.switchPage(currentPage.value);
+        } else {
+            if (Array.isArray(pages) && pages.length > 0 && pages[0]) {
+                await router.replace(`/${pages[0].id}`);
+            }
         }
     });
 
+    watch(route, async (route) => {
+        const {params} = route;
+        if (params.pageId) {
+            await projectStore.switchPage(params.pageId as string);
+        }
+    }, {
+        immediate: true,
+    });
+
     return {
+        currentPage,
         hasNext,
         toNextPage,
         hasPrev,
