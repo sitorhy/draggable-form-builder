@@ -70,6 +70,18 @@ export function useAppInit() {
     );
 
     onBeforeMount(async () => {
+        const packageProjectUrl = import.meta.resolve('../../../assets/project.json');
+        let project: ProjectDefinition | null = null;
+
+        try {
+            project = await import(packageProjectUrl);
+            if (project) {
+                await projectStore.loadProject(project);
+            }
+        } catch (error) {
+            console.info('未发现内置项目信息');
+        }
+
         const pages = projectStore.project.pages;
 
         pages.forEach(page => {
