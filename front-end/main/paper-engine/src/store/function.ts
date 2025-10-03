@@ -2,7 +2,6 @@ import type { FunctionCode } from '../types';
 import { defineStore } from 'pinia';
 import { v4 as uuid } from 'uuid';
 import { ESMLoader } from '../libs/esm-loader.ts';
-import inlineFuncList from './inline-functions';
 
 export const useFunctionStore = defineStore<
 	'function',
@@ -27,11 +26,12 @@ export const useFunctionStore = defineStore<
 		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
 		loadModule(code: FunctionCode): Promise<any>;
 		loadModuleById(id: string): Promise<any>;
+        reset: () => void;
 	}
 >('function', {
 	state() {
 		return {
-			functions: [...inlineFuncList],
+			functions: [],
 			modules: new Map<string, any>()
 		};
 	},
@@ -130,6 +130,9 @@ export const useFunctionStore = defineStore<
 				throw new Error('函数集不存在');
 			}
 			return await this.loadModule(functionCode as FunctionCode);
-		}
+		},
+        reset() {
+            this.functions = [];
+        }
 	}
 });

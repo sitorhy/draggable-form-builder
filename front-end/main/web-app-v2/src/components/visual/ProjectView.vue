@@ -9,6 +9,7 @@ import FunctionDialog from './FunctionDialog.vue';
 import { createRendererItemConfig } from '../../store/component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../put/common/seq.ts';
+import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
 
 const seqGenerator = new SequenceGenerator({
 	startFrom: Math.floor(Math.random() * 1000)
@@ -86,6 +87,11 @@ function createPage() {
 	});
 	projectStore.switchPage(id);
 }
+
+const previewDlgShow = ref(false);
+function previewCurrentPage() {
+	previewDlgShow.value = true;
+}
 </script>
 
 <template>
@@ -153,6 +159,17 @@ function createPage() {
 						<span>查看</span>
 					</n-button>
 				</n-form-item>
+
+				<n-form-item path="$schema" label="预览">
+					<n-button
+						style="width: 100%"
+						size="small"
+						type="primary"
+						@click="previewCurrentPage"
+					>
+						<span>查看</span>
+					</n-button>
+				</n-form-item>
 			</n-form>
 		</template>
 		<n-empty v-else description="无演示项目" />
@@ -183,6 +200,7 @@ function createPage() {
 	</n-drawer>
 
 	<FunctionDialog v-model="funModelShow" />
+	<MicroAppPreviewDialog v-model:model-value="previewDlgShow" />
 </template>
 
 <style scoped lang="scss"></style>

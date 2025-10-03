@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import MonacoEditorPlugin from 'vite-plugin-monaco-editor-esm';
 
@@ -7,7 +7,16 @@ export default defineConfig({
 	optimizeDeps: {
 		exclude: ['uuid']
 	},
-	plugins: [vue(), MonacoEditorPlugin()],
+	plugins: [
+		vue({
+			template: {
+				compilerOptions: {
+					isCustomElement: (tag) => /^micro-app/.test(tag)
+				}
+			}
+		}),
+		MonacoEditorPlugin() as PluginOption
+	],
 	build: {
 		rollupOptions: {
 			output: {

@@ -30,6 +30,7 @@ export type ProjectDefinition = {
 		schema?: RendererItemDefinition;
 		localFlag?: boolean; // 本地测试用途
 	}[];
+	functions?: FunctionCode[];
 };
 
 export type PropertyInjectionSchema = Record<string, any> & {

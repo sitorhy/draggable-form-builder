@@ -6,7 +6,11 @@ import page001 from '../test/page001.json';
 import page002 from '../test/page002.json';
 import page003 from '../test/page003.json';
 import page004 from '../test/page004.json';
-import { useSchemaStore } from './schema.ts';
+import { collectStaticContext, useSchemaStore } from './schema.ts';
+import { useFunctionStore } from './function.ts';
+import { useBindingStore } from './binding.ts';
+import { toRaw } from 'vue';
+import page from '../components/put/item/Page.vue';
 
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page001.json': page001,
@@ -39,39 +43,88 @@ export const useProjectStore = defineStore('project', {
 			}
 			return null;
 		},
-		schemaStore: () => useSchemaStore()
+		schemaStore: () => useSchemaStore(),
+		functionStore: () => useFunctionStore(),
+		bindingStore: () => useBindingStore()
 	},
 	actions: {
-		reset() {
-			this.project = {
+		async reset() {
+			await this.loadProject({
 				title: '',
 				name: '',
 				id: '',
 				pages: []
+			});
+		},
+		async packageProject() {
+			const pages = await Promise.all(
+				this.project.pages.map(async (page) => {
+					const schema = await this.loadPageSchema(page);
+					return {
+						id: page.id,
+						title: page.title,
+						schema: schema
+					};
+				})
+			);
+			const project: ProjectDefinition = {
+				title: this.project.title,
+				name: this.project.name,
+				id: this.project.id,
+				pages: pages,
+				functions: this.functionStore.functions
 			};
-			this.currentPage = '';
+			return JSON.parse(JSON.stringify(project));
+		},
+		async loadPageSchema(page) {
+			if (page.localFlag) {
+				const data = LOCAL_TEST_PAGE_DATA[page.id];
+				if (data) {
+					return structuredClone(data as RendererItemDefinition);
+				}
+			} else {
+				if (page.schema) {
+					return JSON.parse(JSON.stringify(page.schema));
+				}
+			}
+			return {};
 		},
 		async switchPage(pageId: string) {
 			this.currentPage = pageId;
 			const page = this.project.pages.find((p) => p.id === pageId);
 			if (page) {
-				if (page.localFlag) {
-					const data = LOCAL_TEST_PAGE_DATA[page.id];
-					if (data) {
-						this.schemaStore.loadSchema(
-							structuredClone(data as RendererItemDefinition)
-						);
-					}
-				} else {
-					if (page.schema) {
-						this.schemaStore.loadSchema(page.schema);
-					}
-				}
+				const schema = await this.loadPageSchema(page);
+				this.schemaStore.loadSchema(schema);
 			}
 		},
 		async loadProject(project: ProjectDefinition) {
+			this.schemaStore.resetSchema();
+			this.bindingStore.resetStaticContext({});
+			this.functionStore.reset();
+			this.currentPage = '';
 			this.project = project;
-			this.currentPage = project.pages[0]?.id || '';
+
+			if (this.project.functions) {
+				for (const func of this.project.functions) {
+					await this.functionStore.createFunctionCode(func);
+				}
+			}
+
+			const pages = this.project.pages;
+			pages.forEach((page) => {
+				if (page.schema) {
+					const collection = {};
+					collectStaticContext(page.schema, collection);
+					this.bindingStore.assignStaticContext(collection);
+				}
+			});
+
+			if (pages.length > 0) {
+				const page = pages[0];
+				if (page) {
+					await this.switchPage(page.id);
+				}
+			}
 		}
 	}
 });

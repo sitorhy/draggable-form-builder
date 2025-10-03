@@ -27,6 +27,7 @@ export const useFunctionStore = defineStore<
 		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
 		loadModule(code: FunctionCode): Promise<any>;
 		loadModuleById(id: string): Promise<any>;
+		reset: () => void;
 	}
 >('function', {
 	state() {
@@ -63,6 +64,9 @@ export const useFunctionStore = defineStore<
 				size: size,
 				total: this.functions.length
 			});
+		},
+		reset() {
+			this.functions = [...inlineFuncList];
 		},
 		createFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode> {
 			return new Promise<FunctionCode>((resolve, reject) => {

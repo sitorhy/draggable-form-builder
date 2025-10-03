@@ -28,7 +28,8 @@ const {
   hasNext,
   toNextPage,
   hasPrev,
-  toPrevPage
+  toPrevPage,
+  MicroAppContext
 } = useAppInit();
 
 function onPrevPage() {
@@ -52,7 +53,7 @@ function onPrint() {
 <template>
   <n-space vertical>
     <n-layout>
-      <n-layout-header bordered>
+      <n-layout-header bordered v-if="!MicroAppContext.isMicroAppEnv">
         <n-button-group>
           <n-button type="primary" @click="onPrevPage" :disabled="!hasPrev">
             <span>上一页</span>

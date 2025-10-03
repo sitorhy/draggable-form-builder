@@ -12,6 +12,8 @@ import { type Environment } from 'monaco-editor';
 
 import { printPlugin } from 'vue-print-next';
 
+import microApp from '@micro-zoe/micro-app';
+
 import './libs/vue3-quill/fonts.ts';
 import './libs/vue3-quill/font-size.ts';
 import 'katex/dist/katex.css';
@@ -40,6 +42,10 @@ self.MonacoEnvironment = {
 };
 
 monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+
+microApp.start({
+	iframe: true
+});
 
 export default function registerGlobalComponents(app: App): void {
 	app.component('list-item', ListItem);

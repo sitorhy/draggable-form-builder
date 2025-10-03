@@ -1,15 +1,23 @@
-import { createWebHistory, createRouter } from 'vue-router'
+import {createWebHistory, createRouter} from 'vue-router'
 
 import App from './App.vue'
 
-const routes = [
-    {
-        path: '/:pageId?',
-        component: App
-    }
-]
+export function createAppRouter() {
+    const routes = [
+        {
+            path: '/:pageId?',
+            component: App
+        }
+    ]
+    const history = createWebHistory();
 
-export const router = createRouter({
-    history: createWebHistory(),
-    routes,
-});
+    return {
+        router: createRouter({
+            history,
+            routes,
+        }),
+        destroy: () => {
+            history.destroy();
+        }
+    };
+}

@@ -1,6 +1,0 @@
-{
-  "id": "163a8cad-75e7-4b23-a383-b9039fc92219",
-  "name": "toString",
-  "code": "export default function(value) {\n    return String(value);\n}",
-  "description": "强制转换为字符串"
-}

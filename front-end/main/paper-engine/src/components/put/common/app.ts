@@ -3,8 +3,15 @@ import {useBindingStore} from '../../../store/binding.ts';
 import {useProjectStore} from '../../../store/project.ts';
 import {computed, onBeforeMount, watch} from 'vue';
 import {useRoute, useRouter} from "vue-router";
+import type {ProjectDefinition} from "../../../types.ts";
 
 export function useAppInit() {
+    const MicroAppContext = computed(() => {
+       return {
+           isMicroAppEnv: window.__MICRO_APP_ENVIRONMENT__
+       }
+    });
+
     const route = useRoute();
     const router = useRouter();
     const schemaStore = useSchemaStore();
@@ -93,9 +100,42 @@ export function useAppInit() {
 
     return {
         currentPage,
+        MicroAppContext,
         hasNext,
         toNextPage,
         hasPrev,
         toPrevPage
+    }
+}
+
+export function useMicroAppInit() {
+    let projectStore: ReturnType<typeof useProjectStore> | null = null;
+
+    async function receive(data: {
+        type: string;
+        payload: any;
+    }) {
+        switch (data.type) {
+            case 'loadProject': {
+                if (projectStore) {
+                    await projectStore.loadProject(data.payload as ProjectDefinition);
+                }
+            }
+        }
+    }
+
+    return {
+        onMount() {
+            projectStore = useProjectStore();
+            window.microApp.addDataListener(receive);
+        },
+        onUnmount: async () => {
+            window.microApp.removeDataListener(receive);
+
+            if (projectStore) {
+                await projectStore.reset();
+            }
+            projectStore = null;
+        }
     }
 }
