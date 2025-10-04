@@ -6,7 +6,7 @@
  */
 
 export const moduleString = (str: string) => `data:text/javascript,${str}`;
-export const ESMLoader = (str: any) => import(moduleString(str));
+export const ESMLoader = (str: any) => import( /* @vite-ignore */ moduleString(str));
 export const strToESM = (str: string) => {
 	console.log('deprecated: strToESM() use ESMLoader()');
 	return ESMLoader(str);
@@ -32,7 +32,7 @@ export const dynamicImport = (url: string) => {
 	);
 	/* @vite-ignore */
 	// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-	typeof window === 'undefined' ? fetchImport(url) : import(url);
+	typeof window === 'undefined' ? fetchImport(url) : import( /* @vite-ignore */ url);
 };
 // You should not use it as it has sideeffects that are complex use ESMLoader for consistent behavior.
 // With nodeJS Relativ resolution would not work with the browser it would
@@ -40,7 +40,7 @@ export const dynamicImport = (url: string) => {
 // are using ESMImport thats why its not documented or added to external api till import.meta is solved.
 /* @vite-ignore */
 export const ESMImport = (url: string) =>
-	typeof window === 'undefined' ? fetchImport(url) : import(url);
+	typeof window === 'undefined' ? fetchImport(url) : import(/* @vite-ignore */ url);
 export { ESMImport as importScript };
 
 // Exports a Module that exports a str object

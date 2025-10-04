@@ -1,7 +1,7 @@
 import type { FunctionCode } from '../types';
 import { defineStore } from 'pinia';
 import { v4 as uuid } from 'uuid';
-import { ESMLoader } from '../libs/esm-loader.ts';
+import { ESMLoader } from '../libs/esm-loader';
 import inlineFuncList from './inline-functions';
 
 export const useFunctionStore = defineStore<

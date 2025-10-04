@@ -9,8 +9,6 @@ import page004 from '../test/page004.json';
 import { collectStaticContext, useSchemaStore } from './schema.ts';
 import { useFunctionStore } from './function.ts';
 import { useBindingStore } from './binding.ts';
-import { toRaw } from 'vue';
-import page from '../components/put/item/Page.vue';
 
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page001.json': page001,
@@ -84,7 +82,12 @@ export const useProjectStore = defineStore('project', {
 			};
 			return JSON.parse(JSON.stringify(project));
 		},
-		async loadPageSchema(page) {
+		async loadPageSchema(page: {
+            id: string;
+            title: string;
+            schema?: RendererItemDefinition;
+            localFlag?: boolean; // 本地测试用途
+        }) {
 			if (page.localFlag) {
 				const data = LOCAL_TEST_PAGE_DATA[page.id];
 				if (data) {

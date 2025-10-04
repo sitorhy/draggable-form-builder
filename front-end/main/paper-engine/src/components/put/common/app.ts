@@ -74,7 +74,7 @@ export function useAppInit() {
         let project: ProjectDefinition | null = null;
 
         try {
-            project = await import(packageProjectUrl);
+            project = await import(/* @vite-ignore */ packageProjectUrl);
             if (project) {
                 await projectStore.loadProject(project);
             }
