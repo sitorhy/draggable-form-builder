@@ -70,13 +70,21 @@ export function useAppInit() {
     );
 
     onBeforeMount(async () => {
-        const packageProjectUrl = import.meta.resolve('../../../assets/project.json');
+        const packageProjectUrl = import.meta.resolve('/project.json');
         let project: ProjectDefinition | null = null;
 
         try {
-            project = await import(/* @vite-ignore */ packageProjectUrl);
-            if (project) {
-                await projectStore.loadProject(project);
+            const response = await fetch(packageProjectUrl, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    responseType: "arraybuffer",
+                }
+            });
+            if (response.status === 200) {
+                project = await response.json();
+                if (project) {
+                    await projectStore.loadProject(project);
+                }
             }
         } catch (error) {
             console.info('未发现内置项目信息');
