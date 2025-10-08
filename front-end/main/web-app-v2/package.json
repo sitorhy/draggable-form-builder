@@ -28,7 +28,7 @@
     "vuedraggable": "^4.1.0",
     "@micro-zoe/micro-app": "^1.0.0-rc.27",
     "axios": "^1.12.2",
-    "axios-annotations": "^2.1.1",
+    "axios-annotations": "^2.2.0",
     "highlight.js": "^11.11.1"
   },
   "devDependencies": {

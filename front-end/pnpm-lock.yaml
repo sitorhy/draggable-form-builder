@@ -88,8 +88,8 @@ importers:
         specifier: ^1.12.2
         version: 1.12.2
       axios-annotations:
-        specifier: ^2.1.1
-        version: 2.1.1
+        specifier: ^2.2.0
+        version: 2.2.0
       dot-prop:
         specifier: ^9.0.0
         version: 9.0.0
@@ -988,8 +988,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios-annotations@2.1.1:
-    resolution: {integrity: sha512-jsTF4nCrICKDfKxHZZeCKjEscavBRMjFEL5E4c5gp31pijvmJLbTfZPS/hsTRuJWj3s7DxErDCEHq8gpLekMhg==}
+  axios-annotations@2.2.0:
+    resolution: {integrity: sha512-Iw4IY+GtXcuh4R7/KEC5R/3FRQmO3qHjaICB5nQFkmu3cxorrz9TfK68Vw7bzwiny9oIS/Ea1yr810Kwhq07ww==}
 
   axios@1.12.2:
     resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
@@ -3083,7 +3083,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios-annotations@2.1.1: {}
+  axios-annotations@2.2.0: {}
 
   axios@1.12.2:
     dependencies:
