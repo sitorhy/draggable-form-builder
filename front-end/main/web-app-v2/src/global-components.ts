@@ -17,6 +17,19 @@ import microApp from '@micro-zoe/micro-app';
 import './libs/vue3-quill/fonts.ts';
 import './libs/vue3-quill/font-size.ts';
 import 'katex/dist/katex.css';
+
+import 'highlight.js/styles/default.min.css';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import bash from 'highlight.js/lib/languages/bash';
+import shell from 'highlight.js/lib/languages/shell';
+import accesslog from 'highlight.js/lib/languages/accesslog';
+
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('bash', bash);
+hljs.registerLanguage('shell', shell);
+hljs.registerLanguage('accesslog', accesslog);
+
 declare global {
 	interface Window {
 		MonacoEnvironment: Environment;

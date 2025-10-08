@@ -22,6 +22,7 @@ import JsonEmphasizeContainer from './components/put/JsonEmphasizeContainer.vue'
 import { useThrottle } from './components/put/common/throttle.ts';
 import { useAppInit } from './components/put/common/app.ts';
 import ProjectMenu from './components/visual/ProjectMenu.vue';
+import JobBuildsButton from './components/visual/JobBuildsButton.vue';
 
 useAppInit();
 
@@ -238,7 +239,9 @@ onMounted(() => {
 						<span style="font-weight: bold; font-size: 10px"></span>
 					</div>
 					<div>
-						<n-space></n-space>
+						<n-space>
+							<JobBuildsButton></JobBuildsButton>
+						</n-space>
 					</div>
 				</n-space>
 			</n-layout-footer>

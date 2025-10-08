@@ -3,6 +3,7 @@ import './style.scss';
 import App from './App.vue';
 import naive from 'naive-ui';
 import katex from 'katex';
+import hljs from 'highlight.js/lib/core';
 import { createPinia } from 'pinia';
 import registerGlobalComponents from './global-components.ts';
 
@@ -17,7 +18,8 @@ const ProviderApp = defineComponent({
 	computed: {
 		zhCN: () => zhCN,
 		dateZhCN: () => dateZhCN,
-		katex: () => katex
+		katex: () => katex,
+		hljs: () => hljs
 	},
 	errorCaptured(e) {
 		console.log(e);
@@ -25,7 +27,7 @@ const ProviderApp = defineComponent({
 	template: `
 		<n-notification-provider>
 			<n-dialog-provider>
-				<n-config-provider :katex="katex" :locale="zhCN" :date-locale="dateZhCN">
+				<n-config-provider :hljs="hljs" :katex="katex" :locale="zhCN" :date-locale="dateZhCN">
 					<n-message-provider>
 						<App />
 					</n-message-provider>
