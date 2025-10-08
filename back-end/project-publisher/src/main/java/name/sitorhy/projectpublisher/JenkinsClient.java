@@ -1,5 +1,6 @@
 package name.sitorhy.projectpublisher;
 
+import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,12 @@ public interface JenkinsClient {
     String consoleText(
             @PathVariable("jobName") String jobName,
             // 参数名必须和 Jenkins Job 中定义的参数名一致
+            @PathVariable("number") Integer number
+    );
+
+    @GetMapping(path = "/job/{jobName}/{number}/pipeline-overview/tree")
+    PipelineOverviewRoot pipelineOverview(
+            @PathVariable("jobName") String jobName,
             @PathVariable("number") Integer number
     );
 }

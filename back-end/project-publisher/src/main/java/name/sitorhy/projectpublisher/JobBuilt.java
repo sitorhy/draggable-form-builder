@@ -10,11 +10,11 @@ public class JobBuilt {
 
     @Getter
     @Setter
-    private int number;
+    private int buildNumber;
 
-    public JobBuilt(String jobName, int number) {
+    public JobBuilt(String jobName, int buildNumber) {
         this.jobName = jobName;
-        this.number = number;
+        this.buildNumber = buildNumber;
     }
 
     public JobBuilt() {}

@@ -1,14 +1,22 @@
 package name.sitorhy.projectpublisher;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import reactor.util.Loggers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +28,12 @@ public class PublisherController {
 
     @Autowired
     JenkinsServer jenkinsServer;
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Autowired
+    RedisUtil redisUtil;
 
     @PostMapping("/simple-build")
     public SimpleResult triggerSimpleBuild() {
@@ -55,8 +69,9 @@ public class PublisherController {
     }
 
     @PostMapping("/job-create/{jobName}")
-    SimpleResult createJob(@PathVariable("jobName") String jobName, @RequestBody String jobXml) {
+    SimpleResult createJob(@PathVariable("jobName") String jobName) {
         try {
+            String jobXml = this.jobXml("test2");
             jenkinsServer.createJob(jobName, jobXml);
             return new SimpleResult(true, "");
         } catch (IOException e) {
@@ -85,5 +100,82 @@ public class PublisherController {
                 throw new RuntimeException(e);
             }
         }).toList());
+    }
+
+    @GetMapping("/redis-status")
+    SimpleObjectResult<Object> redisStatus() {
+        if (redisTemplate == null) {
+            return new SimpleObjectResult<>(false, "redis not yet");
+        }
+        assert redisTemplate.getConnectionFactory() != null;
+        var obj = redisTemplate.getConnectionFactory().getConnection().execute("info");
+        return new SimpleObjectResult<>(true, obj);
+    }
+
+    @PostMapping("/job-build/{jobName}")
+    SimpleResult buildJob(@PathVariable("jobName") String jobName) {
+        try {
+            List<Job> jobs = this.findJob(jobName);
+            if (jobs.isEmpty()) {
+                throw new RuntimeException("job not created");
+            }
+            jenkinsServer.getJob(jobName).build();
+            return new SimpleResult(true, "");
+        } catch (Exception e) {
+            return new SimpleResult(false, e.getMessage());
+        }
+    }
+
+    @PostMapping("/job-status/{jobName}/{number}")
+    PipelineOverviewRoot statusJob(@PathVariable("jobName") String jobName, @PathVariable("number") int num) {
+        return publisherService.pipelineOverview(jobName, num);
+    }
+
+    @GetMapping("/build-list/{jobName}")
+    SimpleObjectResult<List<BuildStatus>> getBuildList(@PathVariable("jobName") String jobName) {
+        ListOperations opsForList = redisTemplate.opsForList();
+        List<String> buildIds = opsForList.range(
+                String.format("builds:list:%s", jobName),
+                0,
+                -1
+        );
+
+        // 根据ID批量获取详细信息
+        HashOperations hashOps = redisTemplate.opsForHash();
+        List<BuildStatus> builds = new ArrayList<>();
+
+        for (String buildId : buildIds) {
+            String detailKey = "build:details:" + buildId;
+
+            Map<String, Object> details = hashOps.entries(detailKey);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            builds.add(objectMapper.convertValue(details, BuildStatus.class));
+        }
+
+        return new SimpleObjectResult<>(true, builds);
+    }
+
+    @PostMapping("/stage-update")
+    void updateJobBuild(@RequestBody BuildStatus build) throws JsonProcessingException {
+        Loggers.getLogger(this.getClass()).info(new ObjectMapper().writeValueAsString(build));
+
+        String listKey = "builds:list:" + build.jobName;
+
+        String buildId = build.jobName + "#" + build.buildNumber;
+
+        String detailKey = "build:details:" + buildId;
+
+        HashOperations<String, String, BuildStatus> hashOps = redisTemplate.opsForHash();
+
+        hashOps.putAll(detailKey, new ObjectMapper().convertValue(build, Map.class));
+
+        // ID 加入 List 头部 (LPUSH)
+        if (redisTemplate.opsForList().indexOf(listKey, buildId) == null) {
+            redisTemplate.opsForList().leftPush(listKey, buildId);
+        }
+
+        // (可选) 裁剪列表，只保留最新的 N 个记录
+        redisTemplate.opsForList().trim(listKey, 0, 99);
     }
 }

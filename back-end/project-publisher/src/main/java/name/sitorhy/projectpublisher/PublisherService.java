@@ -1,5 +1,6 @@
 package name.sitorhy.projectpublisher;
 
+import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,9 @@ public class PublisherService {
     public String consoleText(String jobName, int number) {
         // 触发参数化构建
         return jenkinsClient.consoleText(jobName, number);
+    }
+
+    public PipelineOverviewRoot pipelineOverview(String jobName, int number) {
+        return jenkinsClient.pipelineOverview(jobName, number);
     }
 }
