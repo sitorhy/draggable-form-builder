@@ -78,7 +78,7 @@ const pageStyle = computed(() => {
 });
 
 function containerDragMove() {
-	return false;
+	return true;
 }
 </script>
 

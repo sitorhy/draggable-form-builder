@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NButton, useMessage } from 'naive-ui';
-import { nextTick, ref, watch, watchEffect } from 'vue';
+import { nextTick, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { BuildService } from '../../api';
 import { useProjectStore } from '../../store/project.ts';
 
@@ -9,6 +9,8 @@ defineProps({});
 const projectStore = useProjectStore();
 
 const message = useMessage();
+
+const historyTimer = ref(0);
 
 const logRef = ref();
 const loadingRef = ref(false);
@@ -55,6 +57,19 @@ async function startUpdateLog() {
 			}
 		}, 2000);
 	}
+}
+
+function startUpdateHistory() {
+	if (!historyTimer.value) {
+		historyTimer.value = setInterval(async () => {
+			await reloadHistory();
+		}, 2000);
+	}
+}
+
+function stopUpdateHistory() {
+	clearInterval(historyTimer.value);
+	historyTimer.value = 0;
 }
 
 const showModal = defineModel('modelValue', {
@@ -105,6 +120,9 @@ watch(
 	async (value) => {
 		if (value) {
 			await reloadHistory();
+			startUpdateHistory();
+		} else {
+			stopUpdateHistory();
 		}
 	},
 	{
@@ -129,10 +147,6 @@ watchEffect(() => {
 	}
 });
 
-function onRefreshClick() {
-	reloadHistory();
-}
-
 async function onNewJobClick() {
 	try {
 		const service = new BuildService();
@@ -146,7 +160,8 @@ async function onNewJobClick() {
 			}
 		}
 
-		const res = await service.buildJob(projectName);
+		const json = await projectStore.packageProject();
+		const res = await service.buildJob(projectName, JSON.stringify(json));
 		if (!res.data.success) {
 			message.error(res.data.message);
 		}
@@ -157,6 +172,16 @@ async function onNewJobClick() {
 		message.error(e instanceof Error ? e.message : JSON.stringify(e));
 	}
 }
+
+function toLink() {
+	const tryUrl = `${location.protocol}//${location.hostname}:8000/${projectStore.$state.project.name}/index.html`;
+	window.open(tryUrl, '_blank');
+}
+
+onUnmounted(() => {
+	stopUpdateHistory();
+	stopUpdateLog();
+});
 </script>
 
 <template>
@@ -171,17 +196,19 @@ async function onNewJobClick() {
 			<template #header>
 				<n-space>
 					<n-button type="primary" @click="onNewJobClick">构建新任务</n-button>
-					<n-button type="primary" @click="onRefreshClick">刷新历史</n-button>
+					<n-button type="info" @click="toLink">跳转</n-button>
 				</n-space>
 			</template>
 			<template #footer></template>
-			<n-scrollbar style="max-height: 600px">
+			<n-scrollbar style="max-height: 400px">
 				<n-list-item
 					v-for="item in listData"
 					:key="`${item.jobName}#${item.buildNumber}`"
 				>
 					<template #prefix>
 						<n-button
+							type="info"
+							:text="true"
 							@click="() => showLogModal(item.jobName, item.buildNumber)"
 							>{{ item.jobName }}#{{ item.buildNumber }}</n-button
 						>
@@ -192,7 +219,10 @@ async function onNewJobClick() {
 							<n-tag>Stage : {{ item.stageName }}</n-tag>
 						</span>
 						<span>
-							<n-tag>StageStatus : {{ item.stageStatus }}</n-tag>
+							<n-tag
+								:type="item.stageStatus === 'SUCCESS' ? 'success' : 'default'"
+								>StageStatus : {{ item.stageStatus }}</n-tag
+							>
 						</span>
 					</n-space>
 				</n-list-item>
@@ -218,6 +248,7 @@ async function onNewJobClick() {
 			ref="logInstRef"
 			:log="logRef"
 			:loading="loadingRef"
+			:rows="30"
 			language="accesslog"
 			trim
 		></n-log>

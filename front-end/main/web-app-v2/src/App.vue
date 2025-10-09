@@ -27,7 +27,7 @@ import JobBuildsButton from './components/visual/JobBuildsButton.vue';
 useAppInit();
 
 const iconPath = computed(() => {
-	return `${import.meta.env.BASE_URL}/code.png`;
+	return `${import.meta.env.BASE_URL}code.png`;
 });
 
 const contentStyle = computed(() => {

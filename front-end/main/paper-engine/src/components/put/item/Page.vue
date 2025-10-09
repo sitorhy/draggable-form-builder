@@ -52,10 +52,6 @@ const pageStyle = computed(() => {
 		...dimension.value
 	};
 
-	if (props.value.background) {
-		style.background = props.value.background;
-	}
-
 	if (props.value.padding) {
 		style.padding = props.value.padding;
 	}

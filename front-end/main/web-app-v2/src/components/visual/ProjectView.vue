@@ -6,15 +6,8 @@ import { computed, ref, watch } from 'vue';
 import { Mode } from 'vanilla-jsoneditor';
 import JsonEditorVue from 'json-editor-vue';
 import FunctionDialog from './FunctionDialog.vue';
-import { createRendererItemConfig } from '../../store/component.ts';
-import { v4 as uuid } from 'uuid';
-import { SequenceGenerator } from '../put/common/seq.ts';
 import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
 import { useOutputEnginesInfo } from '../put/common/output.ts';
-
-const seqGenerator = new SequenceGenerator({
-	startFrom: Math.floor(Math.random() * 1000)
-});
 
 const projectStore = useProjectStore();
 const project = computed(() => projectStore.project);
@@ -81,14 +74,8 @@ function openFunctionDlg() {
 }
 
 function createPage() {
-	const page = createRendererItemConfig({
-		type: 'page'
-	});
-	const id = uuid();
-	projectStore.$state.project.pages.push({
-		id: id,
-		title: '测试数据_' + seqGenerator.next(),
-		schema: page
+	const id = projectStore.createNewPage({
+		localFlag: true
 	});
 	projectStore.switchPage(id);
 }

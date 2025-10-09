@@ -9,6 +9,9 @@ import page004 from '../test/page004.json';
 import { collectStaticContext, useSchemaStore } from './schema.ts';
 import { useFunctionStore } from './function.ts';
 import { useBindingStore } from './binding.ts';
+import { createRendererItemConfig } from './component.ts';
+import { v4 as uuid } from 'uuid';
+import { SequenceGenerator } from '../components/put/common/seq.ts';
 
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page001.json': page001,
@@ -16,6 +19,10 @@ const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page003.json': page003,
 	'page004.json': page004
 };
+
+const seqGenerator = new SequenceGenerator({
+	startFrom: Math.floor(Math.random() * 1000)
+});
 
 export const useProjectStore = defineStore('project', {
 	state() {
@@ -83,12 +90,13 @@ export const useProjectStore = defineStore('project', {
 			return JSON.parse(JSON.stringify(project));
 		},
 		async loadPageSchema(page: {
-            id: string;
-            title: string;
-            schema?: RendererItemDefinition;
-            localFlag?: boolean; // 本地测试用途
-        }) {
+			id: string;
+			title: string;
+			schema?: RendererItemDefinition;
+			localFlag?: boolean; // 本地测试用途
+		}) {
 			if (page.localFlag) {
+				// localFlag 本地测试特殊标记，刷新浏览器后重置所有操作
 				const data = LOCAL_TEST_PAGE_DATA[page.id];
 				if (data) {
 					return structuredClone(data as RendererItemDefinition);
@@ -100,7 +108,35 @@ export const useProjectStore = defineStore('project', {
 			}
 			return {};
 		},
+		createNewPage(options: { localFlag?: boolean }) {
+			const page = createRendererItemConfig({
+				type: 'page'
+			});
+			const id = uuid();
+
+			if (options?.localFlag) {
+				LOCAL_TEST_PAGE_DATA[id] = page;
+			}
+
+			this.project.pages.push({
+				id: id,
+				title: '测试数据_' + seqGenerator.next(),
+				schema: structuredClone(page),
+				localFlag: options?.localFlag
+			});
+
+			return id;
+		},
 		async switchPage(pageId: string) {
+			const currentPageSchema = this.project.pages.find(
+				(p) => p.id === this.currentPage
+			);
+			if (currentPageSchema && currentPageSchema.localFlag) {
+				// 本地测试标记，缓存改动
+				LOCAL_TEST_PAGE_DATA[currentPageSchema.id] = JSON.parse(
+					JSON.stringify(this.schemaStore.schema)
+				);
+			}
 			this.currentPage = pageId;
 			const page = this.project.pages.find((p) => p.id === pageId);
 			if (page) {

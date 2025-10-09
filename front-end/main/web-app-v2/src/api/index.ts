@@ -6,7 +6,9 @@ import {
 	Expect,
 	GetMapping,
 	RequestParam,
-	PostMapping
+	PostMapping,
+	RequestBody,
+	RequestHeader
 } from 'axios-annotations';
 import { useApiConfig } from './config.ts';
 
@@ -63,9 +65,14 @@ export class BuildService extends Service {
 
 	@PostMapping('/job-build/{jobName}')
 	@RequestParam('jobName', true)
-	buildJob(jobName: string) {
+	@RequestHeader('Content-Type', 'application/json')
+	@RequestBody()
+	buildJob(jobName: string, projectJsonText: string) {
 		return Expect<Resp2>({
-			jobName
+			jobName,
+			body: {
+				data: projectJsonText
+			}
 		});
 	}
 
