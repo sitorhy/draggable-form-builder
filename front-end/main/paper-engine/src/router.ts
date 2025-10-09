@@ -1,4 +1,4 @@
-import {createWebHistory, createRouter} from 'vue-router'
+import {createWebHashHistory, createRouter} from 'vue-router'
 
 import App from './App.vue'
 
@@ -9,7 +9,7 @@ export function createAppRouter() {
             component: App
         }
     ]
-    const history = createWebHistory();
+    const history = createWebHashHistory();
 
     return {
         router: createRouter({

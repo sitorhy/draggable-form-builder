@@ -26,6 +26,10 @@ import JobBuildsButton from './components/visual/JobBuildsButton.vue';
 
 useAppInit();
 
+const iconPath = computed(() => {
+	return `${import.meta.env.BASE_URL}/code.png`;
+});
+
 const contentStyle = computed(() => {
 	return {
 		padding: '11px 24px',
@@ -109,7 +113,7 @@ onMounted(() => {
 							<p>Low-Code Engine Demo</p>
 						</template>
 						<template #avatar>
-							<n-image :preview-disabled="true" width="32" src="/code.png" />
+							<n-image :preview-disabled="true" width="32" :src="iconPath" />
 						</template>
 						<template #extra>
 							<ProjectMenu />

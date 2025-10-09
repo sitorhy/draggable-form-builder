@@ -70,7 +70,7 @@ export function useAppInit() {
     );
 
     onBeforeMount(async () => {
-        const packageProjectUrl = import.meta.resolve('/project.json');
+        const packageProjectUrl = import.meta.env.BASE_URL + 'project.json';
         let project: ProjectDefinition | null = null;
 
         try {
