@@ -1,0 +1,121 @@
+def sendStageNotification(stageName, status) {
+    def payload = [
+        jobName: env.JOB_NAME,
+        buildNumber: env.BUILD_NUMBER,
+        stageName: stageName,
+        stageStatus: status
+    ]
+
+    def jsonString = new groovy.json.JsonBuilder(payload).toString()
+
+    sh """
+        curl -X POST -H 'Content-Type: application/json' -d '${jsonString}' ${env.NOTIFICATION_URL}
+    """
+}
+
+pipeline {
+    agent any;
+
+    environment {
+        def NO_PROXY = "127.0.0.1,localhost,192.168.0.0/16,::1"
+        def NOTIFICATION_URL = "http://127.0.0.1:8081/vue-build/stage-update"
+    }
+
+    parameters {
+        text(name: 'PROJECT_JSON_FILE_TEXT', defaultValue: '')
+        text(name: 'PROJECT_JSON_FILE_PATH', defaultValue: '')
+        text(name: 'jobName', defaultValue: '')
+    }
+
+    stages {
+        stage("拉取代码") {
+            steps {
+                sendStageNotification('拉取代码', 'PENDING')
+                git branch: 'front-end-v2', url: 'https://github.com/sitorhy/draggable-form-builder.git'
+
+                script {
+                    // def configData = params.PROJECT_JSON_FILE_TEXT
+
+                    def configData = params.PROJECT_JSON_FILE_PATH
+                    def fileTo = 'front-end/main/paper-engine/public/project.json'
+
+                    if (configData && configData.trim() != '') {
+                        // writeFile(
+                        //    file: fileTo,
+                        //    text: configData,
+                        //    encoding: 'UTF-8' // 确保 JSON 编码正确
+                        // )
+
+                        sh "mv ${params.PROJECT_JSON_FILE_PATH} ${fileTo}"
+
+                        echo "项目数据写入完毕"
+                    } else {
+                        echo "没有指定项目数据"
+
+                        if (fileExists(fileTo)) {
+                            sh "rm ${fileTo}"
+                        }
+                    }
+                }
+            }
+
+            post {
+                success { sendStageNotification('拉取代码', 'SUCCESS') }
+                failure { sendStageNotification('拉取代码', 'FAILURE') }
+            }
+        }
+
+        stage("构建") {
+            steps {
+                sendStageNotification('构建', 'PENDING')
+                dir('front-end') {
+                    nodejs('nodejs 22.2.0') {
+                        sh 'pnpm install'
+                    }
+
+                    dir("main/paper-engine") {
+                        sh 'pnpm run build'
+                    }
+                }
+            }
+
+            post {
+                success { sendStageNotification('构建', 'SUCCESS') }
+                failure { sendStageNotification('构建', 'FAILURE') }
+            }
+        }
+
+        stage("打包") {
+            steps {
+                sendStageNotification('打包', 'PENDING')
+                dir('front-end/main/paper-engine') {
+                    sh 'tar zcvf dist.tar.gz -C dist .'
+                }
+            }
+
+            post {
+                success { sendStageNotification('打包', 'SUCCESS') }
+                failure { sendStageNotification('打包', 'FAILURE') }
+            }
+        }
+
+        stage("上传介质包") {
+            steps {
+                sendStageNotification('上传介质包', 'PENDING')
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'local', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: """cd ~
+
+mkdir -p webroot/${env.JOB_NAME}
+
+tar -zxvf upload/front-end/main/paper-engine/dist.tar.gz -C ~/webroot/${env.JOB_NAME}
+
+rm -rf upload
+""", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'upload', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'front-end/main/paper-engine/dist.tar.gz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+
+            post {
+                success { sendStageNotification('上传介质包', 'SUCCESS') }
+                failure { sendStageNotification('上传介质包', 'FAILURE') }
+            }
+        }
+    }
+}
