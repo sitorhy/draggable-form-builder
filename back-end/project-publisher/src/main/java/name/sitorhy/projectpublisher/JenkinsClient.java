@@ -1,12 +1,10 @@
 package name.sitorhy.projectpublisher;
 
+import name.sitorhy.projectpublisher.model.JobBuildWebHookBody;
 import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 // url: 指定 Jenkins 服务的根地址
 // configuration: 使用自定义配置来添加认证头
@@ -51,5 +49,12 @@ public interface JenkinsClient {
     PipelineOverviewRoot pipelineOverview(
             @PathVariable("jobName") String jobName,
             @PathVariable("number") Integer number
+    );
+
+    @PostMapping(path = "/generic-webhook-trigger/invoke",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    void webHookTrigger(
+            @RequestBody JobBuildWebHookBody body
     );
 }

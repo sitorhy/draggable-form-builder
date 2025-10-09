@@ -6,23 +6,28 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import name.sitorhy.projectpublisher.model.JobBuildWebHookBody;
 import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import reactor.util.Loggers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Files;
+import java.util.*;
 
 @RestController
 @RequestMapping("vue-build")
 public class PublisherController {
+    @Value("${template.job}")
+    String templateJob;
+
     @Autowired
     PublisherService publisherService;
 
@@ -34,6 +39,8 @@ public class PublisherController {
 
     @Autowired
     RedisUtil redisUtil;
+    @Autowired
+    private JenkinsClient jenkinsClient;
 
     @PostMapping("/simple-build")
     public SimpleResult triggerSimpleBuild() {
@@ -71,7 +78,7 @@ public class PublisherController {
     @PostMapping("/job-create/{jobName}")
     SimpleResult createJob(@PathVariable("jobName") String jobName) {
         try {
-            String jobXml = this.jobXml("test2");
+            String jobXml = this.jobXml(templateJob);
             jenkinsServer.createJob(jobName, jobXml);
             return new SimpleResult(true, "");
         } catch (IOException e) {
@@ -113,13 +120,31 @@ public class PublisherController {
     }
 
     @PostMapping("/job-build/{jobName}")
-    SimpleResult buildJob(@PathVariable("jobName") String jobName) {
+    SimpleResult buildJob(@PathVariable("jobName") String jobName, @RequestBody JobBuildWebHookBody body) {
         try {
             List<Job> jobs = this.findJob(jobName);
             if (jobs.isEmpty()) {
                 throw new RuntimeException("job not created");
             }
-            jenkinsServer.getJob(jobName).build();
+
+            File tempFile = Files.createTempFile("project-",".json").toFile();
+            Files.writeString(tempFile.toPath(), body.data);
+
+            // 常规 /build 接口触发
+            jenkinsServer.getJob(jobName).build(new HashMap<>(){{
+                // uri too long
+                // put("PROJECT_JSON_FILE_TEXT", Optional.ofNullable(body.data).orElse(""));
+
+                put("jobName",  jobName);
+                put("PROJECT_JSON_FILE_PATH", tempFile.getAbsolutePath());
+            }});
+
+            // 携带复杂参数 使用触发器构建
+//
+//            body.jobName = jobName;
+//            body.data = "";
+//            body.tempFilePath = tempFile.getAbsolutePath();
+//            jenkinsClient.webHookTrigger(body);
             return new SimpleResult(true, "");
         } catch (Exception e) {
             return new SimpleResult(false, e.getMessage());

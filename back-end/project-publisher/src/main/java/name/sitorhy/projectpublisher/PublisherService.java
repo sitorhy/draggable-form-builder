@@ -2,10 +2,14 @@ package name.sitorhy.projectpublisher;
 
 import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PublisherService {
+    @Value("${template.job}")
+    String templateJob;
+
     JenkinsClient jenkinsClient;
 
     @Autowired
@@ -14,7 +18,7 @@ public class PublisherService {
     }
 
     public void triggerSimpleBuild() {
-        String jobName = "test2"; // 你的 Jenkins Job 名称
+        String jobName = templateJob;
         // 触发参数化构建
         jenkinsClient.triggerSimpleBuild(jobName);
     }
