@@ -39,6 +39,9 @@ export default defineConfig({
                     if (id.includes('node_modules/naive-ui')) {
                         return 'naive-ui';
                     }
+                    if (id.includes('node_modules/engine-commons')) {
+                        return 'engine-commons';
+                    }
                     return null;
                 }
             }
