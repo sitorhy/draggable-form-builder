@@ -12,6 +12,36 @@ importers:
         specifier: ^2.5.8
         version: 2.5.8
 
+  main/engine-commons:
+    dependencies:
+      '@micro-zoe/micro-app':
+        specifier: ^1.0.0-rc.27
+        version: 1.0.0-rc.27
+      dot-prop:
+        specifier: ^10.0.0
+        version: 10.0.0
+      katex:
+        specifier: ^0.16.22
+        version: 0.16.22
+      katex-vue:
+        specifier: ^1.0.0
+        version: 1.0.0(katex@0.16.22)(vue@3.5.22(typescript@5.8.3))
+      pinia:
+        specifier: ^3.0.3
+        version: 3.0.3(typescript@5.8.3)(vue@3.5.22(typescript@5.8.3))
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
+      vue:
+        specifier: ^3.5.21
+        version: 3.5.22(typescript@5.8.3)
+      vue-print-next:
+        specifier: ^1.1.6
+        version: 1.1.6(vue@3.5.22(typescript@5.8.3))
+      vue-router:
+        specifier: ^4.5.1
+        version: 4.5.1(vue@3.5.22(typescript@5.8.3))
+
   main/paper-engine:
     dependencies:
       '@micro-zoe/micro-app':
@@ -20,6 +50,9 @@ importers:
       dot-prop:
         specifier: ^10.0.0
         version: 10.0.0
+      engine-commons:
+        specifier: workspace:*
+        version: link:../engine-commons
       katex:
         specifier: ^0.16.22
         version: 0.16.22

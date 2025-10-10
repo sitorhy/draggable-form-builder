@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { PAGE_FORMAT } from '../common/constants.ts';
-import type { RendererItemDefinition } from '../../../types.ts';
+import { PAGE_FORMAT } from 'engine-commons/components/put/common/constants.ts';
+import type { RendererItemDefinition } from 'engine-commons/types.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,

@@ -1,4 +1,4 @@
-import type { NormalizeDataSource } from '../../../types.ts';
+import type { NormalizeDataSource } from '../../types.ts';
 
 export function parseUri(uri: string): NormalizeDataSource {
 	const result = {

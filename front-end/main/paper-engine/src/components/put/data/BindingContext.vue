@@ -3,8 +3,8 @@ import { computed, provide, ref, watch, type PropType, onMounted } from 'vue';
 import {
 	resolveContextPath,
 	useComponentBindingPath
-} from '../common/binding-path.ts';
-import type { RendererItemDefinition } from '../../../types.ts';
+} from 'engine-commons/components/put/common/binding-path.ts';
+import type { RendererItemDefinition } from 'engine-commons/types.ts';
 
 defineOptions({
 	name: 'BindingContext'

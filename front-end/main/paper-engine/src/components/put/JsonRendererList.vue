@@ -2,9 +2,9 @@
 import {computed, type ComputedRef, inject, type PropType} from 'vue';
 import BindingContext from './data/BindingContext.vue';
 import JsonRenderer from './JsonRenderer.vue';
-import type {RendererItemDefinition} from '../../types.ts';
-import {joinPathConfig, getCurrentPathConfig} from './common/binding-path.ts';
-import {useEmptyPropsInjection} from './common/props.ts';
+import type {RendererItemDefinition} from 'engine-commons/types.ts';
+import {joinPathConfig, getCurrentPathConfig} from 'engine-commons/components/put/common/binding-path.ts';
+import {useEmptyPropsInjection} from 'engine-commons/components/put/common/props.ts';
 
 defineOptions({
   name: 'JsonRendererList'

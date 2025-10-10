@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import './style.css'
+import 'engine-commons/style.css'
 import AppContainer from './AppContainer.vue';
 import {createPinia} from "pinia";
 import ListItem from './components/put/item/ListItem.vue';

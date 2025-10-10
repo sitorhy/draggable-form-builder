@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { RendererItemDefinition } from '../../types.ts';
+import type { RendererItemDefinition } from 'engine-commons/types.ts';
 import Page from './item/Page.vue';
 import TextInput from './item/TextInput.vue';
 import DatePicker from './item/DatePicker.vue';

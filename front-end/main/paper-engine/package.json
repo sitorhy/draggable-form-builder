@@ -18,7 +18,8 @@
     "naive-ui": "^2.43.1",
     "vue-print-next": "^1.1.6",
     "vue-router": "^4.5.1",
-    "@micro-zoe/micro-app": "^1.0.0-rc.27"
+    "@micro-zoe/micro-app": "^1.0.0-rc.27",
+    "engine-commons": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",

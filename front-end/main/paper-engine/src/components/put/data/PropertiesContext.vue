@@ -12,11 +12,11 @@ import {
 import type {
 	NormalizeDataSource,
 	RendererItemDefinition
-} from '../../../types';
-import { useBindingStore } from '../../../store/binding';
-import { parseUri } from '../../visual/data-source/config';
-import { useEmptyBindingPath } from '../common/binding-path.ts';
-import { useFunctionStore } from '../../../store/function.ts';
+} from 'engine-commons/types.ts';
+import { useBindingStore } from 'engine-commons/store/binding';
+import { parseUri } from 'engine-commons/visual/data-source/config';
+import { useEmptyBindingPath } from 'engine-commons/components/put/common/binding-path.ts';
+import { useFunctionStore } from 'engine-commons/store/function.ts';
 
 const props = defineProps({
 	schema: {

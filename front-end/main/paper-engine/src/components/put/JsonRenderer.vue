@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JsonRendererItem from './JsonRendererItem.vue';
-import type { RendererItemDefinition } from '../../types.ts';
+import type { RendererItemDefinition } from 'engine-commons/types.ts';
 import { type ComputedRef, inject } from 'vue';
 import JsonRendererItemContainer from './JsonRendererItemContainer.vue';
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, type ComputedRef, inject } from 'vue';
-import type { RendererItemDefinition } from '../../../types.ts';
-import { useEmptyPropsInjection } from '../common/props.ts';
+import type { RendererItemDefinition } from 'engine-commons/types.ts';
+import { useEmptyPropsInjection } from 'engine-commons/components/put/common/props.ts';
 
 /**
  * 提取所有被 {{}} 包裹的字段（更简洁的实现）。

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {RendererItemDefinition} from '../../../types.ts';
+import type {RendererItemDefinition} from 'engine-commons/types.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
   type: Object,
