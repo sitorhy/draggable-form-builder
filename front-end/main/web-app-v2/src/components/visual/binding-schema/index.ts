@@ -12,6 +12,7 @@ import radioGroup from './radio-group';
 import radio from './radio';
 import equation from './equation';
 import richText from './rich-text';
+import button from './button.ts';
 import type { PropertyInjectionSchema } from '../../../types';
 import type { PropertyFormItemSchemaOptions } from './common';
 
@@ -76,6 +77,9 @@ export function getSchemas(
 		}
 		case 'richText': {
 			return richText();
+		}
+		case 'button': {
+			return button(options);
 		}
 	}
 

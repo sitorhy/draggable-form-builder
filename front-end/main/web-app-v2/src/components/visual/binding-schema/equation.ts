@@ -2,6 +2,7 @@ import { NInput } from 'naive-ui';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
 import {
+	getContainerStyleProp,
 	type PropertyFormItemSchemaOptions,
 	updateContainerStyle
 } from './common.ts';
@@ -32,7 +33,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'fontSize',
 						label: '字号',
 						config: {
-							value: options.schema?.props?.style?.fontSize
+							value: getContainerStyleProp(options.schema, 'fontSize')
 						},
 						on: {
 							'update:value': function (fontSize: string) {

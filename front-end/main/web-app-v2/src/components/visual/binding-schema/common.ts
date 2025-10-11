@@ -76,6 +76,16 @@ export function useBindingPathSchema() {
 	});
 }
 
+export function getContainerStyleProp(
+	schema: RendererItemDefinition | null | undefined,
+	prop: string
+) {
+	if (schema && schema.props && schema.props.style) {
+		return schema.props.style[prop];
+	}
+	return undefined;
+}
+
 export function updateContainerStyle(
 	schema: RendererItemDefinition,
 	style: Record<string, any>

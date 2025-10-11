@@ -18,6 +18,7 @@ import RadioGroup from './item/RadioGroup.vue';
 import Radio from './item/Radio.vue';
 import Equation from './item/Equation.vue';
 import RichText from './item/RichText.vue';
+import Button from './item/Button.vue';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -66,6 +67,7 @@ const customPath = computed(function () {
 			<RadioGroup v-model:schema="schema" v-else-if="type === 'radioGroup'" />
 			<Radio v-model:schema="schema" v-else-if="type === 'radio'" />
 			<Equation v-model:schema="schema" v-else-if="type === 'equation'" />
+			<Button v-model:schema="schema" v-else-if="type === 'button'" />
 			<n-alert v-else :title="`未知组件类型 ${type}`" type="warning">
 				{{ schema }}
 			</n-alert>

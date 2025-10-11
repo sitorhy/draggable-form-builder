@@ -7,6 +7,7 @@ export type ComponentDefinition = {
 	label?: string;
 	description?: string;
 	props?: Record<string, any>; // 默认属性，被渲染定义继承
+	children?: RendererItemDefinition[];
 };
 
 export type RendererItemDefinition = {

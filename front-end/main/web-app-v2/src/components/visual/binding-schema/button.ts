@@ -1,58 +1,26 @@
-import { NInput, NInputNumber, NSelect, NSwitch } from 'naive-ui';
-import { TEXT_INPUT_TYPE } from '../../put/common/constants.ts';
+import { NSelect } from 'naive-ui';
 import {
 	getContainerStyleProp,
 	type PropertyFormItemSchemaOptions,
-	updateContainerStyle,
-	useBindingPathSchema
+	updateContainerStyle
 } from './common.ts';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
+import { BUTTON_TYPE_OPTIONS } from '../../put/common/constants.ts';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
 		sections: [
 			{
-				title: '文本输入模式',
+				title: '按钮样式',
 				id: 'props',
 				schema: [
-					useBindingPathSchema(),
-					{
-						type: NSwitch,
-						prop: 'disabled',
-						label: '禁用',
-						config: {}
-					},
-					{
-						type: NInput,
-						prop: 'placeholder',
-						label: '占位信息',
-						config: {
-							placeholder: ''
-						}
-					},
-					{
-						type: NInputNumber,
-						prop: 'maxlength',
-						label: '最大输入长度',
-						config: {
-							placeholder: ''
-						}
-					},
 					{
 						type: NSelect,
 						prop: 'type',
-						label: '输入框类型',
+						label: '类型',
 						config: {
-							options: TEXT_INPUT_TYPE
-						}
-					},
-					{
-						type: NInputNumber,
-						prop: 'rows',
-						label: '文本框行数',
-						config: {
-							placeholder: ''
+							options: BUTTON_TYPE_OPTIONS
 						}
 					},
 					{
@@ -67,6 +35,23 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 								if (options.schema) {
 									updateContainerStyle(options.schema, {
 										width
+									});
+								}
+							}
+						}
+					},
+					{
+						type: SizePropertyInput,
+						prop: 'height',
+						label: '固定高度',
+						config: {
+							value: getContainerStyleProp(options.schema, 'height')
+						},
+						on: {
+							'update:value': function (height: string | number) {
+								if (options.schema) {
+									updateContainerStyle(options.schema, {
+										height
 									});
 								}
 							}

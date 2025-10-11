@@ -294,3 +294,34 @@ for (let i = 1; i <= 12; i++) {
 		label: `${i}`
 	});
 }
+
+export const BUTTON_TYPE_OPTIONS = [
+	{
+		label: 'default',
+		value: 'default'
+	},
+	{
+		label: 'tertiary',
+		value: 'tertiary'
+	},
+	{
+		label: 'primary',
+		value: 'primary'
+	},
+	{
+		label: 'success',
+		value: 'success'
+	},
+	{
+		label: 'info',
+		value: 'info'
+	},
+	{
+		label: 'warning',
+		value: 'warning'
+	},
+	{
+		label: 'error',
+		value: 'error'
+	}
+];

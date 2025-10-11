@@ -12,6 +12,34 @@ export function unitTest(): RendererItemDefinition {
 		},
 		children: [
 			{
+				type: 'button',
+				id: 'button_df6ae8d4-f53e-46be-83d2-c7604442fc17',
+				props: {
+					type: 'primary'
+				},
+				children: [
+					{
+						type: 'container',
+						id: 'container_2b5e2b0c-d7b8-4928-8377-a3cd292c6700',
+						props: {
+							style: {
+								display: 'flex',
+								flexDirection: 'row'
+							}
+						},
+						children: [
+							{
+								type: 'ellipsis',
+								id: 'ellipsis_670554ef-ec8d-45db-9fc2-20bdd9c6a9f8',
+								props: {
+									text: '按钮'
+								}
+							}
+						]
+					}
+				]
+			},
+			{
 				type: 'datePicker',
 				id: 'datePicker_d1769a2e-e571-43e8-ad32-327c16704015',
 				props: {

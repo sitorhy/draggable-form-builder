@@ -1,6 +1,7 @@
 import { NInputNumber, NSelect } from 'naive-ui';
 import EdgeProperties from '../EdgeProperties.vue';
 import {
+	getContainerStyleProp,
 	type PropertyFormItemSchemaOptions,
 	updateContainerStyle
 } from './common.ts';
@@ -27,10 +28,10 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '内边距',
 						prop: 'padding',
 						config: {
-							left: options.schema?.props?.style?.paddingLeft,
-							right: options.schema?.props?.style?.paddingRight,
-							top: options.schema?.props?.style?.paddingTop,
-							bottom: options.schema?.props?.style?.paddingBottom
+							left: getContainerStyleProp(options.schema, 'paddingLeft'),
+							right: getContainerStyleProp(options.schema, 'paddingRight'),
+							top: getContainerStyleProp(options.schema, 'paddingTop'),
+							bottom: getContainerStyleProp(options.schema, 'paddingBottom')
 						},
 						on: {
 							'update:left': function (paddingLeft: string) {
@@ -68,10 +69,10 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '外边距',
 						prop: 'margin',
 						config: {
-							left: options.schema?.props?.style?.marginLeft,
-							right: options.schema?.props?.style?.marginRight,
-							top: options.schema?.props?.style?.marginTop,
-							bottom: options.schema?.props?.style?.marginBottom
+							left: getContainerStyleProp(options.schema, 'marginLeft'),
+							right: getContainerStyleProp(options.schema, 'marginRight'),
+							top: getContainerStyleProp(options.schema, 'marginTop'),
+							bottom: getContainerStyleProp(options.schema, 'marginBottom')
 						},
 						on: {
 							'update:left': function (marginLeft: string) {
@@ -110,7 +111,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '布局类型',
 						config: {
 							disabled: false,
-							value: options.schema?.props?.style?.display,
+							value: getContainerStyleProp(options.schema, 'display'),
 							options: DISPLAY_OPTIONS
 						},
 						on: {
@@ -128,7 +129,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'flexDirection',
 						label: '主轴方向',
 						config: {
-							value: options.schema?.props?.style?.flexDirection,
+							value: getContainerStyleProp(options.schema, 'flexDirection'),
 							options: [
 								{
 									value: 'column',
@@ -155,7 +156,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'justifyContent',
 						label: '主轴对齐',
 						config: {
-							value: options.schema?.props?.style?.justifyContent,
+							value: getContainerStyleProp(options.schema, 'justifyContent'),
 							options: JUSTIFY_CONTENT_OPTIONS
 						},
 						on: {
@@ -173,7 +174,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'alignItems',
 						label: '交叉轴对齐',
 						config: {
-							value: options.schema?.props?.style?.alignItems,
+							value: getContainerStyleProp(options.schema, 'alignItems'),
 							options: ALIGN_ITEMS_OPTIONS
 						},
 						on: {
@@ -191,7 +192,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'flex',
 						label: '填充权重',
 						config: {
-							value: options.schema?.props?.style?.flex,
+							value: getContainerStyleProp(options.schema, 'flex'),
 							options: FLEX_OPTIONS
 						},
 						on: {
@@ -209,7 +210,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'width',
 						label: '固定宽度',
 						config: {
-							value: options.schema?.props?.style?.width
+							value: getContainerStyleProp(options.schema, 'width')
 						},
 						on: {
 							'update:value': function (width: string | number) {
@@ -226,7 +227,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'height',
 						label: '固定高度',
 						config: {
-							value: options.schema?.props?.style?.height
+							value: getContainerStyleProp(options.schema, 'height')
 						},
 						on: {
 							'update:value': function (height: string | number) {
@@ -243,7 +244,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'fontSize',
 						label: '字号',
 						config: {
-							value: options.schema?.props?.style?.fontSize
+							value: getContainerStyleProp(options.schema, 'fontSize')
 						},
 						on: {
 							'update:value': function (fontSize: string) {
@@ -261,7 +262,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '字体',
 						config: {
 							options: FONTS,
-							value: options.schema?.props?.style?.fontFamily
+							value: getContainerStyleProp(options.schema, 'fontFamily')
 						},
 						on: {
 							'update:value': function (fontFamily: string) {
@@ -279,7 +280,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '换行',
 						config: {
 							disabled: false,
-							value: options.schema?.props?.style?.flexWrap,
+							value: getContainerStyleProp(options.schema, 'flexWrap'),
 							options: FLEX_WRAP_OPTIONS,
 							placeholder: ''
 						},

@@ -6,6 +6,11 @@ export function getTestProject001(): ProjectDefinition {
 		name: 'testProject_001',
 		title: '普通高中高三第一学期期中考试',
 		pages: [
+			// {
+			// 	id: 'test001',
+			// 	title: '测试',
+			// 	localFlag: true
+			// },
 			{
 				id: 'page001.json',
 				title: '第一页',

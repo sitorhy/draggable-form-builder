@@ -2,6 +2,7 @@ import { NInput, NInputNumber, NSelect } from 'naive-ui';
 import type { SectionsReturnType } from './index.ts';
 import SizePropertyInput from '../SizePropertyInput.vue';
 import {
+	getContainerStyleProp,
 	type PropertyFormItemSchemaOptions,
 	updateContainerStyle
 } from './common.ts';
@@ -64,7 +65,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'fontSize',
 						label: '字号',
 						config: {
-							value: options.schema?.props?.style?.fontSize
+							value: getContainerStyleProp(options.schema, 'fontSize')
 						},
 						on: {
 							'update:value': function (fontSize: string) {
@@ -82,7 +83,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '字体',
 						config: {
 							options: FONTS,
-							value: options.schema?.props?.style?.fontFamily
+							value: getContainerStyleProp(options.schema, 'fontFamily')
 						},
 						on: {
 							'update:value': function (fontFamily: string) {
@@ -100,7 +101,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						label: '空白字符控制',
 						config: {
 							options: WHITE_SPACE_OPTIONS,
-							value: options.schema?.props?.style?.whiteSpace
+							value: getContainerStyleProp(options.schema, 'whiteSpace')
 						},
 						on: {
 							'update:value': function (whiteSpace: string) {

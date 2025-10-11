@@ -14,7 +14,8 @@ import {
 	Group24Filled,
 	RadioButton24Filled,
 	EqualCircle24Regular,
-	SlideText24Regular
+	SlideText24Regular,
+	ControlButton24Regular
 } from '@vicons/fluent';
 import { v4 as uuid } from 'uuid';
 import type { ComponentDefinition, RendererItemDefinition } from '../types';
@@ -144,7 +145,9 @@ export function createRendererItemConfig(
 				props: {
 					style: {}
 				},
-				children: []
+				children: Array.isArray(componentDefinition.children)
+					? componentDefinition.children
+					: []
 			};
 		case 'linearList':
 			return {
@@ -193,7 +196,8 @@ export function createRendererItemConfig(
 				type: 'ellipsis',
 				id: generateComponentId('ellipsis'),
 				props: {
-					text: '文本'
+					text: '文本',
+					...componentDefinition.props
 				}
 			};
 		}
@@ -251,6 +255,35 @@ export function createRendererItemConfig(
 				}
 			};
 		}
+		case 'button': {
+			return {
+				type: 'button',
+				id: generateComponentId('button'),
+				props: {
+					type: 'primary'
+				},
+				children: [
+					createRendererItemConfig({
+						type: 'container',
+						props: {
+							style: {
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}
+						},
+						children: [
+							createRendererItemConfig({
+								type: 'ellipsis',
+								props: {
+									text: '按钮'
+								}
+							})
+						]
+					})
+				]
+			};
+		}
 	}
 
 	return Object.assign(
@@ -295,6 +328,8 @@ export function getIconByType(type: string) {
 			return RadioButton24Filled;
 		case 'equation':
 			return EqualCircle24Regular;
+		case 'button':
+			return ControlButton24Regular;
 		default:
 			return LinkSquare24Regular;
 	}
@@ -376,6 +411,10 @@ export const useComponentsStore = defineStore('components', {
 						{
 							type: 'richText',
 							label: '富文本'
+						},
+						{
+							type: 'button',
+							label: '按钮'
 						}
 					]
 				},
