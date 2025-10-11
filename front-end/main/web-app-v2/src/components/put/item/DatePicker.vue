@@ -6,6 +6,7 @@ import { useBindingConnector } from '../../../store/binding.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
 import { useEmptyPropsInjection } from '../common/props.ts';
+import { useReferenceRegister } from '../../../store/reference-context.ts';
 
 const message = useMessage();
 
@@ -48,6 +49,8 @@ const modelValue = computed({
 		updateBinding(value);
 	}
 });
+
+const { componentRef } = useReferenceRegister(bindingPath);
 </script>
 
 <template>
@@ -56,6 +59,7 @@ const modelValue = computed({
 		v-emphasize:schemaId="schema.id"
 		v-bind="{ ...schema.props, ...bindingProps }"
 		v-model:value="modelValue"
+		ref="componentRef"
 	/>
 	<n-empty v-else description="DatePicker">
 		<template #icon>

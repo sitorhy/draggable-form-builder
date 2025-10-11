@@ -7,6 +7,7 @@ import JsonRenderer from '../JsonRenderer.vue';
 import { useBindingConnector } from '../../../store/binding.ts';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
 import { useMessage } from 'naive-ui';
+import { useReferenceRegister } from '../../../store/reference-context.ts';
 
 const message = useMessage();
 
@@ -55,6 +56,8 @@ const modelValue = computed({
 		updateBinding(value);
 	}
 });
+
+const { componentRef } = useReferenceRegister(bindingPath);
 </script>
 
 <template>
@@ -64,6 +67,7 @@ const modelValue = computed({
 		v-if="schema.props && schema.children"
 		v-bind="propsReduce"
 		v-model:value="modelValue"
+		ref="componentRef"
 	>
 		<JsonRenderer
 			v-for="(containerSchema, index) in schema.children"

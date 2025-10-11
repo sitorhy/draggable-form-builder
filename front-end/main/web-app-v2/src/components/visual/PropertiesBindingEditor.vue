@@ -158,7 +158,6 @@ function createPropBinding(dataSourceSchema: NormalizeDataSource) {
 }
 
 .list {
-	font-size: 10px;
 	font-weight: bold;
 
 	.list-item {

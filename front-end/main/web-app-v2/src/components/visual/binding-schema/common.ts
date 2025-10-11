@@ -10,6 +10,21 @@ export type PropertyFormItemSchemaOptions = {
 	itemProps?: Partial<PropertyInjectionSchema>[];
 };
 
+export type PropertyFormItemSchemaDefinition = {
+	formProps: Record<string, any>;
+	schemas: {
+		sections: {
+			title: string;
+			id: string;
+			schema: PropertyInjectionSchema[];
+		}[];
+	};
+	events?: {
+		label: string;
+		value: string;
+	}[];
+};
+
 /**
  * 快速判断字符串是否为有效的 ASCII 变量名
  * @param {string} str

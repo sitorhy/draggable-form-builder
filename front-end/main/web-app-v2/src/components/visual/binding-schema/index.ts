@@ -14,12 +14,10 @@ import equation from './equation';
 import richText from './rich-text';
 import button from './button.ts';
 import type { PropertyInjectionSchema } from '../../../types';
-import type { PropertyFormItemSchemaOptions } from './common';
-
-export type PropertyItemSchemasReturnType = {
-	formProps: Record<string, any>;
-	schemas: SectionsReturnType;
-};
+import type {
+	PropertyFormItemSchemaDefinition,
+	PropertyFormItemSchemaOptions
+} from './common';
 
 export type SectionsReturnType = {
 	sections: {
@@ -31,7 +29,7 @@ export type SectionsReturnType = {
 
 export function getSchemas(
 	options: PropertyFormItemSchemaOptions
-): PropertyItemSchemasReturnType {
+): PropertyFormItemSchemaDefinition {
 	const type = options.schema?.type;
 
 	switch (type) {
@@ -91,16 +89,9 @@ export function getSchemas(
 	};
 }
 
-export function generateBindingSchema(options: PropertyFormItemSchemaOptions): {
-	formProps: Record<string, any>;
-	schemas: {
-		sections: {
-			title: string;
-			id: string;
-			schema: PropertyInjectionSchema[];
-		}[];
-	};
-} {
+export function generateBindingSchema(
+	options: PropertyFormItemSchemaOptions
+): PropertyFormItemSchemaDefinition {
 	const config = getSchemas(options);
 	if (Array.isArray(options.itemProps)) {
 		config.schemas.sections.forEach((section) => {

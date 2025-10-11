@@ -259,11 +259,76 @@ onBeforeMount(() => {
 	resolveEvents();
 });
 
+/**
+ * 深度合并对象，如果遇到同名且类型为函数的属性，
+ * 则返回一个新的包装函数，确保 injectionEvents 的函数先执行，injectionObj 的函数后执行。
+ * @param obj1 - 优先级较低的对象（基础属性或后执行的函数）
+ * @param obj2 - 优先级较高的对象（事件或先执行的函数）
+ * @returns 合并后的新对象
+ */
+function mergeListeners(
+	obj1: Record<string, any>,
+	obj2: Record<string, any>
+): Record<string, any> {
+	// 1. 以 obj1 为基础，包含所有不冲突的属性
+	const merged = { ...obj1 };
+
+	// 2. 遍历 obj2 的所有属性
+	for (const key in obj2) {
+		if (Object.prototype.hasOwnProperty.call(obj2, key)) {
+			const val1 = obj1[key];
+			const val2 = obj2[key];
+
+			// 检查属性是否同时存在于两个对象中，并且都是函数
+			if (
+				val1 &&
+				val2 &&
+				typeof val1 === 'function' &&
+				typeof val2 === 'function'
+			) {
+				// --- 核心合并逻辑：创建包装函数 ---
+
+				merged[key] = function (...args: any[]) {
+					let result2;
+					let result1;
+
+					// 1. 执行 obj2 (injectionEvents) 的函数
+					// 通常事件监听器不需要返回值，但为了健壮性保留结果
+					try {
+						result2 = val2.apply(this, args);
+					} catch (e) {
+						console.error(
+							`Error executing event listener from injectionEvents (${key}):`,
+							e
+						);
+					}
+
+					// 2. 执行 obj1 (injectionObj) 的函数
+					try {
+						result1 = val1.apply(this, args);
+					} catch (e) {
+						console.error(
+							`Error executing original property function (${key}):`,
+							e
+						);
+					}
+
+					// 返回 obj2 的结果，或根据具体业务需求决定返回哪个
+					return result2 ?? result1;
+				};
+			} else {
+				// 如果 obj2 的属性与 obj1 不冲突，或者不是函数，直接使用 obj2 的属性（覆盖）
+				// 确保非函数的同名属性被 injectionEvents 覆盖
+				merged[key] = val2;
+			}
+		}
+	}
+
+	return merged;
+}
+
 const propsInjection = computed(() => {
-	return {
-		...injectionObj.value,
-		...injectionEvents.value
-	};
+	return mergeListeners(injectionEvents.value, injectionObj.value);
 });
 
 provide('bindingProps', propsInjection);

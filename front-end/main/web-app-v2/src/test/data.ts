@@ -48,6 +48,9 @@ export function unitTest(): RendererItemDefinition {
 				props: {
 					path: 'date001',
 					placeholder: '日期'
+				},
+				events: {
+					'update:value': 'consoleLog'
 				}
 			},
 			{

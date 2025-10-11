@@ -23,6 +23,8 @@ import { useThrottle } from './components/put/common/throttle.ts';
 import { useAppInit } from './components/put/common/app.ts';
 import ProjectMenu from './components/visual/ProjectMenu.vue';
 import JobBuildsButton from './components/visual/JobBuildsButton.vue';
+import { useReferenceContext } from './store/reference-context.ts';
+import EventsBindingEditor from './components/visual/EventsBindingEditor.vue';
 
 useAppInit();
 
@@ -99,6 +101,11 @@ onMounted(() => {
 		resizeObserverRef.observe(contentRootDOMRef.value);
 	}
 });
+
+const referenceContext = useReferenceContext();
+function test() {
+	console.log(referenceContext.references);
+}
 </script>
 
 <template>
@@ -126,7 +133,7 @@ onMounted(() => {
 					collapse-mode="transform"
 					:collapsed-width="11"
 					:native-scrollbar="false"
-					:width="280"
+					:width="300"
 					content-style="padding: 11px;"
 					show-trigger="arrow-circle"
 					bordered
@@ -172,7 +179,7 @@ onMounted(() => {
 						collapse-mode="transform"
 						:native-scrollbar="false"
 						:collapsed-width="11"
-						:width="360"
+						:width="400"
 						content-style="padding: 11px; height: 100%;"
 						show-trigger="arrow-circle"
 						bordered
@@ -195,6 +202,9 @@ onMounted(() => {
 										tab="属性"
 										display-directive="show"
 									>
+									</n-tab-pane>
+
+									<n-tab-pane name="events" tab="事件" display-directive="show">
 									</n-tab-pane>
 
 									<n-tab-pane
@@ -224,6 +234,13 @@ onMounted(() => {
 
 								<div
 									class="custom-tabs-item"
+									v-show="customTabValue === 'events'"
+								>
+									<EventsBindingEditor />
+								</div>
+
+								<div
+									class="custom-tabs-item"
 									v-show="customTabValue === 'project'"
 								>
 									<ProjectView />
@@ -244,6 +261,7 @@ onMounted(() => {
 					</div>
 					<div>
 						<n-space>
+							<n-button @click="test">测试</n-button>
 							<JobBuildsButton></JobBuildsButton>
 						</n-space>
 					</div>

@@ -66,6 +66,12 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 export default function (options: PropertyFormItemSchemaOptions) {
 	return {
 		schemas: sections(options),
-		formProps: {}
+		formProps: {},
+		events: [
+			{
+				label: 'click',
+				value: 'click'
+			}
+		]
 	};
 }
