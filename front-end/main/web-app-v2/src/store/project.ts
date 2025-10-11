@@ -12,12 +12,14 @@ import { useBindingStore } from './binding.ts';
 import { createRendererItemConfig } from './component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../components/put/common/seq.ts';
+import { unitTest } from '../test/data.ts';
 
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page001.json': page001,
 	'page002.json': page002,
 	'page003.json': page003,
-	'page004.json': page004
+	'page004.json': page004,
+	test001: unitTest()
 };
 
 const seqGenerator = new SequenceGenerator({

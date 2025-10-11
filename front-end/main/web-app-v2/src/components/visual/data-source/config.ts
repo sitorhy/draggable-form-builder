@@ -103,23 +103,6 @@ function isValidObjectPath(path: any): boolean {
 	return regex.test(path);
 }
 
-function getQueryString(queryString: string) {
-	const params: Record<string, string> = {};
-	if (queryString) {
-		const start = queryString.indexOf('?');
-		if (start < 0) {
-			return params;
-		}
-		const pairs = queryString.substring(start + 1).split('&');
-
-		for (const pair of pairs) {
-			const [key, value] = pair.split('=');
-			params[decodeURIComponent(key)] = decodeURIComponent(value);
-		}
-	}
-	return params;
-}
-
 export function useDataSourceConfig() {
 	const dataSourceSchemaRef = ref<NormalizeDataSource>({
 		schema: 'object',
@@ -152,17 +135,6 @@ export function useDataSourceConfig() {
 			dataSourceSchemaRef.value.host = hostOptions.value[0].value;
 		}
 	}
-
-	const queryStringText = computed(() => {
-		if (!dataSourceSchemaRef.value) {
-			return '';
-		}
-		const qs = getQueryString(dataSourceSchemaRef.value.path);
-		if (qs) {
-			return JSON.stringify(qs, null, 2);
-		}
-		return '';
-	});
 
 	function itemKeyGetter(item: Record<any, any>): string {
 		return item.prop as string;
@@ -249,21 +221,6 @@ export function useDataSourceConfig() {
 				prop: 'filter',
 				label: '过滤器',
 				span: 2
-			},
-			{
-				type: NInput,
-				prop: 'query',
-				label: '参数',
-				formItemProps: {
-					feedback: '仅回显解析'
-				},
-				span: 2,
-				config: {
-					readonly: true,
-					disabled: true,
-					value: queryStringText.value,
-					type: 'textarea'
-				}
 			}
 		];
 	});

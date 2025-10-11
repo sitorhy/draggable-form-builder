@@ -1,9 +1,9 @@
-import {collectStaticContext, useSchemaStore} from '../../../../../engine-commons/store/schema.ts';
-import {useBindingStore} from '../../../../../engine-commons/store/binding.ts';
-import {useProjectStore} from '../../../../../engine-commons/store/project.ts';
+import {collectStaticContext, useSchemaStore} from 'engine-commons/store/schema.ts';
+import {useBindingStore} from 'engine-commons/store/binding.ts';
+import {useProjectStore} from 'engine-commons/store/project.ts';
 import {computed, onBeforeMount, watch} from 'vue';
 import {useRoute, useRouter} from "vue-router";
-import type {ProjectDefinition} from "../../../../../engine-commons/types.ts";
+import type {ProjectDefinition} from "engine-commons/types.ts";
 
 export function useAppInit() {
     const MicroAppContext = computed(() => {

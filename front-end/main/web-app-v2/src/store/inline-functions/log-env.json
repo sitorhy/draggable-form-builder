@@ -1,0 +1,6 @@
+{
+  "id": "a21b90c8-1bd1-4372-9890-090b80edf19d",
+  "name": "consoleLogEnv",
+  "code": "export default function logEnv() {\n\tconsole.log(arguments);\n\tconsole.log(this);\n}",
+  "description": "通用，查看上下文"
+}

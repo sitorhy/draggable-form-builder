@@ -17,6 +17,9 @@ export function unitTest(): RendererItemDefinition {
 				props: {
 					type: 'primary'
 				},
+				events: {
+					click: 'consoleLogEnv'
+				},
 				children: [
 					{
 						type: 'container',

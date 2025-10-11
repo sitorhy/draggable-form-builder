@@ -4,14 +4,9 @@ import type { RendererItemDefinition } from 'engine-commons/types.ts';
 import { useEmptyPropsInjection } from 'engine-commons/components/put/common/props.ts';
 import JsonRenderer from '../JsonRenderer.vue';
 
-
 const schema = defineModel<RendererItemDefinition>('schema', {
   type: Object,
   default: () => ({ type: '', id: '', children: undefined })
-});
-
-const id = computed(function () {
-  return schema.value.id;
 });
 
 const { emptyPropsInjection } = useEmptyPropsInjection();
@@ -24,10 +19,6 @@ const propsReduce = computed(() => ({
   ...schema.value.props,
   ...bindingProps.value
 }));
-
-defineExpose({
-  id: id.value
-});
 </script>
 
 <template>

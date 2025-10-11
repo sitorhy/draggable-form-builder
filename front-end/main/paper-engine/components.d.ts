@@ -8,7 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BindingContext: typeof import('./src/components/put/data/BindingContext.vue')['default']
+    Button: typeof import('./src/components/put/item/Button.vue')['default']
     DatePicker: typeof import('./src/components/put/item/DatePicker.vue')['default']
     Ellipsis: typeof import('./src/components/put/item/Ellipsis.vue')['default']
     Equation: typeof import('./src/components/put/item/Equation.vue')['default']
@@ -30,7 +30,6 @@ declare module 'vue' {
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NSpace: typeof import('naive-ui')['NSpace']
     Page: typeof import('./src/components/put/item/Page.vue')['default']
-    PropertiesContext: typeof import('./src/components/put/data/PropertiesContext.vue')['default']
     Radio: typeof import('./src/components/put/item/Radio.vue')['default']
     RadioGroup: typeof import('./src/components/put/item/RadioGroup.vue')['default']
     RichText: typeof import('./src/components/put/item/RichText.vue')['default']

@@ -17,6 +17,7 @@ import { useBindingStore } from '../../../store/binding';
 import { parseUri } from '../../visual/data-source/config';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
 import { useFunctionStore } from '../../../store/function.ts';
+import { useFunctionContext } from '../common/function-context.ts';
 
 const props = defineProps({
 	schema: {
@@ -24,6 +25,8 @@ const props = defineProps({
 		default: () => ({})
 	}
 });
+
+const { functionContext } = useFunctionContext();
 
 const { emptyBindingPath } = useEmptyBindingPath();
 const bindingStore = useBindingStore();
@@ -38,10 +41,15 @@ const formItemBindingPath = inject<ComputedRef<string>>(
 	emptyBindingPath
 );
 
-const obj = ref<Record<string, any>>({});
+const injectionObj = ref<Record<string, any>>({});
+const injectionEvents = ref<Record<string, (...args: any[]) => any>>({});
 
 const binding = computed(() => {
 	return props.schema.binding;
+});
+
+const events = computed(() => {
+	return props.schema.events;
 });
 
 async function injectProps(
@@ -60,20 +68,20 @@ async function injectProps(
 		if (result) {
 			const { value, fullBindingPath } = result;
 
-			obj.value[prop] = value;
+			injectionObj.value[prop] = value;
 			if (result.source === 'static') {
-				obj.value['update:' + prop] = function (value: any) {
+				injectionObj.value['update:' + prop] = function (value: any) {
 					bindingStore.updateStaticContext(fullBindingPath, value);
 				};
 			} else {
-				obj.value['update:' + prop] = function (value: any) {
+				injectionObj.value['update:' + prop] = function (value: any) {
 					bindingStore.updateBinding(fullBindingPath, value);
 				};
 			}
 			return;
 		} else {
-			delete obj.value[prop];
-			delete obj.value['update:' + prop];
+			delete injectionObj.value[prop];
+			delete injectionObj.value['update:' + prop];
 		}
 	} else {
 		// 需要过滤器处理返回值
@@ -90,11 +98,14 @@ async function injectProps(
 			moduleDescriptors.filter((i) => !!i).map((m) => funcStore.loadModule(m))
 		);
 
-		obj.value[prop] = modules.reduce(
+		injectionObj.value[prop] = modules.reduce(
 			(acc, module) => {
 				const func = module['default'];
 				if (typeof func === 'function') {
-					return func(acc);
+					return (func as (...args: any[]) => any).call(
+						functionContext.value,
+						acc
+					);
 				}
 				return acc;
 			},
@@ -103,16 +114,16 @@ async function injectProps(
 		if (result) {
 			const { fullBindingPath } = result;
 			if (result.source === 'static') {
-				obj.value['update:' + prop] = function (value: any) {
+				injectionObj.value['update:' + prop] = function (value: any) {
 					bindingStore.updateStaticContext(fullBindingPath, value);
 				};
 			} else {
-				obj.value['update:' + prop] = function (value: any) {
+				injectionObj.value['update:' + prop] = function (value: any) {
 					bindingStore.updateBinding(fullBindingPath, value);
 				};
 			}
 		} else {
-			delete obj.value['update:' + prop];
+			delete injectionObj.value['update:' + prop];
 		}
 	}
 }
@@ -150,6 +161,66 @@ function resolveLocalSchema(
 	}
 }
 
+/**
+ * 将事件名称（如 'click'）转换为 Vue/React 风格的事件响应属性名称（如 'onClick'）。
+ *
+ * @param eventName 原始事件名称（小写，如 'click' 或 'change'）
+ * @returns 转换后的属性名称（如 'onClick' 或 'onChange'）
+ */
+function toVueEventPropName(eventName: string): string {
+	if (eventName.length === 0) {
+		return '';
+	}
+
+	// 1. 获取事件名的第一个字母，并将其转换为大写
+	const firstLetter = eventName.charAt(0).toUpperCase();
+
+	// 2. 获取事件名其余的部分
+	const restOfString = eventName.slice(1);
+
+	// 3. 组合 'on' + 大写首字母 + 剩余部分
+	return `on${firstLetter}${restOfString}`;
+}
+
+const NOOP = function () {
+	console.warn('未知函数模块');
+};
+
+async function resolveEvents() {
+	if (events.value) {
+		const nextEventHandlers = await Promise.all(
+			Object.keys(events.value).map(async (eventName) => {
+				const moduleName = (events.value as Record<string, string>)[eventName];
+				if (moduleName) {
+					const moduleDescription =
+						await funcStore.findFunctionCodeByName(moduleName);
+					if (moduleDescription) {
+						const module = await funcStore.loadModule(moduleDescription);
+						const func = module['default'];
+						if (typeof func === 'function') {
+							return [
+								toVueEventPropName(eventName),
+								(func as (...args: any[]) => any).bind(functionContext.value)
+							];
+						}
+					}
+				}
+				return [toVueEventPropName(eventName), NOOP];
+			})
+		);
+
+		injectionEvents.value = (
+			nextEventHandlers as [string, Record<string, (...args: any[]) => any>][]
+		).reduce(
+			(
+				s: Record<string, (...args: any[]) => any>,
+				i: [string, Record<string, (...args: any[]) => any>]
+			) => Object.assign(s, { [i[0]]: i[1] }),
+			{}
+		);
+	}
+}
+
 function resolveBinding() {
 	const uriMap = binding.value;
 	if (uriMap) {
@@ -166,7 +237,7 @@ function resolveBinding() {
 }
 
 watch(
-	bindingStore.state,
+	bindingStore.$state.state,
 	function () {
 		resolveBinding();
 	},
@@ -175,12 +246,24 @@ watch(
 	}
 );
 
+const funModuleNames = computed(() => {
+	return funcStore.$state.modules.keys();
+});
+
+watch(funModuleNames, function () {
+	resolveEvents();
+});
+
 onBeforeMount(() => {
 	resolveBinding();
+	resolveEvents();
 });
 
 const propsInjection = computed(() => {
-	return obj.value;
+	return {
+		...injectionObj.value,
+		...injectionEvents.value
+	};
 });
 
 provide('bindingProps', propsInjection);

@@ -14,10 +14,6 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const id = computed(function () {
-	return schema.value.id;
-});
-
 const { emptyBindingPath } = useEmptyBindingPath();
 
 const bindingPath = inject<ComputedRef<string>>(
@@ -51,10 +47,6 @@ const modelValue = computed({
 	set(value: any) {
 		updateBinding(value);
 	}
-});
-
-defineExpose({
-	id: id.value
 });
 </script>
 

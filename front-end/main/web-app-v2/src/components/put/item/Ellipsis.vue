@@ -29,10 +29,6 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const id = computed(function () {
-	return schema.value.id;
-});
-
 const { emptyPropsInjection } = useEmptyPropsInjection();
 const bindingProps = inject<ComputedRef<Record<string, any>>>(
 	'bindingProps',
@@ -58,10 +54,6 @@ const text = computed(function () {
 		str = str.replace(`{{${field}}}`, String(values[field]));
 	});
 	return str;
-});
-
-defineExpose({
-	id: id.value
 });
 </script>
 

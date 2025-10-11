@@ -14,10 +14,6 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const id = computed(function () {
-	return schema.value.id;
-});
-
 const bindingPath = inject<ComputedRef<string>>('bindingPath');
 
 const { emptyPropsInjection } = useEmptyPropsInjection();
@@ -27,10 +23,6 @@ const bindingProps = inject<ComputedRef<Record<string, any>>>(
 );
 
 provide('formItemBindingPath', bindingPath);
-
-defineExpose({
-	id: id.value
-});
 </script>
 
 <template>

@@ -7,6 +7,7 @@ export type RendererItemDefinition = {
 	};
 	children?: RendererItemDefinition[];
 	binding?: Record<string, string>;
+    events?: Record<string, string>;
 };
 
 export type ProjectDefinition = {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, type ComputedRef, inject, type PropType} from 'vue';
-import BindingContext from './data/BindingContext.vue';
+import BindingContext from 'engine-commons/components/put/data/BindingContext.vue';
 import JsonRenderer from './JsonRenderer.vue';
 import type {RendererItemDefinition} from 'engine-commons/types.ts';
 import {joinPathConfig, getCurrentPathConfig} from 'engine-commons/components/put/common/binding-path.ts';

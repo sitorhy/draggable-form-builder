@@ -2,7 +2,7 @@
 import {computed, ref, watch} from "vue";
 import { v4 as uuid } from 'uuid';
 import JsonRenderer from "./components/put/JsonRenderer.vue";
-import BindingContext from "./components/put/data/BindingContext.vue";
+import BindingContext from "engine-commons/components/put/data/BindingContext.vue";
 import {useSchemaStore} from "engine-commons/store/schema.ts";
 import {useAppInit} from "./components/put/common/app.ts";
 import {useProjectStore} from "engine-commons/store/project.ts";

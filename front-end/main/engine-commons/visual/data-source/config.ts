@@ -1,6 +1,6 @@
 import type { NormalizeDataSource } from '../../types.ts';
 
-export function parseUri(uri: string): NormalizeDataSource {
+export function parseUri(uri: string | undefined): NormalizeDataSource {
 	const result = {
 		schema: '',
 		host: '',

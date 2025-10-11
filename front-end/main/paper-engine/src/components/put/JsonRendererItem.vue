@@ -7,7 +7,7 @@ import DatePicker from './item/DatePicker.vue';
 import JsonRendererList from './JsonRendererList.vue';
 import JsonRendererContainer from './JsonRendererContainer.vue';
 import List from './item/List.vue';
-import PropertiesContext from './data/PropertiesContext.vue';
+import PropertiesContext from 'engine-commons/components/put/data/PropertiesContext.vue';
 import Form from './item/Form.vue';
 import FormItem from './item/FormItem.vue';
 import Grid from './item/Grid.vue';
@@ -17,7 +17,8 @@ import RadioGroup from './item/RadioGroup.vue';
 import Radio from './item/Radio.vue';
 import Equation from './item/Equation.vue';
 import RichText from './item/RichText.vue';
-import BindingContext from "./data/BindingContext.vue";
+import BindingContext from "engine-commons/components/put/data/BindingContext.vue";
+import Button from "./item/Button.vue";
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -64,6 +65,7 @@ const customPath = computed(function () {
 			<RadioGroup v-model:schema="schema" v-else-if="type === 'radioGroup'" />
 			<Radio v-model:schema="schema" v-else-if="type === 'radio'" />
 			<Equation v-model:schema="schema" v-else-if="type === 'equation'" />
+      <Button v-model:schema="schema" v-else-if="type === 'button'" />
 			<p v-else style="color: red">
 				{{ `未知组件类型 ${type}` }}
 			</p>

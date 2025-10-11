@@ -9,10 +9,6 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 	default: () => ({ type: '', id: '', children: undefined })
 });
 
-const id = computed(function () {
-	return schema.value.id;
-});
-
 const { emptyPropsInjection } = useEmptyPropsInjection();
 const bindingProps = inject<ComputedRef<Record<string, any>>>(
 	'bindingProps',
@@ -23,10 +19,6 @@ const propsReduce = computed(() => ({
 	...schema.value.props,
 	...bindingProps.value
 }));
-
-defineExpose({
-	id: id.value
-});
 </script>
 
 <template>
