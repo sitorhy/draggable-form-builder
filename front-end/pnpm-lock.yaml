@@ -17,6 +17,9 @@ importers:
       '@micro-zoe/micro-app':
         specifier: ^1.0.0-rc.27
         version: 1.0.0-rc.27
+      axios:
+        specifier: ^1.12.2
+        version: 1.12.2
       dot-prop:
         specifier: ^10.0.0
         version: 10.0.0

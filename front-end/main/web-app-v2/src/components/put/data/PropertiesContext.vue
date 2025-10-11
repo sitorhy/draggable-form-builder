@@ -23,10 +23,16 @@ const props = defineProps({
 	schema: {
 		type: Object as PropType<RendererItemDefinition>,
 		default: () => ({})
+	},
+	message: {
+		type: Object as PropType<{
+			info: (message: string) => void;
+			error: (message: string) => void;
+			success: (message: string) => void;
+		}>,
+		default: null
 	}
 });
-
-const { functionContext } = useFunctionContext();
 
 const { emptyBindingPath } = useEmptyBindingPath();
 const bindingStore = useBindingStore();
@@ -40,6 +46,13 @@ const formItemBindingPath = inject<ComputedRef<string>>(
 	'formItemBindingPath',
 	emptyBindingPath
 );
+
+const { functionContext } = useFunctionContext({
+	getBindingPath: function () {
+		return bindingPath.value;
+	},
+	message: props.message
+});
 
 const injectionObj = ref<Record<string, any>>({});
 const injectionEvents = ref<Record<string, (...args: any[]) => any>>({});

@@ -19,6 +19,7 @@ import Equation from './item/Equation.vue';
 import RichText from './item/RichText.vue';
 import BindingContext from "engine-commons/components/put/data/BindingContext.vue";
 import Button from "./item/Button.vue";
+import {useMessage} from "naive-ui";
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -30,11 +31,18 @@ const type = computed(() => schema.value.type);
 const customPath = computed(function () {
 	return schema.value.props?.path || '';
 });
+
+const message = useMessage();
+const messageProps = {
+  info: message.info,
+  success: message.success,
+  error: message.error
+};
 </script>
 
 <template>
   <BindingContext :schema="schema" :custom-path="customPath">
-    <PropertiesContext :schema="schema">
+    <PropertiesContext :schema="schema" :message="messageProps">
 			<Page v-model:schema="schema" v-if="type === 'page'">
 				<slot></slot>
 			</Page>

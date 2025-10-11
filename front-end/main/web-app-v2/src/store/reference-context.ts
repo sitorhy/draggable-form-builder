@@ -18,6 +18,14 @@ export const useReferenceContext = defineStore('reference', {
 		},
 		unregisterReference(bindingPath: string) {
 			this.references.delete(bindingPath);
+		},
+		findReference(subPath: string) {
+			for (const e of this.references.entries()) {
+				if (e[0].lastIndexOf(subPath) >= 0) {
+					return e[1];
+				}
+			}
+			return null;
 		}
 	}
 });

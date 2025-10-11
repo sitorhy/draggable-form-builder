@@ -33,6 +33,12 @@ function sections(): SectionsReturnType {
 export default function () {
 	return {
 		schemas: sections(),
-		formProps: {}
+		formProps: {},
+		events: [
+			{
+				label: 'update:value',
+				value: 'update:value'
+			}
+		]
 	};
 }
