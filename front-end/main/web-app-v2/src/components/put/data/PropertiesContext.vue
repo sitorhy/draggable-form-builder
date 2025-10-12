@@ -195,42 +195,35 @@ function toVueEventPropName(eventName: string): string {
 	return `on${firstLetter}${restOfString}`;
 }
 
-const NOOP = function () {
-	console.warn('未知函数模块');
-};
-
 async function resolveEvents() {
 	if (events.value) {
-		const nextEventHandlers = await Promise.all(
-			Object.keys(events.value).map(async (eventName) => {
-				const moduleName = (events.value as Record<string, string>)[eventName];
-				if (moduleName) {
-					const moduleDescription =
-						await funcStore.findFunctionCodeByName(moduleName);
-					if (moduleDescription) {
-						const module = await funcStore.loadModule(moduleDescription);
-						const func = module['default'];
+		injectionEvents.value = Object.keys(events.value)
+			.map((eventName: string) => {
+				return [
+					toVueEventPropName(eventName),
+					async function (...args: any[]) {
+						const moduleName = (events.value as Record<string, string>)[
+							eventName
+						];
+						let func = funcStore.tryGetDefaultFunctionByModuleName(
+							moduleName as string
+						);
+						if (moduleName) {
+							const moduleDescription =
+								await funcStore.findFunctionCodeByName(moduleName);
+							if (moduleDescription) {
+								const module = await funcStore.loadModule(moduleDescription);
+								func = module['default'];
+							}
+						}
+
 						if (typeof func === 'function') {
-							return [
-								toVueEventPropName(eventName),
-								(func as (...args: any[]) => any).bind(functionContext.value)
-							];
+							func.bind(functionContext.value).apply(...args);
 						}
 					}
-				}
-				return [toVueEventPropName(eventName), NOOP];
+				];
 			})
-		);
-
-		injectionEvents.value = (
-			nextEventHandlers as [string, Record<string, (...args: any[]) => any>][]
-		).reduce(
-			(
-				s: Record<string, (...args: any[]) => any>,
-				i: [string, Record<string, (...args: any[]) => any>]
-			) => Object.assign(s, { [i[0]]: i[1] }),
-			{}
-		);
+			.reduce((s, i: any[]) => Object.assign(s, { [i[0]]: i[1] }), {});
 	}
 }
 
@@ -262,6 +255,16 @@ watch(
 const funModuleNames = computed(() => {
 	return funcStore.$state.modules.keys();
 });
+
+watch(
+	events,
+	function () {
+		resolveEvents();
+	},
+	{
+		immediate: true
+	}
+);
 
 watch(funModuleNames, function () {
 	resolveEvents();

@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, inject } from 'vue';
+import {
+	computed,
+	type ComputedRef,
+	inject,
+	onBeforeMount,
+	onMounted
+} from 'vue';
 import { PAGE_FORMAT } from '../common/constants.ts';
 import type { RendererItemDefinition } from '../../../types.ts';
 import draggable from 'vuedraggable';
 import JsonRendererItemContainer from '../JsonRendererItemContainer.vue';
 import JsonRenderer from '../JsonRenderer.vue';
+import { useEmptyPropsInjection } from '../common/props.ts';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -20,6 +27,12 @@ type PageProps = {
 };
 
 const props = computed<PageProps>(() => schema.value.props as PageProps);
+
+const { emptyPropsInjection } = useEmptyPropsInjection();
+const bindingProps = inject<ComputedRef<Record<string, any>>>(
+	'bindingProps',
+	emptyPropsInjection
+);
 
 const dimension = computed(() => {
 	if (props.value.format) {
@@ -75,6 +88,18 @@ const pageStyle = computed(() => {
 	}
 
 	return style;
+});
+
+onBeforeMount(() => {
+	if (typeof bindingProps.value.onBeforeMount === 'function') {
+		bindingProps.value.onBeforeMount();
+	}
+});
+
+onMounted(() => {
+	if (typeof bindingProps.value.onMounted === 'function') {
+		bindingProps.value.onMounted();
+	}
 });
 
 function containerDragMove() {

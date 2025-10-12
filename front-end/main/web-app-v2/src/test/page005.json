@@ -269,5 +269,8 @@
         }
       ]
     }
-  ]
+  ],
+  "events": {
+    "mounted": "consoleLogEnv"
+  }
 }

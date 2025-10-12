@@ -4,32 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { ESMLoader } from '../libs/esm-loader';
 import inlineFuncList from './inline-functions';
 
-export const useFunctionStore = defineStore<
-	'function',
-	{
-		functions: FunctionCode[];
-		modules: Map<string, any>;
-	},
-	{},
-	{
-		getAllFunctionCode: (
-			page: number,
-			size: number
-		) => Promise<{
-			total: number;
-			page: number;
-			size: number;
-			data: Partial<FunctionCode>[];
-		}>;
-		createFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
-		findFunctionCodeById(id: string): Promise<FunctionCode | null>;
-		findFunctionCodeByName(name: string): Promise<FunctionCode | null>;
-		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode>;
-		loadModule(code: FunctionCode): Promise<any>;
-		loadModuleById(id: string): Promise<any>;
-		reset: () => void;
-	}
->('function', {
+export const useFunctionStore = defineStore('function', {
 	state() {
 		return {
 			functions: [...inlineFuncList],
@@ -37,6 +12,15 @@ export const useFunctionStore = defineStore<
 		};
 	},
 	actions: {
+		tryGetDefaultFunctionByModuleName(name: string) {
+			const description = (this.functions as FunctionCode[]).find(
+				(i) => i.name === name
+			);
+			if (description) {
+				return this.modules.get(description.id);
+			}
+			return null;
+		},
 		getAllFunctionCode(
 			page: number,
 			size: number
@@ -47,8 +31,8 @@ export const useFunctionStore = defineStore<
 			data: Partial<FunctionCode>[];
 		}> {
 			return Promise.resolve({
-				data: this.functions
-					.map((i) => {
+				data: (this.functions as FunctionCode[])
+					.map((i: FunctionCode) => {
 						return {
 							id: i.id,
 							name: i.name,
@@ -57,21 +41,31 @@ export const useFunctionStore = defineStore<
 						};
 					})
 					.slice(
-						Math.min(Math.floor(this.functions.length / size), page - 1),
-						Math.min(Math.floor(this.functions.length / size), page - 1) + size
+						Math.min(
+							Math.floor((this.functions as FunctionCode[]).length / size),
+							page - 1
+						),
+						Math.min(
+							Math.floor((this.functions as FunctionCode[]).length / size),
+							page - 1
+						) + size
 					),
-				page: Math.min(Math.floor(this.functions.length / size), page - 1) + 1,
+				page:
+					Math.min(
+						Math.floor((this.functions as FunctionCode[]).length / size),
+						page - 1
+					) + 1,
 				size: size,
-				total: this.functions.length
+				total: (this.functions as FunctionCode[]).length
 			});
 		},
 		reset() {
-			this.functions = [...inlineFuncList];
+			(this.functions as FunctionCode[]) = [...inlineFuncList];
 		},
 		createFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode> {
 			return new Promise<FunctionCode>((resolve, reject) => {
 				if (
-					this.functions.findIndex(
+					(this.functions as FunctionCode[]).findIndex(
 						(i) => i.name === (newCode.name || '').trim()
 					) >= 0
 				) {
@@ -82,7 +76,7 @@ export const useFunctionStore = defineStore<
 						...newCode,
 						id: newId
 					} as FunctionCode;
-					this.functions.unshift(append);
+					(this.functions as FunctionCode[]).unshift(append);
 					resolve(append);
 				}
 			});
@@ -92,7 +86,7 @@ export const useFunctionStore = defineStore<
 		},
 		findFunctionCodeByName(name: string): Promise<FunctionCode | null> {
 			return Promise.resolve(
-				this.functions.find((i) => i.name === name) || null
+				(this.functions as FunctionCode[]).find((i) => i.name === name) || null
 			);
 		},
 		updateFunctionCode(newCode: Partial<FunctionCode>): Promise<FunctionCode> {
@@ -103,7 +97,7 @@ export const useFunctionStore = defineStore<
 				if (index < 0) {
 					reject(new Error('函数定义不存在'));
 				} else {
-					this.functions.splice(index, 1, {
+					(this.functions as FunctionCode[]).splice(index, 1, {
 						...(newCode as FunctionCode)
 					});
 					resolve(this.functions[index]);

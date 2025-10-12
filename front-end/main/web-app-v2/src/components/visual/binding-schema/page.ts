@@ -60,6 +60,16 @@ function sections(): SectionsReturnType {
 export default function () {
 	return {
 		schemas: sections(),
-		formProps: {}
+		formProps: {},
+		events: [
+			{
+				value: 'mounted',
+				label: 'mounted'
+			},
+			{
+				value: 'beforeMount',
+				label: 'beforeMount'
+			}
+		]
 	};
 }

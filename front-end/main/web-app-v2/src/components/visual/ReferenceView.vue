@@ -83,7 +83,7 @@ const columns = computed(() => {
 					tooltip: () => '111'
 				}
 			},
-			width: 100
+			width: 120
 		}
 	];
 });
