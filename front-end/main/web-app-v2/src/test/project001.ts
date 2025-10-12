@@ -2,15 +2,16 @@ import type { ProjectDefinition } from '../types.ts';
 
 export function getTestProject001(): ProjectDefinition {
 	return {
+		engine: 'Paper',
 		id: '3865f2fe-57bb-4ba8-9f10-407f2deeff5c',
 		name: 'testProject_001',
 		title: '普通高中高三第一学期期中考试',
 		pages: [
-			{
-				id: 'test001',
-				title: '测试',
-				localFlag: true
-			},
+			// {
+			// 	id: 'test001',
+			// 	title: '测试',
+			// 	localFlag: true
+			// },
 			{
 				id: 'page001.json',
 				title: '第一页',

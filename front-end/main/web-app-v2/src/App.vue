@@ -5,6 +5,7 @@ import JsonRenderer from './components/put/JsonRenderer.vue';
 import JsonSchemaTree from './components/visual/JsonSchemaTree.vue';
 import PropertiesBindingEditor from './components/visual/PropertiesBindingEditor.vue';
 import type { TabsInst } from 'naive-ui';
+import { useMessage } from 'naive-ui';
 import {
 	computed,
 	ref,
@@ -12,7 +13,8 @@ import {
 	watch,
 	onUnmounted,
 	onMounted,
-	markRaw
+	markRaw,
+	provide
 } from 'vue';
 import { useSchemaStore } from './store/schema.ts';
 import { useEmphasizeStore } from './store/emphasize.ts';
@@ -23,10 +25,12 @@ import { useThrottle } from './components/put/common/throttle.ts';
 import { useAppInit } from './components/put/common/app.ts';
 import ProjectMenu from './components/visual/ProjectMenu.vue';
 import JobBuildsButton from './components/visual/JobBuildsButton.vue';
-import { useReferenceContext } from './store/reference-context.ts';
 import EventsBindingEditor from './components/visual/EventsBindingEditor.vue';
+import ReferenceView from './components/visual/ReferenceView.vue';
 
 useAppInit();
+
+const message = useMessage();
 
 const iconPath = computed(() => {
 	return `${import.meta.env.BASE_URL}code.png`;
@@ -102,10 +106,15 @@ onMounted(() => {
 	}
 });
 
-const referenceContext = useReferenceContext();
-function test() {
-	console.log(referenceContext.references);
-}
+const messageTool = computed(() => {
+	return {
+		info: (text: string) => message.info(text),
+		success: (text: string) => message.success(text),
+		error: (text: string) => message.error(text)
+	};
+});
+
+provide('messageTool', messageTool);
 </script>
 
 <template>
@@ -208,6 +217,13 @@ function test() {
 									</n-tab-pane>
 
 									<n-tab-pane
+										name="reference"
+										tab="引用"
+										display-directive="show"
+									>
+									</n-tab-pane>
+
+									<n-tab-pane
 										name="project"
 										tab="项目"
 										display-directive="show"
@@ -241,6 +257,13 @@ function test() {
 
 								<div
 									class="custom-tabs-item"
+									v-show="customTabValue === 'reference'"
+								>
+									<ReferenceView />
+								</div>
+
+								<div
+									class="custom-tabs-item"
 									v-show="customTabValue === 'project'"
 								>
 									<ProjectView />
@@ -261,7 +284,6 @@ function test() {
 					</div>
 					<div>
 						<n-space>
-							<n-button @click="test">测试</n-button>
 							<JobBuildsButton></JobBuildsButton>
 						</n-space>
 					</div>

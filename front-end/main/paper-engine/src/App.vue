@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, ref, watch} from "vue";
+import {computed, provide, ref, watch} from "vue";
 import { v4 as uuid } from 'uuid';
 import JsonRenderer from "./components/put/JsonRenderer.vue";
 import BindingContext from "engine-commons/components/put/data/BindingContext.vue";
@@ -7,6 +7,9 @@ import {useSchemaStore} from "engine-commons/store/schema.ts";
 import {useAppInit} from "./components/put/common/app.ts";
 import {useProjectStore} from "engine-commons/store/project.ts";
 import {VuePrintNext} from "vue-print-next";
+import {useMessage} from "naive-ui";
+
+const message = useMessage();
 
 const projectStore = useProjectStore();
 
@@ -48,6 +51,16 @@ function onPrint() {
     }
   });
 }
+
+const messageTool = computed(() => {
+  return {
+    info: (text: string) => message.info(text),
+    success: (text: string) => message.success(text),
+    error: (text: string) => message.error(text)
+  };
+});
+
+provide('messageTool', messageTool);
 </script>
 
 <template>

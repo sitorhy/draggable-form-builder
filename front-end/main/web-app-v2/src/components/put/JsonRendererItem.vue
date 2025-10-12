@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { RendererItemDefinition } from '../../types.ts';
+import PropertiesContext from './data/PropertiesContext.vue';
+import BindingContext from './data/BindingContext.vue';
 import Page from './item/Page.vue';
 import TextInput from './item/TextInput.vue';
 import DatePicker from './item/DatePicker.vue';
 import JsonRendererList from './JsonRendererList.vue';
 import JsonRendererContainer from './JsonRendererContainer.vue';
-import BindingContext from './data/BindingContext.vue';
 import List from './item/List.vue';
-import PropertiesContext from './data/PropertiesContext.vue';
 import Form from './item/Form.vue';
 import FormItem from './item/FormItem.vue';
 import Grid from './item/Grid.vue';
@@ -19,7 +19,6 @@ import Radio from './item/Radio.vue';
 import Equation from './item/Equation.vue';
 import RichText from './item/RichText.vue';
 import Button from './item/Button.vue';
-import { useMessage } from 'naive-ui';
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -31,18 +30,11 @@ const type = computed(() => schema.value.type);
 const customPath = computed(function () {
 	return schema.value.props?.path || '';
 });
-
-const message = useMessage();
-const messageProps = {
-	info: message.info,
-	success: message.success,
-	error: message.error
-};
 </script>
 
 <template>
 	<BindingContext :schema="schema" :custom-path="customPath">
-		<PropertiesContext :schema="schema" :message="messageProps">
+		<PropertiesContext :schema="schema">
 			<Page v-model:schema="schema" v-if="type === 'page'">
 				<slot></slot>
 			</Page>

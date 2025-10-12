@@ -31,18 +31,11 @@ const type = computed(() => schema.value.type);
 const customPath = computed(function () {
 	return schema.value.props?.path || '';
 });
-
-const message = useMessage();
-const messageProps = {
-  info: message.info,
-  success: message.success,
-  error: message.error
-};
 </script>
 
 <template>
   <BindingContext :schema="schema" :custom-path="customPath">
-    <PropertiesContext :schema="schema" :message="messageProps">
+    <PropertiesContext :schema="schema">
 			<Page v-model:schema="schema" v-if="type === 'page'">
 				<slot></slot>
 			</Page>

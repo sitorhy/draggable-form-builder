@@ -5,6 +5,7 @@ import {
 	FORM_LABEL_PLACEMENT
 } from '../../put/common/constants.ts';
 import type { SectionsReturnType } from './index.ts';
+import FormRulesEditor from '../FormRulesEditor.vue';
 
 function sections(): SectionsReturnType {
 	return {
@@ -29,6 +30,17 @@ function sections(): SectionsReturnType {
 						config: {
 							options: FORM_LABEL_PLACEMENT
 						}
+					}
+				]
+			},
+			{
+				title: '表单项校验',
+				id: 'rules',
+				schema: [
+					{
+						type: FormRulesEditor,
+						prop: 'rules',
+						label: '校验配置'
 					}
 				]
 			}

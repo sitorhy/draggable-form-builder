@@ -19,10 +19,20 @@ export const useReferenceContext = defineStore('reference', {
 		unregisterReference(bindingPath: string) {
 			this.references.delete(bindingPath);
 		},
-		findReference(subPath: string) {
+		findReference(subPath: string, tagKey: string): ComponentInstance<any> {
 			for (const e of this.references.entries()) {
 				if (e[0].lastIndexOf(subPath) >= 0) {
-					return e[1];
+					if (tagKey) {
+						if (
+							(e[1].$options.name || '')
+								.toLowerCase()
+								.indexOf(tagKey.toLowerCase()) >= 0
+						) {
+							return e[1];
+						}
+					} else {
+						return e[1];
+					}
 				}
 			}
 			return null;

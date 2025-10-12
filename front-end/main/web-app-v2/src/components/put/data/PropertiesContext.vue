@@ -23,14 +23,6 @@ const props = defineProps({
 	schema: {
 		type: Object as PropType<RendererItemDefinition>,
 		default: () => ({})
-	},
-	message: {
-		type: Object as PropType<{
-			info: (message: string) => void;
-			error: (message: string) => void;
-			success: (message: string) => void;
-		}>,
-		default: null
 	}
 });
 
@@ -47,11 +39,19 @@ const formItemBindingPath = inject<ComputedRef<string>>(
 	emptyBindingPath
 );
 
+const message = inject<
+	ComputedRef<{
+		info: (text: string) => void;
+		success: (text: string) => void;
+		error: (text: string) => void;
+	}>
+>('messageTool');
+
 const { functionContext } = useFunctionContext({
 	getBindingPath: function () {
 		return bindingPath.value;
 	},
-	message: props.message
+	getMessageTool: () => message?.value
 });
 
 const injectionObj = ref<Record<string, any>>({});

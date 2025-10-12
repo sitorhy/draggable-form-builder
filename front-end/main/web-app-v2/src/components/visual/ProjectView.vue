@@ -38,13 +38,13 @@ const editorProps = computed(() => {
 const funModelShow = ref(false);
 
 function reset() {
-	modelValue.value = { title: '', page: '', engine: 'pager-engine-app' };
+	modelValue.value = { title: '', page: '', engine: 'Paper' };
 }
 
 const modelValue = ref({
 	title: '',
 	page: '',
-	engine: 'pager-engine-app'
+	engine: 'Paper'
 });
 
 watch(
@@ -54,7 +54,8 @@ watch(
 			modelValue.value = {
 				...modelValue.value,
 				title: project.title,
-				page: currentPage
+				page: currentPage,
+				engine: projectStore.$state.project.engine || ''
 			};
 		} else {
 			reset();

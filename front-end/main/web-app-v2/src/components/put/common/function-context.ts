@@ -5,11 +5,14 @@ import { useFunctionStore } from '../../../store/function.ts';
 
 export function useFunctionContext(options: {
 	getBindingPath?: () => string;
-	message?: {
-		info: (message: string) => void;
-		error: (message: string) => void;
-		success: (message: string) => void;
-	};
+	getMessageTool?: () =>
+		| {
+				info: (message: string) => void;
+				error: (message: string) => void;
+				success: (message: string) => void;
+		  }
+		| null
+		| undefined;
 }) {
 	const bindingStore = useBindingStore();
 	const referenceContext = useReferenceContext();
@@ -23,8 +26,8 @@ export function useFunctionContext(options: {
 					bindingStore
 				};
 			},
-			findComponentRef: (subPath: string) => {
-				return referenceContext.findReference(subPath);
+			findComponentRef: (subPath: string, tagKey: string) => {
+				return referenceContext.findReference(subPath, tagKey);
 			},
 			getBindingPath() {
 				if (typeof options?.getBindingPath === 'function') {
@@ -37,18 +40,27 @@ export function useFunctionContext(options: {
 			tools: {
 				message: {
 					info: (text: string) => {
-						if (options.message) {
-							options.message.info(text);
+						if (options.getMessageTool) {
+							const message = options.getMessageTool();
+							if (message) {
+								message.info(text);
+							}
 						}
 					},
 					error: (text: string) => {
-						if (options.message) {
-							options.message.error(text);
+						if (options.getMessageTool) {
+							const message = options.getMessageTool();
+							if (message) {
+								message.error(text);
+							}
 						}
 					},
 					success: (text: string) => {
-						if (options.message) {
-							options.message.success(text);
+						if (options.getMessageTool) {
+							const message = options.getMessageTool();
+							if (message) {
+								message.success(text);
+							}
 						}
 					}
 				}

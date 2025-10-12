@@ -1,0 +1,273 @@
+{
+  "type": "page",
+  "id": "page_bdf5c5fd-ad1f-467a-883c-0b07715885f6",
+  "props": {
+    "path": "page859",
+    "background": "#FFFFFFFF",
+    "format": "48开",
+    "direction": "landscape"
+  },
+  "children": [
+    {
+      "type": "form",
+      "id": "form_59a87c5c-e308-4939-bea8-a08b2a521943",
+      "props": {
+        "path": "form887",
+        "requireMarkPlacement": "left",
+        "rules": {
+          "age": [
+            {
+              "required": false,
+              "validatorModule": "validateAge",
+              "message": "请输入年龄"
+            }
+          ],
+          "password": [
+            {
+              "required": false,
+              "message": "请填写密码"
+            }
+          ],
+          "reenteredPassword": [
+            {
+              "required": true,
+              "message": "请再次输入密码"
+            },
+            {
+              "required": false,
+              "message": "两次密码输入不一致",
+              "validatorModule": "validatePasswordStartWith"
+            },
+            {
+              "required": false,
+              "message": "两次密码输入不一致",
+              "validatorModule": "validatePasswordSame"
+            }
+          ]
+        }
+      },
+      "children": [
+        {
+          "type": "container",
+          "id": "container_0ce61fd1-e13d-4156-8436-15352165aa1f",
+          "props": {
+            "style": {}
+          },
+          "children": [
+            {
+              "type": "grid",
+              "id": "grid_09487680-74a7-438a-b7f1-2e70cf695db6",
+              "props": {
+                "cols": 1,
+                "rows": 4,
+                "xGap": 12,
+                "yGap": 0
+              },
+              "children": [
+                {
+                  "type": "container",
+                  "id": "container_6d523ca5-1def-4111-8e2b-c0e4e9ff6fca",
+                  "props": {
+                    "style": {}
+                  },
+                  "children": [
+                    {
+                      "type": "formItem",
+                      "id": "formItem_81411c4e-32a0-48c7-ab30-5fe785fc76fe",
+                      "props": {
+                        "label": "年龄",
+                        "path": "age",
+                        "showRequireMark": true
+                      },
+                      "children": [
+                        {
+                          "type": "container",
+                          "id": "container_370cf1e0-b27f-4377-8cae-cf7577c73715",
+                          "props": {
+                            "style": {
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "flex": 1
+                            },
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "flex": 1
+                          },
+                          "children": [
+                            {
+                              "type": "textInput",
+                              "id": "textInput_e6f25922-5599-4c26-8826-b5f3a2a65830",
+                              "props": {
+                                "path": "textInput891",
+                                "placeholder": "",
+                                "type": "text",
+                                "rows": 2,
+                                "maxlength": 255
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "container",
+                  "id": "container_f51c8edc-3197-47e2-902e-e887c0f9639e",
+                  "props": {
+                    "style": {}
+                  },
+                  "children": [
+                    {
+                      "type": "formItem",
+                      "id": "formItem_164a7d11-e2ea-4ddb-aa5c-d5de93065acf",
+                      "props": {
+                        "label": "密码",
+                        "path": "password",
+                        "showRequireMark": true
+                      },
+                      "children": [
+                        {
+                          "type": "container",
+                          "id": "container_1de06ae9-c543-4fcb-85de-036a0abf8707",
+                          "props": {
+                            "style": {
+                              "display": "flex",
+                              "flexDirection": "row",
+                              "flex": 1
+                            },
+                            "display": "flex",
+                            "flexDirection": "row",
+                            "flex": 1
+                          },
+                          "children": [
+                            {
+                              "type": "textInput",
+                              "id": "textInput_e211d862-beb8-431e-86ad-66621ddd0a11",
+                              "props": {
+                                "path": "textInput892",
+                                "placeholder": "",
+                                "type": "password",
+                                "rows": 2,
+                                "maxlength": 255
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "container",
+                  "id": "container_b34cb77a-4be8-41e5-a455-f18098344c28",
+                  "props": {
+                    "style": {}
+                  },
+                  "children": [
+                    {
+                      "type": "formItem",
+                      "id": "formItem_01cfd78e-000e-4130-80ae-f6928eb9325c",
+                      "props": {
+                        "label": "重复密码",
+                        "path": "reenteredPassword",
+                        "showRequireMark": true,
+                        "first": true
+                      },
+                      "children": [
+                        {
+                          "type": "container",
+                          "id": "container_c43afe46-b659-40a8-8d09-6d3c13d479bd",
+                          "props": {
+                            "style": {
+                              "display": "flex",
+                              "flex": 1,
+                              "flexDirection": "row"
+                            },
+                            "display": "flex",
+                            "flex": 1,
+                            "flexDirection": "row"
+                          },
+                          "children": [
+                            {
+                              "type": "textInput",
+                              "id": "textInput_6dfb67e3-ab8f-4eb7-bb65-7a1f1fdbe7d2",
+                              "props": {
+                                "path": "textInput893",
+                                "placeholder": "",
+                                "type": "password",
+                                "rows": 2,
+                                "maxlength": 255
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "container",
+                  "id": "container_c36b3df4-de23-4c61-92c0-7df7b6925a54",
+                  "props": {
+                    "style": {
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "flex": 1
+                    },
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flex": 1
+                  },
+                  "children": [
+                    {
+                      "type": "button",
+                      "id": "button_521f7184-691e-4792-89a2-58ebbc7c4874",
+                      "props": {
+                        "type": "primary",
+                        "width": "100%",
+                        "style": {
+                          "width": "100%"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "container",
+                          "id": "container_746a9dcf-c360-4b98-8690-5b8c51860a3b",
+                          "props": {
+                            "style": {
+                              "display": "flex",
+                              "flexDirection": "column",
+                              "justifyContent": "center",
+                              "alignItems": "center"
+                            },
+                            "display": "flex",
+                            "flexDirection": "column",
+                            "justifyContent": "center",
+                            "alignItems": "center"
+                          },
+                          "children": [
+                            {
+                              "type": "ellipsis",
+                              "id": "ellipsis_15b28114-78bb-435a-b6c4-0a6f294c1538",
+                              "props": {
+                                "text": "验证"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "events": {
+                        "click": "formSubmit"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

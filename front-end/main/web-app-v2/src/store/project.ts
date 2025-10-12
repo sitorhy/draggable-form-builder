@@ -1,26 +1,34 @@
 import { defineStore } from 'pinia';
 import type { ProjectDefinition, RendererItemDefinition } from '../types.ts';
-import { getTestProject001 } from '../test/project001.ts';
 
+// test
+import { getTestProject001 } from '../test/project001.ts';
+import { getTestProject002 } from '../test/project002.ts';
 import page001 from '../test/page001.json';
 import page002 from '../test/page002.json';
 import page003 from '../test/page003.json';
 import page004 from '../test/page004.json';
+import page005 from '../test/page005.json';
+// test
+
 import { collectStaticContext, useSchemaStore } from './schema.ts';
 import { useFunctionStore } from './function.ts';
 import { useBindingStore } from './binding.ts';
 import { createRendererItemConfig } from './component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../components/put/common/seq.ts';
-import { unitTest } from '../test/data.ts';
+// import { unitTest } from '../test/data.ts';
 
+// test
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
 	'page001.json': page001,
 	'page002.json': page002,
 	'page003.json': page003,
 	'page004.json': page004,
-	test001: unitTest()
+	// test001: unitTest()
+	'page005.json': page005
 };
+// test
 
 const seqGenerator = new SequenceGenerator({
 	startFrom: Math.floor(Math.random() * 1000)
@@ -35,7 +43,7 @@ export const useProjectStore = defineStore('project', {
 				id: '',
 				pages: []
 			},
-			projectList: [getTestProject001()],
+			projectList: [getTestProject002(), getTestProject001()],
 			currentPage: ''
 		} as {
 			project: ProjectDefinition;

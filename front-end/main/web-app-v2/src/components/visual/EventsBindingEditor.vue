@@ -84,6 +84,7 @@ function updateEventBinding(eventName: string, moduleName: string) {
 							:label="event.label"
 						>
 							<FunctionCodeSelect
+								:multiple="false"
 								:value="
 									watchingSchema?.events
 										? watchingSchema.events[event.value]
@@ -94,7 +95,7 @@ function updateEventBinding(eventName: string, moduleName: string) {
 						</n-form-item>
 					</n-form>
 					<div v-else class="editor-empty">
-						<n-empty description="组件未配置事件">
+						<n-empty description="未配置事件功能">
 							<template #icon>
 								<n-icon>
 									<Settings24Regular />
@@ -105,6 +106,16 @@ function updateEventBinding(eventName: string, moduleName: string) {
 					</div>
 				</n-space>
 			</n-thing>
+		</div>
+		<div v-else class="editor-empty">
+			<n-empty>
+				<template #icon>
+					<n-icon>
+						<Settings24Regular />
+					</n-icon>
+				</template>
+				<template #extra></template>
+			</n-empty>
 		</div>
 	</div>
 </template>

@@ -8,6 +8,8 @@ defineProps({});
 
 const projectStore = useProjectStore();
 
+const loading = ref(false);
+
 const message = useMessage();
 
 const historyTimer = ref(0);
@@ -167,6 +169,10 @@ async function onNewJobClick() {
 		}
 
 		await reloadHistory();
+		loading.value = true;
+		setTimeout(() => {
+			loading.value = false;
+		}, 5000);
 	} catch (e: unknown) {
 		console.error(e);
 		message.error(e instanceof Error ? e.message : JSON.stringify(e));
@@ -195,8 +201,12 @@ onUnmounted(() => {
 		<n-list>
 			<template #header>
 				<n-space>
-					<n-button type="primary" @click="onNewJobClick">构建新任务</n-button>
-					<n-button type="info" @click="toLink">跳转</n-button>
+					<n-button :loading="loading" type="primary" @click="onNewJobClick"
+						>构建新任务</n-button
+					>
+					<n-button :loading="loading" type="info" @click="toLink"
+						>跳转</n-button
+					>
 				</n-space>
 			</template>
 			<template #footer></template>

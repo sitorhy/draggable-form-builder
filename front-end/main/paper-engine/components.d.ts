@@ -28,6 +28,7 @@ declare module 'vue' {
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
+    NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NSpace: typeof import('naive-ui')['NSpace']
     Page: typeof import('./src/components/put/item/Page.vue')['default']
     Radio: typeof import('./src/components/put/item/Radio.vue')['default']

@@ -1,4 +1,4 @@
-import { NInput, NSelect } from 'naive-ui';
+import { NInput, NSelect, NSwitch } from 'naive-ui';
 import { useBindingPathSchema } from './common.ts';
 import {
 	FORM_LABEL_ALIGN,
@@ -37,6 +37,16 @@ function sections(): SectionsReturnType {
 						config: {
 							options: FORM_LABEL_PLACEMENT
 						}
+					},
+					{
+						type: NSwitch,
+						label: '必填星号',
+						prop: 'showRequireMark'
+					},
+					{
+						type: NSwitch,
+						label: '只展示首个出错信息',
+						prop: 'first'
 					}
 				]
 			}

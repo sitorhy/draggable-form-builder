@@ -48,7 +48,7 @@ async function onMounted() {
 		type: 'loadProject',
 		payload: project
 	};
-	microApp.setData('pager-engine-app', event);
+	microApp.setData('Paper', event);
 }
 </script>
 

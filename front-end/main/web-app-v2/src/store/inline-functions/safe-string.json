@@ -2,5 +2,5 @@
   "id": "b60b0e2c-1e8b-4cc1-b0f9-409e19f05556",
   "name": "toSafeString",
   "code": "export default function(value) {\n    if (typeof value !== 'string') {\n        return '';\n    }\n    return value;\n}",
-  "description": "过滤非字符串对象为空字符串"
+  "description": "通用，过滤非字符串对象为空字符串"
 }

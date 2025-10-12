@@ -2,6 +2,13 @@
 import FunctionDialog from './FunctionDialog.vue';
 import { ref } from 'vue';
 
+defineProps({
+	multiple: {
+		type: Boolean,
+		default: true
+	}
+});
+
 const funcDlgRef = ref();
 
 const modelValue = defineModel('value', {
@@ -28,7 +35,12 @@ function onConfirm(codes: string[]) {
 		/>
 		<n-button @click="onSelect" type="primary">选择</n-button>
 	</n-input-group>
-	<FunctionDialog ref="funcDlgRef" :selectable="true" @confirm="onConfirm" />
+	<FunctionDialog
+		ref="funcDlgRef"
+		:multiple="multiple"
+		:selectable="true"
+		@confirm="onConfirm"
+	/>
 </template>
 
 <style scoped lang="scss"></style>

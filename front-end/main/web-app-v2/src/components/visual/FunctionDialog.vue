@@ -12,6 +12,10 @@ const props = defineProps({
 	selectable: {
 		type: Boolean,
 		default: false
+	},
+	multiple: {
+		type: Boolean,
+		default: true
 	}
 });
 const functionStore = useFunctionStore();
@@ -66,6 +70,7 @@ const columns = computed<Record<string, any>[]>(() => {
 	if (props.selectable) {
 		cols.unshift({
 			type: 'selection',
+			multiple: props.multiple,
 			key: '$selection'
 		});
 	}

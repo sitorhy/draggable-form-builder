@@ -4,9 +4,9 @@ export function useOutputEnginesInfo() {
 	const options = computed(() => {
 		return [
 			{
-				value: 'pager-engine-app',
+				value: 'Paper',
 				label: '纸质引擎',
-				name: 'pager-engine-app',
+				name: 'Paper',
 				url: `${location.protocol}//${location.hostname}:6681/`
 			}
 		];

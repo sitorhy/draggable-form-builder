@@ -23,6 +23,7 @@ export type RendererItemDefinition = {
 };
 
 export type ProjectDefinition = {
+	engine?: string;
 	title: string; // 项目标题
 	name: string; // 项目标识
 	id: string;
