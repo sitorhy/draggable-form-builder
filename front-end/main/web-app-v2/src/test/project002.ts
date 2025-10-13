@@ -2,7 +2,7 @@ import type { ProjectDefinition } from '../types.ts';
 
 export function getTestProject002(): ProjectDefinition {
 	return {
-		engine: 'iView',
+		engine: 'Antd',
 		id: '8301a968-45e5-46d1-9107-dab9cd190e24',
 		name: 'testProject_002',
 		title: '表单数据',

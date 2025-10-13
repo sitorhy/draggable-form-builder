@@ -5,7 +5,8 @@
     "path": "page859",
     "background": "#FFFFFFFF",
     "format": "48开",
-    "direction": "landscape"
+    "direction": "landscape",
+    "padding": "8px"
   },
   "children": [
     {

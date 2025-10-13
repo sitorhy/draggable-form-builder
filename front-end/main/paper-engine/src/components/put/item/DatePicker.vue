@@ -8,7 +8,10 @@ const schema = defineModel<RendererItemDefinition>('schema', {
 });
 
 const style = computed(() => {
-  return schema.value.props?.style;
+  return {
+    width: '100%',
+    ...schema.value.props?.style
+  };
 });
 </script>
 

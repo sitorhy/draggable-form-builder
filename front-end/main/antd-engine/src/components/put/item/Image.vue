@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, type ComputedRef, inject } from 'vue';
 import { ErrorCircle20Regular } from '@vicons/fluent';
-import type { RendererItemDefinition } from '../../../types.ts';
-import { useEmptyPropsInjection } from '../common/props.ts';
+import {useEmptyPropsInjection} from "engine-commons/components/put/common/props.ts";
+import type {RendererItemDefinition} from "engine-commons/types.ts";
 
 const schema = defineModel<RendererItemDefinition>('schema', {
 	type: Object,
@@ -22,16 +22,13 @@ const propsReduce = computed(() => ({
 </script>
 
 <template>
-	<n-image
+	<a-image
 		v-if="schema.props"
-		v-emphasize:schemaId="schema.id"
 		v-bind="propsReduce"
 	/>
-	<n-empty v-else description="Image">
-		<template #icon>
-			<n-icon>
-				<ErrorCircle20Regular />
-			</n-icon>
-		</template>
-	</n-empty>
+  <a-empty v-else description="Image">
+    <template #description>
+      <ErrorCircle20Regular/>
+    </template>
+  </a-empty>
 </template>
