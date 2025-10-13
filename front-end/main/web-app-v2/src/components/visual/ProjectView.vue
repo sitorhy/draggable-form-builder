@@ -8,6 +8,7 @@ import JsonEditorVue from 'json-editor-vue';
 import FunctionDialog from './FunctionDialog.vue';
 import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
 import { useOutputEnginesInfo } from '../put/common/output.ts';
+import { DocumentChevronDouble24Regular } from '@vicons/fluent';
 
 const projectStore = useProjectStore();
 const project = computed(() => projectStore.project);
@@ -83,7 +84,24 @@ function createPage() {
 
 const previewDlgShow = ref(false);
 function previewCurrentPage() {
+	projectStore.switchPage(projectStore.currentPage);
 	previewDlgShow.value = true;
+}
+
+async function exportProjectJson() {
+	const json = await projectStore.packageProject();
+	const jsonString = JSON.stringify(json, null, 2);
+	const blob = new Blob([jsonString], { type: 'application/json' });
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = 'project.json';
+	document.body.appendChild(a);
+	a.click();
+
+	// (释放内存)
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
 }
 </script>
 
@@ -92,7 +110,16 @@ function previewCurrentPage() {
 		<template v-if="projectStore.$state.project.id">
 			<n-form :model="modelValue" label-placement="top">
 				<n-form-item path="title" label="项目">
-					<n-input v-model:value="modelValue.title" readonly />
+					<n-input-group>
+						<n-input v-model:value="modelValue.title" readonly />
+						<n-button @click="exportProjectJson" title="导出">
+							<template #icon>
+								<n-icon color="primary">
+									<DocumentChevronDouble24Regular />
+								</n-icon>
+							</template>
+						</n-button>
+					</n-input-group>
 				</n-form-item>
 
 				<n-form-item path="page" label="页面">
@@ -153,7 +180,7 @@ function previewCurrentPage() {
 					</n-button>
 				</n-form-item>
 
-				<n-form-item path="engine" label="预览">
+				<n-form-item path="engine" label="输出引擎">
 					<n-space vertical align="stretch" style="width: 100%">
 						<n-select
 							v-model:value="modelValue.engine"
@@ -166,7 +193,7 @@ function previewCurrentPage() {
 							type="primary"
 							@click="previewCurrentPage"
 						>
-							<span>查看</span>
+							<span>预览</span>
 						</n-button>
 					</n-space>
 				</n-form-item>

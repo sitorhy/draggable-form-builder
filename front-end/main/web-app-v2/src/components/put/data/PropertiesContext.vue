@@ -17,7 +17,10 @@ import { useBindingStore } from '../../../store/binding';
 import { parseUri } from '../../visual/data-source/config';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
 import { useFunctionStore } from '../../../store/function.ts';
-import { useFunctionContext } from '../common/function-context.ts';
+import {
+	createModuleDefaultExecution,
+	useFunctionContext
+} from '../common/function-context.ts';
 
 const props = defineProps({
 	schema: {
@@ -57,12 +60,27 @@ const { functionContext } = useFunctionContext({
 const injectionObj = ref<Record<string, any>>({});
 const injectionEvents = ref<Record<string, (...args: any[]) => any>>({});
 
-const binding = computed(() => {
-	return props.schema.binding;
+const datasource = computed<string>(() => {
+	return props.schema?.props?.datasource || '';
 });
 
-const events = computed(() => {
-	return props.schema.events;
+const binding = computed(() => {
+	if (datasource.value) {
+		if (props.schema.type === 'linearList') {
+			// 对象协议优先级最低
+			return {
+				...props.schema.binding,
+				loop: datasource.value
+			};
+		}
+		return props.schema.binding;
+	} else {
+		return props.schema.binding;
+	}
+});
+
+const events = computed<Record<string, string>>(() => {
+	return props.schema.events || {};
 });
 
 async function injectProps(
@@ -174,6 +192,64 @@ function resolveLocalSchema(
 	}
 }
 
+async function resolveRemoteSchema(
+	prop: string,
+	dataSourceSchema: NormalizeDataSource
+) {
+	const resolvedSchema: NormalizeDataSource = {
+		...dataSourceSchema,
+		host: dataSourceSchema.host.replace(
+			'${BASE_URL}',
+			`${location.host}/${import.meta.env.BASE_URL}`.replace(/\/+/, '/')
+		),
+		schema: location.protocol.startsWith('https') ? 'https' : 'http'
+	};
+
+	let path = `${resolvedSchema.host}/${resolvedSchema.path}`.replace(
+		/\/+/,
+		'/'
+	);
+	if (path.indexOf('?') >= 0) {
+		path = `${path}&filter=${resolvedSchema.filter}`;
+	} else {
+		path = `${path}?filter=${resolvedSchema.filter}`;
+	}
+	const fullUrl = `${resolvedSchema.schema}://${path}`;
+
+	try {
+		// 1. 发起请求
+		const response = await fetch(fullUrl, {
+			method: 'GET',
+			credentials: 'include'
+		});
+
+		// 2. 检查 HTTP 状态码
+		if (!response.ok) {
+			message?.value.error(
+				`HTTP error! Status: ${response.status} ${response.statusText}`
+			);
+		}
+
+		// 3. 解析响应体为 JSON
+		// response.json() 返回一个 Promise，解析 body 中的 JSON 数据
+		const data = await response.json();
+
+		const partPath = props.schema.props?.path;
+		if (partPath) {
+			bindingStore.assignStaticContext({
+				[partPath]: data
+			});
+
+			injectionObj.value[prop] = bindingStore.staticContext[partPath];
+		}
+	} catch (error) {
+		message?.value.error(
+			error instanceof Error ? error.message : JSON.stringify(error)
+		);
+		console.error(error);
+	}
+}
+
 /**
  * 将事件名称（如 'click'）转换为 Vue/React 风格的事件响应属性名称（如 'onClick'）。
  *
@@ -196,31 +272,16 @@ function toVueEventPropName(eventName: string): string {
 }
 
 async function resolveEvents() {
-	if (events.value) {
+	if (events.value && Object.keys(events.value).length > 0) {
 		injectionEvents.value = Object.keys(events.value)
 			.map((eventName: string) => {
 				return [
 					toVueEventPropName(eventName),
-					async function (...args: any[]) {
-						const moduleName = (events.value as Record<string, string>)[
-							eventName
-						];
-						let func = funcStore.tryGetDefaultFunctionByModuleName(
-							moduleName as string
-						);
-						if (moduleName) {
-							const moduleDescription =
-								await funcStore.findFunctionCodeByName(moduleName);
-							if (moduleDescription) {
-								const module = await funcStore.loadModule(moduleDescription);
-								func = module['default'];
-							}
-						}
-
-						if (typeof func === 'function') {
-							func.bind(functionContext.value).apply(...args);
-						}
-					}
+					createModuleDefaultExecution(
+						events.value[eventName] as string,
+						funcStore,
+						functionContext
+					)
 				];
 			})
 			.reduce((s, i: any[]) => Object.assign(s, { [i[0]]: i[1] }), {});
@@ -234,9 +295,16 @@ function resolveBinding() {
 			const uri = uriMap[prop];
 			const dataSourceSchema = parseUri(uri);
 			switch (dataSourceSchema.schema) {
-				case 'object': {
-					resolveLocalSchema(prop, dataSourceSchema);
-				}
+				case 'object':
+					{
+						resolveLocalSchema(prop, dataSourceSchema);
+					}
+					break;
+				case 'http':
+					{
+						resolveRemoteSchema(prop, dataSourceSchema);
+					}
+					break;
 			}
 		});
 	}

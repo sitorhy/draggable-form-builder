@@ -17,7 +17,10 @@ import { useBindingStore } from '../../../store/binding';
 import { parseUri } from '../../visual/data-source/config';
 import { useEmptyBindingPath } from '../common/binding-path.ts';
 import { useFunctionStore } from '../../../store/function.ts';
-import { useFunctionContext } from '../common/function-context.ts';
+import {
+	createModuleDefaultExecution,
+	useFunctionContext
+} from '../common/function-context.ts';
 
 const props = defineProps({
 	schema: {
@@ -61,8 +64,8 @@ const binding = computed(() => {
 	return props.schema.binding;
 });
 
-const events = computed(() => {
-	return props.schema.events;
+const events = computed<Record<string, string>>(() => {
+	return props.schema.events || {};
 });
 
 async function injectProps(
@@ -196,29 +199,16 @@ function toVueEventPropName(eventName: string): string {
 }
 
 async function resolveEvents() {
-	if (events.value) {
+	if (events.value && Object.keys(events.value).length > 0) {
 		injectionEvents.value = Object.keys(events.value)
 			.map((eventName: string) => {
 				return [
 					toVueEventPropName(eventName),
-					async function (...args: any[]) {
-						const moduleName = (events.value as Record<string, string>)[
-							eventName
-						];
-						let func = funcStore.tryGetDefaultFunctionByModuleName(moduleName as string);
-						if (moduleName) {
-							const moduleDescription =
-								await funcStore.findFunctionCodeByName(moduleName);
-							if (moduleDescription) {
-								const module = await funcStore.loadModule(moduleDescription);
-								func = module['default'];
-							}
-						}
-
-						if (typeof func === 'function') {
-							func.bind(functionContext.value).apply(...args);
-						}
-					}
+					createModuleDefaultExecution(
+						events.value[eventName] as string,
+						funcStore,
+						functionContext
+					)
 				];
 			})
 			.reduce((s, i: any[]) => Object.assign(s, { [i[0]]: i[1] }), {});

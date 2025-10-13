@@ -118,7 +118,7 @@ provide('messageTool', messageTool);
 </script>
 
 <template>
-	<div class="main">
+	<div class="main DEVELOP">
 		<n-layout position="absolute">
 			<n-layout-header style="height: 48px; padding: 0 11px" bordered>
 				<div

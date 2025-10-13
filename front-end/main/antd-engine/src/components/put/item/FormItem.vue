@@ -29,7 +29,8 @@ const propsReduce = computed(() => ({
 
 const propsCombined = computed(() => ({
   ...propsReduce.value,
-  name: propsReduce.value.path
+  name: propsReduce.value.path,
+  validateFirst: propsReduce.value.first
 }))
 
 provide('formItemBindingPath', bindingPath);

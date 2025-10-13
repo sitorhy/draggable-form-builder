@@ -4,6 +4,7 @@ import type { ProjectDefinition, RendererItemDefinition } from '../types.ts';
 // test
 import { getTestProject001 } from '../test/project001.ts';
 import { getTestProject002 } from '../test/project002.ts';
+import page000 from '../test/page000.json';
 import page001 from '../test/page001.json';
 import page002 from '../test/page002.json';
 import page003 from '../test/page003.json';
@@ -17,15 +18,14 @@ import { useBindingStore } from './binding.ts';
 import { createRendererItemConfig } from './component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../components/put/common/seq.ts';
-// import { unitTest } from '../test/data.ts';
 
 // test
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
+	'page000.json': page000,
 	'page001.json': page001,
 	'page002.json': page002,
 	'page003.json': page003,
 	'page004.json': page004,
-	// test001: unitTest()
 	'page005.json': page005
 };
 // test
@@ -43,7 +43,8 @@ export const useProjectStore = defineStore('project', {
 				id: '',
 				pages: []
 			},
-			projectList: [getTestProject002(), getTestProject001()],
+			// projectList: [getTestProject002(), getTestProject001()],
+			projectList: [getTestProject001(), getTestProject002()],
 			currentPage: ''
 		} as {
 			project: ProjectDefinition;
@@ -166,6 +167,15 @@ export const useProjectStore = defineStore('project', {
 					await this.functionStore.createFunctionCode(func);
 				}
 			}
+
+			// 实例化函数集
+			const modules = this.functionStore.$state.functions;
+
+			await Promise.all(
+				modules.map(async (module) => {
+					await this.functionStore.loadModule(module);
+				})
+			);
 
 			const pages = this.project.pages;
 			pages.forEach((page) => {

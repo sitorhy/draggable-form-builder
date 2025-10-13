@@ -103,6 +103,10 @@ export const DATA_SOURCE_SCHEMAS = [
 	{
 		label: '对象检索',
 		value: 'object'
+	},
+	{
+		label: 'HTTP/HTTPS',
+		value: 'http'
 	}
 ];
 
@@ -110,6 +114,17 @@ export const DATA_SOURCE_OBJECT_SCHEMA_HOST = [
 	{
 		label: '路径',
 		value: 'path'
+	}
+];
+
+export const DATA_SOURCE_HTTP_SCHEMA_HOST = [
+	{
+		label: `${location.hostname}${location.port ? ':' + location.port : ''}`,
+		value: `${location.hostname}${location.port ? ':' + location.port : ''}`
+	},
+	{
+		label: 'env.BASE_URL',
+		value: '${BASE_URL}'
 	}
 ];
 

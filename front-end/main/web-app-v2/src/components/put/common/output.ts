@@ -8,6 +8,12 @@ export function useOutputEnginesInfo() {
 				label: '纸质引擎',
 				name: 'Paper',
 				url: `${location.protocol}//${location.hostname}:6681/`
+			},
+			{
+				value: 'Antd',
+				label: 'Ant Design',
+				name: 'Antd',
+				url: `${location.protocol}//${location.hostname}:6682/`
 			}
 		];
 	});

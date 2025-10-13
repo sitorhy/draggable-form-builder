@@ -17,7 +17,7 @@ export const useFunctionStore = defineStore('function', {
 				(i) => i.name === name
 			);
 			if (description) {
-				return this.modules.get(description.id);
+				return this.modules.get(description.id)?.default;
 			}
 			return null;
 		},

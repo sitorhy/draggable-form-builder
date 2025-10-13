@@ -8,7 +8,7 @@ export function getTestProject001(): ProjectDefinition {
 		title: '普通高中高三第一学期期中考试',
 		pages: [
 			// {
-			// 	id: 'test001',
+			// 	id: 'page000.json',
 			// 	title: '测试',
 			// 	localFlag: true
 			// },

@@ -1,5 +1,6 @@
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
+	DATA_SOURCE_HTTP_SCHEMA_HOST,
 	DATA_SOURCE_OBJECT_SCHEMA_HOST,
 	DATA_SOURCE_SCHEMAS
 } from '../../put/common/constants.ts';
@@ -9,20 +10,31 @@ import FunctionCodeSelect from '../FunctionCodeSelect.vue';
 
 export function stringifyDataSourceSchema(options: NormalizeDataSource) {
 	if (options && options.schema && options.host && options.path) {
-		let uri = `${options.schema}://${options.host}:${options.path}`;
-		const qs = [options.filter ? 'filter=' + options.filter : '']
-			.filter((i) => !!i)
-			.join('&');
-		if (qs) {
-			uri += `?${qs}`;
+		if (options.schema === 'http') {
+			let uri = `${options.schema}://${options.host}/${options.path.replace(/^\//, '')}`;
+			const qs = [options.filter ? 'filter=' + options.filter : '']
+				.filter((i) => !!i)
+				.join('&');
+			if (qs) {
+				uri += `?${qs}`;
+			}
+			return uri;
+		} else {
+			let uri = `${options.schema}://${options.host}:${options.path}`;
+			const qs = [options.filter ? 'filter=' + options.filter : '']
+				.filter((i) => !!i)
+				.join('&');
+			if (qs) {
+				uri += `?${qs}`;
+			}
+			return uri;
 		}
-		return uri;
 	}
 	return '';
 }
 
 export function parseUri(uri: string): NormalizeDataSource {
-	const result = {
+	let result = {
 		schema: '',
 		host: '',
 		path: '',
@@ -33,43 +45,85 @@ export function parseUri(uri: string): NormalizeDataSource {
 		return result;
 	}
 
-	// 1. 查找并拆分 schema
-	const schemaSeparatorIndex = uri.indexOf('://');
-	if (schemaSeparatorIndex === -1) {
-		return result; // 格式不正确，返回空
-	}
-	result.schema = uri.substring(0, schemaSeparatorIndex);
+	if (uri.startsWith('http')) {
+		result.schema = 'http';
 
-	// 2. 截取剩余部分，并查找 host 和 path
-	const rest = uri.substring(schemaSeparatorIndex + 3);
+		// 1. 定义占位符和替换值
+		const placeholderHost = 'placeholder.com';
+		// 替换占位符，使其成为一个有效的 URL
+		const validUri = uri.replace('${BASE_URL}', placeholderHost);
 
-	// 查找 host 和 path 的分隔符
-	const hostSeparatorIndex = rest.indexOf(':');
-	if (hostSeparatorIndex === -1) {
-		// 如果没有 host 分隔符，说明格式不正确，或者 host 就是全部
-		return result;
-	}
-	result.host = rest.substring(0, hostSeparatorIndex);
+		const url = new URL(validUri);
+		const params = url.searchParams;
 
-	// 3. 查找 path 和查询参数的分隔符
-	const pathAndQuery = rest.substring(hostSeparatorIndex + 1);
-	const querySeparatorIndex = pathAndQuery.indexOf('?');
+		let filterValue = '';
+		const remainingParams = [];
 
-	if (querySeparatorIndex !== -1) {
-		result.path = pathAndQuery.substring(0, querySeparatorIndex);
+		const targetFilterKey = 'filter';
+
+		// 2. 遍历参数，提取 filter 的值，同时构建剩余参数列表
+		for (const [key, value] of params.entries()) {
+			if (key === targetFilterKey) {
+				filterValue = value;
+			} else {
+				// 保留所有非 'filter' 参数及其原始大小写
+				remainingParams.push(`${key}=${value}`);
+			}
+		}
+
+		// 3. 重构 path 字段
+		let customPath = url.pathname;
+		if (remainingParams.length > 0) {
+			customPath += '?' + remainingParams.join('&');
+		}
+
+		// 4. 组装结果对象，将 host 还原为占位符
+		result = {
+			schema: url.protocol.slice(0, -1),
+			// 还原 host 字段中的占位符
+			host: url.host === placeholderHost ? '${BASE_URL}' : url.host,
+			path: customPath,
+			filter: filterValue
+		};
 	} else {
-		result.path = pathAndQuery;
-	}
+		// 1. 查找并拆分 schema
+		const schemaSeparatorIndex = uri.indexOf('://');
+		if (schemaSeparatorIndex === -1) {
+			return result; // 格式不正确，返回空
+		}
+		result.schema = uri.substring(0, schemaSeparatorIndex);
 
-	if (querySeparatorIndex >= 0) {
-		const filterIndex = uri.indexOf('filter=', querySeparatorIndex + 1);
-		const end = uri.indexOf('&', filterIndex);
-		const filter = uri.substring(
-			filterIndex + 'filter='.length,
-			end === -1 ? uri.length : end
-		);
-		if (filter) {
-			result.filter = filter;
+		// 2. 截取剩余部分，并查找 host 和 path
+		const rest = uri.substring(schemaSeparatorIndex + 3);
+
+		// 查找 host 和 path 的分隔符
+		const hostSeparatorIndex = rest.indexOf(':');
+		if (hostSeparatorIndex === -1) {
+			// 如果没有 host 分隔符，说明格式不正确，或者 host 就是全部
+			return result;
+		}
+		result.host = rest.substring(0, hostSeparatorIndex);
+
+		// 3. 查找 path 和查询参数的分隔符
+		const pathAndQuery = rest.substring(hostSeparatorIndex + 1);
+		const querySeparatorIndex = pathAndQuery.indexOf('?');
+
+		if (querySeparatorIndex !== -1) {
+			result.path = pathAndQuery.substring(0, querySeparatorIndex);
+		} else {
+			result.path = pathAndQuery;
+		}
+
+		if (querySeparatorIndex >= 0) {
+			const filterIndex = uri.indexOf('filter=', querySeparatorIndex + 1);
+			const end = uri.indexOf('&', filterIndex);
+			const filter = uri.substring(
+				filterIndex + 'filter='.length,
+				end === -1 ? uri.length : end
+			);
+			if (filter) {
+				result.filter = filter;
+			}
 		}
 	}
 
@@ -120,18 +174,25 @@ export function useDataSourceConfig() {
 		}[]
 	>([]);
 
-	function onSchemaChanged(value: string) {
-		dataSourceSchemaRef.value.host = '';
-		switch (value) {
+	function updateHostOptions(schema: string): void {
+		switch (schema) {
 			case 'object':
 				hostOptions.value = DATA_SOURCE_OBJECT_SCHEMA_HOST;
+				break;
+			case 'http':
+				hostOptions.value = DATA_SOURCE_HTTP_SCHEMA_HOST;
 				break;
 			default: {
 				hostOptions.value = [];
 			}
 		}
+	}
 
-		if (hostOptions.value.length === 1) {
+	function onSchemaChanged(value: string) {
+		dataSourceSchemaRef.value.host = '';
+		updateHostOptions(value);
+
+		if (hostOptions.value.length === 1 && !dataSourceSchemaRef.value.host) {
 			dataSourceSchemaRef.value.host = hostOptions.value[0].value;
 		}
 	}
@@ -178,7 +239,7 @@ export function useDataSourceConfig() {
 				},
 				rules: [
 					{
-						required: true,
+						required: hostOptions.value.length > 0,
 						message: '选择访问资源'
 					}
 				]
@@ -206,7 +267,10 @@ export function useDataSourceConfig() {
 							if (!pathPart) {
 								callback(new Error('填写对象路径'));
 								return;
-							} else if (!isValidObjectPath(pathPart)) {
+							} else if (
+								['object'].includes(dataSourceSchemaRef.value.host) &&
+								!isValidObjectPath(pathPart)
+							) {
 								callback(new Error('路径须符合有效的对象属性路径'));
 								return;
 							}
@@ -226,8 +290,10 @@ export function useDataSourceConfig() {
 	});
 
 	onMounted(() => {
-		onSchemaChanged(dataSourceSchemaRef.value.schema);
+		updateHostOptions(dataSourceSchemaRef.value.schema);
 	});
+
+	watch(() => dataSourceSchemaRef.value.schema, updateHostOptions);
 
 	return {
 		dataSourceSchemaRef,

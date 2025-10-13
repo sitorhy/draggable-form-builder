@@ -48,7 +48,7 @@ async function onMounted() {
 		type: 'loadProject',
 		payload: project
 	};
-	microApp.setData('Paper', event);
+	microApp.setData(props.engine, event);
 }
 </script>
 

@@ -6,6 +6,8 @@ import {
 	useBindingPathSchema
 } from './common.ts';
 import DataSourceSchema from '../DataSourceSchema.vue';
+import type { NormalizeDataSource } from '../../../types.ts';
+import { stringifyDataSourceSchema } from '../data-source/config.ts';
 
 function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 	return {
@@ -38,7 +40,38 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						prop: 'datasource',
 						label: '数据源',
 						config: {
-							readOnly: options.schema?.props?.static
+							readOnly: options.schema?.props?.static,
+							value: options.schema?.props?.datasource
+								? options.schema?.props?.datasource
+								: null
+						},
+						on: {
+							'update:value': function (
+								schema: string | NormalizeDataSource | undefined
+							) {
+								if (options.schema && schema) {
+									if (typeof schema === 'string') {
+										options.schema.props = {
+											...options.schema.props,
+											datasource: schema
+										};
+									} else {
+										options.schema.props = {
+											...options.schema.props,
+											datasource: stringifyDataSourceSchema(
+												schema as NormalizeDataSource
+											)
+										};
+									}
+								} else {
+									if (options.schema) {
+										options.schema.props = {
+											...options.schema.props,
+											datasource: null
+										};
+									}
+								}
+							}
 						}
 					}
 				]

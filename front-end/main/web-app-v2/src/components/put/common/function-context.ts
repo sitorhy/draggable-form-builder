@@ -1,5 +1,5 @@
 import { useBindingStore } from '../../../store/binding.ts';
-import { computed } from 'vue';
+import { computed, type ComputedRef } from 'vue';
 import { useReferenceContext } from '../../../store/reference-context.ts';
 import { useFunctionStore } from '../../../store/function.ts';
 
@@ -70,5 +70,32 @@ export function useFunctionContext(options: {
 
 	return {
 		functionContext
+	};
+}
+
+export function createModuleDefaultExecution(
+	moduleName: string,
+	funcStore: ReturnType<typeof useFunctionStore>,
+	functionContext: ComputedRef<any>
+) {
+	return function (...args: any[]) {
+		let func = funcStore.tryGetDefaultFunctionByModuleName(
+			moduleName as string
+		);
+		if (!func) {
+			return (async () => {
+				const moduleDescription =
+					await funcStore.findFunctionCodeByName(moduleName);
+				if (moduleDescription) {
+					const module = await funcStore.loadModule(moduleDescription);
+					func = module['default'];
+					return func.bind(functionContext.value)(...args);
+				}
+			})();
+		}
+
+		if (typeof func === 'function') {
+			return func.bind(functionContext.value)(...args);
+		}
 	};
 }

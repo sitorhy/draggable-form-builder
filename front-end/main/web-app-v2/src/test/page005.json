@@ -18,14 +18,14 @@
         "rules": {
           "age": [
             {
-              "required": false,
+              "required": true,
               "validatorModule": "validateAge",
               "message": "请输入年龄"
             }
           ],
           "password": [
             {
-              "required": false,
+              "required": true,
               "message": "请填写密码"
             }
           ],

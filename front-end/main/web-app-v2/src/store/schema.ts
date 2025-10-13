@@ -10,7 +10,6 @@ import {
 import { defineStore } from 'pinia';
 import type { RendererItemDefinition } from '../types.ts';
 import { createRendererItemConfig } from './component.ts';
-import { unitTest } from '../test/data.ts';
 
 export function collectStaticContext(
 	node: RendererItemDefinition,
@@ -37,8 +36,7 @@ export function collectStaticContext(
 export const useSchemaStore = defineStore('schema', {
 	state() {
 		return {
-			// schema: createRendererItemConfig({ type: 'page' })
-			schema: unitTest()
+			schema: createRendererItemConfig({ type: 'page' })
 		};
 	},
 	actions: {

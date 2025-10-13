@@ -18,17 +18,22 @@ export function getTestProject002(): ProjectDefinition {
 				id: '19a876ec-322d-4149-95f4-956dec66eecd',
 				name: 'validatePasswordSame',
 				code:
-					'function validatePasswordSame(rule, value) {\n' +
+					'export default function validatePasswordSame(rule, value) {\n' +
 					'\ttry {\n' +
 					'\t\tconst appContext = this.getApplicationContext();\n' +
 					'\t\tconst bindingStore = appContext.bindingStore;\n' +
 					'\n' +
 					'\t\tconst formValue = bindingStore.state.page859.form887;\n' +
-					'\t\treturn value === formValue.password;\n' +
+					'\t\tconst valid = value === formValue.password;\n' +
+					"\t\tif (appContext.engine === 'Antd') {\n" +
+					'\t\t\treturn valid ? Promise.resolve() : Promise.reject();\n' +
+					'\t\t} else {\n' +
+					'\t\t\treturn valid;\n' +
+					'\t\t}\n' +
 					'\t} catch (error) {\n' +
 					'\t\treturn error;\n' +
 					'\t}\n' +
-					'}',
+					'}\n',
 				description: '【表单】两次密码是否相同'
 			},
 			{
@@ -42,13 +47,16 @@ export function getTestProject002(): ProjectDefinition {
 					'\n' +
 					'\t\tconst formValue = bindingStore.state.page859.form887;\n' +
 					'\n' +
-					'\t\tconsole.log(formValue);\n' +
+					'\t\tconst valid =\n' +
+					'\t\t\t!!formValue.password &&\n' +
+					'\t\t\tformValue.password.startsWith(value) &&\n' +
+					'\t\t\tformValue.password.length >= value.length;\n' +
 					'\n' +
-					'\t\treturn (\n' +
-					'\t\t\t!!formValue.password\n' +
-					'\t\t\t&& formValue.password.startsWith(value)\n' +
-					'\t\t\t&& formValue.password.length >= value.length\n' +
-					'\t\t);\n' +
+					"\t\tif (appContext.engine === 'Antd') {\n" +
+					'\t\t\treturn valid ? Promise.resolve() : Promise.reject();\n' +
+					'\t\t} else {\n' +
+					'\t\t\treturn valid;\n' +
+					'\t\t}\n' +
 					'\t} catch (error) {\n' +
 					'\t\treturn error;\n' +
 					'\t}\n' +
@@ -60,17 +68,28 @@ export function getTestProject002(): ProjectDefinition {
 				name: 'validateAge',
 				code:
 					'export default function validateAge(rule, value) {\n' +
-					'\tif (!value) {\n' +
-					"\t\treturn new Error('需要年龄')\n" +
+					'\tconst appContext = this.getApplicationContext();\n' +
+					'\n' +
+					"\tif (appContext.env === 'Antd') {\n" +
+					'\t\tif (!value) {\n' +
+					"\t\t\treturn new Promise.reject(new Error('需要年龄'));\n" +
+					'\t\t} else if (!/^\\d*$/.test(value)) {\n' +
+					"\t\t\treturn new Promise.reject(new Error('年龄应该为整数'));\n" +
+					'\t\t} else if (Number(value) < 18) {\n' +
+					"\t\t\treturn new Promise.reject(new Error('年龄应该超过十八岁'));\n" +
+					'\t\t}\n' +
+					'\t\treturn Promise.resolve();\n' +
+					'\t} else {\n' +
+					'\t\tif (!value) {\n' +
+					"\t\t\treturn new Error('需要年龄');\n" +
+					'\t\t} else if (!/^\\d*$/.test(value)) {\n' +
+					"\t\t\treturn new Error('年龄应该为整数');\n" +
+					'\t\t} else if (Number(value) < 18) {\n' +
+					"\t\t\treturn new Error('年龄应该超过十八岁');\n" +
+					'\t\t}\n' +
+					'\t\treturn true;\n' +
 					'\t}\n' +
-					'\telse if (!/^\\d*$/.test(value)) {\n' +
-					"\t\treturn new Error('年龄应该为整数')\n" +
-					'\t}\n' +
-					'\telse if (Number(value) < 18) {\n' +
-					"\t\treturn new Error('年龄应该超过十八岁')\n" +
-					'\t}\n' +
-					'\treturn true\n' +
-					'}',
+					'}\n',
 				description: '【表单】年龄校验'
 			},
 			{
