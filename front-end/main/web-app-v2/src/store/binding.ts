@@ -11,7 +11,7 @@ function findMaxIndex(arr: number[]) {
 	let maxIndex = 0;
 
 	for (let i = 1; i < arr.length; i++) {
-		if (arr[i] > max) {
+		if ((arr[i] as number) > (max as number)) {
 			max = arr[i];
 			maxIndex = i;
 		}
@@ -130,7 +130,7 @@ export const useBindingStore = defineStore('binding', {
 					const key = this.staticContextKeys[keyIndex];
 					const bindingPathPrefix = tryPath
 						.split('.')
-						.find((p) => p.indexOf(key) === 0);
+						.find((p) => p.indexOf(key as string) === 0);
 					const fullBindingPath = `${bindingPathPrefix}.${objectSubPath}`;
 					const value = dotProp.getProperty(
 						this.staticContext,

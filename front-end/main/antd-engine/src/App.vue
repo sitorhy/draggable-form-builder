@@ -5,12 +5,9 @@ import JsonRenderer from "./components/put/JsonRenderer.vue";
 import BindingContext from "engine-commons/components/put/data/BindingContext.vue";
 import {useSchemaStore} from "engine-commons/store/schema.ts";
 import {useAppInit} from "./components/put/common/app.ts";
-import {useProjectStore} from "engine-commons/store/project.ts";
 import {message} from 'ant-design-vue';
 
-const [messageApi] = message.useMessage();
-
-const projectStore = useProjectStore();
+const [messageApi, contextHolder] = message.useMessage();
 
 const schemaStore = useSchemaStore();
 const schema = computed(() => schemaStore.$state.schema);
@@ -55,6 +52,7 @@ provide('messageTool', messageTool);
 
 <template>
   <a-app>
+    <contextHolder/>
     <a-space direction="vertical" :style="{ width: '100%' }" :size="[0, 48]">
       <a-layout>
         <a-layout-header bordered v-if="!MicroAppContext.isMicroAppEnv">

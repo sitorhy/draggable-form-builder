@@ -85,7 +85,7 @@ export function useBindingConnector(
 export const useBindingStore = defineStore('binding', {
 	state() {
 		return {
-			staticContext: {},
+			staticContext: {} as Record<string, any>,
 			state: {}
 		};
 	},

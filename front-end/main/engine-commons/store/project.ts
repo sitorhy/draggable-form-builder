@@ -49,17 +49,26 @@ export const useProjectStore = defineStore('project', {
             this.schemaStore.resetSchema();
             this.bindingStore.resetStaticContext({});
             this.functionStore.reset();
+
+            if (project.functions) {
+                await Promise.all(
+                    project.functions.map((code) => {
+                        return this.functionStore.createFunctionCode(code);
+                    })
+                );
+
+                await Promise.all(
+                    this.functionStore.functions.map((code) =>
+                        this.functionStore.loadModule(code)
+                    )
+                );
+            }
+
             this.currentPage = '';
             this.project = project;
 
-            if (this.project.functions) {
-                for (const func of this.project.functions) {
-                    await this.functionStore.createFunctionCode(func);
-                }
-            }
-
             const pages = this.project.pages;
-            pages.forEach(page => {
+            pages.forEach((page) => {
                 if (page.schema) {
                     const collection = {};
                     collectStaticContext(page.schema, collection);

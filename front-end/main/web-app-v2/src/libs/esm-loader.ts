@@ -6,7 +6,8 @@
  */
 
 export const moduleString = (str: string) => `data:text/javascript,${str}`;
-export const ESMLoader = (str: any) => import( /* @vite-ignore */ moduleString(str));
+export const ESMLoader = (str: any) =>
+	import(/* @vite-ignore */ moduleString(str));
 export const strToESM = (str: string) => {
 	console.log('deprecated: strToESM() use ESMLoader()');
 	return ESMLoader(str);

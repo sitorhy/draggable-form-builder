@@ -25,7 +25,7 @@ export function getTestProject002(): ProjectDefinition {
 					'\n' +
 					'\t\tconst formValue = bindingStore.state.page859.form887;\n' +
 					'\t\tconst valid = value === formValue.password;\n' +
-					"\t\tif (appContext.engine === 'Antd') {\n" +
+					"\t\tif (this.engine === 'Antd') {\n" +
 					'\t\t\treturn valid ? Promise.resolve() : Promise.reject();\n' +
 					'\t\t} else {\n' +
 					'\t\t\treturn valid;\n' +
@@ -52,7 +52,7 @@ export function getTestProject002(): ProjectDefinition {
 					'\t\t\tformValue.password.startsWith(value) &&\n' +
 					'\t\t\tformValue.password.length >= value.length;\n' +
 					'\n' +
-					"\t\tif (appContext.engine === 'Antd') {\n" +
+					"\t\tif (this.engine === 'Antd') {\n" +
 					'\t\t\treturn valid ? Promise.resolve() : Promise.reject();\n' +
 					'\t\t} else {\n' +
 					'\t\t\treturn valid;\n' +
@@ -68,15 +68,13 @@ export function getTestProject002(): ProjectDefinition {
 				name: 'validateAge',
 				code:
 					'export default function validateAge(rule, value) {\n' +
-					'\tconst appContext = this.getApplicationContext();\n' +
-					'\n' +
-					"\tif (appContext.env === 'Antd') {\n" +
+					"\tif (this.engine === 'Antd') {\n" +
 					'\t\tif (!value) {\n' +
-					"\t\t\treturn new Promise.reject(new Error('需要年龄'));\n" +
+					"\t\t\treturn Promise.reject(new Error('需要年龄'));\n" +
 					'\t\t} else if (!/^\\d*$/.test(value)) {\n' +
-					"\t\t\treturn new Promise.reject(new Error('年龄应该为整数'));\n" +
+					"\t\t\treturn Promise.reject(new Error('年龄应该为整数'));\n" +
 					'\t\t} else if (Number(value) < 18) {\n' +
-					"\t\t\treturn new Promise.reject(new Error('年龄应该超过十八岁'));\n" +
+					"\t\t\treturn Promise.reject(new Error('年龄应该超过十八岁'));\n" +
 					'\t\t}\n' +
 					'\t\treturn Promise.resolve();\n' +
 					'\t} else {\n' +
@@ -102,7 +100,8 @@ export function getTestProject002(): ProjectDefinition {
 					'\t\ttry {\n' +
 					'\t\t\tconst valid = await formRef.validate();\n' +
 					'\t\t\tif (valid) {\n' +
-					"\t\t\t\tthis.tools.message.success('校验通过');\n" +
+					'\t\t\t\tconst message = this.tools.useMessage();\n' +
+					"\t\t\t\tmessage.success('校验通过');\n" +
 					'\t\t\t}\n' +
 					'\t\t} catch (e) {\n' +
 					'\t\t\tconsole.log(e.message);\n' +

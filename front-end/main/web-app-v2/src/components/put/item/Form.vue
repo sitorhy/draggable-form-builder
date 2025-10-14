@@ -82,9 +82,9 @@ const rules = computed(() => {
 
 watch(
 	rules,
-	async () => {
+	() => {
 		if (rules.value) {
-			rulesResolved.value = await resolveRules(rules.value);
+			rulesResolved.value = resolveRules(rules.value);
 		} else {
 			rulesResolved.value = {};
 		}

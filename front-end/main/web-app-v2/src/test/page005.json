@@ -20,7 +20,7 @@
             {
               "required": true,
               "validatorModule": "validateAge",
-              "message": "请输入年龄"
+              "message": ""
             }
           ],
           "password": [

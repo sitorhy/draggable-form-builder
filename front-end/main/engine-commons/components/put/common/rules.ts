@@ -15,62 +15,37 @@ export function useRulesResolver(options: {
 	const functionStore = useFunctionStore();
 	const { functionContext } = useFunctionContext(options);
 
-	async function resolveRules(rules: Record<string, any>) {
-		const allResolvedList = Object.keys(rules).map(async (path: string) => {
-			const r = rules[path];
-			const list = Array.isArray(r) ? r : [r];
+	function resolveRules(rules: Record<string, any>) {
+		return Object.entries(rules)
+			.map(([eventName, rule]) => {
+				const ruleList = Array.isArray(rule) ? rule : [rule];
 
-			const listResolve = await Promise.all(
-				list.map(
-					async (
-						rule: Record<string, any> & {
-							validatorModule?: string;
-						}
-					) => {
-						const { validatorModule, message, ...opts } = rule;
-						if (validatorModule) {
-							const moduleDescription =
-								await functionStore.findFunctionCodeByName(validatorModule);
-							if (moduleDescription) {
-								const module =
-									await functionStore.loadModule(moduleDescription);
-								if (module) {
-									const validator = module['default'];
-									return {
-										...opts,
-										message: message ? message : undefined,
-										validator:
-											typeof validator === 'function'
-												? validator.bind(functionContext.value)
-												: validator
-									};
+				const listResolved = ruleList.map((i) => {
+					const { validatorModule, message, ...oops } = i;
+					const validator =
+						functionStore.tryGetDefaultFunctionByModuleName(validatorModule);
+					return validator
+						? {
+								...oops,
+								message: message ? message : undefined,
+								validator: function (...args: any[]) {
+									return validator.bind(functionContext.value)(...args);
 								}
 							}
-						}
-						return {
-							...opts,
-							message
-						};
-					}
-				)
-			);
+						: {
+								...oops,
+								message
+							};
+				});
 
-			return [path, listResolve];
-		});
-
-		const arr: (string | Record<string, any>)[] =
-			await Promise.all(allResolvedList);
-		return arr.reduce((s, i) => {
-			const j = i as any[];
-
-			const p = j[0] as string;
-			const rules = j[1] as Record<string, any>;
-			return Object.assign(s, {
-				[p]: rules
-			});
-		}, {});
+				return [eventName, listResolved];
+			})
+			.reduce((s, i) => {
+				return Object.assign(s, {
+					[i[0] as string]: i[1]
+				});
+			}, {});
 	}
-
 	return {
 		resolveRules
 	};

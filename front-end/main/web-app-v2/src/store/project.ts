@@ -159,23 +159,23 @@ export const useProjectStore = defineStore('project', {
 			this.schemaStore.resetSchema();
 			this.bindingStore.resetStaticContext({});
 			this.functionStore.reset();
-			this.currentPage = '';
-			this.project = project;
 
-			if (this.project.functions) {
-				for (const func of this.project.functions) {
-					await this.functionStore.createFunctionCode(func);
-				}
+			if (project.functions) {
+				await Promise.all(
+					project.functions.map((code) => {
+						return this.functionStore.createFunctionCode(code);
+					})
+				);
+
+				await Promise.all(
+					this.functionStore.functions.map((code) =>
+						this.functionStore.loadModule(code)
+					)
+				);
 			}
 
-			// 实例化函数集
-			const modules = this.functionStore.$state.functions;
-
-			await Promise.all(
-				modules.map(async (module) => {
-					await this.functionStore.loadModule(module);
-				})
-			);
+			this.currentPage = '';
+			this.project = project;
 
 			const pages = this.project.pages;
 			pages.forEach((page) => {

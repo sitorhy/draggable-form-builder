@@ -38,31 +38,15 @@ export function useFunctionContext(options: {
 			loadModuleDescriptionAsync: functionStore.findFunctionCodeByName,
 			loadModuleAsync: functionStore.loadModule,
 			tools: {
-				message: {
-					info: (text: string) => {
-						if (options.getMessageTool) {
-							const message = options.getMessageTool();
-							if (message) {
-								message.info(text);
-							}
-						}
-					},
-					error: (text: string) => {
-						if (options.getMessageTool) {
-							const message = options.getMessageTool();
-							if (message) {
-								message.error(text);
-							}
-						}
-					},
-					success: (text: string) => {
-						if (options.getMessageTool) {
-							const message = options.getMessageTool();
-							if (message) {
-								message.success(text);
-							}
-						}
+				useMessage() {
+					if (options.getMessageTool) {
+						return options.getMessageTool();
 					}
+					return {
+						info: console.info,
+						error: console.error,
+						success: console.log
+					};
 				}
 			}
 		};
