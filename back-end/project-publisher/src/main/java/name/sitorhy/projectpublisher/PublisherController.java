@@ -42,6 +42,12 @@ public class PublisherController {
     @Autowired
     private JenkinsClient jenkinsClient;
 
+    @Value("${engine.paper.dir}")
+    private String PAPER_PROJECT_DIR;
+
+    @Value("${engine.antd.dir}")
+    private String ANTD_PROJECT_DIR;
+
     @PostMapping("/simple-build")
     public SimpleResult triggerSimpleBuild() {
         try {
@@ -127,16 +133,19 @@ public class PublisherController {
                 throw new RuntimeException("job not created");
             }
 
-            File tempFile = Files.createTempFile("project-",".json").toFile();
+            String engine = body.engine;
+
+            File tempFile = Files.createTempFile("project-", ".json").toFile();
             Files.writeString(tempFile.toPath(), body.data);
 
             // 常规 /build 接口触发
-            jenkinsServer.getJob(jobName).build(new HashMap<>(){{
+            jenkinsServer.getJob(jobName).build(new HashMap<>() {{
                 // uri too long
                 // put("PROJECT_JSON_FILE_TEXT", Optional.ofNullable(body.data).orElse(""));
 
-                put("jobName",  jobName);
+                put("jobName", jobName);
                 put("PROJECT_JSON_FILE_PATH", tempFile.getAbsolutePath());
+                put("PROJECT_SUB_DIR", engine.equalsIgnoreCase("antd") ? ANTD_PROJECT_DIR : PAPER_PROJECT_DIR);
             }});
 
             // 携带复杂参数 使用触发器构建
