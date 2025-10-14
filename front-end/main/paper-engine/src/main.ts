@@ -2,6 +2,7 @@ import {createApp} from 'vue'
 import 'engine-commons/style.css'
 import AppContainer from './AppContainer.vue';
 import {createPinia} from "pinia";
+import naive from 'naive-ui';
 import ListItem from './components/put/item/ListItem.vue';
 import {createAppRouter} from "./router.ts";
 import {type EventCenterForMicroApp} from '@micro-zoe/micro-app';
@@ -21,7 +22,7 @@ const {router} = createAppRouter();
 let app: ReturnType<typeof createApp> | null = null;
 
 function initApp() {
-    app = createApp(AppContainer).use(pinia);
+    app = createApp(AppContainer).use(pinia).use(naive);
     app.component('list-item', ListItem);
     app.use(router);
     app.mount('#app');

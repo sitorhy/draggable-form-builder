@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {RendererItemDefinition} from 'engine-commons/types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
+import type {StyleValue} from "vue";
 
 const schema = defineModel<RendererItemDefinition>('schema', {
   type: Object,
@@ -21,8 +22,9 @@ function gridItemStyle(index: number) {
       paddingRight: index % cols === cols - 1 ? 0 : `${xGap}px`,
       paddingLeft: index % cols === 0 ? 0 : `${xGap}px`,
       boxSizing: 'border-box',
-    };
+    } as StyleValue;
   }
+  return {};
 }
 </script>
 
