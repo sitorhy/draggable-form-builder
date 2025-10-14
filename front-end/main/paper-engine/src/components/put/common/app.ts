@@ -1,5 +1,3 @@
-import {collectStaticContext, useSchemaStore} from 'engine-commons/store/schema.ts';
-import {useBindingStore} from 'engine-commons/store/binding.ts';
 import {useProjectStore} from 'engine-commons/store/project.ts';
 import {computed, onBeforeMount, watch} from 'vue';
 import {useRoute, useRouter} from "vue-router";
@@ -14,8 +12,6 @@ export function useAppInit() {
 
     const route = useRoute();
     const router = useRouter();
-    const schemaStore = useSchemaStore();
-    const bindingStore = useBindingStore();
     const projectStore = useProjectStore();
 
     const currentPage = computed(() => {
@@ -53,22 +49,6 @@ export function useAppInit() {
         }
     }
 
-    watch(
-        () => schemaStore.schema,
-        (value) => {
-            if (value) {
-                const collection = schemaStore.collectStaticContext();
-                bindingStore.assignStaticContext(collection);
-            } else {
-                bindingStore.assignStaticContext({});
-            }
-        },
-        {
-            immediate: true,
-            deep: true
-        }
-    );
-
     onBeforeMount(async () => {
         const packageProjectUrl = import.meta.env.BASE_URL + 'project.json';
         let project: ProjectDefinition | null = null;
@@ -91,14 +71,6 @@ export function useAppInit() {
         }
 
         const pages = projectStore.project.pages;
-
-        pages.forEach(page => {
-            if (page.schema) {
-                const collection = {};
-                collectStaticContext(page.schema, collection);
-                bindingStore.assignStaticContext(collection);
-            }
-        });
 
         if (currentPage.value) {
             await projectStore.switchPage(currentPage.value);

@@ -15,6 +15,10 @@ const props = defineProps({
 	title: {
 		type: String,
 		default: 'JSON Object'
+	},
+	isArray: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -70,7 +74,7 @@ function onPositiveClick() {
 		nextTick(() => {
 			if (loopJson.value) {
 				const arr = JSON.parse(loopJson.value);
-				if (!Array.isArray(arr)) {
+				if (props.isArray && !Array.isArray(arr)) {
 					message.warning('对象为非数组类别');
 					return;
 				}

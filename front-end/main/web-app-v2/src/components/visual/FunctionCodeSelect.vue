@@ -6,6 +6,10 @@ defineProps({
 	multiple: {
 		type: Boolean,
 		default: true
+	},
+	size: {
+		type: String,
+		default: ''
 	}
 });
 
@@ -30,10 +34,11 @@ function onConfirm(codes: string[]) {
 		<n-input
 			placeholder=""
 			readonly
+			:size="size"
 			:style="{ width: '100%' }"
 			v-model:value="modelValue"
 		/>
-		<n-button @click="onSelect" type="primary">选择</n-button>
+		<n-button @click="onSelect" :size="size" type="primary">选择</n-button>
 	</n-input-group>
 	<FunctionDialog
 		ref="funcDlgRef"

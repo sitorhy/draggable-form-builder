@@ -72,6 +72,7 @@ const { componentRef } = useReferenceRegister(bindingPath);
 		v-if="schema.props"
 		v-bind="propsReduceMod"
 		v-model:value="modelValue"
+		v-emphasize:schemaId="schema.id"
 		ref="componentRef"
 	/>
 	<n-empty v-else description="DatePicker">

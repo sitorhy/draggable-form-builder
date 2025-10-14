@@ -1,5 +1,3 @@
-import {collectStaticContext, useSchemaStore} from 'engine-commons/store/schema.ts';
-import {useBindingStore} from 'engine-commons/store/binding.ts';
 import {useProjectStore} from 'engine-commons/store/project.ts';
 import {computed, onBeforeMount, watch} from 'vue';
 import {useRoute, useRouter} from "vue-router";
@@ -7,15 +5,13 @@ import type {ProjectDefinition} from "engine-commons/types.ts";
 
 export function useAppInit() {
     const MicroAppContext = computed(() => {
-       return {
-           isMicroAppEnv: window.__MICRO_APP_ENVIRONMENT__
-       }
+        return {
+            isMicroAppEnv: window.__MICRO_APP_ENVIRONMENT__
+        }
     });
 
     const route = useRoute();
     const router = useRouter();
-    const schemaStore = useSchemaStore();
-    const bindingStore = useBindingStore();
     const projectStore = useProjectStore();
 
     const currentPage = computed(() => {
@@ -53,21 +49,6 @@ export function useAppInit() {
         }
     }
 
-    watch(
-        () => schemaStore.schema,
-        (value) => {
-            if (value) {
-                const collection = schemaStore.collectStaticContext();
-                bindingStore.assignStaticContext(collection);
-            } else {
-                bindingStore.assignStaticContext({});
-            }
-        },
-        {
-            immediate: true,
-            deep: true
-        }
-    );
 
     onBeforeMount(async () => {
         const packageProjectUrl = import.meta.env.BASE_URL + 'project.json';
@@ -91,14 +72,6 @@ export function useAppInit() {
         }
 
         const pages = projectStore.project.pages;
-
-        pages.forEach(page => {
-            if (page.schema) {
-                const collection = {};
-                collectStaticContext(page.schema, collection);
-                bindingStore.assignStaticContext(collection);
-            }
-        });
 
         if (currentPage.value) {
             await projectStore.switchPage(currentPage.value);

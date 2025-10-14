@@ -34,6 +34,8 @@ export type ProjectDefinition = {
 		localFlag?: boolean; // 本地测试用途
 	}[];
 	functions?: FunctionCode[];
+	initStateModuleName?: string;
+	preloadDataSources?: Record<string, string>;
 };
 
 export type PropertyInjectionSchema = Record<string, any> & {

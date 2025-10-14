@@ -21,6 +21,7 @@ import {
 	createModuleDefaultExecution,
 	useFunctionContext
 } from '../common/function-context.ts';
+import { useRemoteDatasourceResolver } from '../common/props.ts';
 
 const props = defineProps({
 	schema: {
@@ -50,6 +51,8 @@ const message = inject<
 	}>
 >('messageTool');
 
+const { resolveRemoteDatasource } = useRemoteDatasourceResolver();
+
 const { functionContext } = useFunctionContext({
 	getBindingPath: function () {
 		return bindingPath.value;
@@ -60,17 +63,18 @@ const { functionContext } = useFunctionContext({
 const injectionObj = ref<Record<string, any>>({});
 const injectionEvents = ref<Record<string, (...args: any[]) => any>>({});
 
-const datasource = computed<string>(() => {
-	return props.schema?.props?.datasource || '';
+const dataSource = computed<string>(() => {
+	return props.schema?.props?.dataSource || '';
 });
 
 const binding = computed(() => {
-	if (datasource.value) {
+	if (dataSource.value) {
+		// 处理有数据源协议的组件
 		if (props.schema.type === 'linearList') {
 			// 对象协议优先级最低
 			return {
 				...props.schema.binding,
-				loop: datasource.value
+				loop: dataSource.value
 			};
 		}
 		return props.schema.binding;
@@ -83,7 +87,7 @@ const events = computed<Record<string, string>>(() => {
 	return props.schema.events || {};
 });
 
-async function injectProps(
+function injectProps(
 	prop: string,
 	result:
 		| {
@@ -92,56 +96,21 @@ async function injectProps(
 				fullBindingPath: string;
 		  }
 		| undefined,
-	funNames?: string[]
+	moduleNames?: string[]
 ) {
-	if (!funNames) {
-		// 同步
-		if (result) {
-			const { value, fullBindingPath } = result;
-
-			injectionObj.value[prop] = value;
-			if (result.source === 'static') {
-				injectionObj.value['update:' + prop] = function (value: any) {
-					bindingStore.updateStaticContext(fullBindingPath, value);
-				};
-			} else {
-				injectionObj.value['update:' + prop] = function (value: any) {
-					bindingStore.updateBinding(fullBindingPath, value);
-				};
+	if (result || (moduleNames && !result)) {
+		const filters = (moduleNames || []).map((moduleName) => {
+			return funcStore.tryGetDefaultFunctionByModuleName(moduleName);
+		});
+		let filterValue = result?.value;
+		filters.forEach((filter) => {
+			if (typeof filter === 'function') {
+				filterValue = filter(filterValue);
 			}
-			return;
-		} else {
-			delete injectionObj.value[prop];
-			delete injectionObj.value['update:' + prop];
-		}
-	} else {
-		// 需要过滤器处理返回值
-		const moduleDescriptors = await Promise.all(
-			funNames.map(async (name: string) => {
-				const module = funcStore.findFunctionCodeByName(name);
-				if (!module) {
-					console.warn(`Cannot find module '${name}'`);
-				}
-				return module;
-			})
-		);
-		const modules = await Promise.all(
-			moduleDescriptors.filter((i) => !!i).map((m) => funcStore.loadModule(m))
-		);
+		});
 
-		injectionObj.value[prop] = modules.reduce(
-			(acc, module) => {
-				const func = module['default'];
-				if (typeof func === 'function') {
-					return (func as (...args: any[]) => any).call(
-						functionContext.value,
-						acc
-					);
-				}
-				return acc;
-			},
-			result ? result.value : undefined
-		);
+		injectionObj.value[prop] = filterValue;
+
 		if (result) {
 			const { fullBindingPath } = result;
 			if (result.source === 'static') {
@@ -154,8 +123,12 @@ async function injectProps(
 				};
 			}
 		} else {
-			delete injectionObj.value['update:' + prop];
+			injectionObj.value['update:' + prop] = function () {};
 		}
+		return;
+	} else {
+		delete injectionObj.value[prop];
+		delete injectionObj.value['update:' + prop];
 	}
 }
 
@@ -168,24 +141,24 @@ function resolveLocalSchema(
 		switch (dataSourceSchema.host) {
 			case 'path':
 				{
-					let funNames;
-					const filter = dataSourceSchema.filter;
-					if (filter) {
-						funNames = filter.split(',');
-					}
-
+					// 适用于具体变量查找
 					let result = bindingStore.searchBinding(
 						resolvedPath,
 						dataSourceSchema.path
 					);
 					if (!result) {
+						// 适用于数据源绑定
 						result = bindingStore.searchStaticContext(
 							bindingPath.value,
 							dataSourceSchema.path
 						);
 					}
 
-					injectProps(prop, result, funNames);
+					injectProps(
+						prop,
+						result,
+						(dataSourceSchema.filter || '').split(',').filter((i) => !!i)
+					);
 				}
 				break;
 		}
@@ -196,42 +169,8 @@ async function resolveRemoteSchema(
 	prop: string,
 	dataSourceSchema: NormalizeDataSource
 ) {
-	const resolvedSchema: NormalizeDataSource = {
-		...dataSourceSchema,
-		host: dataSourceSchema.host.replace(
-			'${BASE_URL}',
-			`${location.host}/${import.meta.env.BASE_URL}`.replace(/\/+/, '/')
-		),
-		schema: location.protocol.startsWith('https') ? 'https' : 'http'
-	};
-
-	let path = `${resolvedSchema.host}/${resolvedSchema.path}`.replace(
-		/\/+/,
-		'/'
-	);
-	if (path.indexOf('?') >= 0) {
-		path = `${path}&filter=${resolvedSchema.filter}`;
-	} else {
-		path = `${path}?filter=${resolvedSchema.filter}`;
-	}
-	const fullUrl = `${resolvedSchema.schema}://${path}`;
-
 	try {
-		// 1. 发起请求
-		const response = await fetch(fullUrl, {
-			method: 'GET'
-		});
-
-		// 2. 检查 HTTP 状态码
-		if (!response.ok) {
-			message?.value.error(
-				`HTTP error! Status: ${response.status} ${response.statusText}`
-			);
-		}
-
-		// 3. 解析响应体为 JSON
-		// response.json() 返回一个 Promise，解析 body 中的 JSON 数据
-		const data = await response.json();
+		const data = await resolveRemoteDatasource(dataSourceSchema);
 
 		const partPath = props.schema.props?.path;
 		if (partPath) {

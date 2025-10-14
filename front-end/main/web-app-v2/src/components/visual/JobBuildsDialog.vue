@@ -2,7 +2,7 @@
 import { NButton, useMessage } from 'naive-ui';
 import { nextTick, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { BuildService } from '../../api';
-import { useProjectStore } from '../../store/project.ts';
+import useProjectStore from '../../store/project.ts';
 
 defineProps({});
 

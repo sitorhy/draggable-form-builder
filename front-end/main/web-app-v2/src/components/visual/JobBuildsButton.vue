@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import JobBuildsDialog from './JobBuildsDialog.vue';
 import { computed, ref } from 'vue';
-import { useProjectStore } from '../../store/project.ts';
+import useProjectStore from '../../store/project.ts';
 
 const projectStore = useProjectStore();
 

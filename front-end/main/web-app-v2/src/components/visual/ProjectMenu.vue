@@ -2,7 +2,7 @@
 import { computed, h, type Component } from 'vue';
 import { Folder24Regular, FolderOpen24Regular } from '@vicons/fluent';
 import { NIcon } from 'naive-ui';
-import { useProjectStore } from '../../store/project.ts';
+import useProjectStore from '../../store/project.ts';
 
 const projectStore = useProjectStore();
 

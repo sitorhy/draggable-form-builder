@@ -7,11 +7,11 @@ export function getTestProject001(): ProjectDefinition {
 		name: 'testProject_001',
 		title: '普通高中高三第一学期期中考试',
 		pages: [
-			{
-				id: 'page000.json',
-				title: '测试',
-				localFlag: true
-			},
+			// {
+			// 	id: 'page000.json',
+			// 	title: '测试',
+			// 	localFlag: true
+			// },
 			{
 				id: 'page001.json',
 				title: '第一页',
@@ -32,6 +32,21 @@ export function getTestProject001(): ProjectDefinition {
 				title: '第四页',
 				localFlag: true
 			}
-		]
+		],
+		functions: [
+			{
+				id: '3cd2dda0-3be4-4826-854d-1451b39e8755',
+				name: 'getInitialState',
+				code:
+					'export default function getInitialState() {\n' +
+					'\treturn {};\n' +
+					'}',
+				description: '可选，生成初始状态数据'
+			}
+		],
+		initStateModuleName: 'getInitialState',
+		preloadDataSources: {
+			radioData: 'http://${BASE_URL}/files/radios.json'
+		}
 	};
 }

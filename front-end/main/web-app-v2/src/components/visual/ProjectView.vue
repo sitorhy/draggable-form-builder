@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProjectStore } from '../../store/project.ts';
+import useProjectStore from '../../store/project.ts';
 import { useBindingStore } from '../../store/binding.ts';
 import { useSchemaStore } from '../../store/schema.ts';
 import { computed, ref, watch } from 'vue';
@@ -9,6 +9,10 @@ import FunctionDialog from './FunctionDialog.vue';
 import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
 import { useOutputEnginesInfo } from '../put/common/output.ts';
 import { DocumentChevronDouble24Regular } from '@vicons/fluent';
+
+import DataSourceSchema from './DataSourceSchema.vue';
+import FunctionCodeSelect from './FunctionCodeSelect.vue';
+import ProjectDataSourcesEditor from './ProjectDataSourcesEditor.vue';
 
 const projectStore = useProjectStore();
 const project = computed(() => projectStore.project);
@@ -39,13 +43,12 @@ const editorProps = computed(() => {
 const funModelShow = ref(false);
 
 function reset() {
-	modelValue.value = { title: '', page: '', engine: 'Paper' };
+	modelValue.value = { title: '', page: '' };
 }
 
 const modelValue = ref({
 	title: '',
-	page: '',
-	engine: 'Paper'
+	page: ''
 });
 
 watch(
@@ -55,8 +58,7 @@ watch(
 			modelValue.value = {
 				...modelValue.value,
 				title: project.title,
-				page: currentPage,
-				engine: projectStore.$state.project.engine || ''
+				page: currentPage
 			};
 		} else {
 			reset();
@@ -160,8 +162,9 @@ async function exportProjectJson() {
 
 				<n-form-item path="$schema" label="状态">
 					<n-button
-						style="width: 100%"
 						size="small"
+						style="width: 100%"
+						title="查看"
 						type="primary"
 						@click="bindingDrawerShow = true"
 					>
@@ -180,15 +183,23 @@ async function exportProjectJson() {
 					</n-button>
 				</n-form-item>
 
+				<n-form-item path="$initDataState" label="状态初始化">
+					<FunctionCodeSelect
+						size="small"
+						:multiple="false"
+						v-model:value="projectStore.project.initStateModuleName"
+					/>
+				</n-form-item>
+
 				<n-form-item path="engine" label="输出引擎">
 					<n-space vertical align="stretch" style="width: 100%">
 						<n-select
-							v-model:value="modelValue.engine"
+							v-model:value="projectStore.project.engine"
 							:options="engineOptions"
 						></n-select>
 						<n-button
 							style="width: 100%"
-							:disabled="!modelValue.engine"
+							:disabled="!projectStore.project.engine"
 							size="small"
 							type="primary"
 							@click="previewCurrentPage"
@@ -196,6 +207,12 @@ async function exportProjectJson() {
 							<span>预览</span>
 						</n-button>
 					</n-space>
+				</n-form-item>
+
+				<n-form-item path="$preloadDataSources" label="数据预加载">
+					<ProjectDataSourcesEditor
+						v-model:value="projectStore.project.preloadDataSources"
+					/>
 				</n-form-item>
 			</n-form>
 		</template>
@@ -228,7 +245,7 @@ async function exportProjectJson() {
 
 	<FunctionDialog v-model="funModelShow" />
 	<MicroAppPreviewDialog
-		:engine="modelValue.engine"
+		:engine="projectStore.project.engine"
 		v-model:model-value="previewDlgShow"
 	/>
 </template>

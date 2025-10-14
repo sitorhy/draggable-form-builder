@@ -29,7 +29,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 							'update:value': function (value: any) {
 								if (value) {
 									if (options.schema?.props) {
-										options.schema.props.datasource = null;
+										options.schema.props.dataSource = null;
 									}
 								}
 							}
@@ -41,17 +41,18 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 						// 应始终使用数组
 						label: '静态数据',
 						config: {
-							readOnly: !options.schema?.props?.static
+							readOnly: !options.schema?.props?.static,
+							isArray: true
 						}
 					},
 					{
 						type: DataSourceSchema,
-						prop: 'datasource',
+						prop: 'dataSource',
 						label: '数据源',
 						config: {
 							readOnly: options.schema?.props?.static,
-							value: options.schema?.props?.datasource
-								? options.schema?.props?.datasource
+							value: options.schema?.props?.dataSource
+								? options.schema?.props?.dataSource
 								: null
 						},
 						on: {
@@ -62,12 +63,12 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 									if (typeof schema === 'string') {
 										options.schema.props = {
 											...options.schema.props,
-											datasource: schema
+											dataSource: schema
 										};
 									} else {
 										options.schema.props = {
 											...options.schema.props,
-											datasource: stringifyDataSourceSchema(
+											dataSource: stringifyDataSourceSchema(
 												schema as NormalizeDataSource
 											)
 										};
@@ -76,7 +77,7 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 									if (options.schema) {
 										options.schema.props = {
 											...options.schema.props,
-											datasource: null
+											dataSource: null
 										};
 									}
 								}

@@ -11,13 +11,14 @@ import page003 from '../test/page003.json';
 import page004 from '../test/page004.json';
 import page005 from '../test/page005.json';
 // test
-
 import { collectStaticContext, useSchemaStore } from './schema.ts';
 import { useFunctionStore } from './function.ts';
 import { useBindingStore } from './binding.ts';
 import { createRendererItemConfig } from './component.ts';
 import { v4 as uuid } from 'uuid';
 import { SequenceGenerator } from '../components/put/common/seq.ts';
+import { useRemoteDatasourceResolver } from '../components/put/common/props.ts';
+import { parseUri } from '../components/visual/data-source/config.ts';
 
 // test
 const LOCAL_TEST_PAGE_DATA: Record<string, any> = {
@@ -34,10 +35,11 @@ const seqGenerator = new SequenceGenerator({
 	startFrom: Math.floor(Math.random() * 1000)
 });
 
-export const useProjectStore = defineStore('project', {
+const useProjectStore = defineStore('project', {
 	state() {
 		return {
 			project: {
+				engine: '',
 				title: '',
 				name: '',
 				id: '',
@@ -61,7 +63,8 @@ export const useProjectStore = defineStore('project', {
 		},
 		schemaStore: () => useSchemaStore(),
 		functionStore: () => useFunctionStore(),
-		bindingStore: () => useBindingStore()
+		bindingStore: () => useBindingStore(),
+		remoteDataSourceResolver: () => useRemoteDatasourceResolver()
 	},
 	actions: {
 		async reset() {
@@ -92,11 +95,14 @@ export const useProjectStore = defineStore('project', {
 					})
 			);
 			const project: ProjectDefinition = {
+				engine: this.project.engine,
 				title: this.project.title,
 				name: this.project.name,
 				id: this.project.id,
 				pages: pages,
-				functions: this.functionStore.functions
+				functions: this.functionStore.functions,
+				initStateModuleName: this.project.initStateModuleName,
+				preloadDataSources: this.project.preloadDataSources
 			};
 			return JSON.parse(JSON.stringify(project));
 		},
@@ -166,25 +172,69 @@ export const useProjectStore = defineStore('project', {
 						return this.functionStore.createFunctionCode(code);
 					})
 				);
+			}
+			await Promise.all(
+				this.functionStore.functions.map((code) =>
+					this.functionStore.loadModule(code)
+				)
+			);
 
-				await Promise.all(
-					this.functionStore.functions.map((code) =>
-						this.functionStore.loadModule(code)
-					)
+			if (project.initStateModuleName) {
+				const initFunc = this.functionStore.tryGetDefaultFunctionByModuleName(
+					project.initStateModuleName
 				);
+				if (typeof initFunc === 'function') {
+					this.bindingStore.$state.state = initFunc() || {};
+				}
 			}
 
-			this.currentPage = '';
-			this.project = project;
+			if (
+				project.preloadDataSources &&
+				Object.keys(project.preloadDataSources).length > 0
+			) {
+				const dataSet = await Promise.all(
+					Object.keys(project.preloadDataSources).map(async (path: string) => {
+						const uri = (project.preloadDataSources as Record<string, string>)[
+							path
+						];
+						if (uri) {
+							const dataSourceSchema = parseUri(uri);
+							try {
+								return [
+									path,
+									await this.remoteDataSourceResolver.resolveRemoteDatasource(
+										dataSourceSchema
+									)
+								];
+							} catch (e) {
+								console.error(e);
+							}
+						}
+						return [path, undefined];
+					})
+				);
+				const filterDataSet = dataSet.filter((v) => v[1] !== undefined);
+				filterDataSet.forEach(([bindingPath, remoteCollectionData]) => {
+					this.bindingStore.updateBinding(bindingPath, remoteCollectionData);
+				});
+			}
 
-			const pages = this.project.pages;
+			const pages = project.pages;
+			await Promise.all(
+				pages.map(async (page) => {
+					page.schema = await this.loadPageSchema(page);
+				})
+			);
 			pages.forEach((page) => {
 				if (page.schema) {
 					const collection = {};
-					collectStaticContext(page.schema, collection);
+					collectStaticContext(page.schema, collection, this.bindingStore);
 					this.bindingStore.assignStaticContext(collection);
 				}
 			});
+
+			this.currentPage = '';
+			this.project = project;
 
 			if (pages.length > 0) {
 				const page = pages[0];
@@ -195,3 +245,4 @@ export const useProjectStore = defineStore('project', {
 		}
 	}
 });
+export default useProjectStore;

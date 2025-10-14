@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NButton, useMessage } from 'naive-ui';
-import { useProjectStore } from '../../store/project.ts';
+import useProjectStore from '../../store/project.ts';
 import microApp from '@micro-zoe/micro-app';
 import { computed } from 'vue';
 import { useOutputEnginesInfo } from '../put/common/output.ts';

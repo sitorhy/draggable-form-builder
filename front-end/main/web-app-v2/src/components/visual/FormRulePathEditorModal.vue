@@ -23,12 +23,17 @@ watch(showModal, (value) => {
 });
 
 function onConfirm() {
-	formRef.value.validate().then((valid: boolean) => {
-		if (valid) {
-			emit('confirm', modelValue.value);
-			showModal.value = false;
-		}
-	});
+	formRef.value
+		.validate()
+		.then((valid: boolean) => {
+			if (valid) {
+				emit('confirm', modelValue.value);
+				showModal.value = false;
+			}
+		})
+		.catch(() => {
+			// ignore
+		});
 }
 
 function onCancel() {

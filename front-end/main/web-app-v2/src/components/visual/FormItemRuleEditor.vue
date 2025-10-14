@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { type FormItemRule } from 'naive-ui';
-import { Add24Regular } from '@vicons/fluent';
+import { Add24Regular, Dismiss24Filled } from '@vicons/fluent';
 import { computed, watch } from 'vue';
 import FunctionCodeSelect from './FunctionCodeSelect.vue';
+
+const emit = defineEmits(['remove']);
 
 type FormItemRuleExt = FormItemRule & {
 	validatorModule?: string;
@@ -45,24 +47,51 @@ function onAddRule() {
 		}
 	];
 }
+
+function onRemoveRule() {
+	emit('remove');
+}
+
+function removeSingleRule(index: number) {
+	if (!Array.isArray(rules.value)) {
+		rules.value = [];
+	} else {
+		rules.value.splice(index, 1);
+	}
+}
 </script>
 
 <template>
 	<n-card>
 		<div class="full">
 			<div class="full-left">
-				<n-button
-					@click="onAddRule"
-					:size="'small'"
-					type="primary"
-					strong
-					secondary
-					circle
-				>
-					<template #icon>
-						<n-icon><Add24Regular /></n-icon>
-					</template>
-				</n-button>
+				<n-space :vertical="true">
+					<n-button
+						@click="onAddRule"
+						:size="'small'"
+						type="primary"
+						strong
+						secondary
+						circle
+					>
+						<template #icon>
+							<n-icon><Add24Regular /></n-icon>
+						</template>
+					</n-button>
+
+					<n-button
+						@click="onRemoveRule"
+						:size="'small'"
+						type="error"
+						strong
+						secondary
+						circle
+					>
+						<template #icon>
+							<n-icon><Dismiss24Filled /></n-icon>
+						</template>
+					</n-button>
+				</n-space>
 			</div>
 			<div class="full-right" v-if="toList.length">
 				<n-form
@@ -87,6 +116,14 @@ function onAddRule() {
 							v-model:value="toList[index].validatorModule"
 						/>
 					</n-form-item>
+
+					<n-button
+						@click="removeSingleRule(index)"
+						style="width: 100%"
+						size="small"
+						type="error"
+						><span>移除</span></n-button
+					>
 				</n-form>
 			</div>
 			<div class="full-right" v-else>

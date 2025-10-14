@@ -24,8 +24,13 @@
           "props": {
             "style": {
               "display": "flex",
-              "flexDirection": "row"
-            }
+              "flexDirection": "column",
+              "justifyContent": "center",
+              "alignItems": "center"
+            },
+            "flexDirection": "column",
+            "justifyContent": "center",
+            "alignItems": "center"
           },
           "children": [
             {
@@ -338,9 +343,8 @@
                                             "label": "单选2222"
                                           }
                                         ],
-                                        "dataSource": null,
-                                        "slots": {},
-                                        "datasource": "http://${BASE_URL}/files/radios.json?filter=consoleLog"
+                                        "dataSource": "object://path:radioData?filter=consoleLog",
+                                        "slots": {}
                                       },
                                       "children": [
                                         {

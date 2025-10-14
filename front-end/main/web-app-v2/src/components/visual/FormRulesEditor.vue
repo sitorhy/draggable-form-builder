@@ -32,6 +32,13 @@ const pathList = computed(() => {
 	}
 	return Object.keys(rules.value);
 });
+
+function removeRulesSet(path: string) {
+	if (!rules.value) {
+		return;
+	}
+	delete rules.value[path];
+}
 </script>
 
 <template>
@@ -44,7 +51,11 @@ const pathList = computed(() => {
 				:path="path"
 				:label="path"
 			>
-				<FormItemRuleEditor class="full" v-model:value="rules[path]" />
+				<FormItemRuleEditor
+					@remove="removeRulesSet(path)"
+					class="full"
+					v-model:value="rules[path]"
+				/>
 			</n-form-item>
 		</n-form>
 		<n-button type="primary" @click="onAddPath">添加对象路经</n-button>

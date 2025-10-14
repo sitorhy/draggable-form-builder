@@ -25,6 +25,10 @@ defineProps({
 	controls: {
 		type: Boolean,
 		default: true
+	},
+	size: {
+		type: String,
+		default: ''
 	}
 });
 
@@ -111,8 +115,16 @@ defineExpose({
 
 <template>
 	<n-input-group v-if="controls">
-		<n-input placeholder="" :value="schemaText" readonly :disabled="readOnly" />
-		<n-button type="primary" v-if="!readOnly" @click="open">设置</n-button>
+		<n-input
+			:size="size"
+			placeholder=""
+			:value="schemaText"
+			readonly
+			:disabled="readOnly"
+		/>
+		<n-button :size="size" type="primary" v-if="!readOnly" @click="open">
+			<span>设置</span>
+		</n-button>
 	</n-input-group>
 	<n-modal
 		style="width: 600px"
