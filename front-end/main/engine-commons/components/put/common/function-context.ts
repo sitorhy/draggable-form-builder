@@ -37,6 +37,9 @@ export function useFunctionContext(options: {
 			},
 			loadModuleDescriptionAsync: functionStore.findFunctionCodeByName,
 			loadModuleAsync: functionStore.loadModule,
+			tryImportModuleSync: (moduleName: string) => {
+				return functionStore.tryGetModuleByName(moduleName);
+			},
 			tools: {
 				useMessage() {
 					if (options.getMessageTool) {

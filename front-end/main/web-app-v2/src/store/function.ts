@@ -21,6 +21,15 @@ export const useFunctionStore = defineStore('function', {
 			}
 			return null;
 		},
+		tryGetModuleByName(name: string) {
+			const description = (this.functions as FunctionCode[]).find(
+				(i) => i.name === name
+			);
+			if (description) {
+				return this.modules.get(description.id);
+			}
+			return null;
+		},
 		getAllFunctionCode(
 			page: number,
 			size: number
@@ -100,7 +109,12 @@ export const useFunctionStore = defineStore('function', {
 					(this.functions as FunctionCode[]).splice(index, 1, {
 						...(newCode as FunctionCode)
 					});
-					resolve(this.functions[index]);
+					this.modules.delete(this.functions[index].id);
+					this.loadModule(this.functions[index])
+						.then(() => {
+							resolve(this.functions[index]);
+						})
+						.catch(reject);
 				}
 			});
 		},
