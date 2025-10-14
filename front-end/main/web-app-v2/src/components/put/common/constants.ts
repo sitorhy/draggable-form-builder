@@ -340,3 +340,19 @@ export const BUTTON_TYPE_OPTIONS = [
 		value: 'error'
 	}
 ];
+
+// 不同框架的触发事件行为不同
+export const FORM_ITEM_TRIGGER_OPTIONS = [
+	{
+		label: 'input',
+		value: 'input'
+	},
+	{
+		label: 'blur',
+		value: 'blur'
+	},
+	{
+		label: 'change',
+		value: 'change'
+	}
+];

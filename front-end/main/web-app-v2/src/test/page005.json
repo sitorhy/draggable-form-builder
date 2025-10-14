@@ -20,7 +20,11 @@
             {
               "required": true,
               "validatorModule": "validateAge",
-              "message": ""
+              "message": "",
+              "trigger": [
+                "input",
+                "blur"
+              ]
             }
           ],
           "password": [
@@ -32,17 +36,28 @@
           "reenteredPassword": [
             {
               "required": true,
-              "message": "请再次输入密码"
+              "message": "请再次输入密码",
+              "trigger": [
+                "input",
+                "blur"
+              ]
             },
             {
               "required": false,
               "message": "两次密码输入不一致",
-              "validatorModule": "validatePasswordStartWith"
+              "validatorModule": "validatePasswordStartWith",
+              "trigger": [
+                "blur"
+              ]
             },
             {
               "required": false,
               "message": "两次密码输入不一致",
-              "validatorModule": "validatePasswordSame"
+              "validatorModule": "validatePasswordSame",
+              "trigger": [
+                "input",
+                "blur"
+              ]
             }
           ]
         }

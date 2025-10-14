@@ -3,6 +3,7 @@ import { type FormItemRule } from 'naive-ui';
 import { Add24Regular, Dismiss24Filled } from '@vicons/fluent';
 import { computed, watch } from 'vue';
 import FunctionCodeSelect from './FunctionCodeSelect.vue';
+import { FORM_ITEM_TRIGGER_OPTIONS } from '../put/common/constants.ts';
 
 const emit = defineEmits(['remove']);
 
@@ -109,6 +110,13 @@ function removeSingleRule(index: number) {
 					</n-form-item>
 					<n-form-item label="校验信息" path="message">
 						<n-input v-model:value="toList[index].message" />
+					</n-form-item>
+					<n-form-item label="触发" path="trigger">
+						<n-select
+							:multiple="true"
+							:options="FORM_ITEM_TRIGGER_OPTIONS"
+							v-model:value="toList[index].trigger"
+						/>
 					</n-form-item>
 					<n-form-item label="自定义校验" path="validatorModule">
 						<FunctionCodeSelect
