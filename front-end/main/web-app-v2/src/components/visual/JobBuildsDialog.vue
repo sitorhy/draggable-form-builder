@@ -19,6 +19,7 @@ const loadingRef = ref(false);
 const logInstRef = ref();
 
 const logTimer = ref(0);
+const buildTimer = ref(0);
 
 const currentBuildInfo = ref({
 	jobName: '',
@@ -109,6 +110,13 @@ async function reloadHistory() {
 		const res = await new BuildService().collectJobBuildList(
 			projectStore.$state.project.name
 		);
+		if (listData.value.length !== res.data.data.length) {
+			setTimeout(() => {
+				loading.value = false;
+				clearTimeout(buildTimer.value);
+				buildTimer.value = 0;
+			});
+		}
 		listData.value = res.data.data;
 	} catch (e: unknown) {
 		console.error(e);
@@ -163,16 +171,22 @@ async function onNewJobClick() {
 		}
 
 		const json = await projectStore.packageProject();
-		const res = await service.buildJob(projectName, JSON.stringify(json));
+		const res = await service.buildJob(
+			projectName,
+			JSON.stringify(json),
+			projectStore.project.engine || ''
+		);
 		if (!res.data.success) {
 			message.error(res.data.message);
 		}
 
 		await reloadHistory();
 		loading.value = true;
-		setTimeout(() => {
+		buildTimer.value = setTimeout(() => {
+			clearTimeout(buildTimer.value);
+			buildTimer.value = 0;
 			loading.value = false;
-		}, 5000);
+		}, 20000);
 	} catch (e: unknown) {
 		console.error(e);
 		message.error(e instanceof Error ? e.message : JSON.stringify(e));

@@ -24,6 +24,9 @@ pipeline {
     parameters {
         text(name: 'PROJECT_JSON_FILE_TEXT', defaultValue: '')
         text(name: 'PROJECT_JSON_FILE_PATH', defaultValue: '')
+        text(name: 'PROJECT_SUB_DIR', defaultValue: 'paper-engine')
+
+        // 仅使用WEBHOOK匹配当前job时有用，该变量由WEBHOOK根据回调参数自动填充
         text(name: 'jobName', defaultValue: '')
     }
 
@@ -37,7 +40,7 @@ pipeline {
                     // def configData = params.PROJECT_JSON_FILE_TEXT
 
                     def configData = params.PROJECT_JSON_FILE_PATH
-                    def fileTo = 'front-end/main/paper-engine/public/project.json'
+                    def fileTo = "front-end/main/${params.PROJECT_SUB_DIR}/public/project.json";
 
                     if (configData && configData.trim() != '') {
                         // writeFile(
@@ -73,7 +76,7 @@ pipeline {
                         sh 'pnpm install'
                     }
 
-                    dir("main/paper-engine") {
+                    dir("main/${params.PROJECT_SUB_DIR}") {
                         sh 'pnpm run build'
                     }
                 }
@@ -88,7 +91,7 @@ pipeline {
         stage("打包") {
             steps {
                 sendStageNotification('打包', 'PENDING')
-                dir('front-end/main/paper-engine') {
+                dir("front-end/main/${params.PROJECT_SUB_DIR}") {
                     sh 'tar zcvf dist.tar.gz -C dist .'
                 }
             }
@@ -106,10 +109,10 @@ pipeline {
 
 mkdir -p webroot/${env.JOB_NAME}
 
-tar -zxvf upload/front-end/main/paper-engine/dist.tar.gz -C ~/webroot/${env.JOB_NAME}
+tar -zxvf upload/front-end/main/${params.PROJECT_SUB_DIR}/dist.tar.gz -C ~/webroot/${env.JOB_NAME}
 
 rm -rf upload
-""", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'upload', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'front-end/main/paper-engine/dist.tar.gz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+""", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'upload', remoteDirectorySDF: false, removePrefix: '', sourceFiles: "front-end/main/${params.PROJECT_SUB_DIR}/dist.tar.gz")], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
 
             post {

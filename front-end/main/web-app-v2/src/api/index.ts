@@ -63,15 +63,16 @@ export class BuildService extends Service {
 		});
 	}
 
-	@PostMapping('/job-build/{jobName}')
+	@PostMapping('/job-build/{jobName}?engine={engine}')
 	@RequestParam('jobName', true)
 	@RequestHeader('Content-Type', 'application/json')
 	@RequestBody()
-	buildJob(jobName: string, projectJsonText: string) {
+	buildJob(jobName: string, projectJsonText: string, engine: string) {
 		return Expect<Resp2>({
 			jobName,
 			body: {
-				data: projectJsonText
+				data: projectJsonText,
+				engine
 			}
 		});
 	}
