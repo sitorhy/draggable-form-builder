@@ -24,7 +24,16 @@ function sections(options: PropertyFormItemSchemaOptions): SectionsReturnType {
 					{
 						type: NSwitch,
 						prop: 'static',
-						label: '使用静态数据'
+						label: '使用静态数据',
+						on: {
+							'update:value': function (value: any) {
+								if (value) {
+									if (options.schema?.props) {
+										options.schema.props.datasource = null;
+									}
+								}
+							}
+						}
 					},
 					{
 						type: JsonEditorModal,

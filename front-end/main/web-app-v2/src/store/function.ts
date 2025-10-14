@@ -7,7 +7,7 @@ import inlineFuncList from './inline-functions';
 export const useFunctionStore = defineStore('function', {
 	state() {
 		return {
-			functions: [...inlineFuncList],
+			functions: [...inlineFuncList] as FunctionCode[],
 			modules: new Map<string, any>()
 		};
 	},
@@ -91,7 +91,9 @@ export const useFunctionStore = defineStore('function', {
 			});
 		},
 		findFunctionCodeById(id: string): Promise<FunctionCode | null> {
-			return Promise.resolve(this.functions.find((i) => i.id === id) || null);
+			return Promise.resolve(
+				this.functions.find((i: FunctionCode) => i.id === id) || null
+			);
 		},
 		findFunctionCodeByName(name: string): Promise<FunctionCode | null> {
 			return Promise.resolve(
@@ -109,10 +111,11 @@ export const useFunctionStore = defineStore('function', {
 					(this.functions as FunctionCode[]).splice(index, 1, {
 						...(newCode as FunctionCode)
 					});
-					this.modules.delete(this.functions[index].id);
-					this.loadModule(this.functions[index])
+					const code = this.functions[index] as FunctionCode;
+					this.modules.delete(code.id);
+					this.loadModule(code)
 						.then(() => {
-							resolve(this.functions[index]);
+							resolve(code);
 						})
 						.catch(reject);
 				}
