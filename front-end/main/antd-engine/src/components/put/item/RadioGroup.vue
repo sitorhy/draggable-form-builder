@@ -75,7 +75,7 @@ const { componentRef } = useReferenceRegister(bindingPath);
 		/>
 	</a-radio-group>
   <a-empty v-else description="RadioGroup">
-    <template #description>
+    <template #image>
       <ErrorCircle20Regular/>
     </template>
   </a-empty>

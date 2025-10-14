@@ -41,12 +41,26 @@ const { updateBinding, queryBinding } = useBindingConnector(connectorOptions, {
 	onError: (e: Error) => message.error(e.message)
 });
 
+const propsReduce = computed(() => {
+	return { ...schema.value.props, ...bindingProps.value };
+});
+
+// 兼容Antd引擎写法
+const propsReduceMod = computed(() => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { ['onUpdate:value']: rm, ...oops } = propsReduce.value;
+	return oops;
+});
+
 const modelValue = computed({
 	get() {
 		return queryBinding();
 	},
 	set(value: any) {
 		updateBinding(value);
+		if (typeof propsReduce.value['onUpdate:value'] === 'function') {
+			propsReduce.value['onUpdate:value'](value);
+		}
 	}
 });
 
@@ -56,8 +70,7 @@ const { componentRef } = useReferenceRegister(bindingPath);
 <template>
 	<n-date-picker
 		v-if="schema.props"
-		v-emphasize:schemaId="schema.id"
-		v-bind="{ ...schema.props, ...bindingProps }"
+		v-bind="propsReduceMod"
 		v-model:value="modelValue"
 		ref="componentRef"
 	/>

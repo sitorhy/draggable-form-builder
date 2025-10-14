@@ -48,7 +48,7 @@ provide('formItemBindingPath', bindingPath);
     />
   </a-form-item>
   <a-empty v-else description="FormItem">
-    <template #description>
+    <template #image>
       <ErrorCircle20Regular/>
     </template>
   </a-empty>

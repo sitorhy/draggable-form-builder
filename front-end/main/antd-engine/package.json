@@ -17,6 +17,7 @@
     "katex-vue": "^1.0.0",
     "ant-design-vue": "^4.2.6",
     "vue-router": "^4.5.1",
+    "dayjs": "^1.11.18",
     "@vicons/fluent": "^0.13.0",
     "@micro-zoe/micro-app": "^1.0.0-rc.27",
     "engine-commons": "workspace:*"

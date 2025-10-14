@@ -7,12 +7,20 @@ const schema = defineModel<RendererItemDefinition>('schema', {
   default: () => ({type: '', id: '', children: undefined})
 });
 
-function gridItemStyle() {
+function gridItemStyle(index: number) {
   const cols = schema.value.props?.cols;
   const rows = schema.value.props?.rows;
+  const xGap = schema.value.props?.xGap;
+  const yGap = schema.value.props?.yGap;
+
   if (cols && rows) {
     return {
       flexBasis: `${parseInt(String((1 / cols) * 100))}%`,
+      paddingTop: index === 0 ? 0 : `${yGap}px`,
+      paddingBottom: index === rows - 1 ? 0 : `${yGap}px`,
+      paddingRight: index % cols === cols - 1 ? 0 : `${xGap}px`,
+      paddingLeft: index % cols === 0 ? 0 : `${xGap}px`,
+      boxSizing: 'border-box',
     };
   }
 }
@@ -23,7 +31,8 @@ function gridItemStyle() {
       v-if="schema.children"
       class="grid"
   >
-    <div class="grid-item" :style="gridItemStyle()" v-for="(cellSchema, index) in schema.children" :key="cellSchema.id">
+    <div class="grid-item" :style="gridItemStyle(index)" v-for="(cellSchema, index) in schema.children"
+         :key="cellSchema.id">
       <JsonRenderer v-model:schema="schema.children[index]"/>
     </div>
   </div>

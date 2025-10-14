@@ -219,8 +219,7 @@ async function resolveRemoteSchema(
 	try {
 		// 1. 发起请求
 		const response = await fetch(fullUrl, {
-			method: 'GET',
-			credentials: 'include'
+			method: 'GET'
 		});
 
 		// 2. 检查 HTTP 状态码

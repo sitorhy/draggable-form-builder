@@ -61,7 +61,7 @@ const text = computed(function () {
 	<div class="ellipsis-container">
 		<span v-if="schema.props" v-bind="propsReduce">{{ text }}</span>
     <a-empty v-else description="Ellipsis">
-      <template #description>
+      <template #image>
         <ErrorCircle20Regular/>
       </template>
     </a-empty>

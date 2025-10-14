@@ -62,7 +62,7 @@ const { componentRef } = useReferenceRegister(bindingPath);
 		ref="componentRef"
 	/>
   <a-empty v-else description="TextInput">
-    <template #description>
+    <template #image>
       <ErrorCircle20Regular/>
     </template>
   </a-empty>

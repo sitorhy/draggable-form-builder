@@ -29,7 +29,7 @@ const bindingProps = inject<ComputedRef<Record<string, any>>>(
     />
   </a-button>
   <a-empty v-else description="Button">
-    <template #description>
+    <template #image>
       <ErrorCircle20Regular/>
     </template>
   </a-empty>

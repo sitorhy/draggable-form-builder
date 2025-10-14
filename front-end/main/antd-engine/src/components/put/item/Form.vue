@@ -124,7 +124,7 @@ const propsCombined = computed(() => ({
     />
   </a-form>
   <a-empty v-else description="Form">
-    <template #description>
+    <template #image>
       <ErrorCircle20Regular/>
     </template>
   </a-empty>

@@ -9,7 +9,10 @@ export default defineConfig({
 		exclude: ['uuid']
 	},
 	server: {
-		port: 6680
+		port: 6680,
+		headers: {
+			'Access-Control-Allow-Origin': '*'
+		}
 	},
 	plugins: [
 		vue({
