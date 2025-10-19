@@ -3,4 +3,4 @@ COPY target/project-publisher-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 CMD ["--spring.profiles.active=docker"]
 
-EXPOSE 8081  6379
+EXPOSE 8081
