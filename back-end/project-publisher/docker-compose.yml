@@ -1,0 +1,10 @@
+# compose 删除容器时会自动检测是否存在
+# 停止并移除服务定义的所有容器、网络和卷：  docker compose down
+# 只移除特定服务（容器）及其关联的网络： docker compose rm -f <服务名称>
+
+# docker-compose up -d  后台执行该服务（运行 docker-compose.yml）
+
+version: '3.7'
+services:
+  project-publish-service:
+    build: .  # 服务使用从 Dockerfile 当前目录中构建的镜像
