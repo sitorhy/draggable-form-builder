@@ -186,11 +186,19 @@ sudo systemctl status docker
 sudo systemctl start docker
 ```
 
-编译景象
+~~编译（大概率卡JRE）~~
 ```
 mvn clean package spring-boot:build-image -X
 ```
 
+## 安装 docker-compose
+```
+[下载](https://github.com/docker/compose/releases/download/v2.40.1/docker-compose-linux-x86_64)
+
+chmod +x docker-compose-linux-x86_64
+
+sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+```
 # Jenkins 配置
 
 ## Publish over SSH 插件

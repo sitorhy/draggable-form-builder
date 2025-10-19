@@ -8,3 +8,5 @@ version: '3.7'
 services:
   project-publish-service:
     build: .  # 服务使用从 Dockerfile 当前目录中构建的镜像
+    ports:
+      - "8081:8081"
