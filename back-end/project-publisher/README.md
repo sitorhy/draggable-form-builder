@@ -141,3 +141,67 @@ sudo systemctl status redis-server
 sudo systemctl enable redis-server
 ```
 配置文件地址 "/etc/redis/redis.conf"
+
+修改地址监听， 全部
+```
+bind * -::*
+```
+或者
+```
+bind 127.0.0.1 172.17.0.1
+```
+保护模式关掉 允许 docker 访问
+```
+protected-mode no
+```
+# Docker
+
+方便管理服务
+
+```
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+
+```
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+```
+sudo systemctl status docker
+```
+
+```
+sudo systemctl start docker
+```
+
+编译景象
+```
+mvn clean package spring-boot:build-image -X
+```
+
+# Jenkins 配置
+
+## Publish over SSH 插件
+只有一台服务器，接到本地，也可以直接用 shell mv。
+不同服务器上传文件用 SCP / SFTP。
+<br>
+全局设置 / SSH Servers，添加 127.0.0.1 用户，点击高级输入密码，点击 test configuation 验证。链接命名 local。
+
+
+## NodeJs 插件
+Tools 新建实例，名称 "nodejs 22.2.0"，版本 22.2.0， Global npm packages to install 填写 "pnpm"，其他默认。
+
+
+
