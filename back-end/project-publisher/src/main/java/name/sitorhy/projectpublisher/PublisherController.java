@@ -6,6 +6,7 @@ import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.Job;
 import com.offbytwo.jenkins.model.JobWithDetails;
+import lombok.extern.java.Log;
 import name.sitorhy.projectpublisher.model.JobBuildWebHookBody;
 import name.sitorhy.projectpublisher.model.PipelineOverviewRoot;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import reactor.util.Logger;
 import reactor.util.Loggers;
 
 import java.io.File;
@@ -47,6 +49,9 @@ public class PublisherController {
 
     @Value("${engine.antd.dir}")
     private String ANTD_PROJECT_DIR;
+
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
 
     @PostMapping("/simple-build")
     public SimpleResult triggerSimpleBuild() {
@@ -117,6 +122,7 @@ public class PublisherController {
 
     @GetMapping("/redis-status")
     SimpleObjectResult<Object> redisStatus() {
+        Loggers.getLogger(this.getClass()).info(redisHost);
         if (redisTemplate == null) {
             return new SimpleObjectResult<>(false, "redis not yet");
         }

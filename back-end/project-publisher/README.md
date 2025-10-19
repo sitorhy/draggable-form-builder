@@ -191,6 +191,12 @@ sudo systemctl start docker
 mvn clean package spring-boot:build-image -X
 ```
 
+## 使用宿主网络调试
+```
+docker build -t ttt .
+docker run -d --name test --network host ttt
+```
+
 ## 安装 docker-compose
 ```
 [下载](https://github.com/docker/compose/releases/download/v2.40.1/docker-compose-linux-x86_64)
