@@ -10,7 +10,6 @@ import MicroAppPreviewDialog from './MicroAppPreviewDialog.vue';
 import { useOutputEnginesInfo } from '../put/common/output.ts';
 import { DocumentChevronDouble24Regular } from '@vicons/fluent';
 
-import DataSourceSchema from './DataSourceSchema.vue';
 import FunctionCodeSelect from './FunctionCodeSelect.vue';
 import ProjectDataSourcesEditor from './ProjectDataSourcesEditor.vue';
 

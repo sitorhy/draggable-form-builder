@@ -35,7 +35,9 @@ const pathList = computed(() => {
 });
 
 function onRemoveRule(path: string) {
-	delete dataSourcesSet.value[path];
+	if (dataSourcesSet.value) {
+		delete dataSourcesSet.value[path];
+	}
 }
 </script>
 

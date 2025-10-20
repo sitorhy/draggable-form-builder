@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, inject, provide } from 'vue';
+import { type ComputedRef, inject, provide } from 'vue';
 import { ErrorCircle20Regular } from '@vicons/fluent';
 import type { RendererItemDefinition } from '../../../types.ts';
 import JsonRenderer from '../JsonRenderer.vue';
