@@ -225,7 +225,7 @@ onUnmounted(() => {
 			<template #header>
 				<n-space>
 					<n-button
-						:disabled="jobBuildEnabled"
+						:disabled="!jobBuildEnabled"
 						:loading="loading"
 						:title="jobBuildEnabled ? '' : '资源不足不开放'"
 						type="primary"
