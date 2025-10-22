@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NButton, useMessage } from 'naive-ui';
-import { nextTick, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { computed, nextTick, onUnmounted, ref, watch, watchEffect } from 'vue';
 import { BuildService } from '../../api';
 import useProjectStore from '../../store/project.ts';
 
@@ -24,6 +24,12 @@ const buildTimer = ref(0);
 const currentBuildInfo = ref({
 	jobName: '',
 	buildNumber: ''
+});
+
+const JOB_BUILD_ENABLE = import.meta.env.VITE_JOB_BUILD_ENABLE;
+
+const jobBuildEnabled = computed(() => {
+	return Number(JOB_BUILD_ENABLE) === 1;
 });
 
 async function updateLog() {
@@ -158,6 +164,9 @@ watchEffect(() => {
 });
 
 async function onNewJobClick() {
+	if (!jobBuildEnabled.value) {
+		return;
+	}
 	try {
 		const service = new BuildService();
 		const projectName = projectStore.$state.project.name;
@@ -215,7 +224,12 @@ onUnmounted(() => {
 		<n-list>
 			<template #header>
 				<n-space>
-					<n-button :loading="loading" type="primary" @click="onNewJobClick"
+					<n-button
+						:disabled="jobBuildEnabled"
+						:loading="loading"
+						:title="jobBuildEnabled ? '' : '资源不足不开放'"
+						type="primary"
+						@click="onNewJobClick"
 						>构建新任务</n-button
 					>
 					<n-button :loading="loading" type="info" @click="toLink"
