@@ -217,5 +217,7 @@ sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 ## NodeJs 插件
 Tools 新建实例，名称 "nodejs 22.2.0"，版本 22.2.0， Global npm packages to install 填写 "pnpm"，其他默认。
 
-
-
+## 后台运行
+```shell
+nohup java -jar project-publisher-0.0.1-SNAPSHOT.jar & > log.txt
+```

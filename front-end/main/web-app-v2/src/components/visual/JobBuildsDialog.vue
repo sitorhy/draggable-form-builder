@@ -29,6 +29,9 @@ const currentBuildInfo = ref({
 const JOB_BUILD_ENABLE = import.meta.env.VITE_JOB_BUILD_ENABLE;
 
 const jobBuildEnabled = computed(() => {
+	if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+		return true;
+	}
 	return Number(JOB_BUILD_ENABLE) === 1;
 });
 
