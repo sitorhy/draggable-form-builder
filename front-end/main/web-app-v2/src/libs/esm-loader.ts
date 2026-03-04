@@ -33,7 +33,9 @@ export const dynamicImport = (url: string) => {
 	);
 	/* @vite-ignore */
 	// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-	typeof window === 'undefined' ? fetchImport(url) : import( /* @vite-ignore */ url);
+	typeof window === 'undefined'
+		? fetchImport(url)
+		: import(/* @vite-ignore */ url);
 };
 // You should not use it as it has sideeffects that are complex use ESMLoader for consistent behavior.
 // With nodeJS Relativ resolution would not work with the browser it would
@@ -41,7 +43,9 @@ export const dynamicImport = (url: string) => {
 // are using ESMImport thats why its not documented or added to external api till import.meta is solved.
 /* @vite-ignore */
 export const ESMImport = (url: string) =>
-	typeof window === 'undefined' ? fetchImport(url) : import(/* @vite-ignore */ url);
+	typeof window === 'undefined'
+		? fetchImport(url)
+		: import(/* @vite-ignore */ url);
 export { ESMImport as importScript };
 
 // Exports a Module that exports a str object
